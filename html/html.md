@@ -2,36 +2,25 @@
 
 ## Key Points
 
-1. Doctype, strict mode or mixed mode
-1. Semantic Web
 1. Forms
     1. Input
     1. Validation
     1. Styling
     1. Responsive Design
-1. Table Elements
-1. Multimedia
-    1. Video
-    1. Audio
-    1. Canvas
-1. Web Apps
-    1. Storing Data
-        1. Web Storage includes (localStorage and sessionStorage)
-        1. Read Files
-        1. IndexedDB
-    1. Manifest
-    1. Geolocation
-    1. Web Workers
-    1. History
 1. Communication
     1. WebSocket
     1. Ajax
 1. Progressive Web Application
-1. DOM
-1. Event
-    1. Drag and Drop
-    1. event bubbling and catch
-    1. Creating custom event
+
+## Doctype
+
+Rendering mode.
+
+1. full standards mode - rendering behaviour follows standard specification
+1. almost standards mode - a very small number of quirks
+1. quirks mode - layout emulates non-starndard hehaviour for legacy support
+
+`<!DOCTYPE html>` is used to ensure html page use full standard mode for rendering.
 
 ## Basic
 
@@ -205,3 +194,53 @@ Order list and unordered list can be nested.
 ## Video
 
 ## Canvas
+
+## Storage
+
+### [Web Storage](https://html.spec.whatwg.org/multipage/webstorage.html)
+
+Web storage API provides a much more intuitive mechanism for storing key/value pairs, both key and values are string. It extends `window` object with `localStorage` and `sessionStorage` property.
+
+- `sessionStorage` maintains a separate storage area for each given origin that's available for the duration of the page session (as long as the browser is open, including page reloads and restores). `sessionStorage` spans over multiple windows on same session for single origin.
+- `localStorage` does the same thing, but persists even when the browser is closed and reopened. `localStorage` spans over multiple windows and multiple sessions for single origin.
+
+```javascript
+[Exposed=Window]
+interface Storage {
+  readonly attribute unsigned long length;
+  DOMString? key(unsigned long index);
+  getter DOMString? getItem(DOMString key);
+  setter void setItem(DOMString key, DOMString value);
+  deleter void removeItem(DOMString key);
+  void clear();
+};
+```
+
+`storage` event is fired when a storage area is changed (e.g. a new item is inserted).
+
+`windowObj.onstorage = function () {}`
+
+> It should be noted that data stored in either sessionStorage or localStorage is specific to the protocol of the page.
+
+There exist a size limit for web storage, 5M often.
+
+> User agents should limit the total amount of space allowed for storage areas, because hostile authors could otherwise use this feature to exhaust the user's available disk space.
+
+### [IndexedDB](https://w3c.github.io/IndexedDB/)
+
+IndexedDB is a low-level API for client-side storage of significant amounts of structed data, including files/blobs.
+
+## Web Worker
+
+## [Service Worker]( https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers)
+
+## History
+
+## [Visibility API](https://www.w3.org/TR/page-visibility/)
+
+Page Visibility API provides a way of detecting visibility state of page and perform some actions accordingly.
+
+1. `document.hidden` is `true` if page is hidden to user, `false` otherwise.
+1. `document.visibilityState` is a string of four possible values, `visible`, `hidden`, `prerender`, `unloaded`.
+
+`visibilitychange` event will be fired when visibility changes, use `document.onvisibilitychange` to add event handlers.
