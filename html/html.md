@@ -1,0 +1,207 @@
+# HTML
+
+## Key Points
+
+1. Doctype, strict mode or mixed mode
+1. Semantic Web
+1. Forms
+    1. Input
+    1. Validation
+    1. Styling
+    1. Responsive Design
+1. Table Elements
+1. Multimedia
+    1. Video
+    1. Audio
+    1. Canvas
+1. Web Apps
+    1. Storing Data
+        1. Web Storage includes (localStorage and sessionStorage)
+        1. Read Files
+        1. IndexedDB
+    1. Manifest
+    1. Geolocation
+    1. Web Workers
+    1. History
+1. Communication
+    1. WebSocket
+    1. Ajax
+1. Progressive Web Application
+1. DOM
+1. Event
+    1. Drag and Drop
+    1. event bubbling and catch
+    1. Creating custom event
+
+## Basic
+
+HTML elements are usually either 'block-level' elements or 'inline-level' elements.
+
+Block level elements
+
+1. Always start on a new line and takes up the full width available
+1. May contain inline elements and other block level elements
+
+| Block   | Level    | Elements   |            |        |          |       |        |
+| ------- | -------- | ---------- | ---------- | ------ | -------- | ----- | ------ |
+| address | article  | aside      | blockquote | canvas | dd       | div   | dl     |
+| dt      | fieldset | figcaption | figure     | footer | form     | h1~h6 | header |
+| hgroup  | hr       | li         | main       | nav    | noscript | ol    | output |
+| p       | pre      | section    | table      | tfoot  | ul       | video |        |
+
+Inline elements
+
+1. Inline elements don't force to start a new line.
+1. It may contain only data and other inline elements.
+
+| Inline | Elements |         |     |          |        |        |        |
+| ------ | -------- | ------- | --- | -------- | ------ | ------ | ------ |
+| a      | abbr     | acronym | b   | bdo      | big    | br     | button |
+| cite   | code     | dfn     | em  | i        | img    | input  | kbd    |
+| label  | map      | object  | q   | samp     | script | select | small  |
+| span   | strong   | sub     | sup | textarea | time   | tt     | var    |
+
+Block elemets are inside a block box, inline elements are inside inline box. CSS `display` property can be used to change default behaviour.
+
+HTML5 replace this binary distinction with more complext content categories. Block level elements roughly corresponds to flow content, inline elements corresponds to phasing content.
+
+![HTML Content Categories](./html_content_categories.png)
+
+Normal elements has opening tag and closing tag.
+
+An empty element cannot have any child nodes (nested elements or text nodes). A closing tag on empty element is usually invalid.
+
+```html
+<input type='text'/>            // correct
+<input type='text'></input>     // wrong
+```
+
+| Empty  | Elements |      |       |        |       |     |       |
+| ------ | -------- | ---- | ----- | ------ | ----- | --- | ----- |
+| area   | base     | br   | col   | embed  | hr    | img | input |
+| keygen | link     | meta | param | source | track | wbr |       |
+
+Single element attributes includes name, a equal sign and quoted string value. Adjacent attributes must be separated by space. Boolean attributes has a shorthand syntax with only attribute name.
+
+```html
+// These two forms are equal
+<input type='text' disabled>
+<input type='text' disabled='disabled'>
+
+// These two forms are equal
+<inpt type='text'>
+<inpt type='text' disabled=''>
+```
+
+Element attribute value must be wrapped inside single quote or double quote.
+
+Metadata
+
+```html
+<meta charset='utf-8'>
+<meta name='author' content='Chris Mills'>
+<meta name='description' content='The MDN Learning Area'>
+```
+
+[**O**pen **Gr**aph **P**rotocol](http://ogp.me/) defines more meta data to make web page a rich objec in social path.
+
+Icons
+
+```html
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<!-- third-generation iPad with high-resolution Retina display: -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://developer.cdn.mozilla.net/static/img/favicon144.a6e4162070f4.png">
+<!-- iPhone with high-resolution Retina display: -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://developer.cdn.mozilla.net/static/img/favicon114.0e9fabd44f85.png">
+<!-- first- and second-generation iPad: -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://developer.cdn.mozilla.net/static/img/favicon72.8ff9d87c82a0.png">
+<!-- non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+<link rel="apple-touch-icon-precomposed" href="https://developer.cdn.mozilla.net/static/img/favicon57.a2490b9a2d76.png">
+<!-- basic favicon -->
+<link rel="shortcut icon" href="https://developer.cdn.mozilla.net/static/img/favicon32.e02854fdcf73.png">
+```
+
+## Link
+
+Browser will display value of title attributes as a tooltip when `<a></a>` is hovered.
+
+```html
+<p>I'm creating a link to
+<a href="https://www.mozilla.org/en-US/"
+   title="The best place to find more information about Mozilla's
+          mission and how to contribute">the Mozilla homepage</a>.
+</p>
+```
+
+Use download attribute to specify a save as name for download link
+
+```html
+<a href="https://download.mozilla.org/?product=firefox-39.0-SSL&os=win&lang=en-US"
+   download="firefox-39-installer.exe">
+  Download Firefox 39 for Windows
+</a>
+```
+
+Mailto link, mail information can be encoded inside url with query string.
+
+```html
+<a href="mailto:nowhere@mozilla.org?cc=name2@rapidtables.com&bcc=name3@rapidtables.com&amp;subject=The%20subject%20of%20the%20email &amp;body=The%20body%20of%20the%20email">
+  Send mail with cc, bcc, subject and body
+</a>
+```
+
+## List
+
+1. **U**nordered **L**ist
+1. **O**rdered **L**ist
+1. **D**escription **L**ist, **D**esciprtion **T**erm, **D**escription **D**eifinition
+
+Order list and unordered list can be nested.
+
+```html
+<dl>
+  <dt>soliloquy</dt>
+  <dd>In drama, where a character speaks to themselves, representing their inner thoughts or feelings and in the process relaying them to the audience (but not to other characters.)</dd>
+  <dt>monologue</dt>
+  <dd>In drama, where a character speaks their thoughts out loud to share them with the audience and any other characters present.</dd>
+  <dt>aside</dt>
+  <dd>In drama, where a character shares a comment only with the audience for humorous or dramatic effect. This is usually a feeling, thought or piece of additional background information.</dd>
+</dl>
+```
+
+## Forms
+
+```html
+<form action='/my-handling-for-page' method='post'>
+    <div>
+        <label for='name'>Name:</label>
+        <input type='text' id='name' name='user_name'>
+    </div>
+    <div>
+        <label for='main'>E-mail:</label>
+        <input type='mail' id='mail' name='user_mail'>
+    </div>
+    <div>
+        <label for='msg'>Message:</label>
+        <textarea id='msg' name='user_message'></textarea>
+    </div>
+
+    <div class='button'>
+        <button type='submit'>Send your message</button>
+    </div>
+</form>
+```
+
+1. `<input>` is an empty element, meaning it doesn't need a closing tag. `<textarea></textarea>` is not an empty element, so it must be closed with proper ending tag. Default value of `input` is set by `value` attribute, default value of `textarea` is set by contents.
+1. `button` has three type 'submit', 'reset', 'button'. `<input type='submit'>` can also create a button, but its label can only be set as plain text with value attribute. `<button>` allows full html content as label.
+1. `name` attribute of `input` and `textarea` associate submitted data with a name value.
+1. `for` attribute of `label` connects label with element with corresponding id, when user clicks on label, corresponding element will be activated automatically.
+1. `type` of `input` is for data validation.
+
+## Tables
+
+## Audio
+
+## Video
+
+## Canvas
