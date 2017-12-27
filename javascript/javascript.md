@@ -68,7 +68,7 @@ Dispatch an event.
 cacelled = !target.dispatchEvent(event)
 ```
 
-### Event Bubbuling and Capturing
+### Event Bubbling and Capturing
 
 When an event happens, it goes through 3 phases of event processing.
 
