@@ -58,20 +58,20 @@ Insertion
 1. `element.insertBefore(node, nextSibling)`
 1. `element.replaceChild(node, oldChild)`
 
-- `node.append(...nodes or strings)`  – append nodes or strings at the end of node,
-- `node.prepend(...nodes or strings)` – insert nodes or strings into the beginning of node,
-- `node.before(...nodes or strings)` –- insert nodes or strings before the node,
-- `node.after(...nodes or strings)` –- insert nodes or strings after the node,
-- `node.replaceWith(...nodes or strings)` –- replaces node with the given nodes or strings.
+* `node.append(...nodes or strings)` – append nodes or strings at the end of node,
+* `node.prepend(...nodes or strings)` – insert nodes or strings into the beginning of node,
+* `node.before(...nodes or strings)` –- insert nodes or strings before the node,
+* `node.after(...nodes or strings)` –- insert nodes or strings after the node,
+* `node.replaceWith(...nodes or strings)` –- replaces node with the given nodes or strings.
 
 ![Node Insertion](./node_insert.png)
 
 `elem.insertAdjacentHTML(where, html)`, `elem.insertAdjacentText(where, html)`, `elem.insertAdjacentElement(where, html)`
 
-- "beforebegin" – insert html before elem,
-- "afterbegin" – insert html into elem, at the beginning,
-- "beforeend" – insert html into elem, at the end,
-- "afterend" – insert html after elem.
+* "beforebegin" – insert html before elem,
+* "afterbegin" – insert html into elem, at the beginning,
+* "beforeend" – insert html into elem, at the end,
+* "afterend" – insert html after elem.
 
 ![`insertAdjacentHTML`](./insert_adjacent_html.png)
 
@@ -93,21 +93,21 @@ Removal
 `document` is the root node of DOM, but it's not an element node. `document.documentElement` is the root element node.
 
 ```javascript
-document.documentElement.parentNode === document
-document.documentElement.parentElement === null
+document.documentElement.parentNode === document;
+document.documentElement.parentElement === null;
 ```
 
 #### Search DOM
 
-|Method|Returns|Context| Live?|
-|--|--|--|--|--|
-|`getElementById(id)`|single element with `id`|`document`|No|
-|`getElementsByName(name)`|mutiple elements with `name`|`document`|Yes|
-|`getElementsByTagName(name)`|mutiple elements with `name`|`document`, `element`|Yes|
-|`getElementsByClassName(name)`|mutiple elements with `name`|`document`, `element`|Yes|
-|`querySelector(selector)`|first element matches `selector`|`document`, `element`|No|
-|`querySelectorAll(selector)`|mutiple elements matches `selector`|`document`, `element`|No|
-|`closest(selector)`|closest ancestor element matches `selector`|`document`, `element`|No
+| Method                         | Returns                                     | Context               | Live? |
+| ------------------------------ | ------------------------------------------- | --------------------- | ----- |
+| `getElementById(id)`           | single element with `id`                    | `document`            | No    |
+| `getElementsByName(name)`      | mutiple elements with `name`                | `document`            | Yes   |
+| `getElementsByTagName(name)`   | mutiple elements with `name`                | `document`, `element` | Yes   |
+| `getElementsByClassName(name)` | mutiple elements with `name`                | `document`, `element` | Yes   |
+| `querySelector(selector)`      | first element matches `selector`            | `document`, `element` | No    |
+| `querySelectorAll(selector)`   | mutiple elements matches `selector`         | `document`, `element` | No    |
+| `closest(selector)`            | closest ancestor element matches `selector` | `document`, `element` | No    |
 
 Multiple elements is of type `HTMLCollection`.
 
@@ -188,16 +188,16 @@ Add handler for `click` event in html element attribute.
 Under the background, `onclick` attribute is actually transformed to an event and added to corresponding DOM property.
 
 ```javascript
-let handler = new Function("alert(this.value)")
-elem.onclick = handler
+let handler = new Function("alert(this.value)");
+elem.onclick = handler;
 ```
 
 Add event handler using `addEventListener(event, handler[, phase])`, remove event handlers with `removeEventListener(event, handler[, phase])`. Exact event handler must be passed to remove it.
 
 ```javascript
-elem.addEventListener( "click" , () => alert('Thanks!'));
+elem.addEventListener("click", () => alert("Thanks!"));
 // Not working, two different arrow function.
-elem.removeEventListener( "click", () => alert('Thanks!'));
+elem.removeEventListener("click", () => alert("Thanks!"));
 ```
 
 Multiple handlers can be added with `addEventListner()`, and they are called in the same order when they are added.
@@ -223,18 +223,18 @@ Dispatch an event.
 * throws {UNSPECIFIED_EVENT_TYPE_ERR} if event type is null, empty string or not specified in constructor.
 * returns {boolean} false if event is cancellable and at least one of corrosponding event handlers called `event.preventDefault()`, `true` otherwise.
 */
-cacelled = !target.dispatchEvent(event)
+cacelled = !target.dispatchEvent(event);
 ```
 
 ### Event Bubbling and Capturing
 
 When an event happens, it goes through 3 phases of event processing.
 
-| Phase | Explaination |
-|--|--|
-|Capture Phase| Events passed downward from root element to target element|
-|Target Phase|Events on target element|
-|Bubbling Phase|Events bubbling upward from target element to root element|
+| Phase          | Explaination                                               |
+| -------------- | ---------------------------------------------------------- |
+| Capture Phase  | Events passed downward from root element to target element |
+| Target Phase   | Events on target element                                   |
+| Bubbling Phase | Events bubbling upward from target element to root element |
 
 Event handlers can be invoked in any phase.
 
@@ -312,24 +312,24 @@ Use `element.dispatchEvent(event)` to dispatch sythetic event on an element. `ev
 Note that general event constructor dosen't accept data except `bubbles`, `cancelable` and `composed`, choose an appropriate sub event constructor if extra data are required.
 
 ```javascript
-let event = new MouseEvent('click', {
-    bubbles: true,
-    cancelabel: true,
-    clientX: 100,       // ignored in general event constructor
-    clientY: 100        // ingored in general event constructor
-})
+let event = new MouseEvent("click", {
+  bubbles: true,
+  cancelabel: true,
+  clientX: 100, // ignored in general event constructor
+  clientY: 100 // ingored in general event constructor
+});
 ```
 
 Sythetic events are often simulate user actions in automatic testing.
 
 ```javascript
 function simulateClick() {
-  var event = new MouseEvent('click', {
+  var event = new MouseEvent("click", {
     view: window,
     bubbles: true,
     cancelable: true
   });
-  var cb = document.getElementById('checkbox'); 
+  var cb = document.getElementById("checkbox");
   var cancelled = !cb.dispatchEvent(event);
   if (cancelled) {
     // A handler called preventDefault.
@@ -348,9 +348,9 @@ There exists an old-fashioned way of constructing events using `initEvent(type, 
 Use `CustomEvent` to generate customized event with an event type different from any built-in events. `CustomEvent` is same as `Event` with one exception that it accepts a property `detail` in second argument of constructor. `detail` property avoids clash with built-in event type and passes data required by custom event.
 
 ```javascript
-let event = new CustomEvent('unique-type', {
-    detail: { name: 'John' }
-})
+let event = new CustomEvent("unique-type", {
+  detail: { name: "John" }
+});
 ```
 
 `element.dispatch(customEvent)` returns `false` and `customEvent.defaultPrevented` is `true` if custom event is cancellable and `event.preventDefault()` is called. Check it to apply some default actions for custom event.
@@ -682,27 +682,27 @@ arrow function is created.
 
 ```javascript
 const globalScope = () => {
-    console.log('this bound to global: ', this)
-}
+  console.log("this bound to global: ", this);
+};
 
 function foo() {
-    return (a) => {
-        // `this` here is lexically inherited from `foo()`
-        console.log( this.a );
-    };
+  return a => {
+    // `this` here is lexically inherited from `foo()`
+    console.log(this.a);
+  };
 }
 
 var obj1 = { a: 1 };
 var obj2 = { a: 2 };
-var boundToObj1 = foo.call( obj1 );
-boundToObj1()                       // 1
-boundToObj1.call(obj2);             // 1
+var boundToObj1 = foo.call(obj1);
+boundToObj1(); // 1
+boundToObj1.call(obj2); // 1
 
-var boundToObj2 = foo.call(obj2)
-boundToObj2()                       // 2
-boundToObj2.call(obj1)              // 2
+var boundToObj2 = foo.call(obj2);
+boundToObj2(); // 2
+boundToObj2.call(obj1); // 2
 
-boundToObj1 !== boundToObj2
+boundToObj1 !== boundToObj2;
 ```
 
 `this` is bound to global object when arrow functions are created in global
@@ -815,10 +815,10 @@ let c = [undefined, undefined, undefined];
 Internal method `ToPrimitive` used to convert Symbol to primitive values.
 
 ```javascript
-1 + Symbol('b')     // TypeError: Cannot convert a Symbol value to a number
-'1' + Symbol('b')   // TypeError: Cannot convert a Symbol value to a string
-// TODO: how tagged literal string is evaluated ?
-`${Symbol('b')}`    // TypeError: Cannot convert a Symbol value to a string
+1 + Symbol("b"); // TypeError: Cannot convert a Symbol value to a number
+"1" +
+  Symbol("b")// TODO: how tagged literal string is evaluated ? // TypeError: Cannot convert a Symbol value to a string
+  `${Symbol("b")}`; // TypeError: Cannot convert a Symbol value to a string
 ```
 
 ## Prototypes
@@ -980,15 +980,15 @@ listener 先被调用，才能正常触发回调函数。
 
 ```javascript
 var promise = new Promise(function(resolve, reject) {
-    console.log('Inside the resolver function');  //1
-    resolve();
+  console.log("Inside the resolver function"); //1
+  resolve();
 });
 
 promise.then(function() {
-    console.log('Inside the onFulfilled handler'); //3
+  console.log("Inside the onFulfilled handler"); //3
 });
 
-console.log('This is the last line of the script') //2
+console.log("This is the last line of the script"); //2
 ```
 
 resolver 函数是同步的，传给`then`和`catch`的 callback 是异步的 .
@@ -1318,18 +1318,18 @@ Interface definitions with typescript.
 
 ```typescript
 interface IteratorResult<T> {
-  done: boolean,
-  value: T,
+  done: boolean;
+  value: T;
 }
 
 interface Iterator<T> {
-  next(value?: any) : IteratorResult<T>,
-  return?(value?: any) : IteratorResult<T>,
-  throw?(e?: any) : IteratorResult<T>,
+  next(value?: any): IteratorResult<T>;
+  return?(value?: any): IteratorResult<T>;
+  throw?(e?: any): IteratorResult<T>;
 }
 
 interface Iterable<T> {
-  [Symbol.iterator](): Iterator<T>
+  [Symbol.iterator](): Iterator<T>;
 }
 ```
 
@@ -1776,22 +1776,26 @@ p2.then(v => console.log(v));
 Promise is unwrapped if used as parameter of `resolve()` inside constructor or returned by `then()`. A new promise is created by promise constructor or `then()`. New promise adopts the state of unwrapped promise, thus creating a chain of asynchronous operations.
 
 ```javascript
-var p1 = Promise.resolve('1')
+var p1 = Promise.resolve("1");
 var p3 = p1.then(value => {
-  var p2 = new Promise((resolve, reject) => { setTimeout(resolve, 1000, '3')})
-  return p2
-})
-p3.then(value => console.log('value: ', value))
+  var p2 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 1000, "3");
+  });
+  return p2;
+});
+p3.then(value => console.log("value: ", value));
 
 // unwrapping inside then() returns promise chain to be resolved in sequential order p1 -> p2 -> p3
 ```
 
 ```javascript
 var p2 = new Promise((resolve, reject) => {
-  var p1 = new Promise((resolve, reject) => { setTimeout(resolve, 1000, '3')})
-  resolve(p1)
-})
-p2.then(value => console.log('value: ', value))
+  var p1 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 1000, "3");
+  });
+  resolve(p1);
+});
+p2.then(value => console.log("value: ", value));
 
 // unwrapping inside constructor creates promise chain to be resolved in sequential order p1 -> p2
 ```
@@ -2022,7 +2026,7 @@ var v2 = SIMD.float32x4(2.1, 3.2, 4.3, 5.4);
 var v3 = SIMD.int32x4(10, 101, 1001, 10001);
 var v4 = SIMD.int32x4(10, 20, 30, 40);
 SIMD.float32x4.mul(v1, v2); // [ 6.597339, 67.2, 138.89, 299.97 ]
-SIMD.int32x4.add(v3, v4);   // [ 20, 121, 1031, 10041 ]
+SIMD.int32x4.add(v3, v4); // [ 20, 121, 1031, 10041 ]
 ```
 
 ### asm.js
@@ -2032,8 +2036,8 @@ Use special style of code to specify variable types and avoid performance penalt
 asm.js is often a target for cross-compilation from other highly optimized program languages -- for example, [Emscripten](https://kripken.github.io/emscripten-site/) transpiling C/C++ to javascript.
 
 ```javascript
-var a = 42
-var b = a | 0   // this indicates b is always an integer
+var a = 42;
+var b = a | 0; // this indicates b is always an integer
 ```
 
 ### Benchmark.js
@@ -2050,17 +2054,17 @@ YDKJS
 
 ```javascript
 function factorial(n) {
-    if (n < 2) return 1
-    return n * factorial(n - 1)
+  if (n < 2) return 1;
+  return n * factorial(n - 1);
 }
 
 function factorial(n) {
-    function fact(n, res) {
-        if (n < 2) return res
-        return fact(n - 1, n * res)
-    }
+  function fact(n, res) {
+    if (n < 2) return res;
+    return fact(n - 1, n * res);
+  }
 
-    return fact(n, 1)
+  return fact(n, 1);
 }
 ```
 
