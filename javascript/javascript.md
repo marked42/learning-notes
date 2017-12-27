@@ -1,8 +1,162 @@
 # Javascript
 
-## **D**ocument **O**bject **M**odel
+## Host Environment
+
+### **D**ocument **O**bject **M**odel
+
+[W3C DOM4 Standard](https://www.w3.org/TR/dom/) and [WhatWG DOM Standard](https://dom.spec.whatwg.org/)
+
+![Browser Host Environment](./window_object.png)
 
 global objects: window, location, navigator, screen, history
+
+### DOM Node
+
+![DOM Node Class Hierarchy](./dom_node_class_hierarchy.png)
+
+1. `EventTarget` is an root abstract class for event support.
+1. `Node` is an abstract class serving as base of all nodes.
+1. `Element` is an abstract class serving as base of all element nodes.
+1. `HTMLElement` is base class of all types of html element.
+
+Form normal javascript object, `console.log` and `console.dir` are no different. But for DOM element object, they are different.
+
+1. `console.log(elem)` shows the element DOM tree.
+1. `console.dir(elem)` shows the element as a DOM object, good to explore its properties.
+
+There're 12 [node types](https://dom.spec.whatwg.org/#node), primary ones are as below.
+
+1. document – the “entry point” into DOM.
+1. element nodes – HTML-tags, the tree building blocks.
+1. text nodes – contain text.
+1. comments – sometimes we can put the information there, it won’t be shown, but JS can read it from DOM.
+
+Attributes is what's written in HTML, it's of `DOMString` type and name is case insensitive.
+
+1. `elem.hasAttribute(name)` – checks for existence.
+1. `elem.getAttribute(name)` – gets the value.
+1. `elem.setAttribute(name, value)` – sets the value.
+1. `elem.removeAttribute(name)` – removes the attribute.
+1. `elem.attributes` is a collection of all attributes.
+
+DOM properties are property of DOM object, it's name is case sensitive and not always strings, `input.checked` is boolean.
+
+All attributes starting with "data-" are reserved for programmers' use. They are available in dataset property.
+
+Creation
+
+1. `document.createElement('div)`
+1. `document.createTextNode('Here I am')`
+1. `document.createDocumentFragment()`
+
+Clone
+
+1. `elem.cloneNode(true)` creates a deep clone with all child elements
+1. `elem.cloneNode(false)` creates a shallow clone without children.
+
+Insertion
+
+1. `element.appendChild(node)`
+1. `element.insertBefore(node, nextSibling)`
+1. `element.replaceChild(node, oldChild)`
+
+- `node.append(...nodes or strings)`  – append nodes or strings at the end of node,
+- `node.prepend(...nodes or strings)` – insert nodes or strings into the beginning of node,
+- `node.before(...nodes or strings)` –- insert nodes or strings before the node,
+- `node.after(...nodes or strings)` –- insert nodes or strings after the node,
+- `node.replaceWith(...nodes or strings)` –- replaces node with the given nodes or strings.
+
+![Node Insertion](./node_insert.png)
+
+`elem.insertAdjacentHTML(where, html)`, `elem.insertAdjacentText(where, html)`, `elem.insertAdjacentElement(where, html)`
+
+- "beforebegin" – insert html before elem,
+- "afterbegin" – insert html into elem, at the beginning,
+- "beforeend" – insert html into elem, at the end,
+- "afterend" – insert html after elem.
+
+![`insertAdjacentHTML`](./insert_adjacent_html.png)
+
+`document.write(<b>Hello</b>)` only works when page is loading. If it's called afterwards, existing document content is erased.
+
+Removal
+
+1. `element.removeChild(node)`
+1. `node.remove()`
+
+#### Traverse DOM
+
+![Traverse DOM Nodes](./traverse_dom_nodes.png)
+
+`document.body` refers to `<body></body>` element of an html page, but that's valid only when inside `<body></body>` element, for scripts inside `<head></head>` element, `document.body` is `null`.
+
+![Traverse DOM Element Nodes](./traverse_dom_element_nodes.png)
+
+`document` is the root node of DOM, but it's not an element node. `document.documentElement` is the root element node.
+
+```javascript
+document.documentElement.parentNode === document
+document.documentElement.parentElement === null
+```
+
+#### Search DOM
+
+|Method|Returns|Context| Live?|
+|--|--|--|--|--|
+|`getElementById(id)`|single element with `id`|`document`|No|
+|`getElementsByName(name)`|mutiple elements with `name`|`document`|Yes|
+|`getElementsByTagName(name)`|mutiple elements with `name`|`document`, `element`|Yes|
+|`getElementsByClassName(name)`|mutiple elements with `name`|`document`, `element`|Yes|
+|`querySelector(selector)`|first element matches `selector`|`document`, `element`|No|
+|`querySelectorAll(selector)`|mutiple elements matches `selector`|`document`, `element`|No|
+|`closest(selector)`|closest ancestor element matches `selector`|`document`, `element`|No
+
+Multiple elements is of type `HTMLCollection`.
+
+Query relationship
+
+1. `element.matches(css)` returns boolean value indicating whether `element` matches CSS selector.
+1. `elementA.contains(elementB)` returns boolean value indicating whether `elementB` is a descendant of `elementA`.
+
+#### Table DOM
+
+`<table>` element supports (in addition to the given above) these properties:
+
+1. `table.rows` – the collection of `<tr>` elements of the table.
+1. `table.caption/tHead/tFoot` – references to elements `<caption>`, `<thead>`, `<tfoot>`.
+1. `table.tBodies` – the collection of `<tbody>` elements (can be many according to the standard).
+
+`<thead>`, `<tfoot>`, `<tbody>` elements provide the rows property:
+
+1. `tbody.rows` – the collection of `<tr>` inside.
+
+`<tr>`:
+
+1. `tr.cells` – the collection of `<td>` and `<th>` cells inside the given `<tr>`.
+1. `tr.sectionRowIndex` – the number of the given `<tr>` inside the enclosing `<thead>`/`<tbody>`.
+1. `tr.rowIndex` – the number of the `<tr>` in the table.
+
+`<td>` and `<th>`:
+
+1. `td.cellIndex` – the number of the cell inside the enclosing `<tr>`.
+
+### **B**rowser **O**bject **M**odel
+
+BOM is part of [HTML Specification](https://html.spec.whatwg.org/)
+
+Some object on root object `window`
+
+1. navigator
+1. location
+1. screen
+1. history
+
+Some global functions
+
+1. setTimeout/clearTimeout, setInterval/clearInterval, setImmediate
+1. alert, confirm, console,
+
+1. [CSSOM Specification](https://www.w3.org/TR/cssom-1/)
 
 ## DOM Event
 
@@ -283,23 +437,16 @@ Dispatch event at the end of handler function or use `setTimeout(..., 0)` for an
 
 ### Reference
 
+1. [W3C DOM4 Standard](https://www.w3.org/TR/dom/)
+1. [WhatWG DOM Standard](https://dom.spec.whatwg.org/)
+1. [HTML Specification](https://html.spec.whatwg.org/)
+1. [CSSOM Specification](https://www.w3.org/TR/cssom-1/)
 1. [Browser: Document, Event, Interfaces](https://javascript.info/ui)
 1. [UI Events Specification](https://www.w3.org/TR/uievents/)
 1. [Event Object API](https://developer.mozilla.org/en-US/docs/Web/API/Event)
 1. [Event Reference](https://developer.mozilla.org/en-US/docs/Web/Events)
 1. [Event Interface](https://dom.spec.whatwg.org/#interface-event)
 1. [Custom Event Interface](https://dom.spec.whatwg.org/#customevent)
-
-## Types
-
-Internal method `ToPrimitive` used to convert Symbol to primitive values.
-
-```javascript
-1 + Symbol('b')     // TypeError: Cannot convert a Symbol value to a number
-'1' + Symbol('b')   // TypeError: Cannot convert a Symbol value to a string
-// TODO: how tagged literal string is evaluated ?
-`${Symbol('b')}`    // TypeError: Cannot convert a Symbol value to a string
-```
 
 ## This
 
@@ -659,6 +806,15 @@ b.length; // 3
 let c = Array.apply(null, { length: 3 }); // 3 slots with value as undefined
 
 let c = [undefined, undefined, undefined];
+```
+
+Internal method `ToPrimitive` used to convert Symbol to primitive values.
+
+```javascript
+1 + Symbol('b')     // TypeError: Cannot convert a Symbol value to a number
+'1' + Symbol('b')   // TypeError: Cannot convert a Symbol value to a string
+// TODO: how tagged literal string is evaluated ?
+`${Symbol('b')}`    // TypeError: Cannot convert a Symbol value to a string
 ```
 
 ## Prototypes
