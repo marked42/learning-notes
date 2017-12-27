@@ -1,5 +1,7 @@
 # Javascript
 
+## **D**ocument **O**bject **M**odel
+
 ## DOM Event
 
 ### Event Fundamentals
@@ -274,6 +276,8 @@ Dispatch event at the end of handler function or use `setTimeout(..., 0)` for an
   document.addEventListener('menu-open', () => alert('nested'))
 </script>
 ```
+
+### [Detailed Event](http://javascript.info/event-details)
 
 ### Reference
 
