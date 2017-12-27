@@ -8,9 +8,7 @@
 
 ![Browser Host Environment](./window_object.png)
 
-global objects: window, location, navigator, screen, history
-
-### DOM Node
+#### DOM Node
 
 ![DOM Node Class Hierarchy](./dom_node_class_hierarchy.png)
 
@@ -139,6 +137,12 @@ Query relationship
 `<td>` and `<th>`:
 
 1. `td.cellIndex` – the number of the cell inside the enclosing `<tr>`.
+
+### DOM Size and Positions
+
+1. [Element Size and Scrolling](http://javascript.info/size-and-scroll)
+1. [Window Size and Scrolling](http://javascript.info/size-and-scroll-window)
+1. [Coordinates](http://javascript.info/coordinates)
 
 ### **B**rowser **O**bject **M**odel
 
