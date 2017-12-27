@@ -4,6 +4,55 @@
 
 ### Event Fundamentals
 
+#### Event Handler
+
+Add handler for `click` event using DOM property `onclick`
+
+```html
+<input id="elem" type="button" value="Click me">
+<script>
+  elem.onclick = function() {
+    alert('Thank you');
+  };
+</script>
+```
+
+Add handler for `click` event in html element attribute.
+
+```javascript
+<input type='button' value='Click me' onclick="alert(this.value)">
+```
+
+Under the background, `onclick` attribute is actually transformed to an event and added to corresponding DOM property.
+
+```javascript
+let handler = new Function("alert(this.value)")
+elem.onclick = handler
+```
+
+Add event handler using `addEventListener(event, handler[, phase])`, remove event handlers with `removeEventListener(event, handler[, phase])`. Exact event handler must be passed to remove it.
+
+```javascript
+elem.addEventListener( "click" , () => alert('Thanks!'));
+// Not working, two different arrow function.
+elem.removeEventListener( "click", () => alert('Thanks!'));
+```
+
+Multiple handlers can be added with `addEventListner()`, and they are called in the same order when they are added.
+
+Some event handlers only work with `addEventListener` like `transitioned` event (CSS animation finished).
+
+```javascript
+button.addEventListener("click", () => alert("1"));
+button.removeEventListener("click", () => alert("1"));
+button.onclick = () => alert(2);
+
+// triggers 1 and 2
+```
+
+`button.onclick` only accepts a single handler function, and it works independent of as well as in addition to `addEventListener`.
+
+#### Dispatch An Event
 
 Dispatch an event.
 
@@ -109,6 +158,31 @@ let event = new MouseEvent('click', {
 })
 ```
 
+Sythetic events are often simulate user actions in automatic testing.
+
+```javascript
+function simulateClick() {
+  var event = new MouseEvent('click', {
+    view: window,
+    bubbles: true,
+    cancelable: true
+  });
+  var cb = document.getElementById('checkbox'); 
+  var cancelled = !cb.dispatchEvent(event);
+  if (cancelled) {
+    // A handler called preventDefault.
+    alert("cancelled");
+  } else {
+    // None of the handlers called preventDefault.
+    alert("not cancelled");
+  }
+}
+```
+
+There exists an old-fashioned way of constructing events using `initEvent(type, bubbles, cancellable)`, it's already deprecated.
+
+### Custom Event
+
 Use `CustomEvent` to generate customized event with an event type different from any built-in events. `CustomEvent` is same as `Event` with one exception that it accepts a property `detail` in second argument of constructor. `detail` property avoids clash with built-in event type and passes data required by custom event.
 
 ```javascript
@@ -205,6 +279,7 @@ Dispatch event at the end of handler function or use `setTimeout(..., 0)` for an
 
 1. [Browser: Document, Event, Interfaces](https://javascript.info/ui)
 1. [UI Events Specification](https://www.w3.org/TR/uievents/)
+1. [Event Object API](https://developer.mozilla.org/en-US/docs/Web/API/Event)
 1. [Event Reference](https://developer.mozilla.org/en-US/docs/Web/Events)
 1. [Event Interface](https://dom.spec.whatwg.org/#interface-event)
 1. [Custom Event Interface](https://dom.spec.whatwg.org/#customevent)
