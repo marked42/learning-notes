@@ -825,7 +825,7 @@ var promise = new Promise(function(resolve, reject) {
 });
 
 promise.then(function() {
-    console.log('Inside the onFulfilled handler`); //3
+    console.log('Inside the onFulfilled handler'); //3
 });
 
 console.log('This is the last line of the script') //2
