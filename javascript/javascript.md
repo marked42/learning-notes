@@ -100,7 +100,7 @@ document.documentElement.parentElement === null;
 #### Search DOM
 
 | Method                         | Returns                                     | Context               | Live? |
-| ------------------------------ | ------------------------------------------- | --------------------- | ----- |
+|:------------------------------ |:------------------------------------------- |:--------------------- | ----- |
 | `getElementById(id)`           | single element with `id`                    | `document`            | No    |
 | `getElementsByName(name)`      | mutiple elements with `name`                | `document`            | Yes   |
 | `getElementsByTagName(name)`   | mutiple elements with `name`                | `document`, `element` | Yes   |
