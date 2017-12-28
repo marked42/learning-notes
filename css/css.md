@@ -61,7 +61,7 @@ Typical cases for margin collapsing
 
 ## [Normal Flow](https://www.w3.org/TR/CSS2/visuren.html#normal-flow)
 
-## Positioning
+## [Positioning](https://drafts.csswg.org/css-position-3/#position-property)
 
 Positioning allows you to define
 
@@ -93,8 +93,43 @@ Positioning allows you to define
     </tr>
 </table>
 
+Containing block and initial containing block.
+
+1. static - element is not positioned, use position in normal flow.
 1. fixed - element is positined relative to viewport of browser window.
-1.
+
+### Offset Property
+
+Positioning allows you to define
+
+<table>
+    <caption><h2>top,right,bottom,left</h2></caption>
+    <tr>
+        <td>Values</td>
+        <td>&lt;length&gt; | &lt;percent&gt; | auto</td>
+    </tr>
+    <tr>
+        <td>initial value</td>
+        <td>auto</td>
+    </tr>
+    <tr>
+        <td>Applies to</td>
+        <td>Positioned elements</td>
+    </tr>
+    <tr>Refer to the height of containing block for top and bottom, and the width of containing block for right and left</tr>
+    <tr>
+        <td>Computed Value</td>
+        <td>For static elemens, auto; for length values, the corresponding absolute length; for percentage values, the specified value; otherwise, auto./td>
+    </tr>
+    <tr>
+        <td>Inherited</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>Animatable</td>
+        <td>&lt;length&gt;, &lt;percentage&gt;</td>
+    </tr>
+</table>
 
 ## Formatting Context
 
