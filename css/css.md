@@ -25,6 +25,16 @@
 1. animation
 1. SASS, LESS, BEM, OOCSS
 
+## Selector
+
+### link
+
+Link related pseudo-class selectors `:link`, `:visited`, `:hover`, `:active` should be defined by the LVHA-order to make links work properly.
+
+1. `:link` has the lowest priority and can be overwritten by other rules, it goes first.
+1. `<a>` is expected to respond to hover after being visited, so `:hover` goes after `:visited`.
+1. click on `<a>`, we expect `:active` to take effect and overwrite `:hover`, so `:active` goes after `:hover`.
+
 ## Box Model
 
 Every element in html page is a rectangular box.
@@ -60,6 +70,15 @@ Typical cases for margin collapsing
 1. Parent Children Collapsing. When parent element top margin is adjacent to top margin of first child element, or parent element bottom margin is adjacent to bottom margin of last child element, margin collapsing will happen.
 
 ## [Normal Flow](https://www.w3.org/TR/CSS2/visuren.html#normal-flow)
+
+## [`display`](https://developer.mozilla.org/en-US/docs/Web/CSS/display)
+
+1. display-outside
+1. display-inside
+1. display-listitem
+1. display-internal
+1. display-box
+1. display-legacy
 
 ## [Positioning](https://drafts.csswg.org/css-position-3/#position-property)
 
