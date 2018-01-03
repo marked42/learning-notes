@@ -25,6 +25,200 @@
 1. animation
 1. SASS, LESS, BEM, OOCSS
 
+## Elements
+
+### Replaced and Nonreplaced Elements
+
+Replaced elements are elements whose contents are replaced by something that is not directly represented by document. It has a intrinsic width and height.
+
+Typical replated elements are:
+
+- `<iframe>`
+- `<embed>`
+- `<video>`
+- `<img>`
+- `<input>`
+
+Some elements are treated as replaced elements only in specific cases:
+
+- `<audio>`
+- `<canvas>`
+- `<object>`
+- `<applet>`
+
+### Styles
+
+#### External Styles
+
+Stylesheet in a html document falls into following categories.
+
+1. **Persistent** (no rel="alternate", no title="..."), always applied to document.
+1. **Preferred** (no rel="alternate", with title="..."), applied by default, when there're multiple preferred stylesheets, only one of them will take effect, others will be ignored. However, HTML specification doesn't define rules for deciding which one to use.
+1. **Alternate** (rel="stylesheet alternate", title="..."), disabled by default, activated when selected by user.
+
+If any alternate stylesheet is selected by user, all preferred stylesheets are disabled.
+
+Media property of `<link>` specifies preferred media for stylesheets, corresponding stylesheet takes effect when actual media fits value of media property.
+
+```html
+<link href="default.css" rel="stylesheet" title="Default">
+<link href="basic.css" rel="alternate stylesheet" title="Basic">
+<link href="fancy.css" rel="alternate stylesheet" title="Fancy">
+```
+
+`<link>` element has `onload` for handling `load` event and `onerror` for `error` event when loading external stylesheet.
+
+```html
+<script>
+function sheetLoaded() {
+  // Do something interesting; the sheet has been loaded
+}
+
+function sheetError() {
+  console.log("An error occurred loading the stylesheet!");
+}
+</script>
+
+<link rel="stylesheet" href="mystylesheet.css" onload="sheetLoaded()"
+  onerror="sheetError()">
+```
+
+#### Embedded Styles
+
+`<style>` tag is used to write CSS directly inside html document.
+
+```html
+<style type='text/css' media='print screen' nonce title='Default'>
+@import url(http://example.org/library/layout.css);
+@import url(basic-text.css);
+@import url(printer.css) print;
+body {color: red;}
+h1 {color: blue;}
+</style>
+```
+
+1. `type` attribute is optional and defaults to `text/css`.
+1. `media` and `title` works like `<link>` element.
+
+`@import` directive can be used inside css to include rules from external stylesheets.
+
+1. It must be placed before other stylesheet rules, otherwise it will be ignored.
+1. Relative or absolute urls can be used to refer to external stylesheet.
+1. Media query can be used likely.
+
+#### Inline Styles
+
+Use `style` attribute of a html element to specify inline styles for correpsonding element.
+
+```html
+<p style="color: gray;">The most wonderful of all breakfast foods is
+the waffle—a ridged and cratered slab of home-cooked, fluffy goodness...
+</p>
+```
+
+Value of `style` attributes can be one or more specific rules. `@import` directive, selectors cannot be used.
+
+## CSS Rule
+
+![CSS Rule Structure](./css_rule_structure.png)
+
+### Vendor prefixing
+
+|Prefix|Vendor|
+|--|--|
+|-epub-| International Digital Publishing Forum ePub format|
+|-moz-| Mozilla-based browsers(e.g. Firefox)|
+|-ms-| Microsoft Internet Explorer|
+|-o-| Opera-based browsers|
+|-webkit-| Webkit-based browsers(e.g. Safari and Chrome)|
+
+### Comments
+
+CSS comments has only one format of `/* ... */`, it can span over multiple lines. No rest of the line comment like `//` in C++ or `#` in python.
+
+```css
+/* This is a CSS1 comment, and it
+can be several lines long without
+any problem whatsoever. */
+
+h1 {color: gray;}  /* This CSS comment is several lines */
+```
+
+### [Media Query](https://www.w3.org/TR/mediaqueries-4/)
+
+Media query can be used in following places.
+
+1. `media` attribute of a `link` element.
+1. `media` attribute of a `style` element.
+1. media descriptor portion of an `@import` declaration.
+1. media descriptor portion of an `@media` declaration.
+
+#### Media types
+
+1. `all` - Use in all presentational media.
+1. `print` - Use for document printing or print preview
+1. `screen` - Use when presenting document on a screen medium. All web browsers are screen medium.
+
+#### Media Features
+
+Media features expressions test for specific characteristics of user agent, output device or environment. They are optional and must be wrapped inside parenthesis if present.
+
+#### Logical Operators
+
+Logical operators `not`, `and`, `only` can be used to compose mutiple media queries into single one. Explicity media type must be supplied when using `not` and `only`.
+
+```css
+not (color) and (orientation: landscape) and (min-device-width: 800px)
+```
+
+`not` negates entire media query, so it's equivalent to
+
+```css
+not ((color) and (orientation: landscape) and (min-device-width: 800px))
+```
+
+`or` operator doesn't exist, use comma for equivalent function.
+
+#### Comma Separated Lists
+
+Mutiple media queries can be separated by comma. If any of those media queries fits, it will take effect.
+
+### [Feature Query](https://drafts.csswg.org/css-conditional-3/#at-supports)
+
+Feature query is used to detect if some features are supported by user agent. It's a perfect way of adapting to new features progressively.
+
+Logical operators `not`, `and`, `or` can be used to compose multiple feature queries together. `not` negates entire feature query, use parenthesis to change applied range if needed.
+
+```css
+@supports not (text-align-last: justify) or (-moz-text-align-last: justify) {
+}
+
+/* same as above, but clearer with extra parenthesis */
+@supports not ((text-align-last: justify) or (-moz-text-align-last: justify)) {
+}
+
+/* custom property */
+@supports (--foo: green) {
+  body {
+    color: var(--varName);
+  }
+}
+```
+
+Use feature query with both name and value for accurate test, cause user agent may recgonize feature name but not specific value.
+
+Feature query only means user agent recognizes target feature, but it's not guaranteed that user agent implement features correctly.
+
+```css
+@supports (display) {
+    /* recognize display but not supporting grid property */
+}
+
+@supports (display: grid) {
+    /* recognize display property with grid value */
+}
+```
+
 ## Selector
 
 ### link
@@ -72,6 +266,14 @@ Typical cases for margin collapsing
 ## [Normal Flow](https://www.w3.org/TR/CSS2/visuren.html#normal-flow)
 
 ## [`display`](https://developer.mozilla.org/en-US/docs/Web/CSS/display)
+
+HTML specification says that inline elements cannot contain block elements like below.
+
+```html
+<span>inline<p>block</p></span>
+```
+
+But CSS has no such restrictions, inline and block elements can be nested in random order.
 
 1. display-outside
 1. display-inside
