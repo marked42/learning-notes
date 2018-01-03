@@ -221,6 +221,260 @@ Feature query only means user agent recognizes target feature, but it's not guar
 
 ## Selector
 
+<table>
+    <caption><h2>Selector</h2></caption>
+    <tr>
+        <th align='left'>Type</th>
+        <th align='left'>Subtype</th>
+        <th align='left'>Syntax</th>
+        <th align='left'>Explaination</th>
+    </tr>
+    <tr>
+        <td rowspan='5'>Basic</td>
+        <td>Type Selector</td>
+        <td><code>h2</code></td>
+        <td>Select elements by type</td>
+    </tr>
+    <tr>
+        <td>Class Selector</td>
+        <td><code>.class_name</code></td>
+        <td>Select elements by class attribute, multiple class selector can be use simultaneously, space not allowed in between. Equivalent to <code>[class~=class_name]</code></td>
+    </tr>
+    <tr>
+        <td>ID Selector</td>
+        <td><code>#id_value</code></td>
+        <td>Select single element by id. Actual implementation may not check uniqueness of id, so multiple elements may be selected in this case. Equivalent to <code>[id=id_value]</code></td>
+    </tr>
+    <tr>
+        <td>Universal Selector</td>
+        <td><code>*</code></td>
+        <td><span>Select all elements. From CSS3, asterisk may be used with <em>namespace</em></span>
+        <ul>
+        <li>
+            <code>ns|*</code><span> mathes all elements in namesapce <em>ns</em></span>
+        </li>
+        <li>
+            <code>*|*</code><span> mathes all elements</span>
+        </li>
+        <li>
+            <code>|*</code><span> mathes all elements without declared namesapce</span>
+        </li>
+        </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Attribute Selector</td>
+        <td><code>.primary[attr1 operator value i]</code></td>
+        <td>
+            <p>
+            Squre brackets can be used to select element by attribute, multiple attributes selector can be used simultaneously. An <em>i</em> or <em>I</em> before closing bracket means to match attribute values case-insensitively</p>
+            <ul>
+                <li>
+                    <code>img[title]</code>
+                    <span>
+                        Select elements with attribute
+                    </span>
+                </li>
+                <li>
+                    <code>input[type="text"]</code>
+                    <span>
+                    Select elements with exact attribute value
+                    </span>
+                </li>
+                <li>
+                    <code>a[href^="http://"]</code>
+                    <span>Select elements with attribute value prefix</span>
+                </li>
+                <li>
+                    <code>a[href$=".pdf"]</code>
+                    <span>Select elements with attribute value suffix</span>
+                </li>
+                <li>
+                    <code>img[src*="headshot"]</code>
+                    <span>Select elements with attribute value containing substring</span>
+                </li>
+                <li>
+                    <code>img[src~="Figure"]</code>
+                    <span>Select elements with attribute value containing word in a space-separated list of words</span>
+                </li>
+                <li>
+                    <code>img[lang|="en"]</code>
+                    <span>Select elements with attribute value starting with word followed by dash(U+002D) or matches exactly</span>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td rowspan='5'>Combinators</td>
+        <td>Group Selector</td>
+        <td><code>h1, h2</code></td>
+        <td>
+            Multiple selectors can be composed into one selector in a comma-separated format. It selects elements that matches any of the multiple selectors.
+        </td>
+    </tr>
+    <tr>
+        <td>Adjacent Sibling Selector</td>
+        <td><code>former + target</code></td>
+        <td>
+            The <strong>adjacent sibling combinator(+)</strong> separates two selectors and matches the second element only if it <em>immediately</em> follows the first element and both are children of the same element.
+        </td>
+    </tr>
+    <tr>
+        <td>General Sibling Selector</td>
+        <td><code>selector1 > selector2</code></td>
+        <td>
+        The <strong>general sibling combinator(~)</strong> separates two selectors and matches the second element only if it follows the first element (though not necessarily immediately), and both are children of the same parent element.
+        </td>
+    </tr>
+    <tr>
+        <td>Child Selector</td>
+        <td><code>h1, h2</code></td>
+        <td>
+        The <strong>child combinator(>)</strong>is placed between two CSS selectors. It matches only those elements matched by the second selector that are the children of elements matched by the first.
+        </td>
+    </tr>
+    <tr>
+        <td>Descendant Selector</td>
+        <td><code>h1 em</code><br><code>h1 >> em</code></td>
+        <td>
+            <p>
+                The <strong>descendant combinator</strong>— typically represented by a single space<strong>( )</strong> character — combines two selectors such that elements matched by the second selector are selected if they have an ancestor element matching the first selector. Selectors that utilize a descendant combinator are called descendant selectors.
+            </p>
+            <p>
+                The descendant combinator is technically one or more CSS white space characters (space character and/or one of four control characters: carriage return, form feed, new line and tab character).
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td rowspan='70'>Pseudo Class</td>
+        <td rowspan='12'>Structual</td>
+        <td><code>:root</code></td>
+        <td>
+         Selects the root element of a document. It's <code>&lt;html&gt;</code> in HMLT document, convenient to use in XML since root element is not fixed inside XML document.
+        </td>
+    </tr>
+    <tr>
+        <td><code>@page :first</code></td>
+        <td>
+            Selects first page of a printed document.
+        </td>
+    </tr>
+    <tr>
+        <td><code>:first-child</code></td>
+        <td>
+            Selects first element among a group of elements.
+        </td>
+    </tr>
+    <tr>
+        <td><code>:first-of-type</code></td>
+        <td>
+            Selects first element of its type among a group of elements.
+        </td>
+    </tr>
+    <tr>
+        <td><code>:last-child</code></td>
+        <td>
+            Selects last element among a group of elements.
+        </td>
+    </tr>
+    <tr>
+        <td><code>:last-of-type</code></td>
+        <td>
+            Selects last element of its type among a group of elements.
+        </td>
+    </tr>
+    <tr>
+        <td><code>:nth-child()</code></td>
+        <td>
+            <span>Select one or more elements based on index. <code>a</code> and <code>b</code> inside <code>an+b</code> must be integer</span>
+            <ul>
+                <li>
+                    <code>:nth-child(odd)</code>
+                <li>
+                    <code>:nth-child(even)</code>
+                </li>
+                <li>
+                    <code>:nth-child(an+b)</code>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td><code>:nth-of-type</code></td>
+        <td>
+            <span>Select one or more elements of its type based on index. Format ditto.
+        </td>
+    </tr>
+    <tr>
+        <td><code>:nth-last-child</code></td>
+        <td>
+            <span>Select one or more elements based on index, counting from the end. Format ditto.
+        </td>
+    </tr>
+    <tr>
+        <td><code>:nth-last-of-type</code></td>
+        <td>
+            <span>Select one or more elements of its type based on index, couting from the end. Format ditto.
+        </td>
+        </td>
+    </tr>
+    <tr>
+        <td><code>:only-child</code></td>
+        <td>
+            Selects an element without siblings.
+        </td>
+    </tr>
+    <tr>
+        <td><code>:only-of-type</code></td>
+        <td>
+            Selects an element of its type without siblings.
+        </td>
+    </tr>
+    <tr>
+        <td rowspan='6'>Dynamic</td>
+        <td><code>:link</code></td>
+        <td>
+            Selects any unvisited <code>&lt;a&gt;</code>, <code>&lt;area&gt;</code>,<code>&lt;link&gt;</code> element that has <em>href</em> attribute.
+        </td>
+    </tr>
+    <tr>
+        <td><code>:visited</code></td>
+        <td>
+            Select any visited anchor tag, for <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Privacy_and_the_:visited_selector"/>security reasons</a>, the styles that can be modified using this selector are very limited.
+        </td>
+    </tr>
+    <tr>
+        <td><code>:focus</code></td>
+        <td>
+            Select an element that has received focus.
+        </td>
+    </tr>
+    <tr>
+        <td><code>:focus-within</code></td>
+        <td>
+            Select an element that <em>contains </em>a focused element.
+        </td>
+    </tr>
+    <tr>
+        <td><code>:hover</code></td>
+        <td>
+            Selects an element on which the mouse pointer is placed. Maybe <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/:hover">problematic</a> on touchscreens.
+        </td>
+    </tr>
+    <tr>
+        <td><code>:active</code></td>
+        <td>
+            Selects elements that is activated by user. 'Activation' typeically starts when user presses down the primary button and ends when it's released. CSS3 specifies that <code>:active</code> must only apply to the primary button on systems with multi-button mice, on right-handed mice, it's typically the leftmost button.
+        </td>
+    </tr>
+    <tr>
+        <td rowspan='6'>UI State</td>
+        <td><code>:enabled</code></td>
+        <td>
+        </td>
+    </tr>
+</table>
+
 ### link
 
 Link related pseudo-class selectors `:link`, `:visited`, `:hover`, `:active` should be defined by the LVHA-order to make links work properly.
