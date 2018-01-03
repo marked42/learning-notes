@@ -346,7 +346,7 @@ Feature query only means user agent recognizes target feature, but it's not guar
         </td>
     </tr>
     <tr>
-        <td rowspan='70'>Pseudo Class</td>
+        <td rowspan='38'>Pseudo Class</td>
         <td rowspan='10'>Structual</td>
         <td><code>:first-child</code></td>
         <td>
@@ -691,7 +691,6 @@ Feature query only means user agent recognizes target feature, but it's not guar
                 <li>
                     <code>&lt;div&gt; &lt;!--not empty--&gt; &lt;&sol;div&gt;</code> whitespace included.
                 </li>
-</div>
             </ul>
         </td>
     </tr>
@@ -712,6 +711,44 @@ Feature query only means user agent recognizes target feature, but it's not guar
         <td>
             Selects the root element of a document. It's <code>&lt;html&gt;</code> in HMLT document, convenient to use in XML since root element is not fixed inside XML document.
         </td>
+    </tr>
+    <tr>
+        <td rowspan='4'>Pseudo Elements</td>
+        <td>first letter</td>
+        <td><code>::first-letter</code></td>
+        <td>
+        </td>
+    </tr>
+    <tr>
+        <td>first line</td>
+        <td><code>::first-line</code></td>
+        <td>
+        </td>
+    </tr>
+    <tr>
+        <td>before</td>
+        <td><code>::before</code></td>
+        <td>
+        </td>
+    </tr>
+    <tr>
+        <td>after</td>
+        <td><code>::after</code></td>
+        <td>
+        </td>
+    </tr>
+    <tr>
+        <td>cue</td>
+        <td><code>::cue</code></td>
+        <td>
+        </td>
+    </tr>
+    <tr>
+        <td>backdrop</td>
+        <td><code>::backdrop</code></td>
+        <td>
+        </td>
+    </tr>
 </table>
 
 1. [HTML5 Constraint Validation](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation)
