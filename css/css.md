@@ -347,19 +347,7 @@ Feature query only means user agent recognizes target feature, but it's not guar
     </tr>
     <tr>
         <td rowspan='70'>Pseudo Class</td>
-        <td rowspan='12'>Structual</td>
-        <td><code>:root</code></td>
-        <td>
-         Selects the root element of a document. It's <code>&lt;html&gt;</code> in HMLT document, convenient to use in XML since root element is not fixed inside XML document.
-        </td>
-    </tr>
-    <tr>
-        <td><code>@page :first</code></td>
-        <td>
-            Selects first page of a printed document.
-        </td>
-    </tr>
-    <tr>
+        <td rowspan='10'>Structual</td>
         <td><code>:first-child</code></td>
         <td>
             Selects first element among a group of elements.
@@ -468,12 +456,266 @@ Feature query only means user agent recognizes target feature, but it's not guar
         </td>
     </tr>
     <tr>
-        <td rowspan='6'>UI State</td>
+        <td rowspan='13'>UI State</td>
         <td><code>:enabled</code></td>
         <td>
+            Selects enabled elements. An element is enabled if it can be activated(select, click, type etc.) or accept focus.
         </td>
     </tr>
+    <tr>
+        <td><code>:disabled</code></td>
+        <td>
+            Selects disabled elements.
+        </td>
+    </tr>
+    <tr>
+        <td><code>:checked</code></td>
+        <td>
+            Selects any <strong>radio</strong> (<code>&lt;input type="radio"&gt;</code>), <strong>checkbox</strong> (<code>&lt;input type="checkbox"&gt;</code>) or <strong>option</strong> (<code>&lt;option&gt;</code> inside <code>&lt;select&gt;</code>) that is checked or toggled to an <em>on</em> state.
+        </td>
+    </tr>
+    <tr>
+        <td><code>:indeterminate</code></td>
+        <td>
+            Intermediate state is used to style differently indicating users to select a value. Selects three types of elements.
+            <ul>
+                <li>
+                    <code>&lt;input type='checkbox'&gt;</code> with <em>indeterminate</em> property set to true.
+                </li>
+                <li>
+                    <code>&lt;input type='radio'&gt;</code>, several <strong>radio</strong> buttons with same <em>name</em> attribute are treated as a radio button group. Inside same group only one <strong>radio</strong> button can be selected, when no <strong>radio</strong> buttons are selected, they're considered to be in <em>indeterminate</em> state.
+                </li>
+                <li>
+                    <code>&lt;progress&gt;</code> in <em>indeterminate</em> state. If there is no <em>value</em> attribute, the progress bar is <em>indeterminate</em>, this indicates that an activity is ongoing with no indication of how long it is expected to take. Use <code>element.removeAttribute("value")</code> to set <code>&lt;progress&gt;</code> element back to <em>indeterminate</em> state.
+                </li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td><code>:default</code></td>
+        <td>
+            <p>
+            Select form elements that is default among a group of related elements. There're multiple default elements if more than one elements are selected by default when group permits multiple selection.
+            </p>
+            <ul>
+                <li>
+                    <code>&lt;button&gt;</code>
+                </li>
+                <li>
+                    <code>&lt;input type='checkbox'&gt;</code>
+                </li>
+                <li>
+                    <code>&lt;input type='radio'&gt;</code>
+                </li>
+                <li>
+                    <code>&lt;option&gt;</code>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td><code>:valid</code></td>
+        <td>
+            Selects <code>&lt;input&gt;</code> or other <code>&lt;form&gt;</code> element whose contents are valid.
+        </td>
+    </tr>
+    <tr>
+        <td><code>:invalid</code></td>
+        <td>
+            Selects <code>&lt;input&gt;</code> or other <code>&lt;form&gt;</code> element whose contents are invalid.
+        </td>
+    </tr>
+    <tr>
+        <td><code>:in-range</code></td>
+        <td>
+            Select <code>&lt;input&gt;</code> element with <em>range limitation</em> specified by <em>min</em>, <em>max</em> attributes, and its value is within range. In the absence of such a limitation, it's neither <code>in-range</code> nor <code>out-of-range</code>.
+        </td>
+    </tr>
+    <tr>
+        <td><code>:out-of-range</code></td>
+        <td>
+            Select <code>&lt;input&gt;</code> element with <em>range limitation</em> specified by <em>min</em>, <em>max</em> attributes, and its value is out of range.
+        </td>
+    </tr>
+    <tr>
+        <td><code>:required</code></td>
+        <td>
+            <p>
+                Select <code>&lt;form&gt;</code> elements that <strong>has</strong> <em>required</em> attribute set on it.
+            </p>
+            <ul>
+                <li>
+                    <code>&lt;input&gt;</code>
+                </li>
+                <li>
+                    <code>&lt;select&gt;</code>
+                </li>
+                <li>
+                    <code>&lt;textarea&gt;</code>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td><code>:optional</code></td>
+        <td>
+            <p>
+                Select <code>&lt;form&gt;</code> elements that has <strong>no</strong> <em>required</em> attribute set on it.
+            </p>
+            <ul>
+                <li>
+                    <code>&lt;input&gt;</code>
+                </li>
+                <li>
+                    <code>&lt;select&gt;</code>
+                </li>
+                <li>
+                    <code>&lt;textarea&gt;</code>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td><code>:read-write</code></td>
+        <td>
+            <p>
+                Select elements whose content is <strong>editable</strong> by user.
+            </p>
+            <ul>
+                <li>
+                    <code>&lt;input&gt;</code>
+                </li>
+                <li>
+                    <code>&lt;p contenteditable="true"&gt;</code>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td><code>:read-only</code></td>
+        <td>
+            <p>
+                Select elements whose content is <strong>not</strong> editable by user.
+            </p>
+            <ul>
+                <li>
+                    <code>&lt;input readonly&gt;</code>
+                </li>
+                <li>
+                    <code>&lt;p contenteditable="false"&gt;</code>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>fragment</td>
+        <td><code>:target</code></td>
+        <td>
+            <ol>
+                <li>
+                    If a page's URL has no fragment, no elements inside it will be matched.
+                </li>
+                <li>
+                    If a page's URL has fragment, element whose <em>id</em> attribute value matches the URL's fragment.
+                </li>
+            </ol>
+        </td>
+    </tr>
+    <tr>
+        <td>language</td>
+        <td><code>:lang(en)</code></td>
+        <td>
+            <p>
+                Selects elements based on language they are determined to be in.
+            </p>
+            <blockquote>
+                In HTML, the language is determined by a combination of the lang attribute, the <meta> element, and possibly by information from the protocol (such as HTTP headers). For other document types there may be other document methods for determining the language.
+            </blockquote>
+        </td>
+    </tr>
+    <tr>
+        <td>negation</td>
+        <td><code>:not(&lt;selector&gt;#)</code></td>
+        <td>
+            <p>
+                Selects elements that don't match supplied list of selectors. Supplied list of selectors cannot be another negation selector or pseudo-elements.
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td rowspan='3'>page</td>
+        <td><code>:left</code></td>
+        <td>
+            <p>
+                Used with <code>@page</code> <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/At-rule">at rule</a>, selects all left-hand pages of a printed documents.
+            </p>
+            <p>
+                You can't change all CSS properties with this pseudo-class. You can only change the <code>margin</code>, <code>padding</code>, <code>border</code>, and <code>background</code> properties of the page box. All other properties will be ignored, and only the page box, not the document content on the page, will be affected.
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td><code>:right</code></td>
+        <td>
+            <p>
+                Used with <code>@page</code> <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/At-rule">at rule</a>, selects all right-hand pages of a printed documents.
+            </p>
+            <p>Ditto.</p>
+        </td>
+    </tr>
+    <tr>
+        <td><code>:first</code></td>
+        <td>
+            <p>
+                Used with <code>@page</code> <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/At-rule">at rule</a>, selects all right-hand pages of a printed documents.
+            </p>
+            <p>
+                You can't change all CSS properties with this pseudo-class. You can only change the <code>margins</code>, <code>orphans</code>, <code>widows</code>, and page breaks of the document. Furthermore, you may only use absolute-length units when defining the margins. All other properties will be ignored.
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td>empty</td>
+        <td><code>:empty</code></td>
+        <td>
+            <p>
+                Selects elements with <strong>no</strong> children. Children refers to element nodes or text nodes. Comment and processing instructions doesn't affect whether element is considered empty or not.
+            </p>
+            <ul>
+                <li>
+                    <code>&lt;div&gt;not empty&lt;&sol;div&gt;</code>
+                </li>
+                <li>
+                    <code>&lt;div&gt;&lt;!--empty--&gt;&lt;&sol;div&gt;</code>
+                </li>
+                <li>
+                    <code>&lt;div&gt; &lt;!--not empty--&gt; &lt;&sol;div&gt;</code> whitespace included.
+                </li>
+</div>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>scope</td>
+        <td><code>:scope</code></td>
+        <td>
+            <p>
+                Provide a scope element for following selectors to match against. When used in stylesheet, it's equivalent to <code>:root</code> currently.
+            </p>
+            <p>
+                When used from a DOM API such as <code>querySelector()</code>, <code>querySelectorAll()</code>, <code>matches()</code>, or <code>Element.closest()</code>, <code>:scope</code> matches the element you called the method on.
+            </p>
+        </td>
+    </tr>
+        <td>root</td>
+        <td><code>:root</code></td>
+        <td>
+            Selects the root element of a document. It's <code>&lt;html&gt;</code> in HMLT document, convenient to use in XML since root element is not fixed inside XML document.
+        </td>
 </table>
+
+1. [HTML5 Constraint Validation](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation)
+1. [HTML5 Form Data Validation](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Form_validation#Validating_forms_using_JavaScript)
 
 ### link
 
