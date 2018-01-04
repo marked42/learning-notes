@@ -221,16 +221,15 @@ Feature query only means user agent recognizes target feature, but it's not guar
 
 ## Selector
 
+### Basic Selector
+
 <table>
-    <caption><h2>Selector</h2></caption>
     <tr>
         <th align='left'>Type</th>
-        <th align='left'>Subtype</th>
         <th align='left'>Syntax</th>
         <th align='left'>Explaination</th>
     </tr>
     <tr>
-        <td rowspan='5'>Basic</td>
         <td>Type Selector</td>
         <td><code>h2</code></td>
         <td>Select elements by type</td>
@@ -304,8 +303,17 @@ Feature query only means user agent recognizes target feature, but it's not guar
             </ul>
         </td>
     </tr>
+</table>
+
+### Combinator
+
+<table>
     <tr>
-        <td rowspan='5'>Combinators</td>
+        <th align='left'>Type</th>
+        <th align='left'>Syntax</th>
+        <th align='left'>Explaination</th>
+    </tr>
+    <tr>
         <td>Group Selector</td>
         <td><code>h1, h2</code></td>
         <td>
@@ -345,8 +353,17 @@ Feature query only means user agent recognizes target feature, but it's not guar
             </p>
         </td>
     </tr>
+</table>
+
+### Pseudo Class
+
+<table>
     <tr>
-        <td rowspan='38'>Pseudo Class</td>
+        <th align='left'>Type</th>
+        <th align='left'>Syntax</th>
+        <th align='left'>Explaination</th>
+    </tr>
+    <tr>
         <td rowspan='10'>Structual</td>
         <td><code>:first-child</code></td>
         <td>
@@ -689,7 +706,7 @@ Feature query only means user agent recognizes target feature, but it's not guar
                     <code>&lt;div&gt;&lt;!--empty--&gt;&lt;&sol;div&gt;</code>
                 </li>
                 <li>
-                    <code>&lt;div&gt; &lt;!--not empty--&gt; &lt;&sol;div&gt;</code> whitespace included.
+                    <code>&lt;div&gt; &lt;!--not empty,whitespace--&gt; &lt;&sol;div&gt;</code>
                 </li>
             </ul>
         </td>
@@ -712,8 +729,18 @@ Feature query only means user agent recognizes target feature, but it's not guar
             Selects the root element of a document. It's <code>&lt;html&gt;</code> in HMLT document, convenient to use in XML since root element is not fixed inside XML document.
         </td>
     </tr>
+</table>
+
+### Pseudo Elements
+
+<table>
+    <caption><h2>Selector</h2></caption>
     <tr>
-        <td rowspan='4'>Pseudo Elements</td>
+        <th align='left'>Type</th>
+        <th align='left'>Syntax</th>
+        <th align='left'>Explaination</th>
+    </tr>
+    <tr>
         <td>first letter</td>
         <td><code>::first-letter</code></td>
         <td>
