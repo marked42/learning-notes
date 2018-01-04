@@ -842,7 +842,7 @@ Link related pseudo-class selectors `:link`, `:visited`, `:hover`, `:active` sho
 
 Each CSS rule applied on a html element has a specificity value decided by its selectors. When multiple CSS rules of same property name applied to single html element, the rule with highest specificity value wins.
 
-Specificity value is composed of four parts like `0,0,0,0`, two specificity value are compared from left to right do decide its order. Each type of selector contributes to specificity value. Specificity value of a complext selector is the sum of all selectors inside it.
+Specificity value is composed of four parts like `0,0,0,0`, two specificity value are compared from left to right do decide its order. Notice that digit will **not** be carried like integer number. Each type of selector contributes to specificity value. Specificity value of a complext selector is the sum of all selectors inside it.
 
 <table>
     <tr>
