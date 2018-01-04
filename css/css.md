@@ -329,14 +329,14 @@ Feature query only means user agent recognizes target feature, but it's not guar
     </tr>
     <tr>
         <td>General Sibling Selector</td>
-        <td><code>selector1 > selector2</code></td>
+        <td><code>selector1 ~ selector2</code></td>
         <td>
         The <strong>general sibling combinator(~)</strong> separates two selectors and matches the second element only if it follows the first element (though not necessarily immediately), and both are children of the same parent element.
         </td>
     </tr>
     <tr>
         <td>Child Selector</td>
-        <td><code>h1, h2</code></td>
+        <td><code>h1 > h2</code></td>
         <td>
         The <strong>child combinator(>)</strong>is placed between two CSS selectors. It matches only those elements matched by the second selector that are the children of elements matched by the first.
         </td>
@@ -346,7 +346,7 @@ Feature query only means user agent recognizes target feature, but it's not guar
         <td><code>h1 em</code><br><code>h1 >> em</code></td>
         <td>
             <p>
-                The <strong>descendant combinator</strong>— typically represented by a single space<strong>( )</strong> character — combines two selectors such that elements matched by the second selector are selected if they have an ancestor element matching the first selector. Selectors that utilize a descendant combinator are called descendant selectors.
+                The <strong>descendant combinator</strong> — typically represented by a single space<strong>( )</strong> character — combines two selectors such that elements matched by the second selector are selected if they have an ancestor element matching the first selector. Selectors that utilize a descendant combinator are called descendant selectors.
             </p>
             <p>
                 The descendant combinator is technically one or more CSS white space characters (space character and/or one of four control characters: carriage return, form feed, new line and tab character).
@@ -405,19 +405,19 @@ Feature query only means user agent recognizes target feature, but it's not guar
         </td>
     </tr>
     <tr>
-        <td><code>:nth-of-type</code></td>
+        <td><code>:nth-of-type()</code></td>
         <td>
             <span>Select one or more elements of its type based on index. Format ditto.
         </td>
     </tr>
     <tr>
-        <td><code>:nth-last-child</code></td>
+        <td><code>:nth-last-child()</code></td>
         <td>
             <span>Select one or more elements based on index, counting from the end. Format ditto.
         </td>
     </tr>
     <tr>
-        <td><code>:nth-last-of-type</code></td>
+        <td><code>:nth-last-of-type()</code></td>
         <td>
             <span>Select one or more elements of its type based on index, couting from the end. Format ditto.
         </td>
@@ -640,7 +640,7 @@ Feature query only means user agent recognizes target feature, but it's not guar
     </tr>
     <tr>
         <td>language</td>
-        <td><code>:lang(en)</code></td>
+        <td><code>:lang(&lt;language-code&gt;)</code></td>
         <td>
             <p>
                 Selects elements based on language they are determined to be in.
@@ -729,6 +729,13 @@ Feature query only means user agent recognizes target feature, but it's not guar
             Selects the root element of a document. It's <code>&lt;html&gt;</code> in HMLT document, convenient to use in XML since root element is not fixed inside XML document.
         </td>
     </tr>
+    </tr>
+        <td><a href='https://fullscreen.spec.whatwg.org/#:fullscreen-pseudo-class'>fullscreen</a></td>
+        <td><code>:fullscreen</code></td>
+        <td>
+        </td>
+    </tr>
+
 </table>
 
 ### [Pseudo Elements](https://drafts.csswg.org/css-pseudo-4/#first-letter-pseudo)
@@ -801,13 +808,13 @@ Pseudo elements start with double colon in CSS3. Legacy sytax use single colon i
         </td>
     </tr>
     <tr>
-        <td>cue</td>
+        <td><a href='https://w3c.github.io/webvtt/#the-cue-pseudo-element'>cue</a></td>
         <td><code>::cue</code></td>
         <td>
         </td>
     </tr>
     <tr>
-        <td>backdrop</td>
+        <td><a href='https://fullscreen.spec.whatwg.org/#::backdrop-pseudo-element'>backdrop</a></td>
         <td><code>::backdrop</code></td>
         <td>
         </td>
