@@ -954,7 +954,7 @@ Important rules break the natural cascading structure of stylesheets, try to avo
 
 Every element in html page is a rectangular box.
 
-![Box Model](./box_model.png)
+![Box Model](./block_box.png)
 
 `box-sizing` is used to specify which box model is used.
 
@@ -985,6 +985,10 @@ Typical cases for margin collapsing
 1. Parent Children Collapsing. When parent element top margin is adjacent to top margin of first child element, or parent element bottom margin is adjacent to bottom margin of last child element, margin collapsing will happen.
 
 ## [Normal Flow](https://www.w3.org/TR/CSS2/visuren.html#normal-flow)
+
+1. Block box - This is a box that generate new line both before and after it, so block boxes will stack vertically.
+1. Inline box - This is a box that will not generate new line before or after it.
+1. Inline-block box - This is a box that is a block box internally, but acts like an inline box externally.
 
 ## [`display`](https://developer.mozilla.org/en-US/docs/Web/CSS/display)
 
