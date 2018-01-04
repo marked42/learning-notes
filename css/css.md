@@ -230,7 +230,7 @@ Feature query only means user agent recognizes target feature, but it's not guar
         <th align='left'>Explaination</th>
     </tr>
     <tr>
-        <td>Type Selector</td>
+        <td>Element Selector</td>
         <td><code>h2</code></td>
         <td>Select elements by type</td>
     </tr>
@@ -830,13 +830,125 @@ Properties available for `::first-letter` and `::first-line` pseudo-element are 
 1. [HTML5 Constraint Validation](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation)
 1. [HTML5 Form Data Validation](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Form_validation#Validating_forms_using_JavaScript)
 
-### link
+### Link Related Selector
 
 Link related pseudo-class selectors `:link`, `:visited`, `:hover`, `:active` should be defined by the LVHA-order to make links work properly.
 
 1. `:link` has the lowest priority and can be overwritten by other rules, it goes first.
 1. `<a>` is expected to respond to hover after being visited, so `:hover` goes after `:visited`.
 1. click on `<a>`, we expect `:active` to take effect and overwrite `:hover`, so `:active` goes after `:hover`.
+
+### Specificity
+
+Each CSS rule applied on a html element has a specificity value decided by its selectors. When multiple CSS rules of same property name applied to single html element, the rule with highest specificity value wins.
+
+Specificity value is composed of four parts like `0,0,0,0`, two specificity value are compared from left to right do decide its order. Each type of selector contributes to specificity value. Specificity value of a complext selector is the sum of all selectors inside it.
+
+<table>
+    <tr>
+        <th align='left'>Rules</th>
+        <th align='left'>Specificity Value</th>
+    </tr>
+    <tr>
+        <td>Inherited</td>
+        <td>No Value, no impact on a selector's overall specificity</td>
+    </tr>
+    <tr>
+        <td>Combinators</td>
+        <td>No Value, no impact on a selector's overall specificity</td>
+    </tr>
+    <tr>
+        <td><code>:not()</code></td>
+        <td>Specificity value of negation selector is equivalent to specificity value of selector inside it..</td>
+    </tr>
+    <tr>
+        <td>Universal Selector</td>
+        <td><code>0,0,0,0</code></td>
+    </tr>
+    <tr>
+        <td>Element Selector, Pseudo-Element Selector</td>
+        <td><code>0,0,0,1</code></td>
+    </tr>
+    <tr>
+        <td>Class Selector (excluding <code>:not()</code>) , Pseudo-Class Selector, Attribute Selector</td>
+        <td><code>0,0,1,0</code></td>
+    </tr>
+    <tr>
+        <td>ID Selector</td>
+        <td><code>0,1,0,0</code></td>
+    </tr>
+    <tr>
+        <td>Inline Style</td>
+        <td><code>1,0,0,0</code></td>
+    </tr>
+</table>
+
+Rules using above selectors are grouped as umimportant rules. Add `!important` before ending semi colon of a rule to turn it into important rules. `!importtant` must be placed just before ending semi colon, otherwise the rule is invalid and ignored.
+
+```css
+p.light {
+    color: yellow;
+    font: smaller Times, serif !important;
+    font: !important smaller Times, serif; /* invalid rule, ignored */
+}
+```
+
+Important rules and unimportant rules are considered separately. All important rules are collected and ordered with specificity, all umimportant rules are collected and ordered with specificity. For important and umimportant rule with same property name, important rules always win.
+
+Important rules break the natural cascading structure of stylesheets, try to avoid using it if possible. Only use it on page-specific CSS that overrides foreign CSS (from external libraries like Bootstrap or normalize.css)
+
+### [Cascading and Inheritance](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Cascade_and_inheritance)
+
+1. It first filters all the rules from the different sources to keep only the rules that apply to a given element. That means rules whose selector matches the given element and which are part of an appropriate media at-rule.
+1. Then it sorts these rules according to their importance, that is, whether or not they are followed by !important, and by their origin. The cascade is in ascending order, which means that !important values from a user-defined style sheet have precedence over normal values originated from a user-agent style sheet:
+    <table>
+        <tr>
+            <th></th>
+            <th>Origin</th>
+            <th>Importance</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>user agent</td>
+            <td>normal</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>user</td>
+            <td>normal</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>author</td>
+            <td>normal</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>
+                <a href='https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes'>CSS Animations</a>
+            </td>
+            <td>
+                not cascaded, choose lastest defined in the most important document.
+            </td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>author</td>
+            <td><code>!important</code></td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>user</td>
+            <td><code>!important</code></td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>user agent</td>
+            <td><code>!important</code></td>
+        </tr>
+    </table>
+1. In case of equality, the specificity of a value is considered to choose one or the other.
+1. Sort by order. Rules appearing later have higher priority.
 
 ## Box Model
 
