@@ -731,36 +731,72 @@ Feature query only means user agent recognizes target feature, but it's not guar
     </tr>
 </table>
 
-### Pseudo Elements
+### [Pseudo Elements](https://drafts.csswg.org/css-pseudo-4/#first-letter-pseudo)
+
+Pseudo elements start with double colon in CSS3. Legacy sytax use single colon in CSS2, which is not preferred now.
 
 <table>
-    <caption><h2>Selector</h2></caption>
     <tr>
         <th align='left'>Type</th>
         <th align='left'>Syntax</th>
         <th align='left'>Explaination</th>
     </tr>
     <tr>
-        <td>first letter</td>
+        <td><a href='https://drafts.csswg.org/css-pseudo-4/#first-letter-pseudo'>first letter</a></td>
         <td><code>::first-letter</code></td>
         <td>
+            <p>
+                Selects first letter of first line of a block-level document, but only when not preceded by other content (such as images or inline tables).
+            </p>
+            <ul>
+                <li>
+                    Puntuations that preceds or immediately follows the first letter is included in the match. "-" and "_" are not punctuation.
+                </li>
+                <li>
+                    Some languages have digraphs that are always capitalized together, like <strong>IJ</strong> in Dutch. Both letters should be matched in these cases.
+                </li>
+                <li>
+                    <em>content</em> property inside pseudo-element <code>::before</code> could inject text at the beginning. In that case, <code>::first-letter</code> will match the first letter of generated content.
+                </li>
+            </ul>
         </td>
     </tr>
     <tr>
-        <td>first line</td>
+        <td><a href='https://drafts.csswg.org/css-pseudo-4/#first-line-pseudo'>first line</a></td>
         <td><code>::first-line</code></td>
         <td>
+            <p>
+                Selects the first line of a block level element. Note that the first line is dynamic according to width of element, width of document and font size of text.
+            </p>
         </td>
     </tr>
     <tr>
-        <td>before</td>
+        <td><a href='https://drafts.csswg.org/css-pseudo-4/#generated-content'>before</a></td>
         <td><code>::before</code></td>
+        <td>
+            <p>
+                Used to create a pseudo-element as the <strong>first</strong> child of selected element. It's often used to add cosmetic content to an element with <em>content</em> property. Inline by default.
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td><a href='https://drafts.csswg.org/css-pseudo-4/#generated-content'>after</a></td>
+        <td><code>::after</code></td>
+        <td>
+            <p>
+                Used to create a pseudo-element as the <strong>last</strong> child of selected element. It's often used to add cosmetic content to an element with <em>content</em> property. Inline by default.
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td><a href='https://drafts.csswg.org/css-pseudo-4/#marker-pseudo'>marker</a></td>
+        <td><code>::marker</code></td>
         <td>
         </td>
     </tr>
     <tr>
-        <td>after</td>
-        <td><code>::after</code></td>
+        <td><a href='https://drafts.csswg.org/css-pseudo-4/#placeholder-pseudo'>placeholder</a></td>
+        <td><code>::placeholder</code></td>
         <td>
         </td>
     </tr>
@@ -777,6 +813,12 @@ Feature query only means user agent recognizes target feature, but it's not guar
         </td>
     </tr>
 </table>
+
+Pseudo elements don't exist in document source or DOM tree, they are generated on fly by user agent for correct styling.
+
+Properties available for `::first-letter` and `::first-line` pseudo-element are limited.
+
+`::before` and `::after` pseudo-element are contained by the element's formatting box, and thus not applicable to replace elements such as `<img>`, `<br>`.
 
 1. [HTML5 Constraint Validation](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation)
 1. [HTML5 Form Data Validation](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Form_validation#Validating_forms_using_JavaScript)
