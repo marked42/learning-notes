@@ -1120,6 +1120,114 @@ set to the nearest ancestor (of any kind) that has a position value other than s
 
 **Initial containing block** refers to the rectangle that root element `<html>` resides. It has the dimensions of the viewport (for continuous media) or the page area (for paged media)
 
+<table>
+    <caption>
+        Horizontal formatting of nonreplaced block boxes
+    </caption>
+    <tr>
+        <th>margin-left</th>
+        <th>width</th>
+        <th>margin-right</th>
+        <th>explaination</th>
+    </tr>
+    <tr>
+        <td>auto</td>
+        <td>auto</td>
+        <td>auto</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>length</td>
+        <td>auto</td>
+        <td>auto</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>auto</td>
+        <td>auto</td>
+        <td>length</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>auto</td>
+        <td>length</td>
+        <td>auto</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>auto</td>
+        <td>length</td>
+        <td>length</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>length</td>
+        <td>length</td>
+        <td>auto</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>length</td>
+        <td>auto</td>
+        <td>length</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>length</td>
+        <td>length</td>
+        <td>length</td>
+        <td></td>
+    </tr>
+</table>
+
+1. `auto` width takes remainder space if possible, cannot be negative.
+1. `auto` for margins splits remainder space if there's no width `auto`, can be negative.
+
+For horizontal formatting of replaced block level elements, one exception is `auto` width will take element's intrisic width.
+
+<table>
+    <tr>
+        <th>width</th>
+        <th>height</th>
+        <th>explaination</th>
+    </tr>
+    <tr>
+        <td>auto</td>
+        <td>auto</td>
+        <td>width, height default to intrinsic value</td>
+    </tr>
+    <tr>
+        <td>length</td>
+        <td>auto</td>
+        <td>width default to intrinsic value, height scales proportionally</td>
+    </tr>
+    <tr>
+        <td>auto</td>
+        <td>length</td>
+        <td>height default to intrinsic value, width scales proportionally</td>
+    </tr>
+    <tr>
+        <td>length</td>
+        <td>length</td>
+        <td>
+            width, height takes specified length, image maybe sheared.
+        </td>
+    </tr>
+</table>
+
+Vertical formatting for block level elements
+
+1. `auto` for margin-top and margin-bottom evaluate to 0.
+
+1. percentage height is calculated if containing box height is specified explicitly, otherwise it's reset to `auto`,which takes.
+
+Auto Heights
+
+1. if element has no top padding, bottom padding, top border or bottom border, then element's margin collapse with child block level elements. Element height would equal to distance from top border edge of topmost block level element to bottom border edge of bottommost block level element.
+    ![Block Level Element Auto Height With Margin Collapsing](./block_element_auto_height_margin_collapsing.png)
+1. If element has either top padding, bottom padding, top border and bottom border. Margin collapse between element's and its child block elements will not happen. Element height equals to distance from top margin outer edge of topmost child element to bottom margin outer edge of bottommost child element.
+    ![Block Level Element Auto Height With Margin Collapsing](./block_element_auto_height_no_margin_collapsing.png)
+
 ### Offset Property
 
 Positioning allows you to define
