@@ -1266,3 +1266,171 @@ Feature query only means user agent recognizes target feature, but it's not guar
     /* recognize display property with grid value */
 }
 ```
+
+## Transform
+
+`transform` property can be used to transform html elements. If value of `transform` property is not `none`, element will be transformed and a [stacking context](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context) will be created. In this case, transformed element will act as a containing block for any element with `positioning: fixed` inside it.
+
+<table>
+    <caption><strong>transform</strong></caption>
+    <tr>
+        <td><strong>Values</strong></td>
+        <td>&lt;transform-list&gt; | none</td>
+    </tr>
+    <tr>
+        <td><strong>Initial Value</strong></td>
+        <td>none</td>
+    </tr>
+    <tr>
+        <td><strong>Applies to</strong></td>
+        <td>
+            All elements except “atomic inline-level” boxes (see explanation)
+        </td>
+    </tr>
+    <tr>
+        <td><strong>Percentages</strong></td>
+        <td>
+            Refer to the size of the bounding box.
+        </td>
+    </tr>
+    <tr>
+        <td><strong>Computed value</strong></td>
+        <td>
+            As specified, except for relative length values, which are converted to an absolute length
+        </td>
+    </tr>
+    <tr>
+        <td><strong>Inherited</strong></td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td><strong>Animatable</strong></td>
+        <td>As a transform</td>
+    </tr>
+    <tr>
+        <td><strong></strong></td>
+        <td></td>
+    </tr>
+</table>
+
+Notice that `transform` doesn't apply to _atomic inline-level_ elements.
+
+1. `<transform-list>` refers to a list of one or more transform function, seperated by space.
+1. Transform functions are processed sequentially from left to right, and the processing order of transform functions are important. Same transform functions with different orders may generates a different transformed position.
+1. `transform` property is not accumulative, if `transform` property is set multiple times, only the latest one will take effect.
+
+### Transform Functions
+
+#### Translate
+
+Translate functions use canonical Cartesian Coordiante System like below. +X points to right horizontally, +Y points to bottom vertically, +Z points from screen to user, and it's perpendicular to screen.
+
+![Transform Cartesian Cooridnate System](./transform_cartesian_coordinate_system.png)
+
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Permitted Value</th>
+        <th>Explaination</th>
+    </tr>
+    <tr>
+        <td><code>translateX()</code><br><code>translateY()</code><br></td>
+        <td>&lt;length&gt; | &lt;percentage&gt;</td>
+        <td>percentage is calculated against element width and height</td>
+    </td>
+    <tr>
+        <td><code>translate()</code></td>
+        <td>
+            [ &lt;length&gt; | &lt;percentage&gt; ] [, &lt;length&gt; | &lt;percentage&gt; ]?
+        </td>
+        <td>second parameter set to 0 if omitted</td>
+    </tr>
+    <tr>
+        <td><code>translateZ()</code></td>
+        <td>&lt;length&gt;</td>
+        <td>accept length only, percentage only allowed</td>
+    </td>
+    <tr>
+        <td><code>translate3d()</code></td>
+        <td>
+            [ &lt;length&gt; | &lt;percentage&gt; ] [, &lt;length&gt; | &lt;percentage&gt; ] [, &lt;length&gt; ]
+        </td>
+        <td>all 3 paramters required, otherwise invalid</td>
+    </tr>
+</table>
+
+#### Scale
+
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Permitted Value</th>
+        <th>Explaination</th>
+    </tr>
+    <tr>
+        <td>
+            <code>scaleX()</code><br>
+            <code>scaleY()</code><br>
+            <code>scaleZ()</code><br>
+        </td>
+        <td>&lt;number&gt;</td>
+        <td>value is a unitless number as scale factor</td>
+    </td>
+    <tr>
+        <td><code>scale()</code></td>
+        <td>
+            [ &lt;number&gt;] [, &lt;number&gt;]?
+        </td>
+        <td>second parameter set to 0 if omitted</td>
+    </tr>
+    <tr>
+        <td><code>scale3d()</code></td>
+        <td>
+            [ &lt;number&gt;] [, &lt;number&gt;] [, &lt;number&gt;]
+        </td>
+        <td>all 3 paramters required, otherwise invalid</td>
+    </tr>
+</table>
+
+#### Rotate
+
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Permitted Value</th>
+        <th>Explaination</th>
+    </tr>
+    <tr>
+        <td>
+            <code>rotateX()</code><br>
+            <code>rotateY()</code><br>
+            <code>rotate()</code><br>
+            <code>rotateZ()</code><br>
+        </td>
+        <td>&lt;angle&gt;</td>
+        <td>value is a unitless number as scale factor</td>
+    </td>
+    <tr>
+        <td><code>rotate3d()</code></td>
+        <td>
+            &lt;number&gt;, &lt;number&gt;, &lt;number&gt;, &lt;angle&gt;
+        </td>
+        <td>all 4 paramters required, otherwise invalid</td>
+    </tr>
+</table>
+
+`rotate()` equivalent to `rotateZ()` rotates around z axis, positive value rotates clockwise.
+
+![Transform Rotate](./transform_rotate.png)
+
+#### Skew
+
+#### Perspective
+
+#### Matrix
+
+### Transform Related Properties
+
+`transform-origin` specifies a point on element as anchor for element transform, default is block center point.
+
+`transform-style`, `perspective`, `perspective-origin`, `backface-visibility`.
