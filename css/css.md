@@ -1434,3 +1434,226 @@ Translate functions use canonical Cartesian Coordiante System like below. +X poi
 `transform-origin` specifies a point on element as anchor for element transform, default is block center point.
 
 `transform-style`, `perspective`, `perspective-origin`, `backface-visibility`.
+
+## Transition
+
+Normal property changes its value instantaneously, transition can be used to change property value gradually over a period of time. There are several transition related property. And they only applies to animatable properties.
+
+A typical case of transition is that a dropdown menu pops gradually but collapse instantly.
+
+```css
+nav li ul {
+    transform: scale(1, 0);
+    transform-origin: top center;
+}
+
+nav li:hover ul {
+    transition-property: transform;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in;
+    transition-delay: 50ms;
+    transform: scale(1, 1);
+}
+```
+
+`transition-property` is specified on hover state, when menu is hovered, it is specified to transition with `transition-property`, so scale will change gradually from `scale(1,0)` to `scale(1,1)`. When menu is not hovered, it no longer has `transition-property`, so scale changes from `scale(1,1)` to `scale(1,0)` instantly, menu collapse instantly.
+
+Key point on this example is that transition related property specified on certain state will take effect only when state changes to that state.
+
+```css
+nav li ul {
+    transform: scale(1, 0);
+    transform-origin: top center;
+    transition-property: transform;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in;
+    transition-delay: 50ms;
+}
+
+nav li:hover ul {
+    transform: scale(1, 1);
+}
+```
+
+In case above, transition properties will always match, so that this transition will happen both when list changes from initial state to being hovered, or from being hovered back to initial state. But for dropdown menu, it's usually considered a bad user experience for menu to collapse gradually.
+
+<table>
+    <caption><code>transition-property</code></caption>
+    <tr>
+        <td>Values</td>
+        <td>none | [ all | &lt;property-name&gt; ]#</td>
+    </tr>
+    <tr>
+        <td>Initial value</td>
+        <td>all</td>
+    </tr>
+    <tr>
+        <td>Applies to</td>
+        <td>All elements and :before and :after pseudo-elements</td>
+    </tr>
+    <tr>
+        <td>Computed value</td>
+        <td>As specified</td>
+    </tr>
+    <tr>
+        <td>Inherited</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>Animatable</td>
+        <td>No</td>
+    </tr>
+</table>
+
+```css
+/* transition all listed property within 1s */
+transition-property: color, border, border-radius, transform, opacity,
+transition-duration: 1s;
+
+/* transition all listed property within corresponding time */
+transition-property: color, border, border-radius, transform, opacity,
+transition-duration: 1s, 2s, 3s, 4s, 5s;
+
+/* transition all property within 1s with two exceptions
+ * border-radius within 2s
+ * opacity within 3s
+ */
+transition-property: all, border-radius, opacity;
+transition-duration: 1s, 2s, 3s;
+
+/* suppress all property from being transitioned
+ * 'none' can only be used by itself, it cannot by used with
+ * other property to suppress all and enable some property to 
+ * transitioned.
+ */
+transition-property: none
+```
+
+Transtioned event will be fired separately for each single property. For example if `border-color` property is transitioned, it indicates that four property values `border-top-color`, `border-bottom-color`, `border-left-color` and `border-right-color` are transitioned, so four `transitioned` event will be fired instead of one.
+
+```javascript
+interface TransitionedEvent {
+    // name of transitioned property
+    propertyName: String,
+    // pseudo element name like ':before` or empty string if not on pseudo element
+    pseudoElement: String,
+    // transition duration in seconds
+    elapsedTime,
+}
+```
+
+Details on how `transitioned` event fires.
+
+> The transitionend event only occurs if the property successfully transitions to the new value. The transitioned event doesn’t fire if the transition was interrupted, such as by another change to the same property on the same element. When the properties return to their initial value, another transitionend event occurs. This event occurs as long as the transition started, even if it didn’t finish its initial transition in the original direction.`
+
+<table>
+    <caption><code>transition-duration</code></caption>
+    <tr>
+        <td>Values</td>
+        <td>&lt;time&gt;#</td>
+        <td>integer number with time unit second(s) or milli-second(ms)</td>
+    </tr>
+    <tr>
+        <td>Initial value</td>
+        <td>all</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Applies to</td>
+        <td>All elements and :before and :after pseudo-elements</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Computed value</td>
+        <td>As specified</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Inherited</td>
+        <td>No</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Animatable</td>
+        <td>No</td>
+        <td></td>
+    </tr>
+</table>
+
+Number of values in `transition-duration` may not match number of values in `transition-property`.
+
+1. If there're more duration than properties, extra durations are ignrored.
+1. If there're more properties that durations, durations are repeated.
+    ```css
+    transition-property: color, border, border-radius, transform, opacity;
+    transition-duration: 100ms, 200ms;
+
+    /* repeated in this way */
+    transition-duration: 100ms, 200ms, 100ms, 200ms, 100ms;
+    ```
+
+`transition-timing-function` controls the pace of transition.
+
+<table>
+    <tr>
+        <th align='left'>Timing Function</th>
+        <th align='left'>Description</th>
+        <th align='left'>Cubic Bezier Value</th>
+    </tr>
+    <tr>
+        <td>cubic-bezier()</td>
+        <td>Specifies a cubic-bezier curve</td>
+        <td>cubic-bezier(x1, y1, x2, y2)</td>
+    </tr>
+    <tr>
+        <td>ease</td>
+        <td>Starts slow, then speeds up, then slows down, then ends very slowly</td>
+        <td>cubic-bezier(0.25, 0.1, 0.25, 1)</td>
+    </tr>
+    <tr>
+        <td>linear</td>
+        <td>Proceeds at the same speed throughout transition</td>
+        <td>cubic-bezier(0, 0, 1, 1)</td>
+    </tr>
+    <tr>
+        <td>ease-in</td>
+        <td>Starts slow, then speeds up</td>
+        <td>cubic-bezier(0.42, 0, 1, 1)</td>
+    </tr>
+    <tr>
+        <td>ease-out</td>
+        <td>Starts fast, then slows down</td>
+        <td>cubic-bezier(0, 0, 0.58, 1)</td>
+    </tr>
+    <tr>
+        <td>ease-in-out</td>
+        <td>Similar to ease; faster in the middle, with a slow start but not as slow at the end</td>
+        <td>cubic-bezier(0.42, 0, 0.58, 1)</td>
+    </tr>
+</table>
+
+[cubic-bezier timing function](http://cubic-bezier.com/) and some useful [author defined functions](http://easings.net/).
+
+![transition timing function](./transition_timing_function.png)
+
+Some step timing function.
+
+![Step Timing Function](./step_timing_function.png)
+
+A negative value for transition-delay that is smaller than the transition-
+duration will cause the transition to start immediately, partway through the transi‐
+tion. For example:
+
+```css
+div {
+    transform: translateX(0);
+    transition-property: transform;
+    transition-duration: 200ms;
+    transition-delay: -150ms;
+    transition-timing-function: linear;
+}
+
+div:hover {
+    transform: translateX(200px);
+}
+```
