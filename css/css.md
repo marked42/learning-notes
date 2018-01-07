@@ -1657,3 +1657,47 @@ div:hover {
     transform: translateX(200px);
 }
 ```
+
+## [Flexible Box Layout](http://www.w3.org/TR/css-flexbox-1/)
+
+Flexbox is used to layout elemnent in one dimension. An element with flex layout is called a flex container.
+
+```css
+/* block level flex container */
+display: flex;
+
+/* inline level flex container */
+display: inline-flex;
+
+/* new syntax of separate declaration */
+display: flex inline;
+display: inline flex;
+```
+
+`flex-direction` controls direction of main axis.
+
+![Flex Direction](./flex_direction_default.png)
+
+Flex container is direction aganostic, so final direction of flex items are defined by `flex-direction` and writing mode together.
+
+When `flex-direction: row`, for left-to-right language like English, flex items are positioned from left to right, top to bottom. But for right-to-left languages, it's the reverse order. Writing mode is controlled by properties `writing-mode`, `direction`, and `text-orientation`.
+
+When writing mode is `vertical-rl`.
+
+![Flex Direction](./flex_direction_vertical_rl.png)
+
+`flex-wrap` controls wrap behaviour of flex items.
+
+1. `flex-wrap: none` - default, not wrapped.
+1. `flex-wrap: row` - wraps normally.
+1. `flex-wrap: row-reverse` - reverse direction of cross axis.
+
+Main axis and cross axis.
+
+The justify-content property enables us to direct how flex items are distributed along the main axis of the flex container within each flex line. It is applied to the flex container, not the individual flex items.
+
+![Justify Content](./flex_justify_content.png)
+
+The `align-items` property defines how flex items are aligned along its flex line’s cross axis.
+
+This `align-self` is used to override the align-items property value on a per-flex-item basis.
