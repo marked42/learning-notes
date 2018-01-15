@@ -188,3 +188,7 @@ window.addEventListener('message', receiver, false);
 Origins must be carefully checked to prevent cross-site scripting.
 
 1. [Web Messaging Standard](https://html.spec.whatwg.org/multipage/web-messaging.html#web-messaging)
+
+### [**JSONP**](https://en.wikipedia.org/wiki/JSONP)
+
+### [**WebSocket**](https://en.wikipedia.org/wiki/WebSocket)
