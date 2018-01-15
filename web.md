@@ -150,4 +150,41 @@ Example of simple request to `http://service.example.com` from `http://www.examp
 1. [MDN CROS](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS)
 1. [Cross-Origin Resource Sharing Standard](https://www.w3.org/TR/cors/)
 
-### Cross-document messaging
+### [Web Messaging (Cross-document messaging)](https://en.wikipedia.org/wiki/Web_Messaging)
+
+Web messaging allows scripts inside documents across origins to send text messages to each other. It relaxed security policy related to cross-site scripting a little bit for non-hostile pages.
+
+If `postMessage()` method of `window` object is called, an _message_ event will be fired and handler scripts on other documents will be called. `postMessage()` is non-blocking call, messages are processed asynchronously.
+
+Message event interface.
+
+- data - Actual incoming text message.
+- origin - Origin of source document, including protocol, hostname and port.
+- source - `WindowProxy` of source window.
+
+Post message to target document `contentWindow` and origin `http://example.com`
+
+```javascript
+var o = document.getElementsByTagName('iframe')[0];
+o.contentWindow.postMessage('Hello B', 'http://example.com/');
+```
+
+Handles message event and post some messsage back to event source.
+
+```javascript
+function receiver(event) {
+	if (event.origin == 'http://example.net') {
+		if (event.data == 'Hello B') {
+			event.source.postMessage('Hello A, how are you?', event.origin);
+		}
+		else {
+			alert(event.data);
+		}
+	}
+}
+window.addEventListener('message', receiver, false);
+```
+
+Origins must be carefully checked to prevent cross-site scripting.
+
+1. [Web Messaging Standard](https://html.spec.whatwg.org/multipage/web-messaging.html#web-messaging)
