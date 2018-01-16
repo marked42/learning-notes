@@ -190,4 +190,22 @@ Origins must be carefully checked to prevent cross-site scripting.
 
 ### [**JSONP**](https://en.wikipedia.org/wiki/JSONP)
 
+**JSONP(JSON with Padding)** exploits the fact that `<script>` element is allowed to access cross domain data.
+
+`<script>` element links to cross origin url.
+
+```html
+<script type="application/javascript"
+    src="http://server.example.com/Users/1234?callback=parseResponse">
+</script>
+```
+
+Returned pure JSON data is wrapped in a function call `parseResponse()` to enable scripts on current page to access it.
+
+```javascript
+parseResponse({"Name": "Foo", "Id": 1234, "Rank": 7});
+```
+
+**JSONP** is susceptible to XSS attack and should be replaced by **CORS** due to inherent insecurities.
+
 ### [**WebSocket**](https://en.wikipedia.org/wiki/WebSocket)
