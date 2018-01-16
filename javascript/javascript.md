@@ -547,18 +547,17 @@ if (!Function.prototype.bind) {
       );
     }
 
-    var aArgs = Array.prototype.slice.call(arguments, 1),
-      fToBind = this,
-      fNOP = function() {},
-      fBound = function() {
+    var aArgs = Array.prototype.slice.call(arguments, 1)
+    var fToBind = this
+    var fNOP = function() {}
+    var fBound = function() {
         return fToBind.apply(
           this instanceof fNOP ? this : oThis,
-          // 获取调用时(fBound)的传参.bind 返回的函数入参往往是这么传递的
           aArgs.concat(Array.prototype.slice.call(arguments))
-        );
-      };
+        )
+      }
 
-    // 维护原型关系
+    // maintain prototype chain
     if (this.prototype) {
       // Function.prototype doesn't have a prototype property
       fNOP.prototype = this.prototype;
@@ -577,6 +576,8 @@ if (!Function.prototype.bind) {
 1. Notice that when bound function `fBound` is used as constructor call,
    constructor call rule precedes `bind` function. This is the result of tenary
    expression `this instanceof fNOP ? this : othis`.
+
+![Prototype Chain of Bind Function](function_bind.png)
 
 `fNOP` is a function inaccessible outside `bind()`, and it's used to decide
 whether `fBound` is used in constructor call or a normal function call. When
