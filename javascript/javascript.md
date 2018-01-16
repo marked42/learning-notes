@@ -937,6 +937,29 @@ function* foo() {
 `super` keyworkd in class constructor is statically bound, so when class(which
 is actually a function) prototype changes later, `super` remains the same value.
 
+### [Operator Precedence](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence)
+
+```javascript
+function Foo() {
+    getName = function () { console.log(1); }
+    return this;
+}
+
+Foo.getName = function () { console.log(2); }
+Foo.prototype.getName = function () { console.log(3); }
+
+var getName = function () { console.log(4); }
+function getName () { console.log(5); }
+
+Foo.getName();              // 2
+getName();                  // 4
+Foo().getName();            // Foo() returns global object, returns 4 in chrome, raise error in node cause global.getName === getName is not false.
+getName();                  // 4
+new Foo.getName();          // 2, new (Foo.getName)();
+new Foo().getName();        // 3, (new Foo()).getName();
+new new Foo().getName();    // 3. new ((new Foo()).getName)();
+```
+
 ## Javascript Async
 
 ```javascript
