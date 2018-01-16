@@ -1002,6 +1002,29 @@ resolver 函数是同步的，传给`then`和`catch`的 callback 是异步的 .
 
 ### Function Scope
 
+1. Function declarations are hoisted to top of current scope first.
+1. Then variable delcarations are hoisted to top of current scope. Variable assignments are not hoisted and stay where they are, otherwise normal logic will be broken. Declared variable has default value of `undefined` until it's defined.
+1. Reassignment of variable of same name overwrites previous value.
+
+```javascript
+foo() // 2
+var foo = function() { console.log(1) }
+foo() // 1
+
+function foo() { console.log(2) }
+```
+
+After hoisted.
+
+```javascript
+function foo() { console.log(2) }
+
+foo() // 2
+var foo = function() { console.log(1) } // overwrite previous value
+foo() // 1
+```
+
+
 ```javascript
 foo(); // TypeError
 bar(); // ReferenceError
@@ -1011,19 +1034,7 @@ var foo = function bar() {
 };
 ```
 
-1. Variable declaration by `var` and function declaration are hoisted to the top
-   of current block.
-1. Variable declaration and variable assignment are treated separtely concerning
-   to hoisting. Only variable declaration is hoisted, variable assignment stays
-   where it's written. So variable declartion value is undefined, until reacing
-   it's assignment line.
-1. Function declaration has no separation of declaration and definition, so when
-   hoisted, function declaration are not undefined.
-1. Function expression are not declared, but function name and parameter name
-   are hoisted inside sopce of that function.
-1. Duplicate variable declarations and function declarations are allowed.
-   Previous declaration are overwritten by previous declaration. Function
-   declaration overwrites variable declaration with same name.
+Usage of undeclared variable raises `ReferenceError`. Usage of declared but not defined varaible as function raises `TypeError`.
 
 ```javascript
 var foo;
