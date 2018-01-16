@@ -32,8 +32,7 @@ Same origin policy is relaxed for two windows with same value for `document.doma
 
 Simple request is safe, which means it does not has any side effect (changing server's data). Preflighted request is unsafe, so it must be preflighted first, hence the name.
 
-// TODO: change to png.
-[CORS XHR Flowchart](./cors_xhr_flowchart.svg)
+![CORS XHR Flowchart](./cors_xhr_flowchart.png)
 
 #### [Simple Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Simple_requests)
 
@@ -45,14 +44,14 @@ Example of simple request to `http://service.example.com` from `http://www.examp
     ```
 1. Server responds according to target resource cross-origin authority.
     1. Target resrouce is allowed to be accessed from specific origin. Response contains `Access-Control-Allow-Origin` header whose value is an allowed origin.
-    ```http
-    Access-Control-Allow-Origin: http://www.example.com
-    ```
+        ```http
+        Access-Control-Allow-Origin: http://www.example.com
+        ```
     1. An error page if server does not allow the cross-origin request.
     1. Target resource is allowed be accessed from any origin. It's often used when resource is intended to be completely public and accessible to everyone.
-    ```http
-    Access-Control-Allow-Origin: *
-    ```
+        ```http
+        Access-Control-Allow-Origin: *
+        ```
 
 #### [Preflighted Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Preflighted_requests)
 
@@ -173,14 +172,14 @@ Handles message event and post some messsage back to event source.
 
 ```javascript
 function receiver(event) {
-	if (event.origin == 'http://example.net') {
-		if (event.data == 'Hello B') {
-			event.source.postMessage('Hello A, how are you?', event.origin);
-		}
-		else {
-			alert(event.data);
-		}
-	}
+  if (event.origin == 'http://example.net') {
+    if (event.data == 'Hello B') {
+      event.source.postMessage('Hello A, how are you?', event.origin);
+    }
+    else {
+      alert(event.data);
+    }
+  }
 }
 window.addEventListener('message', receiver, false);
 ```
