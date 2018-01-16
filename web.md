@@ -209,3 +209,7 @@ parseResponse({"Name": "Foo", "Id": 1234, "Rank": 7});
 **JSONP** is susceptible to XSS attack and should be replaced by **CORS** due to inherent insecurities.
 
 ### [**WebSocket**](https://en.wikipedia.org/wiki/WebSocket)
+
+> Modern browsers will permit a script to connect to a WebSocket address without applying the same-origin policy. However, they recognize when a WebSocket URI is used, and insert an Origin: header into the request that indicates the origin of the script requesting the connection. To ensure cross-site security, the WebSocket server must compare the header data against a whitelist of origins permitted to receive a reply.
+
+1. [WebSocket Cross-Site Attack](https://www.ibm.com/developerworks/cn/java/j-lo-websocket-cross-site/index.html)
