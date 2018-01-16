@@ -92,3 +92,5 @@ Other users clicking on this text tag could be attacked.
 1. User input validation
 
 ## [Content Security Policy](https://en.wikipedia.org/wiki/Content_Security_Policy)
+
+## [Hash-based message authentication code](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code)
