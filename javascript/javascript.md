@@ -2146,3 +2146,5 @@ var debounce = function (func, wait, immediate) {
 ```
 
 ### Throttle
+
+1. [reference](http://www.alloyteam.com/2012/11/javascript-throttle/)
