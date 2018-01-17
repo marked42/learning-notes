@@ -104,7 +104,19 @@ Reference
 
 1. [WHATWG URL API](https://url.spec.whatwg.org/)
 1. [Node URL](https://nodejs.org/api/url.html#url_the_whatwg_url_api)
-1. HTTP The Definitive Guide
+- [HTTP](#http)
+    - [**U**niform **R**esrouce **I**dentifier](#uniform-resrouce-identifier)
+        - [Syntax](#syntax)
+        - [Absolute and Relative URLs](#absolute-and-relative-urls)
+        - [[Percent Encoding (URL Encoding)](https://en.wikipedia.org/wiki/Percent-encoding)](#percent-encoding-url-encodinghttpsenwikipediaorgwikipercent-encoding)
+    - [Cookie](#cookie)
+    - [Status Code](#status-code)
+    - [Cache (TODO)](#cache-todo)
+        - [Cache Processing (TODO)](#cache-processing-todo)
+        - [Cache Topologies (TODO)](#cache-topologies-todo)
+        - [Cache Control (TODO)](#cache-control-todo)
+        - [Algorithm (TODO)](#algorithm-todo)
+        - [Cache and Advertising (TODO)](#cache-and-advertising-todo)
 
 ### [Percent Encoding (URL Encoding)](https://en.wikipedia.org/wiki/Percent-encoding)
 
@@ -141,10 +153,38 @@ On the other hand, safe characters should not be escaped. Attackers could use th
 
 ## Status Code
 
-## Cache
+## Cache (TODO)
 
 Caches are copies of visited resrouce stored on local machine or proxy server. It's used to save users from requesting same resource from server again.
 
 1. Prevent redundant resource request, reduce transport load, improve bandwidth bottleneck.
 1. Balance traffic spike by flash crowds using mutliple cache servers.
 1. Reduce distance delays by setting up multiple cache servers around the globe.
+
+
+Cache Hit & Miss
+
+1. Cache hit - A request arrives at a cache, and resource is severed with cache.
+1. Cache miss - A request arrives at a cache, but cache is not fresh and resource is served by server.
+
+Cache Revalidate
+
+1. Revalidate hit - A request arrives at a cache, but not sure if cache is fresh, cache is confirmed by server to be fresh and resource is served with cache. A http reponse of status code **304(Not Modified)** will be sent back and cache freshness is updated.
+1. Revalidate miss - A request arrives at a cache, but not sure if cache is fresh, cache is confirmed by server to be unfresh and resource is served by server. A http reponse of status code **200(Ok)** with full content of resource is sent back and cache is updated.
+1. Resource deleted - A response of status code **404(Not Found)** is sent back and cache should be deleted.
+
+> The fraction of requests that are served from cache is called the cache hit rate (or cache hit ratio), or sometimes the document hit rate (or document hit ratio).
+
+> The byte hit rate represents the fraction of all bytes transferred that were served from cache.
+
+### Cache Processing (TODO)
+
+![Cache Processing Flowchart](./cache_processing_flowchart.png)
+
+### Cache Topologies (TODO)
+
+### Cache Control (TODO)
+
+### Algorithm (TODO)
+
+### Cache and Advertising (TODO)
