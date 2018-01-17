@@ -106,8 +106,32 @@ Reference
 1. [Node URL](https://nodejs.org/api/url.html#url_the_whatwg_url_api)
 1. HTTP The Definitive Guide
 
-### URL Encoding
+### URL Encoding ([Percent Encoding](https://en.wikipedia.org/wiki/Percent-encoding))
 
+URLs are designed to be portable, so that only a subset of most commonly used characters in ASCII can be used in URL directly. Other characters (special character, nonprintable character, 8 bit character) in URL must be represented with _escape sequence_ to avoid confusion. An _escape sequence_ is a percent sign (%) followed by two hexdecimal digits that represents the ASCII code of the encoded character.
+
+Reserved and Restricted characters.
+
+| Character | Reservation/Restriction |
+|- |-|
+| % | Reserved as escape token for encoded characters |
+| / | Reserved for delimiting splitting up path segments in path component|
+| . | Reserved in path component |
+| .. | Reserved in path component |
+| # | Reserved as fragment delimiter|
+| ? | Reserved as query-string delimeter |
+| ; | Reserved as params delimeter |
+| : | Reserved to delimit scheme, user/password and host/port components|
+| $ + | Reserved |
+| @ & = | Reserved because they've special meaning in the context of some schemes |
+| { } \| \ ^ ~ [ ] ' | Restricted because of unsafe handling by various transport agents, such as gateways |
+| <>" | Unsafe; should be encoded because these characters often have meaning outside the scope of the URL, such as delimiting the URL itself in a document|
+| 0x00-0x1F, 0x7F | Restricted; characters within these hex ranges are nonprintable |
+| >0x7F | Restricted; characters not representable with 7 bit ASCII|
+
+When all unsafe characters are escaped, URL is in a _canonical form_ that can be shared between application without worrying other applications being confused by any characters with special meanings.
+
+On the other hand, safe characters should not be escaped. Attackers could use this to cause pattern matching on URLs by some applications to fail.
 
 ## Cookie
 
