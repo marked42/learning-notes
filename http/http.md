@@ -106,7 +106,7 @@ Reference
 1. [Node URL](https://nodejs.org/api/url.html#url_the_whatwg_url_api)
 1. HTTP The Definitive Guide
 
-### URL Encoding ([Percent Encoding](https://en.wikipedia.org/wiki/Percent-encoding))
+### [Percent Encoding (URL Encoding)](https://en.wikipedia.org/wiki/Percent-encoding)
 
 URLs are designed to be portable, so that only a subset of most commonly used characters in ASCII can be used in URL directly. Other characters (special character, nonprintable character, 8 bit character) in URL must be represented with _escape sequence_ to avoid confusion. An _escape sequence_ is a percent sign (%) followed by two hexdecimal digits that represents the ASCII code of the encoded character.
 
