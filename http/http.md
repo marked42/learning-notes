@@ -142,3 +142,9 @@ On the other hand, safe characters should not be escaped. Attackers could use th
 ## Status Code
 
 ## Cache
+
+Caches are copies of visited resrouce stored on local machine or proxy server. It's used to save users from requesting same resource from server again.
+
+1. Prevent redundant resource request, reduce transport load, improve bandwidth bottleneck.
+1. Balance traffic spike by flash crowds using mutliple cache servers.
+1. Reduce distance delays by setting up multiple cache servers around the globe.
