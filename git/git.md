@@ -2,7 +2,7 @@
 
 ## Workflow
 
-Questions should be asked evaluation a workflow for a team.
+Questions should be asked evaluating a workflow for a team.
 
 1. Does this workflow scale with team size ?
 1. Is it easy to undo mistakes and errors with this workflow.
@@ -50,7 +50,7 @@ Core idea is that every featured should be developed on single dedicated branch 
     ```bash
     git checkout -b new-feature
     ```
-1.  Develop and commit on local feature branch, maybe push it to central repository for to others to see.
+1. Develop and commit on local feature branch, maybe push it to central repository for to others to see.
     ```bash
     git push -u origin new-feature
     ```
