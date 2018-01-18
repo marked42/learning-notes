@@ -136,3 +136,9 @@ There's extention tool for gitflow.
     git push origin feature-branch
     ```
 1. Create a merge request for project maintainers to receive or reject.
+
+Reference
+
+1. [Git Workflow Tutorial](https://github.com/xirong/my-git/blob/master/git-workflow-tutorial.md#二git工作流指南)
+1. [Git Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
+1. [A successful Git branching model](http://nvie.com/posts/a-successful-git-branching-model/)
