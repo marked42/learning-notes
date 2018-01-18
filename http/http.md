@@ -161,7 +161,6 @@ Caches are copies of visited resrouce stored on local machine or proxy server. I
 1. Balance traffic spike by flash crowds using mutliple cache servers.
 1. Reduce distance delays by setting up multiple cache servers around the globe.
 
-
 Cache Hit & Miss
 
 1. Cache hit - A request arrives at a cache, and resource is severed with cache.
@@ -177,13 +176,145 @@ Cache Revalidate
 
 > The byte hit rate represents the fraction of all bytes transferred that were served from cache.
 
+### Cache Lifecycle
+
+#### Cache or Not Cache
+
+`Cache-Control` header is used by server to specify directives for caching mechanisms used for resource. `Cache-Control` can have a list of comma separated values.
+
+<table>
+    <tr>
+        <th>Header</th>
+        <th>Explaination</th>
+        <th>Request/Response</th>
+    </tr>
+    <tr>
+        <td><code>Cache-Control: public</code></td>
+        <td>Resource in response may be cached by client or proxy server</td>
+        <td>Response</td>
+    </tr>
+    <tr>
+        <td><code>Cache-Control: private</code></td>
+        <td>Resource in response may be cached by client but not by proxy server</td>
+        <td>Reponse</td>
+    </tr>
+    <tr>
+        <td><code>Cache-Control: no-store</code></td>
+        <td>Request and response are not allowed to be stored as cache, any existing ones should be delted. This header must be forwared by intermediary servers.</td>
+        <td>Both</td>
+    </tr>
+    <tr>
+        <td><code>Cache-Control: no-cache</code></td>
+        <td>Request or response may be cached, but cache is always considered as expired and should request server for revalidation before serving cache. When request arrives at a proxy server, it must forward the header and revalidate the cache on behalf of client, otherwise an expired cache in intermediary server may be served inappropriately. Meaningfully equivalent to <code>Cache-Control: max-age=0, must-revalidate</code></td>
+        <td>Both</td>
+    </tr>
+    <tr>
+        <td><code>Pragma: no-cache</code></td>
+        <td>Same as above, included in HTTP/1.1 for backward compatibility.</td>
+        <td>Both</td>
+    </tr>
+    <tr>
+        <td><code>Cache-Control: only-if-cached</code></td>
+        <td>Indicates that client only wishs to obtain a cached resource and should not contact origin-server and retrieve new data.</td>
+        <td>Request</td>
+    </tr>
+</table>
+
+#### Creation & Expiration
+
+An expiration mechanism must be specified explicitly or implicitly for cache to prevent it from being fresh forever.
+
+##### Explicit Expiration
+
+Specifies that cache is fresh before an absolute date or during a relative period of time.
+
+<table>
+    <tr>
+        <th>Header</th>
+        <th>Explaination</th>
+        <th>Request/Response</th>
+    </tr>
+    <tr>
+        <td><code>Cache-Control: max-age=&lt;seconds&gt;</code></td>
+        <td>Specifies maximum seconds a resource is considered fresh. Specify seconds as 0 to indicate that a cache should not be created or should be refreshed on every access by setting maximum age to zero.</td>
+        <td>Both</td>
+    </tr>
+    <tr>
+        <td><code>Cache-Control: s-maxage=&lt;seconds&gt;</code></td>
+        <td>Same as above, but only applies to public caches and ignored by a private cache.</td>
+        <td>Response</td>
+    </tr>
+    <tr>
+        <td><code>Expires: &lt;http-date&gt;</code></td>
+        <td>Specifies resource expiration date. Invalid date means that resource is already expired. It requires client and server clocks to be synchronized to work correctly. Ignored if <code>Cache-Control: max-age</code> or <code>Cache-Control: s-maxage</code> exist.</td>
+        <td>Response</td>
+    </tr>
+</table>
+
+##### Heuristic Expiration (TODO)
+
+When reponse contains no `Cache-Control: max-age` or `Expires` header, a heuristic expiration strategy is used.
+
+##### ETag Expiration (TODO)
+
+#### Stale Cache & Cache Revalidation
+
+Client might tighten cache expiration constraint for applications that need the very freshest resource. On the other hand, client might loosen cache expiration date as comproimse to improve performance. When a cache is expired, client have the option to contact server to revalidate cache freshness.
+
+Used by request
+Cache-Control: no-transform
+
+Reponse
+Cache-Control: no-transform
+
+<table>
+    <tr>
+        <th>Header</th>
+        <th>Explaintion</th>
+        <th>Request/Response</th>
+    </tr>
+    <tr>
+        <td>
+            <code>Cache-Control: min-fresh=&lt;seconds&gt;</code>
+        </td>
+        <td>Specifies that client wants a cache that will still be fresh for at least specified number of seconds.</td>
+        <td>Request</td>
+    </tr>
+    <tr>
+        <td>
+            <code>Cache-Control: max-stale[=&lt;seconds&gt;]</code>
+        </td>
+        <td>Specifies that client is willing to accept a stale cache. When a number is provided, it indicates that a stale cache is acceptable if it's been expired for specified number of seconds at maximum.</td>
+        <td>Request</td>
+    </tr>
+    <tr>
+        <td>
+            <code>Cache-Control: must-revalidate</code>
+        </td>
+        <td>A stale cache is not acceptable and must pass revalidation before being served.</td>
+        <td>Response</td>
+    </tr>
+    <tr>
+        <td>
+            <code>Cache-Control: proxy-revalidate</code>
+        </td>
+        <td>Same as above, only applies to public caches, ignored by private cache.</td>
+        <td>Response</td>
+    </tr>
+    <tr>
+        <td>
+            <code>Cache-Control: immutable</code>
+        </td>
+        <td>Indicates that a resource on serve will not change before a cache expires and therefore the client should not send a condiational revalidation even when users refreshes the page. <a href="https://bitsup.blogspot.jp/2016/05/cache-control-immutable.html">See this blog</a></td>
+        <td>Response</td>
+    </tr>
+</table>
+
 ### Cache Processing (TODO)
 
 ![Cache Processing Flowchart](./cache_processing_flowchart.png)
 
 ### Cache Topologies (TODO)
-
-### Cache Control (TODO)
 
 ### Algorithm (TODO)
 
