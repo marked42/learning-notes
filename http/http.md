@@ -251,9 +251,38 @@ Specifies that cache is fresh before an absolute date or during a relative perio
     </tr>
 </table>
 
-##### Heuristic Expiration (TODO)
+##### Heuristic Expiration
 
-When reponse contains no `Cache-Control: max-age` or `Expires` header, a heuristic expiration strategy is used.
+When reponse contains no `Cache-Control: max-age` or `Expires` header, a heuristic expiration strategy is used. Any heuristic expiration algorithm may be used, however it's required to add a `Warning` header if calculated maximum age is greater than 24 hours.
+
+A popular one is _LM-Factor_ algorithm, which utilizes last modfied date of a resource to determine appropriate expiration date.
+
+![LM-Factor Expiration Algorithm](lm_factor_heuristic_expiration_algorithm.png)
+
+```javascript
+const calculateFreshnessLimit = (server_date, server_last_modification_date) => {
+    // an hour or a day
+    const default_freshness_limit = 60 * 60
+    if (
+        !Number.isInteger(server_date) &&
+        !Number.isInteger(server_last_modification_date)
+    ) {
+        return default_freshness_limit
+    }
+
+    const seconds_since_last_modification = Math.max(0, server_date - server_last_modication_date)
+
+    // a day or a week
+    const server_freshness_limit_upper_bound = 24 * 60 * 60
+
+    const lm_factor = 0.2
+    const server_freshness_limit_by_factor = lm_factor * seconds_since_last_modification
+
+    const server_freshness_limit = Math.min(server_freshness_limit_upper_bound, server_freshness_limit_by_factor)
+
+    return server_freshness_limit
+}
+```
 
 ##### Stale Cache
 
