@@ -16,6 +16,7 @@
                 - [Heuristic Expiration](#heuristic-expiration)
                 - [Stale Cache](#stale-cache)
             - [Cache Revalidation](#cache-revalidation)
+            - [Force Refresh](#force-refresh)
         - [Cache Topologies](#cache-topologies)
         - [Algorithm (TODO)](#algorithm-todo)
         - [Cache and Advertising (TODO)](#cache-and-advertising-todo)
@@ -190,6 +191,12 @@ Cache Revalidate
 #### Cache or Not Cache
 
 `Cache-Control` header is used by server to specify directives for caching mechanisms used for resource. `Cache-Control` can have a list of comma separated values.
+
+```html
+<meta http-equiv='Cache-Control' content='no-cache'>
+```
+
+HTML meta tag can also be used to specify cache control, but it's only supported in few browsers, since most browers don't parse content of html document.
 
 <table>
     <tr>
@@ -446,9 +453,32 @@ So content validation by a _entity tags_(ETags) is used.
 1. [If-None-Match](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match)
 1. [Lost Update Problem](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match) (TODOS)
 
+#### Force Refresh
+
+Browsers usually provides buttons or keyboard shortcuts for users to refresh page. In Chrome, when page is refreshed by **F5**, `Cache-Control: max-age=0` is used to expire current cache; `Cache-Control: no-cache` is used to force retrieving resource from server.
+
 ### Cache Topologies
 
 Private caches refers to exclusive caches stored on single client, it's usually implemented by browsers. Public caches, also known as shared caches, refers to caches stored on intermediary proxy servers called _caching proxy server_. Public caches are accessible to multiple users.
+
+<table>
+    <tr><th>By Location</th><th>Explaination</th><th>public/private</th></tr>
+    <tr>
+        <td>Browser Caches</td>
+        <td>Implemented by browsers.</td>
+        <td>private</td>
+    </tr>
+    <tr>
+        <td>Proxy Caches</td>
+        <td>Also known as <em>intermediaries</em>. Specify proxy explicitly or use <em>interception proxy</em>.</td>
+        <td>public</td>
+    </tr>
+    <tr>
+        <td>Gateway Caches</td>
+        <td>Also known as <em>reverse proxy caches</em> or <em>surrogate caches</em>. Content delivery network (CDN) is typical one.</td>
+        <td>public</td>
+    </tr>
+</table>
 
 Multiple levels of public caches could build _cache hirarchies_, inside which cache request will be forward to parent _caching proxy server_ when it's not found in current _caching proxy server_.
 
