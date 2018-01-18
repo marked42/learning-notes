@@ -398,18 +398,32 @@ So content validation by a _entity tags_(ETags) is used.
 1. [If-None-Match](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match)
 1. [Lost Update Problem](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match) (TODOS)
 
-Used by request
-Cache-Control: no-transform
-
-Reponse
-Cache-Control: no-transform
-
-
-### Cache Processing (TODO)
+### Cache Topologies (TODO)
 
 ![Cache Processing Flowchart](./cache_processing_flowchart.png)
 
-### Cache Topologies (TODO)
+> 1. Receiving—Cache reads the arriving request message from the network.
+> 1. Parsing—Cache parses the message, extracting the URL and headers.
+> 1. Lookup—Cache checks if a local copy is available and, if not, fetches a copy (and stores it locally).
+> 1. Freshness check—Cache checks if cached copy is fresh enough and, if not, asks server for any updates.
+> 1. Response creation—Cache makes a response message with the new headers and cached body.
+> 1. Sending—Cache sends the response back to the client over the network.
+> 1. Logging—Optionally, cache creates a log file entry describing the transaction.
+
+<table>
+    <tr>
+        <th>Header</th>
+        <th>Explaintion</th>
+        <th>Request/Response</th>
+    </tr>
+    <tr>
+        <td>
+            <code>Cache-Control: no-transform</code>
+        </td>
+        <td>No transformations or convertions should be made to the resource. Content-Encoding, Content-Range, Content-Type headers should not be modfied by proxy. A non-transparent proxy migth convert between image formats to reduce network traffic, disallowed by <code>no-transform</code></td>
+        <td>Both</td>
+    </tr>
+</table>
 
 ### Algorithm (TODO)
 
