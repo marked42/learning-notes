@@ -1,5 +1,25 @@
 # HTTP
 
+- [HTTP](#http)
+    - [**U**niform **R**esrouce **I**dentifier](#uniform-resrouce-identifier)
+        - [Syntax](#syntax)
+        - [Absolute and Relative URLs](#absolute-and-relative-urls)
+        - [Percent Encoding (URL Encoding)](#percent-encoding-url-encoding)
+    - [Cookie](#cookie)
+    - [Status Code](#status-code)
+    - [Cache](#cache)
+        - [Basic Terminology](#basic-terminology)
+        - [Cache Lifecycle](#cache-lifecycle)
+            - [Cache or Not Cache](#cache-or-not-cache)
+            - [Cache Creation & Expiration](#cache-creation-expiration)
+                - [Explicit Expiration](#explicit-expiration)
+                - [Heuristic Expiration](#heuristic-expiration)
+                - [Stale Cache](#stale-cache)
+            - [Cache Revalidation](#cache-revalidation)
+        - [Cache Topologies](#cache-topologies)
+        - [Algorithm (TODO)](#algorithm-todo)
+        - [Cache and Advertising (TODO)](#cache-and-advertising-todo)
+
 ## **U**niform **R**esrouce **I**dentifier
 
 **Uniform Resource Identifier (URI)** is a string of characters used to identify a resource. Most commonly used form of URI is [**Uniform Resrouce Locator (URL)**](https://url.spec.whatwg.org/#example-url-parsing), which identifies a resource by its address on the web, URL is informally referred as _web address_. **Uniform Resrouce Name** is a type of URI that identifies resource by name in particular namespace without implying its location or how to access it.
@@ -88,9 +108,9 @@ Relative URL Below
 Base URL can be specified implicitly or explicitly.
 
 1. Explicit Base URL - Use `<base>` tag `href` attribute to specify explicitly.
-    ```html
-    <base target="_blank" href="http://www.example.com/page.html">
-    ```
+   ```html
+   <base target="_blank" href="http://www.example.com/page.html">
+   ```
 1. Implicit Base URL - Use URL of current document or resource as base URL.
 
 ![Convert Relative URL to Absolute URL](./relative_url_to_absolute_url.png)
@@ -104,42 +124,29 @@ Reference
 
 1. [WHATWG URL API](https://url.spec.whatwg.org/)
 1. [Node URL](https://nodejs.org/api/url.html#url_the_whatwg_url_api)
-- [HTTP](#http)
-    - [**U**niform **R**esrouce **I**dentifier](#uniform-resrouce-identifier)
-        - [Syntax](#syntax)
-        - [Absolute and Relative URLs](#absolute-and-relative-urls)
-        - [[Percent Encoding (URL Encoding)](https://en.wikipedia.org/wiki/Percent-encoding)](#percent-encoding-url-encodinghttpsenwikipediaorgwikipercent-encoding)
-    - [Cookie](#cookie)
-    - [Status Code](#status-code)
-    - [Cache (TODO)](#cache-todo)
-        - [Cache Processing (TODO)](#cache-processing-todo)
-        - [Cache Topologies (TODO)](#cache-topologies-todo)
-        - [Cache Control (TODO)](#cache-control-todo)
-        - [Algorithm (TODO)](#algorithm-todo)
-        - [Cache and Advertising (TODO)](#cache-and-advertising-todo)
 
-### [Percent Encoding (URL Encoding)](https://en.wikipedia.org/wiki/Percent-encoding)
+### Percent Encoding (URL Encoding)
 
 URLs are designed to be portable, so that only a subset of most commonly used characters in ASCII can be used in URL directly. Other characters (special character, nonprintable character, 8 bit character) in URL must be represented with _escape sequence_ to avoid confusion. An _escape sequence_ is a percent sign (%) followed by two hexdecimal digits that represents the ASCII code of the encoded character.
 
-Reserved and Restricted characters.
+[Percent Encoding](https://en.wikipedia.org/wiki/Percent-encoding) Reserved and Restricted characters.
 
-| Character | Reservation/Restriction |
-|- |-|
-| % | Reserved as escape token for encoded characters |
-| / | Reserved for delimiting splitting up path segments in path component|
-| . | Reserved in path component |
-| .. | Reserved in path component |
-| # | Reserved as fragment delimiter|
-| ? | Reserved as query-string delimeter |
-| ; | Reserved as params delimeter |
-| : | Reserved to delimit scheme, user/password and host/port components|
-| $ + | Reserved |
-| @ & = | Reserved because they've special meaning in the context of some schemes |
-| { } \| \ ^ ~ [ ] ' | Restricted because of unsafe handling by various transport agents, such as gateways |
-| <>" | Unsafe; should be encoded because these characters often have meaning outside the scope of the URL, such as delimiting the URL itself in a document|
-| 0x00-0x1F, 0x7F | Restricted; characters within these hex ranges are nonprintable |
-| >0x7F | Restricted; characters not representable with 7 bit ASCII|
+| Character          | Reservation/Restriction                                                                                                                             |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| %                  | Reserved as escape token for encoded characters                                                                                                     |
+| /                  | Reserved for delimiting splitting up path segments in path component                                                                                |
+| .                  | Reserved in path component                                                                                                                          |
+| ..                 | Reserved in path component                                                                                                                          |
+| #                  | Reserved as fragment delimiter                                                                                                                      |
+| ?                  | Reserved as query-string delimeter                                                                                                                  |
+| ;                  | Reserved as params delimeter                                                                                                                        |
+| :                  | Reserved to delimit scheme, user/password and host/port components                                                                                  |
+| $ +                | Reserved                                                                                                                                            |
+| @ & =              | Reserved because they've special meaning in the context of some schemes                                                                             |
+| { } \| \ ^ ~ [ ] ' | Restricted because of unsafe handling by various transport agents, such as gateways                                                                 |
+| <>"                | Unsafe; should be encoded because these characters often have meaning outside the scope of the URL, such as delimiting the URL itself in a document |
+| 0x00-0x1F, 0x7F    | Restricted; characters within these hex ranges are nonprintable                                                                                     |
+| >0x7F              | Restricted; characters not representable with 7 bit ASCII                                                                                           |
 
 When all unsafe characters are escaped, URL is in a _canonical form_ that can be shared between application without worrying other applications being confused by any characters with special meanings.
 
@@ -154,6 +161,8 @@ On the other hand, safe characters should not be escaped. Attackers could use th
 ## Status Code
 
 ## Cache
+
+### Basic Terminology
 
 Caches are copies of visited resrouce stored on local machine or proxy server. It's used to save users from requesting same resource from server again.
 
@@ -220,7 +229,7 @@ Cache Revalidate
     </tr>
 </table>
 
-#### Creation & Expiration
+#### Cache Creation & Expiration
 
 An expiration mechanism must be specified explicitly or implicitly for cache to prevent it from being fresh forever.
 
@@ -260,28 +269,38 @@ A popular one is _LM-Factor_ algorithm, which utilizes last modfied date of a re
 ![LM-Factor Expiration Algorithm](lm_factor_heuristic_expiration_algorithm.png)
 
 ```javascript
-const calculateFreshnessLimit = (server_date, server_last_modification_date) => {
-    // an hour or a day
-    const default_freshness_limit = 60 * 60
-    if (
-        !Number.isInteger(server_date) &&
-        !Number.isInteger(server_last_modification_date)
-    ) {
-        return default_freshness_limit
-    }
+const calculateFreshnessLimit = (
+  server_date,
+  server_last_modification_date
+) => {
+  // an hour or a day
+  const default_freshness_limit = 60 * 60;
+  if (
+    !Number.isInteger(server_date) &&
+    !Number.isInteger(server_last_modification_date)
+  ) {
+    return default_freshness_limit;
+  }
 
-    const seconds_since_last_modification = Math.max(0, server_date - server_last_modication_date)
+  const seconds_since_last_modification = Math.max(
+    0,
+    server_date - server_last_modication_date
+  );
 
-    // a day or a week
-    const server_freshness_limit_upper_bound = 24 * 60 * 60
+  // a day or a week
+  const server_freshness_limit_upper_bound = 24 * 60 * 60;
 
-    const lm_factor = 0.2
-    const server_freshness_limit_by_factor = lm_factor * seconds_since_last_modification
+  const lm_factor = 0.2;
+  const server_freshness_limit_by_factor =
+    lm_factor * seconds_since_last_modification;
 
-    const server_freshness_limit = Math.min(server_freshness_limit_upper_bound, server_freshness_limit_by_factor)
+  const server_freshness_limit = Math.min(
+    server_freshness_limit_upper_bound,
+    server_freshness_limit_by_factor
+  );
 
-    return server_freshness_limit
-}
+  return server_freshness_limit;
+};
 ```
 
 ##### Stale Cache
@@ -428,14 +447,6 @@ So content validation by a _entity tags_(ETags) is used.
 1. [Lost Update Problem](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match) (TODOS)
 
 ### Cache Topologies
-
-Private caches refers to exclusive caches stored on single client, it's usually implemented by browsers. Public caches, also known as shared caches, refers to caches stored on intermediary proxy servers called _caching proxy server_. Public caches are accessible to multiple users.
-
-Multiple levels of public caches could build _cache hirarchies_, inside which cache request will be forward to parent _caching proxy server_ when it's not found in current _caching proxy server_.
-
-![Cache Hirarchy](./cache_hirarchy.png)
-
-Mulitple caches could build complex _cache mesh_ instead of tree-shaped _cache hirarchy_ in practice. It's much more complicated and effective for storing cache. [Internet Cache Protocol (ICP)](https://en.wikipedia.org/wiki/Internet_Cache_Protocol) and HyperText [Caching Protocol (HTCP)](https://en.wikipedia.org/wiki/Hypertext_caching_protocol) extends HTTP protocol involving _sibling cache_ support.
 
 Private caches refers to exclusive caches stored on single client, it's usually implemented by browsers. Public caches, also known as shared caches, refers to caches stored on intermediary proxy servers called _caching proxy server_. Public caches are accessible to multiple users.
 
