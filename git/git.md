@@ -110,3 +110,29 @@ Gitflow introduces develop branch dedicated for development.
     ```
 
 There's extention tool for gitflow.
+
+## Forking flow
+
+1. Developers fork central repository before start developing.
+1. Developers clone their forked repository.
+    ```bash
+    git clone https://user@bitbucket.org/user/repo.git
+    ```
+1. Set forked repository as origin of local repository. set central repository as upstream of local repository.
+    ```bash
+    # provide user and name if needed
+    git remote add upstream https://user@bitbucket.org/maintainer/repo.git
+    ```
+1. Developers works on local repository normally.
+    ```bash
+    git checkout -b some-feature
+    # Edit some code
+    git commit -a -m "Add first draft of some feature"
+
+    # pull from central repository
+    git pull upstream master
+
+    # push to forked repository
+    git push origin feature-branch
+    ```
+1. Create a merge request for project maintainers to receive or reject.
