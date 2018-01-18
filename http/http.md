@@ -153,7 +153,7 @@ On the other hand, safe characters should not be escaped. Attackers could use th
 
 ## Status Code
 
-## Cache (TODO)
+## Cache
 
 Caches are copies of visited resrouce stored on local machine or proxy server. It's used to save users from requesting same resource from server again.
 
@@ -255,22 +255,14 @@ Specifies that cache is fresh before an absolute date or during a relative perio
 
 When reponse contains no `Cache-Control: max-age` or `Expires` header, a heuristic expiration strategy is used.
 
-##### ETag Expiration (TODO)
-
-#### Stale Cache & Cache Revalidation
+##### Stale Cache
 
 Client might tighten cache expiration constraint for applications that need the very freshest resource. On the other hand, client might loosen cache expiration date as comproimse to improve performance. When a cache is expired, client have the option to contact server to revalidate cache freshness.
-
-Used by request
-Cache-Control: no-transform
-
-Reponse
-Cache-Control: no-transform
 
 <table>
     <tr>
         <th>Header</th>
-        <th>Explaintion</th>
+        <th>Explaination</th>
         <th>Request/Response</th>
     </tr>
     <tr>
@@ -286,6 +278,17 @@ Cache-Control: no-transform
         </td>
         <td>Specifies that client is willing to accept a stale cache. When a number is provided, it indicates that a stale cache is acceptable if it's been expired for specified number of seconds at maximum.</td>
         <td>Request</td>
+    </tr>
+</table>
+
+#### Cache Revalidation
+
+<table>
+    <caption><strong>Last-Modified Date Revalidation</strong></caption>
+    <tr>
+        <th>Header</th>
+        <th>Explaintion</th>
+        <th>Request/Response</th>
     </tr>
     <tr>
         <td>
@@ -303,12 +306,104 @@ Cache-Control: no-transform
     </tr>
     <tr>
         <td>
+            <code>Last-Modified: &lt;date&gt;</code>
+        </td>
+        <td></td>
+        <td>Response</td>
+    </tr>
+    <tr>
+        <td>
+            <code>If-modified-since: &lt;date&gt;</code>
+        </td>
+        <td>If resource is modified since specified date, modified version of resource will be sent back from server and cache content and expiration date should be updated. Otherwise, a 304 Not Modified reponse message without body is returned, only headers that need updating like expiration date are needed to be sent back.</td>
+        <td>Request</td>
+    </tr>
+    <tr>
+        <td>
+            <code>If-Unmodified-since: &lt;date&gt;</code>
+        </td>
+        <td></td>
+        <td>Request</td>
+    </tr>
+    <tr>
+        <td>
             <code>Cache-Control: immutable</code>
         </td>
         <td>Indicates that a resource on serve will not change before a cache expires and therefore the client should not send a condiational revalidation even when users refreshes the page. <a href="https://bitsup.blogspot.jp/2016/05/cache-control-immutable.html">See this blog</a></td>
         <td>Response</td>
     </tr>
 </table>
+
+There're cases where last-modified date revalidation isn't adequate.
+
+1. Some documents may be rewritten periodically but contains same data.
+1. Some documents may have minor content change that isn't important enough to enforce a cache update.
+1. Some servers cannot determine last modification date accurately.
+1. For documents that may change within a second, its content changes but last modification date remains the same.
+
+So content validation by a _entity tags_(ETags) is used.
+
+<table>
+    <caption><strong>Resource Content Revalidation</strong></caption>
+    <tr>
+        <th>Header</th>
+        <th>Explaintion</th>
+        <th>Request/Response</th>
+    </tr>
+    <tr>
+        <td>
+            <code>ETag: [W/]&lt;tags&gt;</code>
+        </td>
+        <td>'W' or 'w' means that this tag is a weak validator that remains the same when resource has minor content change. Strong validators are same when resource remains exactly same.</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            <code>If-Match: &lt;tag&gt;</code>
+        </td>
+        <td>
+            <ul>
+                <li>
+                <strong>GET</strong> or <strong>HEAD</strong> method,
+                used in combination with <strong>Range</strong> header to ensure range request responded by same resource. If it doesn't match, a 416 (Range Not Satisfiable) reponse is returned.
+                </li>
+                <li>
+                <strong>PUT</strong> method,
+                '*' is used to ensure resource not existed when uploading a file.
+                </li>
+            </ul>
+        </td>
+        <td>Request</td>
+    </tr>
+    <tr>
+        <td>
+            <code>If-None-Match: &lt;tags&gt;</code>
+        </td>
+        <td>
+            <ul>
+                <li>
+                <strong>GET</strong> or <strong>HEAD</strong> method,
+                If no tag matches specified tags, new resource will be sent back from server and caches should be updated.
+                </li>
+                <li>
+                <strong>PUT</strong> method,
+                '*' is used to ensure resource not existed when uploading a file.
+                </li>
+            </ul>
+        </td>
+        <td>Request</td>
+    </tr>
+</table>
+
+1. [If-None-Match](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match)
+1. [Lost Update Problem](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match) (TODOS)
+
+Used by request
+Cache-Control: no-transform
+
+Reponse
+Cache-Control: no-transform
+
 
 ### Cache Processing (TODO)
 
