@@ -1,6 +1,6 @@
-# Encoding
+# Unicode
 
-## ASCII and ISO-8859-1
+## ASCII与ISO-8859-1
 
 ASCII全称为 **A**merican **S**tandard **C**ode for **I**nformation **I**nterchange(美国标准信息交换码), 字符集中每个字符使用7个二进制位(bit)表示, 因此能够表示128个字符. 其中有0 ~ 31与127总共33个控制字符(control character), 32 ~ 126包括空格(32), 字母, 数字以及英文标点符号.
 
@@ -12,7 +12,7 @@ ISO-8859-1字符集对ASCII字符进行扩展, 将最高位利用起来, 使用8
 
 ## Code Page
 
-为了支持英语以外的语言文字, Windows系统采取了代码页([Code Page](https://en.wikipedia.org/wiki/Code_page))的方案. 每个代码页是一个类似ISO-8895-1的编码方案, 对应为某个国家或者地区的文字, 在0 ~ 127的范围内和ASCII兼容, 在128 ~ 255的范围内为对应区域的文字编码.
+为了支持英语以外的语言文字, Windows系统采取了代码页([Code Page](https://en.wikipedia.org/wiki/Code_page))的方案. 每个代码页是一个类似ISO-8895-1的编码方案, 对应为某个国家或者地区的文字, 在0 ~ 127的范围内和ASCII兼容, 在128 ~ 255的范围内为对应区域的文字编码. 
 
 不同语言Windows的系统默认使用不同的代码也来支持相应语言文字. Windows系统内有两类代码页ANSI和OEM代码页. ANSI代码页应用于Window桌面应用程序, 代码范围为874 ~ 1258. OEM代码页最初有IBM设计, 应用于Windows console中, 代码范围437 ~ 874.
 
@@ -61,7 +61,7 @@ Unicode的码点表示为U+[XX]XXXX, X表示一个16进制数字. 码点有4-6�
 | Separator(Z)   | line(Zl), paragraph(Zp), space(Zs)       |
 | Other()        | Control(Cc), format(Cf), not assigned(Cn), private use(Co), surrogate(Cs) |
 
-### Unicode Equivalence
+### Unicode等价性
 
 Dynamic Composition
 
@@ -126,11 +126,11 @@ UTF-8变长编码方案中一个字符编码长度可能为四种情况, 分别�
 
 #### 编码方案讨论
 
-UTF-8编码中任意取出一个字节`xxxxxxxx`如果确定这个字节这个字节属于那种长度的编码? 不同长度的变长编码之间应该如何区分呢?
+UTF-8编码中任意取出一个字节`xxxxxxxx`如果确定这个字节这个字节属于那种长度的编码? 不同长度的变长编码之间应该如何区分呢? 
 
 首先单字节编码与ASCII字符集兼容, 最高位为0, 因此取出任意一个最高位为0的字节即可断定它属于单字节编码.
 
- 其次为了和单字节编码进行区分, 其余编码中每个字节最高位都必须为1, 形如`1XXXXXXX`. 这时第二高位有0和1两种选择, 如果最高两位`10`和`11`的二进制编码都允许的话, 那么给定任意字节将无法在剩余三种编码中进行区分. 而且只能选择`10`作为区分标志. 后续3, 4字节编码如果想要区分只能增加1的个数, 如果选择`11`作为区分标志, 那么`11XXXXXX`与`111XXXXX`之间是无法区分的, 因为`11XXXXXX`中后六位为有效编码为, 其中的最高位既可以为0也可以为1. 至此得到第二个正确的编码形式`10XXXXXX`, 后续只要增加前导1的个数即可在给定任意字节的情况下判定它属于1, 2, 3, 4字节变长编码的哪一种.
+ 其次为了和单字节编码进行区分, 其余编码中每个字节最高位都必须为1, 形如`1XXXXXXX`. 这时第二高位有0和1两种选择, 如果最高两位`10`和`11`的二进制编码都允许的话, 那么给定任意字节将无法在剩余三种编码中进行区分. 而且只能选择`10`作为区分标志. 后续3, 4字节编码如果想要区分只能增加1的个数, 如果选择`11`作为区分标志, 那么`11XXXXXX`与`111XXXXX`之间是无法区分的, 因为`11XXXXXX`中后六位为有效编码为, 其中的最高位既可以为0也可以为1. 至此得到第二个正确的编码形式`10XXXXXX`, 后续只要增加前导1的个数即可在给定任意字节的情况下判定它属于1, 2, 3, 4字节变长编码的哪一种. 
 
 最后, 其实不需要做到给定任意单个字节即可判断其变长编码方式, 只需要在顺序解码的情况下, 能够区分连续的若干个字节属于那种编码方式即可. 最终的得到正式的UTF-8变长编方式, 复用了`10XXXXXX`的形式, 作为2, 3, 4字节编码中除去第一个字节外其余字节的编码形式, 同时第一个字节采用最高位增加1的个数的方法相互区分. 这样给定`10XXXXXX`形式的单个字节, 虽然无法判断它属于2, 3, 4字节编码中的哪一种, 但是对于连续字节流, 我们能够对区分2, 3, 4字节编码. 最终2, 3, 4字节编码第一个字节最高位分别以2, 3, 4个1后接一个0作为区分标志.
 
@@ -159,38 +159,34 @@ Unicode的码点范围就是U+0000 ~ U+10FFFF, 四字节的UTF-8编码就已经�
 
 UTF-16是一种变长2或4字节编码方式, 1个代码单元(Code Unit)为2字节, 也就是采用1或2个代码单元进行编码. 对于码点范围U+0000 ~ U+FFFF的基本平面(BMP)内的所有字符, UTF-16采用2个字节即可进行编码. 对与码点范围U+10000 ~ U+10FFFF的增补平面(SP)内的码点, UTF-16采用代理对(Surrogate Pair)进行编码.
 
-#### Surrogate Pair
+#### 代理区
 
 BMP平面内最多可以表示65536个字符, 但是并不是平面上的每个格子都有对应的字符. 在BMP平面中有一片空白区域U+D800 ~ U+DFFF被称为代理区(Surrogate Area), 其中前半部分U+D800 ~ U+DBFF被称为高代理区(High Surrogate Area), 后半部分U+DC00 ~ U+DFFFF被称为低代理区(Low Surrogate Area). 从两个代理区中各取出一个码点即可组成一个代理对(Surrogate Pair).
 
  ![surrogate_pair](./surrogate_pair.png)
 
 每个代理区包含`4×256`个码点, 那么一个代理对可以表示16个增补平面中所有码点.
-
-```math
+$$
 (4 * 256 ) * (4 * 256) = 16 * 65536
-```
-
+$$
 代理对必须按照高代理对在前, 低代理对在后的方式顺序摆放才能代理一个码点. `D800 CD00`是第一个增补字符, `DBFF DFFF`是最后一个增补字符.
 
-#### Encoding Process
+#### 编码过程
 
 BMP平面内的码点直接对应于码点值相同的两个字节, 无需转换.
 
 增补平面SP中的码点要算出对应的高低代理码点的值即可, 公式如下:
-
-```text
-Lead = (CodePoint - 10000_{16}) / 1024 + D800
-Trail  = (CodePoint - 10000_{16}) / 1024 + DC00
-```
-
+$$
+Lead = (CodePoint - 10000_{16}) \div 1024 + D800\\
+Trail  = (CodePoint - 10000_{16}) \div 1024 + DC00
+$$
 实际计算码点时不需要真的进行整数除法运算, 只需要进行一些移位操作即可.
 
-### Byte Order BOM
+### 字节序 BOM
 
 在UTF-16和UTF-32等编码方式中, 一个代码单元包括2或4个字节, 这就产生了一个字节存储顺序([Endianness](https://en.wikipedia.org/wiki/Endianness))的问题. 大端序(Big Endian)存储将高位字节放在前边, 低位字节放在后边, 小端序(Small Endian)则相反.
 
-> When storing a word in big-endian format the most significant byte, which is the byte containing the [most significant bit](https://en.wikipedia.org/wiki/Most_significant_bit), is stored first and the following bytes are stored in decreasing significance order, the least significant byte, which is the byte containing the [least significant bit](https://en.wikipedia.org/wiki/Least_significant_bit), thus being stored at last place.
+>  When storing a word in big-endian format the most significant byte, which is the byte containing the [most significant bit](https://en.wikipedia.org/wiki/Most_significant_bit), is stored first and the following bytes are stored in decreasing significance order, the least significant byte, which is the byte containing the [least significant bit](https://en.wikipedia.org/wiki/Least_significant_bit), thus being stored at last place.
 
 BOM正是用来表示UTF-16和UTF-32的字节顺序, BOM就是若干个特殊字节, 放在字节流的最前端, 用来表示字节顺序, 不同编码的字节序如下:
 
@@ -212,7 +208,7 @@ Unicode标准中规定UTF-8编码带不带BOM都可以,并且推荐不带BOM以�
 
 UTF-8网络传输使用,内存操作使用UTF-16.
 
-### Error Handling
+### 错误处理
 
 在字符串(character string)到字节串(byte string)的编码(encoding)过程或者反向的解码(decoding)过程中, 由于使用不同的编码方案可能出现无法编码或者解码的错误情况. 对于这些情况可以选择以下不同的方式进行错误处理.
 
@@ -336,7 +332,7 @@ std::wstring wstr = L"汉字";
 
 **U**nicode **S**tring **L**iteral是C++11对Unicode提供的语言级别的支持. C++11新增字符类型`char16_t`(至少16位)和`char32_t`(至少32位)分别表示UTF-16和UTF-32编码的代码单元, Unicode三种编码UTF-8, UTF-16, UTF-32对应的字符串字面量分别以u8, u, U前缀作为标志.
 
-```cpp
+```C++
 char u8char = 'a';
 char u8char_array[] = u8"\U0001F607 is O:-)";
 std::string u8str   = u8"\U0001F607 is O:-)";
@@ -392,213 +388,3 @@ javaw.exe -Dfile.encoding=UTF-8
 1. [UTF8 everywhere](http://utf8everywhere.org/)
 1. [Should UTF-16 be considered harmful?](http://programmers.stackexchange.com/questions/102205/should-utf-16-be-considered-harmful)
 1. [Unicode in C++](https://channel9.msdn.com/Events/CPP/C-PP-Con-2014/Unicode-in-CPP)
-
-## [Base64](https://en.wikipedia.org/wiki/Base64)
-
-> **Base64** is a group of similar binary-to-text encoding schemes that represent binary data in an ASCII string format by translating it into a radix-64 representation
-
-**Base64** encode binary data in a unit of 3 bytes, also 24 bits. If number of bytes is indivisible by 3, add extra bytes with value zero so there're 3 bytes.
-
-Encoding 3 bytes "Man".
-
-<table style='border: 1px solid;'>
-    <tr>
-        <td style='border: 1px solid;'>source ASCII</td>
-        <td style='border: 1px solid;' colspan='8' align='center'>M</td>
-        <td style='border: 1px solid;' colspan='8' align='center'>a</td>
-        <td style='border: 1px solid;' colspan='8' align='center'>n</td>
-    </tr>
-    <tr>
-        <td style='border: 1px solid;'>source octets</td>
-        <td style='border: 1px solid;' colspan='8' align='center'>77 (0x4d)</td>
-        <td style='border: 1px solid;' colspan='8' align='center'>97 (0x61)</td>
-        <td style='border: 1px solid;' colspan='8' align='center'>110 (0x6e)</td>
-    </tr>
-    <tr>
-        <td style='border: 1px solid;'>Bit pattern</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>0</td>
-    </tr>
-    <tr>
-        <td style='border: 1px solid;'>Table Index</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>19</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>22</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>5</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>46</td>
-    </tr>
-    <tr>
-        <td>Encoded Char</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>T</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>W</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>F</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>u</td>
-    </tr>
-    <tr>
-        <td style='border: 1px solid;'>Encoded octets</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>84 (0x54)</td>
-        <td colspan='6' align='center'>87 (0x57)</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>70 (0x46)</td>
-        <td colspan='6' align='center'>117 (0x75)</td>
-    </tr>
-</table>
-
-Encoding 2 bytes "Ma", last 6 bits are padding bits, encoded as "=".
-
-<table style='border: 1px solid;'>
-    <tr>
-        <td style='border: 1px solid;'>source ASCII</td>
-        <td style='border: 1px solid;' colspan='8' align='center'>M</td>
-        <td style='border: 1px solid;' colspan='8' align='center'>a</td>
-        <td style='border: 1px solid;' colspan='8' align='center'></td>
-    </tr>
-    <tr>
-        <td style='border: 1px solid;'>source octets</td>
-        <td style='border: 1px solid;' colspan='8' align='center'>77 (0x4d)</td>
-        <td style='border: 1px solid;' colspan='8' align='center'>97 (0x61)</td>
-        <td style='border: 1px solid;' colspan='8' align='center'>0 (0x00)</td>
-    </tr>
-    <tr>
-        <td style='border: 1px solid;'>Bit pattern</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-    </tr>
-    <tr>
-        <td style='border: 1px solid;'>Table Index</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>19</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>22</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>4</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>0</td>
-    </tr>
-    <tr>
-        <td>Encoded Char</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>T</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>W</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>E</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>=</td>
-    </tr>
-</table>
-
-Encoding 1 byte "M", last 12 bits are padding bits, encoded as "==".
-
-<table style='border: 1px solid;'>
-    <tr>
-        <td style='border: 1px solid;'>source ASCII</td>
-        <td style='border: 1px solid;' colspan='8' align='center'>M</td>
-        <td style='border: 1px solid;' colspan='8' align='center'></td>
-        <td style='border: 1px solid;' colspan='8' align='center'></td>
-    </tr>
-    <tr>
-        <td style='border: 1px solid;'>source octets</td>
-        <td style='border: 1px solid;' colspan='8' align='center'>77 (0x4d)</td>
-        <td style='border: 1px solid;' colspan='8' align='center'>0 (0x00)</td>
-        <td style='border: 1px solid;' colspan='8' align='center'>0 (0x00)</td>
-    </tr>
-    <tr>
-        <td style='border: 1px solid;'>Bit pattern</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>1</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-        <td style='border: 1px solid;'>0</td>
-    </tr>
-    <tr>
-        <td style='border: 1px solid;'>Table Index</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>19</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>16</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>0</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>0</td>
-    </tr>
-    <tr>
-        <td>Encoded Char</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>T</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>Q</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>=</td>
-        <td style='border: 1px solid;' colspan='6' align='center'>=</td>
-    </tr>
-</table>
-
-Base64 index table is used to encode 6 bits as ASCII character.
-
-| Value | Char | Value | Char | Value | Char | Value | Char
-| - | - | - | - | - | - | - | - |
-| 0 | A | 16 | Q | 32 | g | 48 | w |
-| 1 | B | 17 | R | 33 | h | 49 | x |
-| 2 | C | 18 | S | 34 | i | 50 | y |
-| 3 | D | 19 | T | 35 | j | 51 | z |
-| 4 | E | 20 | U | 36 | k | 52 | 0 |
-| 5 | F | 21 | V | 37 | l | 53 | 1 |
-| 6 | G | 22 | W | 38 | m | 54 | 2 |
-| 7 | H | 23 | X | 39 | n | 55 | 3 |
-| 8 | I | 24 | Y | 40 | o | 56 | 4 |
-| 9 | J | 25 | Z | 41 | p | 57 | 5 |
-| 10 | K | 26 | a | 42 | q | 58 | 6 |
-| 11 | L | 27 | b | 43 | r | 59 | 7 |
-| 12 | M | 28 | c | 44 | s | 60 | 8 |
-| 13 | N | 29 | d | 45 | t | 61 | 9 |
-| 14 | O | 30 | e | 46 | u | 62 | + |
-| 15 | P | 31 | f | 47 | v | 63 | / |
-
-Algorithm for Encoding and Decoding
