@@ -32,6 +32,15 @@
         - [Algorithm (TODO)](#algorithm-todo)
         - [Setting Caches in Apache Sever(TODO)](#setting-caches-in-apache-severtodo)
         - [Cache and Advertising (TODO)](#cache-and-advertising-todo)
+    - [Connection Management (TODO:)](#connection-management-todo)
+    - [Client Identification (TODO:)](#client-identification-todo)
+    - [HTTPS (TODO:)](#https-todo)
+    - [Authentication (TODO:)](#authentication-todo)
+    - [Architectural Components (TODO:)](#architectural-components-todo)
+        - [Web Servers (TODO:)](#web-servers-todo)
+        - [Proxies (TODO:)](#proxies-todo)
+        - [Gateways, Tunnels and Relays (TODO:)](#gateways-tunnels-and-relays-todo)
+    - [HTTP-NG & HTTP2.0 (TODO:)](#http-ng-http20-todo)
     - [Lib & Tools](#lib-tools)
 
 ## **U**niform **R**esrouce **I**dentifier
@@ -692,6 +701,24 @@ Mulitple caches could build complex _cache mesh_ instead of tree-shaped _cache h
 ### Setting Caches in Apache Sever(TODO)
 
 ### Cache and Advertising (TODO)
+
+## Connection Management (TODO:)
+
+## Client Identification (TODO:)
+
+## HTTPS (TODO:)
+
+## Authentication (TODO:)
+
+## Architectural Components (TODO:)
+
+### Web Servers (TODO:)
+
+### Proxies (TODO:)
+
+### Gateways, Tunnels and Relays (TODO:)
+
+## HTTP-NG & HTTP2.0 (TODO:)
 
 ## Lib & Tools
 
