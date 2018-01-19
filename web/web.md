@@ -461,3 +461,9 @@ foo(); // eslint-disable-line example/rule-name
   }
 }
 ```
+
+#### Continuous Integration (CI) TODO:
+
+Travis CI and Appveyor
+
+#### Continuous Development (CD) TODO:
