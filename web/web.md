@@ -305,3 +305,29 @@ Other users clicking on this text tag could be attacked.
 ### [Content Security Policy](https://en.wikipedia.org/wiki/Content_Security_Policy)
 
 ### [Hash-based message authentication code](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code)
+
+### Web Development Engineering
+
+#### Prettier
+
+Use _eslint_ and _prettier_ to lint and format javascript code.
+
+prettier uses overwritten `.eslint.js` as options, vscode-prettier uses `prettier.config.js` as configuraiton, keep them same to have a consistent configuration between eslint and vscode formatting function. Alternatively, activate `prettier.eslintIntegration` of `vscode-prettier` extension, which uses `prettier-eslint` instead of `prettier` to format js code. `prettier-eslint` infers `prettier` options from ESLint rules firstly, fallbacks to default options if not inferable.
+
+1. Install needed packages as development dependecies.
+   ```bash
+   yarn add --dev babel-eslint eslint eslint-config-airbnb eslint-config-prettier eslint-plugin-import eslint-config-jsx-a11y eslint-plugin-prettier eslint-plugin-react prettier prettier-eslint
+   ```
+1. Use eslint-config-prettier and eslint-plugin-prettier inside .eslintrc.js to
+   apply prettier rules
+1. Integrate with VS Code. Install extension "Prettier Code Formmater" and
+   override configuration.
+
+```javascript
+// disable vscode default formatter, allow prettier-eslint to format js files
+javascript.format.enable: false
+// use prettier-eslint instead of prettier to format js files
+prettier.eslintIntegration: true
+```
+
+prettier-eslint will infer prettier options from .eslintrc.js to format js code, so we can a single configuration file that applies to eslint/prettier and vscode prettier extension.
