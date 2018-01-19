@@ -1,5 +1,53 @@
 # Git
 
+## Setup
+
+### Generating Account
+
+Generete SSH keys
+
+```bash
+ssh-keygen -t rsa -C "penghuizhang@foxmail.com"
+# then press enter three times.
+```
+
+Your identification file has been save in ~/.ssh/id_rsa
+Your public key has been save in ~/.ssh/id_rsa.pub
+
+Add public key to github ssh key settings so you can push code to corresponding remote repository.
+
+```bash
+# init local repository and push to remote repository
+git init
+get remote set-url origin git@github.com:user/repo/path/test.git
+
+# clone remote repository
+git clone git@github.com:repo/path/test.git
+```
+
+Git can use **SSH** or **HTTPS** protocol for accessing remote repository. **HTTPS** authentication requires user to provide user name and password. **SSH** authentication uses user's token automatically without user interaction.
+
+### Configuration
+
+There are three levels of configuration for git. System level configuration file is /etc/.gitconfig,
+user level configuration file ~/.gitconfig, repository level configuration file .git/.config.
+
+System level : git config --system
+User level : git config --global
+
+```bash
+git config --global user.name "penghui.zhang"
+git config --global user.email "penghui.zhang@foxmail.com"
+git config --global core.editor vim
+git config --global merge.tool vimdiff
+```
+
+Check current configuration.
+
+```bash
+git config --list
+```
+
 ## Workflow
 
 Questions should be asked evaluating a workflow for a team.
