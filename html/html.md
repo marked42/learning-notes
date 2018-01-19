@@ -48,7 +48,7 @@ Inline elements
 | a      | abbr     | acronym | b   | bdo      | big    | br     | button |
 | cite   | code     | dfn     | em  | i        | img    | input  | kbd    |
 | label  | map      | object  | q   | samp     | script | select | small  |
-| span   | strong   | sub     | sup | textarea | time   | tt     | var    |
+| span   | strong   |sub     | sup | textarea | time   | tt     | var    |
 
 Block elemets are inside a block box, inline elements are inside inline box. CSS `display` property can be used to change default behaviour.
 
