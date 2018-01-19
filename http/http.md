@@ -6,17 +6,20 @@
         - [Absolute and Relative URLs](#absolute-and-relative-urls)
         - [Percent Encoding (URL Encoding)](#percent-encoding-url-encoding)
     - [HTTP Message](#http-message)
-    - [HTTP Methods](#http-methods)
-        - [GET](#get)
-        - [POST](#post)
-        - [PUT](#put)
-        - [DELETE](#delete)
-        - [HEAD](#head)
-        - [TRACE](#trace)
-        - [OPTIONS](#options)
-        - [CONNECT](#connect)
+        - [Terminology](#terminology)
+        - [Message Syntax](#message-syntax)
+        - [HTTP Methods](#http-methods)
+            - [GET](#get)
+            - [POST](#post)
+            - [PUT](#put)
+            - [DELETE](#delete)
+            - [HEAD](#head)
+            - [TRACE](#trace)
+            - [OPTIONS](#options)
+            - [CONNECT](#connect)
+        - [Headers](#headers)
+        - [Status Code](#status-code)
     - [Media Types](#media-types)
-    - [Status Code](#status-code)
     - [Cookie](#cookie)
     - [Cache](#cache)
         - [Basic Terminology](#basic-terminology)
@@ -177,13 +180,38 @@ On the other hand, safe characters should not be escaped. Attackers could use th
 
 ## HTTP Message
 
-![HTTP Message Structure](./http_message_structure.png)
+### Terminology
 
-1. Start line.
-1. Header Fields.
-1. Body.
+_Inbound_ http message travels from client to server, _outbound_ http message travels from server to client.
 
-## HTTP Methods
+![HTTP Message Inbound Outbound](./http_message_inbound_outbound.png)
+
+All messages flow downstream, intermediate nodes closer to message sender are upstream of those closer to message reciever.
+
+![HTTP Message Downstream Upstream](./http_message_downstream_upstream.png)
+
+### Message Syntax
+
+Both request and reponse message is composed of three parts: start line, headers and body.
+
+- Request
+    ```http
+    <method> <request-URL> <version>
+    <headers>
+
+    <entity-body>
+    ```
+- Response
+    ```http
+    <version> <status> <reason-phrase>
+    <headers>
+
+    <entity-body>
+    ```
+
+![HTTP Message Example](./http_message_syntax.png)
+
+### HTTP Methods
 
 | Methods | HTTP Version | Explaination |
 | ------- | ------------ | ------------ |
@@ -196,7 +224,7 @@ On the other hand, safe characters should not be escaped. Attackers could use th
 | OPTIONS | 1.1          |              |
 | CONNECT | 1.1          |              |
 
-### GET
+#### GET
 
 1. query string appears as part of URL.
 1. Bookmarkable.
@@ -215,7 +243,7 @@ Keep-Alive: 300
 Connection: keep-alive
 ```
 
-### POST
+#### POST
 
 1. Query string appears as in message body, so length is not limited.
 1. Unsafe plain text.
@@ -236,23 +264,23 @@ Content-Length: 31
 hl=en&q=HTTP&btnG=Google+Search
 ```
 
-### PUT
+#### PUT
 
 1. Create or update specified resource on server.
 1. Create resource and return **201 (Created)** when resource doesn't exist, update resource and return **200 (OK)** or **204 (No Content) if resource exist.
 1. `method` attribute of HTML `<form>` tag supports only **GET** and **POST**, not *PUT** method.
 
-### DELETE
+#### DELETE
 
 1. Delete specified resource on server, returned **200 (OK)** doesn't means it's deleted.
 
 > It merely indicates that the server's intent is to delete the content. This exception allows for human intervention as a safety precaution.
 
-### HEAD
+#### HEAD
 
 1. Same as **GET** method, but response contains only headers.
 
-### TRACE
+#### TRACE
 
 1. Used to trace all nodes that HTTP message passes.
 1. Every intermediary server append its addres to `Via` header.
@@ -309,7 +337,7 @@ Host: webserver.localdomain
 Via: 1.1 proxya.localdomain, 1.1 proxyb.localdomain
 ```
 
-### OPTIONS
+#### OPTIONS
 
 1. Query server for supported HTTP methods, result contained in `Allow` header of response.
 
@@ -327,18 +355,20 @@ Allow: GET, HEAD, OPTIONS, TRACE
 Connection: close
 ```
 
-### CONNECT
+#### CONNECT
 
 1. Intermediary servers setup tunnel with server, it doesn't check or transform request, only transports messages between client and server.
 1. Tunnel should be transparent to servers and clients.
 
 Most common use case is setting up a **S**ecure **S**ockets **L**ayer or **T**ransport **L**ayer **S**ecurity for encryption.
 
+### Headers
+
+### Status Code
+
 ## Media Types
 
 **Multipurpose Internet Mail Extensions (MIME)** was originally designed for email. It worked so well that HTTP protocol adopted it to describe and label type of media content.
-
-## Status Code
 
 ## Cookie
 
