@@ -2,12 +2,16 @@
 
 [**Re**presentational **S**tate **T**ransfer](http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm) is an architectural style for distributed hypermedia systems.
 
-## Architectural Design Contraints
+## Architectural Design Contraints (TODO:)
 
 RESTful architectural styled is derived from applying constraints to arbitrary web system design.
 
-1. Client-Server
-1. Stateless (TODO)
+1. Client-Server constraint separates server data storage from client using same data access interface which simplyfies servers components and improves scalability.
+1. Communication must be stateless in that each request must contain all needed information for server to handle single request without store states between requests. Stateless constraint is a design trade-off to improve visibility, reliability and scalability at the cost of increased repetitive data between multiple requests.
+1. Cache constraint improve network efficiency at the cost of decreased scalability due to stale cache.
+1. Uniform interface constraint decouples server services from their implementation, which simplifies client interactions. Its drawback is that standadized users interface may descrease server performance when it doesn't suit acutal data requirements by client.
+1. Layered System.
+1. Code On Command.
 
 ## Best Practices
 
@@ -217,3 +221,5 @@ Always use SSL and don't forward a request without SSL to corresponding SSL vers
 1. [Best Practices for A Pragmatic RESTful API](http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api)
 1. [Best Practices for API Versioning](https://stackoverflow.com/questions/389169/best-practices-for-api-versioning)
 1. [An Eye Tracking Study on camelCase and under_score Identifier Styles](http://ieeexplore.ieee.org/document/5521745/?reload=true&tp=&arnumber=5521745)
+1. [Github RESTful API v3](https://developer.github.com/v3/)
+1. [Representational State Transfer](http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm)
