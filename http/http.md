@@ -5,8 +5,10 @@
         - [Syntax](#syntax)
         - [Absolute and Relative URLs](#absolute-and-relative-urls)
         - [Percent Encoding (URL Encoding)](#percent-encoding-url-encoding)
-    - [Cookie](#cookie)
+    - [HTTP Message](#http-message)
+    - [HTTP Methods](#http-methods)
     - [Status Code](#status-code)
+    - [Cookie](#cookie)
     - [Cache](#cache)
         - [Basic Terminology](#basic-terminology)
         - [Cache Lifecycle](#cache-lifecycle)
@@ -21,6 +23,7 @@
         - [Algorithm (TODO)](#algorithm-todo)
         - [Setting Caches in Apache Sever(TODO)](#setting-caches-in-apache-severtodo)
         - [Cache and Advertising (TODO)](#cache-and-advertising-todo)
+    - [Lib & Tools](#lib-tools)
 
 ## **U**niform **R**esrouce **I**dentifier
 
@@ -154,13 +157,166 @@ When all unsafe characters are escaped, URL is in a _canonical form_ that can be
 
 On the other hand, safe characters should not be escaped. Attackers could use this to cause pattern matching on URLs by some applications to fail.
 
+## HTTP Message
+
+| Methods | HTTP Version | Explaination |
+| ------- | ------------ | ------------ |
+| GET     | 1.0/1.0      |              |
+| POST    | 1.0/1.1      |              |
+| HEAD    | 1.0/1.1      |              |
+| PUT     | 1.1          |              |
+| DELETE  | 1.1          |              |
+| TRACE   | 1.1          |              |
+| OPTIONS | 1.1          |              |
+| CONNECT | 1.1          |              |
+
+GET 方法
+
+1. query string appears as part of URL.
+1. Bookmarkable.
+1. Almost all web servers supports URL of 1024 characters, standard prefers not using URL longer than 255 characters.
+1. Unsafe plain text.
+
+```http
+GET /search?hl=en&q=HTTP&btnG=Google+Search HTTP/1.1
+Host: www.google.com
+User-Agent: Mozilla/5.0 Galeon/1.2.0 (X11; Linux i686; U;) Gecko/20020326
+Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9, text/plain;q=0.8, video/x-mng,image/png,image/jpeg,image/gif;q=0.2, text/css,*/*;q=0.1
+Accept-Language: en
+Accept-Encoding: gzip, deflate, compress;q=0.9
+Accept-Charset: ISO-8859-1, utf-8;q=0.66, *;q=0.66
+Keep-Alive: 300
+Connection: keep-alive
+```
+
+POST
+
+1. Query string appears as in message body, so length is not limited.
+1. Unsafe plain text.
+
+```http
+POST /search HTTP/1.1
+Host: www.google.com
+User-Agent: Mozilla/5.0 Galeon/1.2.5 (X11; Linux i686; U;) Gecko/20020606
+Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9, text/plain;q=0.8,video/x-mng,image/png,image/jpeg,image/gif;q=0.2, text/css,*/*;q=0.1
+Accept-Language: en
+Accept-Encoding: gzip, deflate, compress;q=0.9
+Accept-Charset: ISO-8859-1, utf-8;q=0.66, *;q=0.66
+Keep-Alive: 300
+Connection: keep-alive
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 31
+
+hl=en&q=HTTP&btnG=Google+Search
+```
+
+PUT
+
+1. Create or update specified resource on server.
+1. Create resource and return **201 (Created)** when resource doesn't exist, update resource and return **200 (OK)** or **204 (No Content) if resource exist.
+1. `method` attribute of HTML `<form>` tag supports only **GET** and **POST**, not *PUT** method.
+
+DELETE
+
+1. Delete specified resource on server, returned **200 (OK)** doesn't means it's deleted.
+
+> It merely indicates that the server's intent is to delete the content. This exception allows for human intervention as a safety precaution.
+
+HEAD
+
+1. Same as **GET** method, but response contains only headers.
+
+TRACE
+
+1. Used to trace all nodes that HTTP message passes.
+1. Every intermediary server append its addres to `Via` header.
+
+```http
+TRACE / HTTP/1.1
+Host: webserver.localdomain
+```
+
+```http
+TRACE / HTTP/1.1
+Host: webserver.localdomain
+Via: 1.1 proxya.localdomain
+```
+
+```http
+TRACE / HTTP/1.1
+Host: webserver.localdomain
+Via: 1.1 proxya.localdomain, 1.1 proxyb.localdomain
+```
+
+```http
+HTTP/1.1 200 OK
+Date: Tue, 21 May 2002 12:34:56 GMT
+Server: Apache/1.3.22(Unix)
+Content-Type: message/http
+
+TRACE / HTTP/1.1
+Host: webserver.localdomain
+Via: 1.1 proxya.localdomain, 1.1 proxyb.localdomain
+```
+
+```http
+HTTP/1.1 200 OK
+Date: Tue, 21 May 2002 12:34:56 GMT
+Server: Apache/1.3.22(Unix)
+Content-Type: message/http
+Via: 1.1 proxyb.localdomain
+
+TRACE / HTTP/1.1
+Host: webserver.localdomain
+Via: 1.1 proxya.localdomain, 1.1 proxyb.localdomain
+```
+
+```http
+HTTP/1.1 200 OK
+Date: Tue, 21 May 2002 12:34:56 GMT
+Server: Apache/1.3.22(Unix)
+Content-Type: message/http
+Via: 1.1 proxyb.localdomain, 1.1 proxya.localdomain
+
+TRACE / HTTP/1.1
+Host: webserver.localdomain
+Via: 1.1 proxya.localdomain, 1.1 proxyb.localdomain
+```
+
+OPTIONS
+
+1. Query server for supported HTTP methods, result contained in `Allow` header of response.
+
+```http
+OPTIONS * HTTP/1.1
+Host: 127.0.0.1
+```
+
+```http
+HTTP/1.1 200 OK
+Date: Tue, 21 May 2002 12:34:56 GMT
+Server: Apache/1.3.22 (Unix) (Red-Hat/Linux) mod_python/2.7.8 Python/1.5.2 mod_ssl/2.8.5 OpenSSL/0.9.6b DAV/1.0.2 PHP/4.0.6 mod_perl/1.26 mod_throttle/3.1.2
+Content-Length: 0
+Allow: GET, HEAD, OPTIONS, TRACE
+Connection: close
+```
+
+CONNECT
+
+1. Intermediary servers setup tunnel with server, it doesn't check or transform request, only transports messages between client and server.
+1. Tunnel should be transparent to servers and clients.
+
+Most common use case is setting up a **S**ecure **S**ockets **L**ayer or **T**ransport **L**ayer **S**ecurity for encryption.
+
+## HTTP Methods
+
+## Status Code
+
 ## Cookie
 
 [Simple cookie framework](https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie/Simple_document.cookie_framework)
 
 1. [HTTP Cookie](https://en.wikipedia.org/wiki/HTTP_cookie#Session_cookie)
-
-## Status Code
 
 ## Cache
 
@@ -517,3 +673,8 @@ Mulitple caches could build complex _cache mesh_ instead of tree-shaped _cache h
 ### Setting Caches in Apache Sever(TODO)
 
 ### Cache and Advertising (TODO)
+
+## Lib & Tools
+
+1. Libs: minihttpd
+1. Tools: whois, telnet
