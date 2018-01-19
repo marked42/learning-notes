@@ -48,6 +48,123 @@ Check current configuration.
 git config --list
 ```
 
+## Commit Message
+
+### Commit Message Style Guide
+
+Do not use `git commit -m` for commit message.
+
+Commit message style.
+
+```text
+<type>(<scope>): <subject>
+<BLANK LINE>
+<body>
+<BLANK LINE>
+<footer>
+```
+
+Header (first line) includes type (required), scope (optional), a colon and subject (required).
+
+1. `type` specifies commit type.
+    1. `feat:` - feature
+    1. `fix:` - bug
+    1. `docs:` - documentation
+    1. `style:` - style change without affecting functions
+    1. `refactor:` - refactor without function change or bug fix
+    1. `test:` - new test
+    1. `chore:` - auxiliary changes
+1. `scope` is used to specify a clearer range under commit type.
+1. `subject` - describes about this commit neatly, usually less than 50 characters
+
+Body is a detailed description on current commit. It should be written as clear as possible and should not have more than 72 characters on one line.
+
+1. Should use first-person present tense like `change` instead of `changed` or `chagnes`.
+1. Should descibe intention and behaviour difference.
+
+Footer is normally empty and should be used two cases.
+
+1. Breaking change.
+    ```txt
+    BREAKING CHANGE: isolate scope bindings definition has changed.
+
+    To migrate the code follow the example below:
+
+    Before:
+
+    scope: {
+      myAttr: 'attribute',
+    }
+
+    After:
+
+    scope: {
+      myAttr: '@',
+    }
+
+    The removed `inject` wasn't generaly useful for directives so there should be no code using it.
+    ```
+1. Close issues.
+    ```txt
+    Closes #123, #456, #789
+    ```
+
+Special case is revert commit must start with revert.
+
+```txt
+revert: feat(pencil): add 'graphiteWidth' option
+
+This reverts commit 667ecc1654a317a13331b17617d973392f415f02.
+```
+
+### Tools
+
+Automatically styled commit message.
+
+```bash
+# install
+npm install -g commitizen
+
+# activate tool
+commitizen init cz-conventional-changelog --save --save-exact
+
+# auto commit style with tool instead of git commit
+git cz
+```
+
+[validate-commit-msg](https://github.com/conventional-changelog-archived-repos/validate-commit-msg) is used to check commit message style. It should be downloaded and placed inside package, then add it to git hooks for automatic style check.
+
+```json
+"config": {
+    "ghooks": {
+        "commit-msg": "./validate-commit-msg.js"
+    }
+}
+```
+
+Use conventional-changelog to generate change logs automatically.
+
+```bash
+npm install -g conventional-changelog
+cd my-project
+conventional-changelog -p angular -i CHANGELOG.md -w
+```
+
+Or config it as npm scripts.
+
+```json
+{
+  "scripts": {
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -w -r 0"
+  }
+}
+```
+
+Reference
+
+1. [gitemoji](https://github.com/carloscuesta/gitmoji/)
+1. [Torvalds on commit message](https://github.com/torvalds/linux/pull/17#issuecomment-5659933)
+
 ## Workflow
 
 Questions should be asked evaluating a workflow for a team.
