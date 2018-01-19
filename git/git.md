@@ -142,3 +142,13 @@ Reference
 1. [Git Workflow Tutorial](https://github.com/xirong/my-git/blob/master/git-workflow-tutorial.md#二git工作流指南)
 1. [Git Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
 1. [A successful Git branching model](http://nvie.com/posts/a-successful-git-branching-model/)
+
+## Append to last commit
+
+```bash
+# add new changes
+git add .
+
+# append changes to last commit without editing last commit information
+git commit --amend --no-edit
+```
