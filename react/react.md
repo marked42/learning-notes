@@ -223,3 +223,27 @@ Do not use in-place `bind` function or arrow function since new instance is gene
 <Button onClick={this.update.bind(this)} />
 <Button onClick={() => { console.log("Click"); }} />
 ```
+
+### Tools
+
+#### [Chrome DevTools](https://building.calibreapp.com/debugging-react-performance-with-react-16-and-chrome-devtools-c90698a522ad)
+
+> 1. Open your app and append the query param: `react_perf`. For example, `http://localhost:3000?react_perf`.
+> 1. Open the Chrome DevTools Performance tab and press Record.
+> 1. Perform the actions that you want to analyze.
+> 1. Stop recording.
+> 1. Inspect the visualization under User Timing.
+
+#### why-did-you-update
+
+1. Install with npm: `npm -i --save-dev why-did-you-update`.
+1. Add this snippet anywhere in your app.
+    ```javascript
+    import React from 'react'
+    if (process.env.NODE_ENV !== 'production') {
+      const {whyDidYouUpdate} = require('why-did-you-update')
+      whyDidYouUpdate(React)
+    }
+    ```
+
+#### React Developer Tools for Chrome
