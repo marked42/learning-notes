@@ -753,4 +753,4 @@ Mulitple caches could build complex _cache mesh_ instead of tree-shaped _cache h
 ## Lib & Tools
 
 1. Libs: minihttpd
-1. Tools: whois, telnet
+1. Tools: whois, telnet, [httpie](https://httpie.org/)
