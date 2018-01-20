@@ -1,5 +1,22 @@
 # Git
 
+- [Git](#git)
+    - [Setup](#setup)
+        - [Generating Account](#generating-account)
+        - [Configuration](#configuration)
+    - [Commit Message](#commit-message)
+        - [Commit Message Style Guide](#commit-message-style-guide)
+        - [Tools](#tools)
+    - [Workflow](#workflow)
+        - [Centralized Workflow](#centralized-workflow)
+        - [Feature Branching Workflow](#feature-branching-workflow)
+        - [Gitflow](#gitflow)
+        - [Forking flow](#forking-flow)
+    - [Append to last commit](#append-to-last-commit)
+    - [Merging and Rebasing](#merging-and-rebasing)
+        - [Interactive Rebasing](#interactive-rebasing)
+        - [Abortion](#abortion)
+
 ## Setup
 
 ### Generating Account
@@ -276,7 +293,7 @@ Gitflow introduces develop branch dedicated for development.
 
 There's extention tool for gitflow.
 
-## Forking flow
+### Forking flow
 
 1. Developers fork central repository before start developing.
 1. Developers clone their forked repository.
@@ -317,3 +334,81 @@ git add .
 # append changes to last commit without editing last commit information
 git commit --amend --no-edit
 ```
+
+## Merging and Rebasing
+
+![Merge Rebasing Example](./git_merge_rebase_example.svg)
+
+Git merge replays changes from _source_ branch to _target_ branch, which defaults to current branch if not specified.
+
+```bash
+git merge source [target]
+
+# in 2 steps
+git checkout target
+git merge source
+```
+
+Git merge is nice because it's non-destructive operation, existing branches are not changed. But an extraneous commit is generated everytime on _target_ branch to apply changes from _source_ branch. This would pollute commit history of _target_ branch.
+
+![Git Merge](./git_merge.svg)
+
+Git rebase re-writes entire target history to make it appears like it begins with source branch. All changes in source branch are incorporated but no new commits are generated.
+
+```bash
+git rebase source target
+
+# in 2 steps
+git checkout target
+git rebase source
+```
+
+![Git Merge](./git_rebase.svg)
+
+### Interactive Rebasing
+
+Use `-i` to start interactive rebasing.
+
+```bash
+git rebase -i source target
+```
+
+It opens an editor listing all commits to move.
+
+```bash
+pick 33d5b7a Message for commit #1
+pick 9480b3d Message for commit #2
+pick 5c67e61 Message for commit #3
+```
+
+Change `pick` to provided action keyword to manipulate specified commits. `fixup` squash commit to previous with its log message dropped.
+
+```bash
+pick 33d5b7a Message for commit #1
+fixup 9480b3d Message for commit #2
+pick 5c67e61 Message for commit #3
+
+# p, pick = use commit
+# r, reword = use commit, but edit the commit message
+# e, edit = use commit, but stop for amending
+# s, squash = use commit, but meld into previous commit
+# f, fixup = like "squash", but discard this commit's log message
+# x, exec = run command (the rest of the line) using shell
+# d, drop = remove commit
+```
+
+![Interactive Rebasing](./git_rebase_interactive.svg)
+
+Most important rule of `git rebase` is to use it only for private branch history manipulation instead of public branches. It changes commit history of public branch, which is now considered to be diverged from its remote counterpart. In this case you cannot push to remote branch unless you merge it back together. This is definitely unwanted.
+
+![Don't Rebase Public Branch](./git_rebase_public_branch.svg)
+
+Use `git push --force` with care to force pushing of local branch and overwrite its counterpart.
+
+### Abortion
+
+You can always use `git merge --abort` or `git abort --abort` to undo changes if you get confused in current situation.
+
+References
+
+1. [Merging vs Rebasing](https://www.atlassian.com/git/tutorials/merging-vs-rebasing)
