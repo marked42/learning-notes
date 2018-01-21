@@ -10,15 +10,22 @@
         - [Message Syntax](#message-syntax)
         - [HTTP Methods](#http-methods)
             - [GET](#get)
-            - [POST](#post)
+            - [HEAD](#head)
             - [PUT](#put)
             - [DELETE](#delete)
-            - [HEAD](#head)
+            - [POST](#post)
             - [TRACE](#trace)
             - [OPTIONS](#options)
             - [CONNECT](#connect)
-        - [Headers](#headers)
+            - [Extension Methods](#extension-methods)
+        - [Headers (TODO:)](#headers-todo)
         - [Status Code](#status-code)
+            - [100-199 Informational Status Code](#100-199-informational-status-code)
+                - [100 Continue](#100-continue)
+            - [200-299 Success Status Code](#200-299-success-status-code)
+            - [300-399 Redirect Status Code](#300-399-redirect-status-code)
+            - [400-499 Client Error Status Code](#400-499-client-error-status-code)
+            - [500-599 Server Error Status Code](#500-599-server-error-status-code)
     - [Media Types](#media-types)
     - [Cookie](#cookie)
     - [Cache](#cache)
@@ -211,18 +218,56 @@ Both request and reponse message is composed of three parts: start line, headers
 
 ![HTTP Message Example](./http_message_syntax.png)
 
+<table>
+    <tr>
+        <th>Parts</th>
+        <th>Explaination</th>
+    </tr>
+    <tr>
+        <td>method</td>
+        <td>One of HTTP Methods</td>
+    </tr>
+    <tr>
+        <td>request-URL</td>
+        <td>Complete URL of target resource or absolute path component of the URL</td>
+    </tr>
+    <tr>
+        <td>&lt;version&gt;</td>
+        <td>HTTP version in a format <code>HTTP/&lt;major&gt;.&lt;minor&gt;</code>, major and minor are integers.
+        </td>
+    </tr>
+    <tr>
+        <td>status-code</td>
+        <td>A three-digit number representing response status</td>
+    </tr>
+    <tr>
+        <td>reason-phrase</td>
+        <td>A human-readable string corresponding to status-code.</td>
+    </tr>
+    <tr>
+        <td>headers</td>    
+        <td>A list of headers, each of which starts with a name, followed by a colon(:), followed by optional whitespace, followed by a value, followed by a CRLF. Headers and bodies are separated by a blank line represented by a CRLF.</td>
+    </tr>
+    <tr>
+        <td>Entity body contains a block of arbitrary data. It's terminated by a CRLF and it's optional./td>
+    </tr>
+</table>
+
 ### HTTP Methods
 
-| Methods | HTTP Version | Explaination |
-| ------- | ------------ | ------------ |
-| GET     | 1.0/1.0      |              |
-| POST    | 1.0/1.1      |              |
-| HEAD    | 1.0/1.1      |              |
-| PUT     | 1.1          |              |
-| DELETE  | 1.1          |              |
-| TRACE   | 1.1          |              |
-| OPTIONS | 1.1          |              |
-| CONNECT | 1.1          |              |
+| Methods | HTTP Version | Safe | Idempotent |
+| ------- | ------------ | ---- | ---------- |
+| GET     | 1.0/1.1      | Yes  | Yes        |
+| HEAD    | 1.0/1.1      | Yes  | Yes        |
+| PUT     | 1.1          | No   | Yes        |
+| DELETE  | 1.1          | No   | Yes        |
+| POST    | 1.0/1.1      | No   | No         |
+| PATCH   | 1.1          | No   | No         |
+| TRACE   | 1.1          | Yes  | Yes        |
+| OPTIONS | 1.1          | Yes  | Yes        |
+| CONNECT | 1.1          | Yes  | Yes        |
+
+_Safe_ methods should not change any server data. _Idempotent_ method may change server data, but the result of calling it more than one time should have no difference with calling it once.
 
 #### GET
 
@@ -242,6 +287,22 @@ Accept-Charset: ISO-8859-1, utf-8;q=0.66, *;q=0.66
 Keep-Alive: 300
 Connection: keep-alive
 ```
+
+#### HEAD
+
+HEAD method should be treated like **GET** method, only its response should not contains body. It's often used to find out information (existence, type, last modification time...) about a resource without getting its content.
+
+#### PUT
+
+1. Create or update specified resource on server.
+1. Create resource and return **201 (Created)** when resource doesn't exist, update resource and return **200 (OK)** or **204 (No Content) if resource exist.
+1. `method` attribute of HTML `<form>` tag supports only **GET** and **POST**, not *PUT** method.
+
+#### DELETE
+
+1. Delete specified resource on server, returned **200 (OK)** doesn't means it's deleted.
+
+> It merely indicates that the server's intent is to delete the content. This exception allows for human intervention as a safety precaution.
 
 #### POST
 
@@ -264,26 +325,10 @@ Content-Length: 31
 hl=en&q=HTTP&btnG=Google+Search
 ```
 
-#### PUT
-
-1. Create or update specified resource on server.
-1. Create resource and return **201 (Created)** when resource doesn't exist, update resource and return **200 (OK)** or **204 (No Content) if resource exist.
-1. `method` attribute of HTML `<form>` tag supports only **GET** and **POST**, not *PUT** method.
-
-#### DELETE
-
-1. Delete specified resource on server, returned **200 (OK)** doesn't means it's deleted.
-
-> It merely indicates that the server's intent is to delete the content. This exception allows for human intervention as a safety precaution.
-
-#### HEAD
-
-1. Same as **GET** method, but response contains only headers.
-
 #### TRACE
 
 1. Used to trace all nodes that HTTP message passes.
-1. Every intermediary server append its addres to `Via` header.
+1. Every intermediary server append its address to `Via` header.
 
 ```http
 TRACE / HTTP/1.1
@@ -362,9 +407,279 @@ Connection: close
 
 Most common use case is setting up a **S**ecure **S**ockets **L**ayer or **T**ransport **L**ayer **S**ecurity for encryption.
 
-### Headers
+#### Extension Methods
+
+Some WebDAV extension methods.
+
+| Method | Description |
+| -- | -- |
+| LOCK | Allows user to lock a resource |
+| MKCOL | Allows user to create a resource |
+| COPY | Facilitates copying resources on a server |
+| MOVE | Moves a resource on a server |
+
+### Headers (TODO:)
+
+Generate Headers, Request Headers, Response Headers, Entity Headers, Extension Headers.
 
 ### Status Code
+
+#### 100-199 Informational Status Code
+
+##### 100 Continue
+
+<table>
+    <tr>
+        <td>Status code</td>
+        <td>Reason phrase</td>
+        <td>Explaination</td>
+    </tr>
+    <tr>
+        <td>100</td>
+        <td>Continue</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>101</td>
+        <td>Switching Protocoles</td>
+        <td></td>
+    </tr>
+</table>
+
+#### 200-299 Success Status Code
+
+<table>
+    <tr>
+        <td>Status code</td>
+        <td>Reason phrase</td>
+        <td>Explaination</td>
+    </tr>
+    <tr>
+        <td>200</td>
+        <td>OK</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>201</td>
+        <td>Created</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>202</td>
+        <td>Accepted</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>203</td>
+        <td>Non-Authoritative</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>204</td>
+        <td>No Content</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>205</td>
+        <td>Reset Content</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>206</td>
+        <td>Partial Content</td>
+        <td></td>
+    </tr>
+</table>
+
+#### 300-399 Redirect Status Code
+
+<table>
+    <tr>
+        <td>Status code</td>
+        <td>Reason phrase</td>
+        <td>Explaination</td>
+    </tr>
+    <tr>
+        <td>300</td>
+        <td>Multiple Choices</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>301</td>
+        <td>Created</td>
+        <td>Moved Permanently</td>
+    </tr>
+    <tr>
+        <td>302</td>
+        <td>Accepted</td>
+        <td>Found</td>
+    </tr>
+    <tr>
+        <td>303</td>
+        <td>See Other</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>304</td>
+        <td>Not Modified</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>305</td>
+        <td>Use Proxy</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>306</td>
+        <td>(Unused)</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>307</td>
+        <td>Temporary Redirect</td>
+        <td></td>
+    </tr>
+</table>
+
+#### 400-499 Client Error Status Code
+
+<table>
+    <tr>
+        <td>Status code</td>
+        <td>Reason phrase</td>
+        <td>Explaination</td>
+    </tr>
+    <tr>
+        <td>400</td>
+        <td>Bad Request</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>401</td>
+        <td>Unauthorized</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>402</td>
+        <td>Payment Required</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>403</td>
+        <td>Forbidden</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>404</td>
+        <td>Not Found</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>405</td>
+        <td>Method Not Allowed</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>406</td>
+        <td>Not Acceptable</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>407</td>
+        <td>Proxy Authentication</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>408</td>
+        <td>Request Timeout</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>409</td>
+        <td>Conflict</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>410</td>
+        <td>Gone</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>411</td>
+        <td>Length Required</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>412</td>
+        <td>Precondition Failed</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>413</td>
+        <td>Request Entity Too Large</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>414</td>
+        <td>Request URI Too Long</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>415</td>
+        <td>Unsupported Media Type</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>416</td>
+        <td>Requested Range Not Satisfiable</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>417</td>
+        <td>Expectation Failed</td>
+        <td></td>
+    </tr>
+</table>
+
+#### 500-599 Server Error Status Code
+
+<table>
+    <tr>
+        <td>Status code</td>
+        <td>Reason phrase</td>
+        <td>Explaination</td>
+    </tr>
+    <tr>
+        <td>500</td>
+        <td>Internal Server Error</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>501</td>
+        <td>Not Implemented</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>502</td>
+        <td>Bad Gateway</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>503</td>
+        <td>Service Unavailable</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>504</td>
+        <td>Gateway Timeout</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>505</td>
+        <td>HTTP Version Not Supported</td>
+        <td></td>
+    </tr>
+</table>
 
 ## Media Types
 
