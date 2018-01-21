@@ -18,7 +18,12 @@
             - [OPTIONS](#options)
             - [CONNECT](#connect)
             - [Extension Methods](#extension-methods)
-        - [Headers (TODO:)](#headers-todo)
+        - [Headers](#headers)
+            - [General Headers](#general-headers)
+            - [Request Headers](#request-headers)
+            - [Response Headers](#response-headers)
+            - [Entity Headers](#entity-headers)
+            - [Extension Headers](#extension-headers)
         - [Status Code](#status-code)
             - [100-199 Informational Status Code](#100-199-informational-status-code)
                 - [100 Continue](#100-continue)
@@ -249,7 +254,7 @@ Both request and reponse message is composed of three parts: start line, headers
         <td>A list of headers, each of which starts with a name, followed by a colon(:), followed by optional whitespace, followed by a value, followed by a CRLF. Headers and bodies are separated by a blank line represented by a CRLF.</td>
     </tr>
     <tr>
-        <td>Entity body contains a block of arbitrary data. It's terminated by a CRLF and it's optional./td>
+        <tr>Entity body contains a block of arbitrary data. It's terminated by a CRLF and it's optional./td>
     </tr>
 </table>
 
@@ -418,9 +423,317 @@ Some WebDAV extension methods.
 | COPY | Facilitates copying resources on a server |
 | MOVE | Moves a resource on a server |
 
-### Headers (TODO:)
+### Headers
 
-Generate Headers, Request Headers, Response Headers, Entity Headers, Extension Headers.
+#### General Headers
+
+General headers are generic headers that can appear both in request and in reponse message.
+
+<table>
+    <tr>
+        <th colspan='2'>Header</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td rowspan='8'>Informational</td>
+        <td>Connection</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Date</td>
+        <tr></tr>
+    </tr>
+    <tr>
+        <td>MIME-Version</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Trailer</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Transfer-Encoding</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Upgrade</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Via</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td rowspan='2'>Cache</td>
+        <td>Cache-Control</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Pragma</td>
+        <td></td>
+    </tr>
+</table>
+
+#### Request Headers
+
+Request headers provide extra information to servers. They appears only in request messages.
+
+<table>
+    <tr>
+        <th colspan='2'>Header</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td rowspan='11'>Informational</td>
+        <td>Client-IP</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>From</td>
+        <tr></tr>
+    </tr>
+    <tr>
+        <td>Host</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Referer</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>UA-Color</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>UA-CPU</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>UA-Disp</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>UA-OS</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>UA-Pixels</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>User-Agent</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td rowspan='5'>Accpet</td>
+        <td>Accept</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Accept-Charset</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Accept-Encoding</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Accept-Language</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>TE</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td rowspan='7'>Conditional Request</td>
+        <td>Expect</td>
+    </tr>
+    <tr>
+        <td>If-Match</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>If-Modified-Since</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>If-None-Match</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>If-Range</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>If-Unmodified-Since</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Range</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td rowspan='3'>Security</td>
+        <td>Authorization</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Cookie</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Cookie2</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td rowspan='3'>Proxy</td>
+        <td>Max-Forwards</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Proxy-Authorization</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Proxy-Connection</td>
+        <td></td>
+    </tr>
+</table>
+
+#### Response Headers
+
+Reponse headers provide extra information to clients. They appears only in reponse messages.
+
+<table>
+    <tr>
+        <th colspan='2'>Header</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td rowspan='7'>Informational</td>
+        <td>Age</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Public</td>
+        <tr></tr>
+    </tr>
+    <tr>
+        <td>Retry-After</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Server</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Title</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Warning</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td rowspan='2'>Negotiation</td>
+        <td>Accept-Ranges</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Vary</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td rowspan='4'>Security</td>
+        <td>Proxy-Autheticate</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Set-Cookie</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Set-Cookie2</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>WWW-Authenticate</td>
+        <td></td>
+    </tr>
+</table>
+
+#### Entity Headers
+
+Entity headers refers to headers that deal with entity body.
+
+<table>
+    <tr>
+        <th colspan='2'>Header</th>
+        <td>Description</td>
+    </tr>
+    <tr>
+        <td rowspan='2'>Informational</td>
+        <td>Allow</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Location</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td rowspan='8'>Content</td>
+        <td>Content-Base</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Content-Encoding</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Content-Language</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Content-Length</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Content-Location</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Content-MD5</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Content-Range</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Content-Type</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td rowspan='3'>Cache</td>
+        <td>ETag</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Expires</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Last-Modified</td>
+        <td></td>
+    </tr>
+</table>
+
+#### Extension Headers
+
+Extension headers are nonstandard headers that have been created by application developers for but not yet added to HTTP specification. HTTP programs should be tolerant and ignores or forward unknown extension headers.
+
+Extension headers usually should start with 'X' like `X-Rate-Limit` to be distinguished from standard headers.
 
 ### Status Code
 
