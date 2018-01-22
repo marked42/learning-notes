@@ -407,7 +407,7 @@ Use `git push --force` with care to force pushing of local branch and overwrite 
 
 ### Abortion
 
-You can always use `git merge --abort` or `git abort --abort` to undo changes if you get confused in current situation.
+You can always use `git merge --abort` or `git rebase --abort` to undo changes if you get confused in current situation.
 
 References
 
