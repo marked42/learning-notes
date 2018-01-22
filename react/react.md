@@ -247,3 +247,30 @@ Do not use in-place `bind` function or arrow function since new instance is gene
     ```
 
 #### React Developer Tools for Chrome
+
+## Conditional Rendering
+
+```javascript
+// renders if  condition is true
+{condition && <span>Rendered when `truthy`</span> }
+
+// renders if  condition is false
+{condition || <span>Rendered when `falsey`</span> }
+
+// renders if by condition
+{condition
+  ? <span>Rendered when `truthy`</span>
+  : <span>Rendered when `falsey`</span>
+}
+
+// renders if by condition
+{condition ? (
+  <span>
+    Rendered when `truthy`
+  </span>
+) : (
+  <span>
+    Rendered when `falsey`
+  </span>
+)}
+```
