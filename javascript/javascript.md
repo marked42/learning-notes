@@ -1,5 +1,91 @@
 # Javascript
 
+- [Javascript](#javascript)
+  - [Host Environment](#host-environment)
+    - [**D**ocument **O**bject **M**odel](#document-object-model)
+      - [DOM Node](#dom-node)
+      - [Traverse DOM](#traverse-dom)
+      - [Search DOM](#search-dom)
+      - [Table DOM](#table-dom)
+    - [DOM Size and Positions](#dom-size-and-positions)
+    - [**B**rowser **O**bject **M**odel](#browser-object-model)
+  - [DOM Event](#dom-event)
+    - [Event Fundamentals](#event-fundamentals)
+      - [Event Handler](#event-handler)
+      - [Dispatch An Event](#dispatch-an-event)
+    - [Event Bubbling and Capturing](#event-bubbling-and-capturing)
+    - [Event Delegation](#event-delegation)
+    - [Browser Default Action](#browser-default-action)
+    - [Sythetic Event](#sythetic-event)
+    - [Custom Event](#custom-event)
+    - [Events-in-events are synchronously](#events-in-events-are-synchronously)
+    - [Detailed Event](#detailed-event)
+    - [Reference](#reference)
+  - [This](#this)
+    - [Rules for Determining this](#rules-for-determining-this)
+      - [Constructor Call](#constructor-call)
+      - [Explicit Binding](#explicit-binding)
+      - [Implicit Binding](#implicit-binding)
+      - [Default Binding](#default-binding)
+      - [Arrow Function](#arrow-function)
+  - [Types and Values](#types-and-values)
+    - [Converting values to primitives](#converting-values-to-primitives)
+    - [Explicit Type Conversion](#explicit-type-conversion)
+      - [Number](#number)
+      - [String](#string)
+      - [Boolean](#boolean)
+    - [Implicit Type Conversion](#implicit-type-conversion)
+  - [Prototypes](#prototypes)
+    - [**O**bject **O**riented](#object-oriented)
+    - [**O**bjects **L**inked to **O**ther **O**bjects](#objects-linked-to-other-objects)
+  - [ES6 Class](#es6-class)
+    - [Operator Precedence](#operator-precedence)
+  - [Javascript Async](#javascript-async)
+  - [Callback Execution Order](#callback-execution-order)
+  - [Scope](#scope)
+    - [Function Scope](#function-scope)
+    - [Closure](#closure)
+      - [let loops](#let-loops)
+    - [Block Scope](#block-scope)
+    - [Module Pattern](#module-pattern)
+      - [_Lexical Scope_](#lexical-scope)
+      - [_Dynamic Scope_](#dynamic-scope)
+  - [Redux](#redux)
+  - [Generator & Iterator](#generator-iterator)
+    - [Iterator & Iterable](#iterator-iterable)
+    - [yield](#yield)
+    - [Generator Delegation](#generator-delegation)
+    - [Yield and Promise](#yield-and-promise)
+      - [Promise in Concurrency](#promise-in-concurrency)
+      - [Thunk](#thunk)
+    - [Generator and this](#generator-and-this)
+    - [Generator and State Machine](#generator-and-state-machine)
+  - [Async Function](#async-function)
+    - [await](#await)
+  - [Promise](#promise)
+    - [resolve](#resolve)
+    - [`then()`](#then)
+    - [Thenable](#thenable)
+    - [Terminology](#terminology)
+    - [API](#api)
+    - [Promisory](#promisory)
+  - [Performance](#performance)
+    - [Web Workers](#web-workers)
+    - [**S**ingle **I**nstruction **M**ultiple **D**ata](#single-instruction-multiple-data)
+    - [asm.js](#asmjs)
+    - [Benchmark.js](#benchmarkjs)
+    - [**T**ail **C**all **O**ptimization](#tail-call-optimization)
+  - [Module](#module)
+    - [CommonJS](#commonjs)
+      - [`require()`](#require)
+      - [`module.exports` & `exports`](#moduleexports-exports)
+    - [ES6 module](#es6-module)
+      - [Import](#import)
+      - [Export](#export)
+  - [Snippets](#snippets)
+    - [Debounce](#debounce)
+    - [Throttle](#throttle)
+
 ## Host Environment
 
 ### **D**ocument **O**bject **M**odel
@@ -437,7 +523,9 @@ Dispatch event at the end of handler function or use `setTimeout(..., 0)` for an
 </script>
 ```
 
-### [Detailed Event](http://javascript.info/event-details)
+### Detailed Event
+
+[Detailed event](http://javascript.info/event-details)
 
 ### Reference
 
@@ -822,6 +910,265 @@ Internal method `ToPrimitive` used to convert Symbol to primitive values.
   `${Symbol("b")}`; // TypeError: Cannot convert a Symbol value to a string
 ```
 
+### Converting values to primitives
+
+Internal operation `ToPrimitive()` is used to convert values to primitive values.
+
+```javascript
+ToPrimitive(input, PreferredType?)
+```
+
+The optional paramter `PreferredType` is either `Number` or `String`, it's only a preference, not always represents result type. Following steps can be used to determine result of `ToPrimitive()` call.
+
+```javascript
+const isPrimitive = value => value === null || typeof value !== 'object'
+
+/ *
+* @param {any} [input] (value to convert)
+* @param {string} [preferredType] (can only be 'string' or 'number', if omitted, set it to 'string' for instances of Date or to 'number' for other values)
+* /
+function ToPrimitive(input, preferredType) {
+  // 1. If `input` is primitive value, return as it is.
+  if (isPrimitive(input)) {
+    return input
+  }
+
+  preferredType = input instanceof Date ? 'string' : 'number'
+
+  // 2. check result of `input.valueOf()` first if preferredType is number
+  if (preferredType === 'number') {
+    const valueOfResult = input.valueOf()
+    if (isPrimitive(valueOfResult)) {
+      return valueOfResult
+    }
+
+    const toStringResult = input.toString()
+    if (isPrimitive(toStringResult)) {
+      return toStringResult
+    }
+
+    throw new TypeError('Cannot convert value to primitve')
+  }
+
+  // 3. check result of `input.toString()` first if preferredType is string
+  if (preferredType === 'string') {
+    const toStringResult = input.toString()
+    if (isPrimitive(toStringResult)) {
+      return toStringResult
+    }
+
+    const valueOfResult = input.valueOf()
+    if (isPrimitive(valueOfResult)) {
+      return valueOfResult
+    }
+
+    throw new TypeError('Cannot convert value to primitve')
+  }
+}
+```
+
+### Explicit Type Conversion
+
+#### Number
+
+Function `Number()` to convert parameter to number explicitly.
+
+Primitive values are converted to number directly. Object value is converted to primitive value using internal operation `ToPrimitive()` first, its result is converted to number then.
+
+```javascript
+function ToNumber(value) {
+  // converts value to primitive first if it's object
+  if (!isPrimitive(value)) {
+    ToNumber(ToPrimitive(value, 'number'))
+  }
+
+  // convert primitive value to number directly
+  if (value === undefined) {
+    return NaN
+  }
+
+  if (value === null) {
+    return +0
+  }
+
+  if (value === true) {
+    return 1
+  }
+
+  if (value === false) {
+    return +0
+  }
+
+  if (typeof value === 'number') {
+    return value
+  }
+
+  // Number('324abc') : NaN for values cannot converted to number
+  // Number('') : 0
+  if (typeof value === 'string') {
+    return Number.parseInt(value)
+  }
+}
+```
+
+`Number()` converts most object to `NaN`, only array with single element convertable to number may be converted to number.
+
+```javascript
+// Converts object to number
+Number({a: 1})      // NaN
+Number([1, 2, 3])   // NaN
+Number([3])         // NaN, [3].toString() is '3'
+```
+
+#### String
+
+Function `String()` converts parameters to string explicitly.
+
+Primitive values are converted to string directly. Object values are converted to primitive values first, then its result is converted to string.
+
+```javascript
+// convert basic types to string
+String(123)       // '123'
+String('abc')     // 'abc'
+String(true)      // 'true'
+String(false)     // 'false'
+String(undefined) // 'undefined'
+String(null)      // 'null'
+
+function ToString(value) {
+  // converts value to primitive first if it's object
+  if (!isPrimitive(value)) {
+    ToString(ToPrimitive(value, 'string'))
+  }
+
+  // convert primitive value to number directly
+  if (value === undefined) {
+    return 'undefined'
+  }
+
+  if (value === null) {
+    return 'null'
+  }
+
+  if (value === true) {
+    return 'true'
+  }
+
+  if (value === false) {
+    return 'false'
+  }
+
+  if (typeof value === 'string') {
+    return value
+  }
+
+  if (typeof value === 'number') {
+    return `${value}`
+  }
+}
+```
+
+#### Boolean
+
+Function `Boolean()` converts parameters to boolean explicitly.
+
+```javascript
+// convert basic types to boolean
+Boolean(undefined)    // false
+Boolean(null)         // false
+Boolean(0)            // false
+Boolean(NaN)          // false
+Boolean('')           // false
+```
+
+All objects are converted to `true` by function `Boolean()`.
+
+```javascript
+Boolean({})                   // true
+Boolean([])                   // true
+Boolean(new Boolean(false))   // true, even for corresponding object of false
+```
+
+### Implicit Type Conversion
+
+Values maybe converted to different types automatically.
+
+Evaluation process of addition expression `value1 + value2`.
+
+1. Convert both operands to primitives.
+    ```javascript
+    primitive1 = ToPrimitive(value1)
+    primitive2 = ToPrimitive(value2)
+    ```
+1. If either `primitive1` or `primitive2` is string, convert them both to strings and return concatenation of the results.
+1. Otherwise convert both `primitive1` and `primitive2` to numbers and return sum of the results.
+
+    ```javascript
+    // 1. if statement
+    if (null)
+
+    // 2. tenary expression
+    expression ? true : false
+
+    // 3. logic operators
+    !expression
+    expression1 || expression2
+    ```
+Only addition operator (+) will convert operands to string.
+
+```javascript
+{} + {}     // '[object Object][object Object]'
+```
+
+All other operators including unary plus (+) or unary mins (-) convert value to number.
+
+```javascript
+// Only a string and another value is added (+), the other values is
+// converted to string automatically
+'5' + 1 // '51'
+'5' + true // "5true"
+'5' + false // "5false"
+'5' + {} // "5[object Object]"
+'5' + [] // "5"
+'5' + function (){} // "5function (){}"
+'5' + undefined // "5undefined"
+'5' + null // "5null"
+
+null + 1      // 1
+undefined + 1 // NaN
+'5' - '2'     // 3
+'5' * '2'     // 10
+true - 1      // 0
+false - 1     // -1
+'1' - 1       // 0
+'5' * []      // 0
+false / '5'   // 0
+'abc' - 1     // NaN
+
++'abc'        // NaN
+-'abc'        // NaN
++true         // 1
+-false        // 0
+```
+
+Some weired cases when
+
+```javascript
+{} + {}   // NaN
+{} + []   // 0
+
+// first block is not considers as an object but an emtpy block, thus
++ {}    // convert to number NaN
++ []    // convert to number 0
+
+({} + {})   // '[object Object][object Object]'
+({} + [])   // `[object Object]`
+```
+
+Reference
+
+1. [Object Plus Object](http://2ality.com/2012/01/object-plus-object.html)
+
 ## Prototypes
 
 ### **O**bject **O**riented
@@ -937,7 +1284,9 @@ function* foo() {
 `super` keyworkd in class constructor is statically bound, so when class(which
 is actually a function) prototype changes later, `super` remains the same value.
 
-### [Operator Precedence](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence)
+### Operator Precedence
+
+[Operator Precedence MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence)
 
 ```javascript
 function Foo() {
