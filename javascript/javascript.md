@@ -18,7 +18,7 @@
     - [Browser Default Action](#browser-default-action)
     - [Sythetic Event](#sythetic-event)
     - [Custom Event](#custom-event)
-    - [Events-in-events are synchronously](#events-in-events-are-synchronously)
+    - [Events-in-events are synchronous](#events-in-events-are-synchronous)
     - [Detailed Event](#detailed-event)
     - [Reference](#reference)
   - [This](#this)
@@ -406,7 +406,7 @@ let event = new MouseEvent("click", {
 });
 ```
 
-Sythetic events are often simulate user actions in automatic testing.
+Sythetic events are often used to simulate user actions in automatic testing.
 
 ```javascript
 function simulateClick() {
@@ -475,7 +475,7 @@ let event = new CustomEvent("unique-type", {
 </script>
 ```
 
-### Events-in-events are synchronously
+### Events-in-events are synchronous
 
 Usually events are processed asynchronously. If during the process of one event, other events are triggered by users, browsers will first finish handling current event and the keep handling newly triggered events in a sequential order.
 
