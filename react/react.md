@@ -1,5 +1,20 @@
 # React
 
+- [React](#react)
+  - [`setState()`](#setstate)
+  - [Performance Optimization](#performance-optimization)
+    - [Anti Patterns](#anti-patterns)
+    - [Tools](#tools)
+      - [Chrome DevTools](#chrome-devtools)
+      - [why-did-you-update](#why-did-you-update)
+      - [React Developer Tools for Chrome](#react-developer-tools-for-chrome)
+  - [Patterns](#patterns)
+    - [Pass Down Props](#pass-down-props)
+    - [Conditional Rendering](#conditional-rendering)
+    - [Container Components](#container-components)
+    - [Render Props](#render-props)
+    - [Context and Provider Pattern](#context-and-provider-pattern)
+
 ## `setState()`
 
 `setState(newState)` does a shallow merge with `oldState` and `newState`, avoid using deeply nested state which could cause unexpected behaviour.
@@ -21,78 +36,6 @@ state = { type: 'All', format: 'json' }
 
 setState({ type: 'None' })
 // nextState is { type: 'None', format: 'json' }
-```
-
-## Pass Down Props
-
-Use destructure to extract part of a object.
-
-```javascript
-const props = { a: 1, b: 2, c: 3}
-
-// a = 1, others = { b: 2, c: 3}
-const {a, ...others} = props
-```
-
-Extract part of component props and pass them down. It allows users to assign default props like 'id', 'className', 'htmlFor' etc... for html element to high order component, and lower component could inherit assigned value from high order component. This pattern allows users to manipulate lower component properties from high order component.
-
-```javascript
-import React, { Component } from "react"
-
-const Select = ({ options, ...passedDownProps }) => (
-  <select {...passedDownProps}>
-    {options.map(option => (
-      <option key={option.value} value={option.value}>
-        {option.text}
-      </option>
-    ))}
-  </select>
-)
-
-const Example = ({numbers, ...passedDownProps}) => {
-  const props = { options: numbers, ...passedDownProps }
-
-  return <Select {...props} />
-}
-
-const Root = () => {
-  const props = {
-    numbers: [{ value: 1, text: "I" }],
-    className: "selector",
-  };
-
-  return <Example {...props}>
-}
-```
-
-1. `Root` passes `{numbers, className}` to `Example`
-1. `Example` uses `numbers` as `options` and passes `{options, className}` to `Select`.
-1. `Select` uses `options` property to generate multiple option tags. other properties which is `className` in this case are extracted as `passedDownProps` and passed down to built-in html component `select`
-
-Notice that passed-down properties should not clash with or overwrite other properties, that would cause unexpected behaviour.
-
-```javascript
-const Root = () => {
-  const props = {
-    numbers: [{ value: 1, text: "I" }],
-    options: [{ value: 1, text: "First" }],
-    className: "selector",
-  };
-
-  return <Example {...props}/>
-}
-```
-
-1. `Root` passes property `options` to `Example`
-1. `Exmaple` receives `numbers` and `passedDownProps = {options, className}`, this causes `options` of `passedDownProps` to overwrite `options` from `numbers`
-    ```javascript
-    const props = { options: numbers, ...passedDownProps };
-    ```
-
-Maybe consider put `passedDownProps` at first so that any duplicate props from high order component would not overwrite props of lower component by accident. Or use this pattern only for default props of html element, so that it's propbably always being done on purpose.
-
-```javascript
-const props = { ...passedDownProps, options: numbers };
 ```
 
 ## Performance Optimization
@@ -226,7 +169,9 @@ Do not use in-place `bind` function or arrow function since new instance is gene
 
 ### Tools
 
-#### [Chrome DevTools](https://building.calibreapp.com/debugging-react-performance-with-react-16-and-chrome-devtools-c90698a522ad)
+#### Chrome DevTools
+
+[Blog Post](https://building.calibreapp.com/debugging-react-performance-with-react-16-and-chrome-devtools-c90698a522ad)
 
 > 1. Open your app and append the query param: `react_perf`. For example, `http://localhost:3000?react_perf`.
 > 1. Open the Chrome DevTools Performance tab and press Record.
@@ -248,9 +193,83 @@ Do not use in-place `bind` function or arrow function since new instance is gene
 
 #### React Developer Tools for Chrome
 
-## Conditional Rendering
+## Patterns
+
+### Pass Down Props
+
+Use destructure to extract part of a object.
 
 ```javascript
+const props = { a: 1, b: 2, c: 3}
+
+// a = 1, others = { b: 2, c: 3}
+const {a, ...others} = props
+```
+
+Extract part of component props and pass them down. It allows users to assign default props like 'id', 'className', 'htmlFor' etc... for html element to high order component, and lower component could inherit assigned value from high order component. This pattern allows users to manipulate lower component properties from high order component.
+
+```javascript
+import React, { Component } from "react"
+
+const Select = ({ options, ...passedDownProps }) => (
+  <select {...passedDownProps}>
+    {options.map(option => (
+      <option key={option.value} value={option.value}>
+        {option.text}
+      </option>
+    ))}
+  </select>
+)
+
+const Example = ({numbers, ...passedDownProps}) => {
+  const props = { options: numbers, ...passedDownProps }
+
+  return <Select {...props} />
+}
+
+const Root = () => {
+  const props = {
+    numbers: [{ value: 1, text: "I" }],
+    className: "selector",
+  };
+
+  return <Example {...props}>
+}
+```
+
+1. `Root` passes `{numbers, className}` to `Example`
+1. `Example` uses `numbers` as `options` and passes `{options, className}` to `Select`.
+1. `Select` uses `options` property to generate multiple option tags. other properties which is `className` in this case are extracted as `passedDownProps` and passed down to built-in html component `select`
+
+Notice that passed-down properties should not clash with or overwrite other properties, that would cause unexpected behaviour.
+
+```javascript
+const Root = () => {
+  const props = {
+    numbers: [{ value: 1, text: "I" }],
+    options: [{ value: 1, text: "First" }],
+    className: "selector",
+  };
+
+  return <Example {...props}/>
+}
+```
+
+1. `Root` passes property `options` to `Example`
+1. `Exmaple` receives `numbers` and `passedDownProps = {options, className}`, this causes `options` of `passedDownProps` to overwrite `options` from `numbers`
+    ```javascript
+    const props = { options: numbers, ...passedDownProps };
+    ```
+
+Maybe consider put `passedDownProps` at first so that any duplicate props from high order component would not overwrite props of lower component by accident. Or use this pattern only for default props of html element, so that it's propbably always being done on purpose.
+
+```javascript
+const props = { ...passedDownProps, options: numbers };
+```
+
+### Conditional Rendering
+
+```jsx
 // renders if  condition is true
 {condition && <span>Rendered when `truthy`</span> }
 
@@ -273,4 +292,127 @@ Do not use in-place `bind` function or arrow function since new instance is gene
     Rendered when `falsey`
   </span>
 )}
+```
+
+### Container Components
+
+A container component focuses on business logic like preparing data. Child component focuses on rendering views without considering business logic like data preparation. Container component passes data to child component and generate actual views. It separates business logic and user interface in favor of single responsiblity.
+
+```jsx
+class CommentListContainer extends React.Component {
+  constructor() {
+    super()
+    this.state = { comments: [] }
+  }
+
+  componentDidMount() {
+    fetch('http://destination/path').then(
+      comments => this.setState({comments})
+    )
+  }
+
+  render() {
+    return <CommentList comments={this.state.comments} />
+  }
+}
+```
+
+### Render Props
+
+Component contains a 'render' property, which is a function that can render some acutal component. `Children` property is used as render property usually.
+
+```jsx
+class DaobahRP extends React.Component {
+  state = { loading : true }
+
+  componentDidMount() {
+    fetch('https://swapi.co/api/planets/5')
+      .then(res => res.json)
+      .then(
+        planet => this.state({ loading: false, planet })
+        error => this.state({ loading: false, error })
+      )
+  }
+
+  render() {
+    return this.props.render(this.state)
+  }
+}
+
+export default () => {
+  <DagobahRP
+    render={({ loading, error, planet })} => {
+      if (loading) {
+        return <LoadingView />
+      } else if (planet) {
+        return <PlanetView {...planet} />
+      } else {
+        return <ErrorView />
+      }
+    }
+  >
+}
+```
+
+### Context and Provider Pattern
+
+When passing props from parent compoent to descendant components across multiple levels, manual property passing down is is cumbersome and makes parent component and child components highly coupled together. React provides context property to do it automatically.
+
+First we need a context provider, which must implements function `getChildContext()` to provide context to any components in subtree.
+
+```jsx
+class MessageList extends React.Component {
+  getChildContext() {
+    return { color: 'purple' }
+  }
+
+  render() {
+    const children = this.props.messages.map((message) =>
+      <Message text={message.text} />
+    )
+
+    return <div>{children}</div>
+  }
+}
+```
+
+Then any component can access context from parents by declaring static  `contextTypes` property to declare which context properties it intends to receive. Access context props with `this.context` property in sub components.
+
+```jsx
+// MessageList -> Message -> Button
+// Button component is a grandchild of MessageList component
+class Button extends React.Component {
+  // receive context property 'color' of type PropTypes.string
+  static contextTypes = {
+    color: PropTypes.string.
+  }
+
+  render() {
+    return (
+      <button style={{background: this.context.color}}>
+        {this.props.children}
+      </button>
+    )
+  }
+}
+```
+
+In stateless component, context is accessed a little differently.
+
+```jsx
+const Button = ({children}, context) => {
+  <button style={{background: context.color}}>
+  {children}
+  </button>
+}
+
+Button.contextTypes = {color: PropTypes.string}
+```
+
+Context pattern is used in libraries like _react-redux_, _react-router v4_.
+
+Context makes parent properties easily accessible to descendant components, but it's easily to be used inappropriately which makes descendant components harder to test. So use it only if with obvious benefits.
+
+```jsx
+
 ```
