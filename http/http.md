@@ -1027,7 +1027,7 @@ TCP handshake takes 3 steps.
 
 ##### Delayed Acknowledgement
 
-To increase network efficiency, most TCP implementations will hold acknowledgement packets for a fraction of a second (100ms~200ms), in prospect of any message with same direction as acknowledgement packet. Same direction message data will be packed together with acknowledgement packet to increase network efficient by avoiding small-sized bare acknowledgement (40-60 bytes) packet. If no same direction message data is found, acknowledgement packet is sent anyway.
+To increase network efficiency, most TCP implementations will hold acknowledgement packets for a fraction of a second (100ms~200ms), in prospect of any message with same direction as acknowledgement packet. Same direction message data will be packed together with acknowledgement packet to increase network efficiency by avoiding small-sized (40-60 bytes) bare acknowledgement packet. If no same direction message data is found, acknowledgement packet is sent anyway.
 
 ##### TCP Slow Start
 
@@ -1040,13 +1040,11 @@ Each TCP segment carries at least 40 bytes of flags and headers, network efficie
 Nagle's algorithm causes HTTP performance problems.
 
 1. Small HTTP messages may not fill a packet, so they may be delayed waiting for additional data that will never arrive.
-1. Partial data is held until acknowledgement arrives, which themselfs are delay by the delayed acknowledgement algorithm.
+1. Partial data is held until acknowledgement arrives, which themselves are delayed by the delayed acknowledgement algorithm.
 
 ##### TIME_WAIT Accumulation & Port Exhaustion
 
-When a TCP connection is closed, new connection with exact same parameter is not allowed to be used for a period of time (2 **m**aximum **s**egment **l**ife, 2mins usually). This prevents new connection from getting packets of old connection, which would corrupt data of current TCP connection. So there's a limited number of connections available for a specific client and server.
-
-If there're 60000 ports available, `60000 / (2 * 60) = 500` connections at maximum are available in a second.
+When a TCP connection is closed, new connection with exact same parameter is not allowed to be used for a period of time (2 **m**aximum **s**egment **l**ife, 2mins usually). This prevents new connection from getting packets of old connection, which would corrupt data of current TCP connection. And there's a limited number of connections available for a specific client and server. If there're 60000 ports available, `60000 / (2 * 60) = 500` connections at maximum are available in a second.
 
 ## Media Types
 

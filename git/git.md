@@ -12,7 +12,7 @@
         - [Feature Branching Workflow](#feature-branching-workflow)
         - [Gitflow](#gitflow)
         - [Forking flow](#forking-flow)
-    - [Append to last commit](#append-to-last-commit)
+    - [Amend Last Commit](#amend-last-commit)
     - [Merging and Rebasing](#merging-and-rebasing)
         - [Interactive Rebasing](#interactive-rebasing)
         - [Abortion](#abortion)
@@ -325,15 +325,28 @@ Reference
 1. [Git Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
 1. [A successful Git branching model](http://nvie.com/posts/a-successful-git-branching-model/)
 
-## Append to last commit
+## Amend Last Commit
+
+Change last commit's commit message.
 
 ```bash
-# add new changes
+git commit --amend -m 'new message'
+
+// interactive way
+git commit --amend
+```
+
+Append changes to last commit without changing its commit message.
+
+```bash
+# append new changes
 git add .
 
-# append changes to last commit without editing last commit information
+# --no-edit indicates to apply changes directly
 git commit --amend --no-edit
 ```
+
+If you want to change earlier commits, `git --rebase -i` may help but use it only on private branch but not on public branches.
 
 ## Merging and Rebasing
 
