@@ -918,15 +918,16 @@ Internal operation `ToPrimitive()` is used to convert values to primitive values
 ToPrimitive(input, PreferredType?)
 ```
 
-The optional paramter `PreferredType` is either `Number` or `String`, it's only a preference, not always represents result type. Following steps can be used to determine result of `ToPrimitive()` call.
+The optional paramter `PreferredType` is either `number` or `string`, it's only a preference, not always exact result type. Following steps can be used to determine result of `ToPrimitive()` call.
 
 ```javascript
 const isPrimitive = value => value === null || typeof value !== 'object'
 
-/ *
+/*
 * @param {any} [input] (value to convert)
-* @param {string} [preferredType] (can only be 'string' or 'number', if omitted, set it to 'string' for instances of Date or to 'number' for other values)
-* /
+* @param {string} [preferredType] (can only be 'string' or 'number'.
+* If it's omitted, set it to 'string' for instances of Date or to 'number' for other values)
+*/
 function ToPrimitive(input, preferredType) {
   // 1. If `input` is primitive value, return as it is.
   if (isPrimitive(input)) {
@@ -971,11 +972,10 @@ function ToPrimitive(input, preferredType) {
 
 #### Number
 
-Function `Number()` to convert parameter to number explicitly.
-
-Primitive values are converted to number directly. Object value is converted to primitive value using internal operation `ToPrimitive()` first, its result is converted to number then.
+Function `Number()` to convert parameter to number explicitly. Primitive values are converted to number directly. Object value is converted to primitive value using internal operation `ToPrimitive()` first, then its result is converted to number.
 
 ```javascript
+// for clarification, not actual implementation
 function ToNumber(value) {
   // converts value to primitive first if it's object
   if (!isPrimitive(value)) {
@@ -1011,30 +1011,21 @@ function ToNumber(value) {
 }
 ```
 
-`Number()` converts most object to `NaN`, only array with single element convertable to number may be converted to number.
+`Number()` converts most object to `NaN`, only array with single element convertable to number itself may be converted to number.
 
 ```javascript
 // Converts object to number
 Number({a: 1})      // NaN
 Number([1, 2, 3])   // NaN
-Number([3])         // NaN, [3].toString() is '3'
+Number([3])         // 3, [3].toString() is '3'
 ```
 
 #### String
 
-Function `String()` converts parameters to string explicitly.
-
-Primitive values are converted to string directly. Object values are converted to primitive values first, then its result is converted to string.
+Function `String()` converts parameters to string explicitly. Primitive values are converted to string directly. Object values are converted to primitive values first, then its result is converted to string.
 
 ```javascript
-// convert basic types to string
-String(123)       // '123'
-String('abc')     // 'abc'
-String(true)      // 'true'
-String(false)     // 'false'
-String(undefined) // 'undefined'
-String(null)      // 'null'
-
+// for clarification, not actual implementation
 function ToString(value) {
   // converts value to primitive first if it's object
   if (!isPrimitive(value)) {
@@ -1074,11 +1065,31 @@ Function `Boolean()` converts parameters to boolean explicitly.
 
 ```javascript
 // convert basic types to boolean
-Boolean(undefined)    // false
-Boolean(null)         // false
-Boolean(0)            // false
-Boolean(NaN)          // false
-Boolean('')           // false
+function ToBoolean(value) {
+  // object value converted to true
+  if (!isPrimitive(value)) {
+    return true
+  }
+
+  if (value === undefined || value === null
+  ) {
+    return false
+  }
+
+  if (typeof value === 'number') {
+    // NaN converted to false
+    if (Number.isNaN(value)) {
+      return false
+    }
+
+    // includes +Infinity and -Infinity
+    return value !== 0
+  }
+
+  if (typeof value === 'string') {
+    return value.length > 0
+  }
+}
 ```
 
 All objects are converted to `true` by function `Boolean()`.
@@ -1086,12 +1097,27 @@ All objects are converted to `true` by function `Boolean()`.
 ```javascript
 Boolean({})                   // true
 Boolean([])                   // true
-Boolean(new Boolean(false))   // true, even for corresponding object of false
+/* true, notice difference between primitive boolean
+*  value and corresponding boolean object
+*/
+Boolean(new Boolean(false))   // true
 ```
 
 ### Implicit Type Conversion
 
-Values maybe converted to different types automatically.
+Values maybe converted to boolean automatically where boolean is expected.
+
+```javascript
+// 1. if statement
+if (null)
+
+// 2. tenary expression
+expression ? true : false
+
+// 3. logic operators
+!expression
+expression1 || expression2
+```
 
 Evaluation process of addition expression `value1 + value2`.
 
@@ -1100,20 +1126,9 @@ Evaluation process of addition expression `value1 + value2`.
     primitive1 = ToPrimitive(value1)
     primitive2 = ToPrimitive(value2)
     ```
-1. If either `primitive1` or `primitive2` is string, convert them both to strings and return concatenation of the results.
+1. If either `primitive1` or `primitive2` is string, convert them both to string and return concatenation of the results.
 1. Otherwise convert both `primitive1` and `primitive2` to numbers and return sum of the results.
 
-    ```javascript
-    // 1. if statement
-    if (null)
-
-    // 2. tenary expression
-    expression ? true : false
-
-    // 3. logic operators
-    !expression
-    expression1 || expression2
-    ```
 Only addition operator (+) will convert operands to string.
 
 ```javascript
