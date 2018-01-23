@@ -32,12 +32,17 @@
             - [400-499 Client Error Status Code](#400-499-client-error-status-code)
             - [500-599 Server Error Status Code](#500-599-server-error-status-code)
     - [Connection Management](#connection-management)
-        - [TCP](#tcp)
-            - [TCP Connection Handshake Delays](#tcp-connection-handshake-delays)
-                - [Delayed Acknowledgement](#delayed-acknowledgement)
-                - [TCP Slow Start](#tcp-slow-start)
-                - [Nagle's Algorithm & TCP_NODELAY](#nagles-algorithm-tcpnodelay)
-                - [TIME_WAIT Accumulation & Port Exhaustion](#timewait-accumulation-port-exhaustion)
+        - [TCP Handshake Delay](#tcp-handshake-delay)
+            - [Delayed Acknowledgement](#delayed-acknowledgement)
+            - [TCP Slow Start](#tcp-slow-start)
+            - [Nagle's Algorithm & TCP_NODELAY](#nagles-algorithm-tcpnodelay)
+            - [TIME_WAIT Accumulation & Port Exhaustion](#timewait-accumulation-port-exhaustion)
+        - [Connection](#connection)
+            - [Serial Connection](#serial-connection)
+            - [Parallel Connection](#parallel-connection)
+            - [Persistent Connection](#persistent-connection)
+            - [Pipelined Connection](#pipelined-connection)
+            - [Connection Header](#connection-header)
     - [Media Types](#media-types)
     - [Cookie](#cookie)
     - [Cache](#cache)
@@ -1003,7 +1008,7 @@ Extension headers usually should start with 'X' like `X-Rate-Limit` to be distin
 
 ## Connection Management
 
-### TCP
+### TCP Handshake Delay
 
 A TCP connection is distinguished by four values
 
@@ -1012,8 +1017,6 @@ A TCP connection is distinguished by four values
 ```
 
 Sockets API hide all the detail of underlying network protocol handshaking and the segmentation and reassembly of the TCP data stream to and from IP packets.
-
-#### TCP Connection Handshake Delays
 
 Before any data can be sent with HTTP protocol, TCP protocol is used to set up a connection between client and server.
 
@@ -1025,15 +1028,15 @@ TCP handshake takes 3 steps.
 
 ![TCP Connection Handshake Delay](./tcp_connection_handshake_delay.png)
 
-##### Delayed Acknowledgement
+#### Delayed Acknowledgement
 
 To increase network efficiency, most TCP implementations will hold acknowledgement packets for a fraction of a second (100ms~200ms), in prospect of any message with same direction as acknowledgement packet. Same direction message data will be packed together with acknowledgement packet to increase network efficiency by avoiding small-sized (40-60 bytes) bare acknowledgement packet. If no same direction message data is found, acknowledgement packet is sent anyway.
 
-##### TCP Slow Start
+#### TCP Slow Start
 
 TCP slow start is a congestion-control feature which increases number of allowed packets to send each time gradually. Each time a packet is received, sender has permission to send two more packets. So TCP connection is tuned to send more and more packets until it reaches maximum network overload. A tuned TCP connection is more efficient than a new one, so it's better to reuse existed connection than creating a new one.
 
-##### Nagle's Algorithm & TCP_NODELAY
+#### Nagle's Algorithm & TCP_NODELAY
 
 Each TCP segment carries at least 40 bytes of flags and headers, network efficiency is quite low when a lot of small-sized TCP segments are transmitted. Nagle's algorithm tries to increase network efficiency by discouraing the sending of non full-size (1500 bytes for LAN, a few hundred bytes for internet) packets. Data must be buffered to complete a full packet before sending. Or if all other packets are sent and acknowledged, non full-size packet can be sent.
 
@@ -1042,9 +1045,30 @@ Nagle's algorithm causes HTTP performance problems.
 1. Small HTTP messages may not fill a packet, so they may be delayed waiting for additional data that will never arrive.
 1. Partial data is held until acknowledgement arrives, which themselves are delayed by the delayed acknowledgement algorithm.
 
-##### TIME_WAIT Accumulation & Port Exhaustion
+#### TIME_WAIT Accumulation & Port Exhaustion
 
 When a TCP connection is closed, new connection with exact same parameter is not allowed to be used for a period of time (2 **m**aximum **s**egment **l**ife, 2mins usually). This prevents new connection from getting packets of old connection, which would corrupt data of current TCP connection. And there's a limited number of connections available for a specific client and server. If there're 60000 ports available, `60000 / (2 * 60) = 500` connections at maximum are available in a second.
+
+### Connection
+
+#### Serial Connection
+
+![Serial Connection](./http_serial_transaction_delay.png)
+
+#### Parallel Connection
+
+1. Parallel connections may make pages load faster.
+1. Parallel connections may not be faster when multiple connections are competing for network bandwidth.
+1. Parallel connections are perceived to be faster by users compared with serial connections.
+1. Too many parallel connections have the problem of exhausting system ports and resources. So a limited number (4) of parallel connections are allowed in practice.
+
+![Parallel Connection](./http_parallel_connections.png)
+
+#### Persistent Connection
+
+#### Pipelined Connection
+
+#### Connection Header
 
 ## Media Types
 
