@@ -8,9 +8,11 @@
       - [Search DOM](#search-dom)
       - [Table DOM](#table-dom)
     - [HTML Attributes and DOM Properties](#html-attributes-and-dom-properties)
-    - [HTML Attributes](#html-attributes)
+      - [Standard and Custom HTML Attributes](#standard-and-custom-html-attributes)
       - [Property-attribute Synchronization](#property-attribute-synchronization)
       - [DOM Properties](#dom-properties)
+      - [Custom Attributes and `dataset`](#custom-attributes-and-dataset)
+      - [Reference](#reference)
     - [DOM Size and Positions](#dom-size-and-positions)
     - [**B**rowser **O**bject **M**odel](#browser-object-model)
   - [DOM Event](#dom-event)
@@ -230,9 +232,11 @@ Query relationship
 
 ### HTML Attributes and DOM Properties
 
-### HTML Attributes
+#### Standard and Custom HTML Attributes
 
-HTML attributes are defined by HTML source, all definitions inside HTML tag are atrributes. When html source is parsed, corresponding DOM objects are generated accordingly. They can be manipulated with a set of functions.
+HTML attributes are defined by HTML source, all definitions inside HTML tag are atrributes. Each type of HTML tag has a set of built-in attributes, which is called standard attributes. Different type of HTML element has different standard attributes. All other attributes are custom attributes.
+
+When html source is parsed, corresponding DOM object properties are created for standard attributes. And HTML attributes can be manipulated with a set of functions.
 
 ```javascript
 // manipuate single attribute by name
@@ -245,16 +249,16 @@ element.removeAttribute(name)
 HTML attributes inside DOM object has two features:
 
 1. Attribute name is case-insensitive.
-  ```javascript
-  // equivalent forms
-  element.getAttribute('id')
-  element.getAttribute('iD')
-  element.getAttribute('Id')
-  element.getAttribute('ID')
-  ```
+    ```javascript
+    // equivalent forms
+    element.getAttribute('id')
+    element.getAttribute('iD')
+    element.getAttribute('Id')
+    element.getAttribute('ID')
+    ```
 1. Attribute value is always string. `getAttribute(name)` returns a string, `setAttribute(name, value)` converts value to string first and then store it as attribute value.
 
-`element.attributes` is used to access all attributes on a element, it returns a live collection of all attributes of element. Value type is `NamedNodeMap` (iterable) that contains a collection of key/value pair of strings.
+`element.attributes` is used to access all attributes on a element, it returns a live collection of all attributes of element. Returned value is of an iterable type `NamedNodeMap` that contains a collection of key/value pair of strings.
 
 #### Property-attribute Synchronization
 
@@ -296,7 +300,7 @@ But there're some exclusions when attribute doesn't follow when property changes
 
 #### DOM Properties
 
-When DOM objects are created, only standard attributes like _id_, _class_ are mapped to corresponding properties of DOM objects, custom attributes are not mapped. Different type of element has different standard attributes.
+When DOM objects are created, only standard attributes like _id_, _class_ are mapped to corresponding properties of DOM objects, custom attributes ignored.
 
 ```javascript
 // corresponding to standard attributes
@@ -311,10 +315,10 @@ document.getElementById('test').foo = 1
 $('#test').prop('foo', 1)
 ```
 
-Prefer to use property instead of `getAttribute()` to get corresponding value because property values are typed.
+Prefer to use property `element.name` instead of `element.getAttribute(name)` to get value of attribute `name` because property values are typed.
 
 ```javascript
-// input.checked has boolean value
+// input.checked is boolean value
 document.getElementById('test').checked
 document.getElementById('test').checked = true
 
@@ -338,6 +342,76 @@ Event if a DOM property is a string, it may differ from attribute value. For ins
   alert(a.href ); // full URL in the form http://site.com/page#hello
 </script>
 ```
+
+#### Custom Attributes and `dataset`
+
+Custom attributes are used to pass custom data from HTML to JavaScript.
+
+```html
+<!-- mark the div to show "name" here -->
+<div show-info="name"></div>
+<!-- and age here -->
+<div show-info="age"></div>
+
+<script>
+  // the code finds an element with the mark and shows what's requested
+  let user = {
+    name: "Pete",
+    age: 25
+  };
+
+  for(let div of document.querySelectorAll('[show-info]')) {
+    // insert the corresponding info into the field
+    let field = div.getAttribute('show-info');
+    div.innerHTML = user[field]; // Pete, then age
+  }
+</script>
+```
+
+And they are used to style elements in CSS.
+
+```html
+<style>
+  /* styles rely on the custom attribute "order-state" */
+  .order[order-state="new"] {
+    color: green;
+  }
+
+  .order[order-state="pending"] {
+    color: blue;
+  }
+
+  .order[order-state="canceled"] {
+    color: red;
+  }
+</style>
+
+<div class="order" order-state="new">
+  A new order.
+</div>
+
+<div class="order" order-state="pending">
+  A pending order.
+</div>
+
+<div class="order" order-state="canceled">
+  A canceled order.
+</div>
+```
+
+To avoid potential conflicts when using custom attributes to pass around data, all attributes starting with `data-` are reserved and can be accessed in `dataset` property. Notice that `data-` attribute are converted to `camelCase` in DOM property.
+
+```html
+<body data-about="Elephants" data-order-state='new'>
+<script>
+  alert(document.body.dataset.about); // Elephants
+  alert(document.body.dataset.orderState); // new
+</script>
+```
+
+#### Reference
+
+1. [DOM Element Attributes Standard](https://dom.spec.whatwg.org/#dom-element-attributes)
 
 ### DOM Size and Positions
 
