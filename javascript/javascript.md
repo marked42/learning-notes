@@ -7,6 +7,10 @@
       - [Traverse DOM](#traverse-dom)
       - [Search DOM](#search-dom)
       - [Table DOM](#table-dom)
+    - [HTML Attributes and DOM Properties](#html-attributes-and-dom-properties)
+    - [HTML Attributes](#html-attributes)
+      - [Property-attribute Synchronization](#property-attribute-synchronization)
+      - [DOM Properties](#dom-properties)
     - [DOM Size and Positions](#dom-size-and-positions)
     - [**B**rowser **O**bject **M**odel](#browser-object-model)
   - [DOM Event](#dom-event)
@@ -223,6 +227,117 @@ Query relationship
 `<td>` and `<th>`:
 
 1. `td.cellIndex` – the number of the cell inside the enclosing `<tr>`.
+
+### HTML Attributes and DOM Properties
+
+### HTML Attributes
+
+HTML attributes are defined by HTML source, all definitions inside HTML tag are atrributes. When html source is parsed, corresponding DOM objects are generated accordingly. They can be manipulated with a set of functions.
+
+```javascript
+// manipuate single attribute by name
+element.hasAttribute(name)
+element.getAttribute(name)
+element.setAttribute(name)
+element.removeAttribute(name)
+```
+
+HTML attributes inside DOM object has two features:
+
+1. Attribute name is case-insensitive.
+  ```javascript
+  // equivalent forms
+  element.getAttribute('id')
+  element.getAttribute('iD')
+  element.getAttribute('Id')
+  element.getAttribute('ID')
+  ```
+1. Attribute value is always string. `getAttribute(name)` returns a string, `setAttribute(name, value)` converts value to string first and then store it as attribute value.
+
+`element.attributes` is used to access all attributes on a element, it returns a live collection of all attributes of element. Value type is `NamedNodeMap` (iterable) that contains a collection of key/value pair of strings.
+
+#### Property-attribute Synchronization
+
+When a standard HTML attribute changes, the coressponding DOM property is auto-updated, and (with some exceptions) vice versa.
+
+```html
+<input>
+
+<script>
+  let input = document.querySelector('input');
+
+  // attribute => property
+  input.setAttribute('id', 'id');
+  alert(input.id); // id (updated)
+
+  // property => attribute
+  input.id = 'newId';
+  alert(input.getAttribute('id')); // newId (updated)
+</script>
+```
+
+But there're some exclusions when attribute doesn't follow when property changes.
+
+```html
+<input>
+
+<script>
+  let input = document.querySelector('input');
+
+  // attribute => property
+  input.setAttribute('value', 'text');
+  alert(input.value); // text
+
+  // NOT property => attribute
+  input.value = 'newValue';
+  alert(input.getAttribute('value')); // text (not updated!)
+</script>
+```
+
+#### DOM Properties
+
+When DOM objects are created, only standard attributes like _id_, _class_ are mapped to corresponding properties of DOM objects, custom attributes are not mapped. Different type of element has different standard attributes.
+
+```javascript
+// corresponding to standard attributes
+document.getElementById('test').id        // test
+document.getElementById('test').className // button
+document.getElementById('test').foo       // undefined
+
+// custom properties
+document.getElementById('test').foo
+$('#test').prop('foo')
+document.getElementById('test').foo = 1
+$('#test').prop('foo', 1)
+```
+
+Prefer to use property instead of `getAttribute()` to get corresponding value because property values are typed.
+
+```javascript
+// input.checked has boolean value
+document.getElementById('test').checked
+document.getElementById('test').checked = true
+
+// input.style is an object
+document.getElementById('test').style
+
+// avoid using attribute
+document.getElementById('test').getAtribute('checked')
+document.getElementById('test').setAtribute('checked') = 'false'
+```
+
+Event if a DOM property is a string, it may differ from attribute value. For instance, the `href` DOM property is always a _full_ URL, even if the attribute contains a relative URL or just a hash.
+
+```html
+<a id="a" href="#hello">link</a>
+<script>
+  // attribute
+  alert(a.getAttribute('href')); // #hello
+
+  // property
+  alert(a.href ); // full URL in the form http://site.com/page#hello
+</script>
+```
 
 ### DOM Size and Positions
 
