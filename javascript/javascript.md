@@ -2435,24 +2435,17 @@ p2.then(value => console.log("value: ", value));
 Use a timeout promise to prevent it from hanging indefinitely and not called.
 
 ```javascript
-function timeoutPromise(delay) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      reject("Timeout");
-    }, delay);
-  });
+function delay(delayedMilliseconds) {
+  return new Promise(fullfill => {
+    setTimeout(fullfill, delayedMilliseconds)
+  })
 }
 
-// foo() will be settled properly or rejected because of time limit, it will not hang indefinitely
-Promise.race([foo(), timeoutPromise(3000)]) // foo() returns target promise
-  .then(
-    () => {
-      /* foo() fufilled in time */
-    },
-    () => {
-      /* foo() rejected or timeout */
-    }
-  );
+function timeoutPromise(promise, delayedMilliseconds) {
+  return Promise.race([promise, delay(time).then(() => {
+    throw new Error('Operation timed out.')
+  })])
+}
 ```
 
 ### `then()`
