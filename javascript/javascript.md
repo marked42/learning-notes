@@ -70,6 +70,7 @@
     - [await](#await)
   - [Promise](#promise)
     - [resolve](#resolve)
+    - [Timeout Promise](#timeout-promise)
     - [`then()`](#then)
     - [Thenable](#thenable)
     - [Terminology](#terminology)
@@ -2388,29 +2389,6 @@ p2.then(value => console.log("value: ", value));
 // unwrapping inside constructor creates promise chain to be resolved in sequential order p1 -> p2
 ```
 
-Use a timeout promise to prevent it from hanging indefinitely and not called.
-
-```javascript
-function timeoutPromise(delay) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      reject("Timeout");
-    }, delay);
-  });
-}
-
-// foo() will be settled properly or rejected because of time limit, it will not hang indefinitely
-Promise.race([foo(), timeoutPromise(3000)]) // foo() returns target promise
-  .then(
-    () => {
-      /* foo() fufilled in time */
-    },
-    () => {
-      /* foo() rejected or timeout */
-    }
-  );
-```
-
 `Promise.resolve()` can accept a normal object, a promise or a thenable object.
 
 1. If received a normal object, it returns a promise object resolved with it.
@@ -2452,6 +2430,31 @@ Promise.race([foo(), timeoutPromise(3000)]) // foo() returns target promise
    );
    ```
 
+### Timeout Promise
+
+Use a timeout promise to prevent it from hanging indefinitely and not called.
+
+```javascript
+function timeoutPromise(delay) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject("Timeout");
+    }, delay);
+  });
+}
+
+// foo() will be settled properly or rejected because of time limit, it will not hang indefinitely
+Promise.race([foo(), timeoutPromise(3000)]) // foo() returns target promise
+  .then(
+    () => {
+      /* foo() fufilled in time */
+    },
+    () => {
+      /* foo() rejected or timeout */
+    }
+  );
+```
+
 ### `then()`
 
 Unwrapping also happens when you return a thenable or Promise from fullfilment or rejection handler. This allows us to chain multiple asynchronous steps together using `then()`.
@@ -2459,18 +2462,16 @@ Unwrapping also happens when you return a thenable or Promise from fullfilment o
 ```javascript
 var p = Promise.resolve(21);
 
-p
-  .then(v => {
+p.then(v => {
     console.log(v); // 21
 
     return new Promise((resolve, reject) => {
       resolve(v * 2); // fullfill with 42
     });
   })
-  .then(v => console.log(v)); // 42
+ .then(v => console.log(v)); // 42
 
-p
-  .then(v => {
+p.then(v => {
     console.log(v); // 21
 
     // asynchronous
