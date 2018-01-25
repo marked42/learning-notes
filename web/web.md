@@ -7,6 +7,8 @@
         - [[Cross-Origin Resource Sharing](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)](#cross-origin-resource-sharinghttpsenwikipediaorgwikicross-originresourcesharing)
             - [[Simple Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Simple_requests)](#simple-requesthttpsdevelopermozillaorgen-usdocswebhttpcorssimplerequests)
             - [[Preflighted Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Preflighted_requests)](#preflighted-requesthttpsdevelopermozillaorgen-usdocswebhttpcorspreflightedrequests)
+            - [CORS Related HTTP Headers](#cors-related-http-headers)
+        - [Requests with Credentials](#requests-with-credentials)
         - [[Web Messaging (Cross-document messaging)](https://en.wikipedia.org/wiki/Web_Messaging)](#web-messaging-cross-document-messaginghttpsenwikipediaorgwikiwebmessaging)
         - [[**JSONP**](https://en.wikipedia.org/wiki/JSONP)](#jsonphttpsenwikipediaorgwikijsonp)
         - [[**WebSocket**](https://en.wikipedia.org/wiki/WebSocket)](#websockethttpsenwikipediaorgwikiwebsocket)
@@ -70,7 +72,29 @@ Simple request is safe, which means it does not has any side effect (changing se
 
 #### [Simple Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Simple_requests)
 
-Example of simple request to `http://service.example.com` from `http://www.example.com`.
+A request is a simple one if it meets all following conditions:
+
+1. Allowed methods are `GET`, `HEAD` and `POST`.
+1. Request must only contains headers `Connection`, `User-Agent`, [forbidden header name](https://fetch.spec.whatwg.org/#forbidden-header-name) and  [CORS-safelisted request headers](https://fetch.spec.whatwg.org/#cors-safelisted-request-header).
+    ```http
+    Accpet
+    Accept-Language
+    Content-Language
+    Content-Type
+    Last-Event-ID
+    DPR
+    Save-Data
+    Viewport-Width
+    Width
+    ```
+1. Only allowed values for `Content-Type` header are:
+    - `application/x-www-form-urlencoded`
+    - `multipart/form-data`
+    - `text/plain`
+1. No event listeners are registered on any `XMLHttpRequestUpload` object (`XMLHttpRequest.upload`) used in request.
+1. No `ReadableStream` object is used in the request.
+
+Example of simple request from `http://www.example.com` to `http://service.example.com`.
 
 1. Browser sends **OPTIONS** request with `Origin` HTTP header.
     ```http
@@ -89,6 +113,25 @@ Example of simple request to `http://service.example.com` from `http://www.examp
 
 #### [Preflighted Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Preflighted_requests)
 
+A request is a preflighted request if any of following conditions is met.
+
+1. Request uses following methods.
+    - `PUT`
+    - `DELETE`
+    - `CONNECT`
+    - `OPTIONS`
+    - `TRACE`
+    - `PATCH`
+1. Request uses HTTP headers not included by `Connection`, `User-Agent`, [forbidden header name](https://fetch.spec.whatwg.org/#forbidden-header-name) and  [CORS-safelisted request headers](https://fetch.spec.whatwg.org/#cors-safelisted-request-header).
+1. Request HTTP header `Content-Type` has a value other than:
+    - `application/x-www-form-urlencoded`
+    - `multipart/form-data`
+    - `text/plain`
+1. One or more event listeners are registered on an `XMLHttpRequestUpload` object.
+1. A `ReadableStream` object is used in the request.
+
+Example of a preflighted request.
+
 1. Request.
     ```http
     OPTIONS /
@@ -103,21 +146,26 @@ Example of simple request to `http://service.example.com` from `http://www.examp
     Access-Control-Allow-Methods: PUT, DELETE
     ```
 
+#### CORS Related HTTP Headers
+
 <table>
     <caption>Access Controls Headers</caption>
     <tr>
         <th>Type</th>
         <th>Header</th>
+        <th>Value</th>
         <th>Explaination</th>
     </tr>
     <tr>
         <td rowspan='3'>Request Headers</td>
         <td>Origin</td>
         <td></td>
+        <td></td>
     </tr>
     <tr>
         <td>Access-Control-Request-Method</td>
         <td>comma separated list of methods that maybe used in <strong>CORS</strong> request</td>
+        <td></td>
     </tr>
     <tr>
         <td>Access-Control-Request-Headers</td>
@@ -126,7 +174,7 @@ Example of simple request to `http://service.example.com` from `http://www.examp
     <tr>
         <td rowspan='6'>Response Headers</td>
         <td>Access-Control-Allow-Origin</td>
-        <td></td>
+        <td><code>&lt;origin&gt; | *</code></td>
     </tr>
     <tr>
         <td>Access-Control-Allow-Credentials</td>
@@ -149,6 +197,27 @@ Example of simple request to `http://service.example.com` from `http://www.examp
         <td></td>
     </tr>
 </table>
+
+### Requests with Credentials
+
+By default, in cross-site `XMLHttpRequest` or `Fetch` invocations, browsers will **not** send credentials. A specific flag has to be set on `XMLHttpRequest` object or the `Reqeust` constructor when it's invoked.
+
+```javascript
+let invocation = new XMLHttpRequest()
+let url = 'http://bar.other/resources/credentialed-content/'
+
+function callOtherDomain() {
+    if (invocation) {
+        invocation.open('GET', url, true)
+        // sent with credentials
+        invocation.withCredentials = true
+        invocation.onreadystatechange = handler
+        invocation.send()
+    }
+}
+```
+
+This if a simple `GET` request which is not preflighted, but the browser will **reject** any response that does not have `Access-Control-Allow-Credentials: true` header and **not** make the response available to the invoking web content.
 
 **CORS** is a modern alternative to **JSONP**.
 
@@ -181,7 +250,9 @@ Example of simple request to `http://service.example.com` from `http://www.examp
 </table>
 
 1. [MDN CROS](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS)
-1. [Cross-Origin Resource Sharing Standard](https://www.w3.org/TR/cors/)
+1. [Cross-Origin Resource Sharing Specification](https://www.w3.org/TR/cors/)
+1. [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+1. [Fetch Specification](https://fetch.spec.whatwg.org/#cors-protocol)
 
 ### [Web Messaging (Cross-document messaging)](https://en.wikipedia.org/wiki/Web_Messaging)
 
