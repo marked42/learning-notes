@@ -1,5 +1,39 @@
 # Web
 
+- [Web](#web)
+    - [Same Origin Policy](#same-origin-policy)
+    - [Cross Origin Methods](#cross-origin-methods)
+        - [`document.domain` property](#documentdomain-property)
+        - [[Cross-Origin Resource Sharing](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)](#cross-origin-resource-sharinghttpsenwikipediaorgwikicross-originresourcesharing)
+            - [[Simple Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Simple_requests)](#simple-requesthttpsdevelopermozillaorgen-usdocswebhttpcorssimplerequests)
+            - [[Preflighted Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Preflighted_requests)](#preflighted-requesthttpsdevelopermozillaorgen-usdocswebhttpcorspreflightedrequests)
+        - [[Web Messaging (Cross-document messaging)](https://en.wikipedia.org/wiki/Web_Messaging)](#web-messaging-cross-document-messaginghttpsenwikipediaorgwikiwebmessaging)
+        - [[**JSONP**](https://en.wikipedia.org/wiki/JSONP)](#jsonphttpsenwikipediaorgwikijsonp)
+        - [[**WebSocket**](https://en.wikipedia.org/wiki/WebSocket)](#websockethttpsenwikipediaorgwikiwebsocket)
+    - [Security](#security)
+        - [[**C**ross-**S**ite **R**equest **F**orgery](https://en.wikipedia.org/wiki/Cross-site_request_forgery)](#cross-site-request-forgeryhttpsenwikipediaorgwikicross-siterequestforgery)
+        - [Prevention](#prevention)
+            - [**S**ynchronizer **T**oken **P**attern](#synchronizer-token-pattern)
+            - [Cookie-to-header token](#cookie-to-header-token)
+            - [Others](#others)
+        - [[Cross-site scripting (XSS)](https://en.wikipedia.org/wiki/Cross-site_scripting)](#cross-site-scripting-xsshttpsenwikipediaorgwikicross-sitescripting)
+            - [Types](#types)
+            - [Prevention](#prevention)
+        - [[Content Security Policy](https://en.wikipedia.org/wiki/Content_Security_Policy)](#content-security-policyhttpsenwikipediaorgwikicontentsecuritypolicy)
+        - [[Hash-based message authentication code](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code)](#hash-based-message-authentication-codehttpsenwikipediaorgwikihash-basedmessageauthenticationcode)
+    - [Web Development Engineering](#web-development-engineering)
+        - [Prettier](#prettier)
+        - [ESLint](#eslint)
+        - [Continuous Integration (CI) TODO:](#continuous-integration-ci-todo)
+        - [Continuous Development (CD) TODO:](#continuous-development-cd-todo)
+    - [Software Versioning](#software-versioning)
+        - [Version Control](#version-control)
+        - [Semantic Versioning](#semantic-versioning)
+            - [Rationale](#rationale)
+            - [Version Precendence](#version-precendence)
+            - [Version Syntax](#version-syntax)
+            - [Reference](#reference)
+
 ## Same Origin Policy
 
 An origin is defined as a combination of protocol, host name and port number. Same origin policy allows data of one webpage to be accessible to pages inside same origin only.
@@ -306,9 +340,9 @@ Other users clicking on this text tag could be attacked.
 
 ### [Hash-based message authentication code](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code)
 
-### Web Development Engineering
+## Web Development Engineering
 
-#### Prettier
+### Prettier
 
 Use _eslint_ and _prettier_ to lint and format javascript code.
 
@@ -332,7 +366,7 @@ prettier.eslintIntegration: true
 
 prettier-eslint will infer prettier options from .eslintrc.js to format js code, so we can a single configuration file that applies to eslint/prettier and vscode prettier extension.
 
-#### ESLint
+### ESLint
 
 1. Globals: accessible global variables
 1. Environments: an environment is a collection of global variables
@@ -462,8 +496,78 @@ foo(); // eslint-disable-line example/rule-name
 }
 ```
 
-#### Continuous Integration (CI) TODO:
+### Continuous Integration (CI) TODO:
 
 Travis CI and Appveyor
 
-#### Continuous Development (CD) TODO:
+### Continuous Development (CD) TODO:
+
+## Software Versioning
+
+Software versioning is the process of assigning either _unique version names_ or  _unique version numbers_ to unique status of computer software. Modern software often uses two types of versioning schemes.
+
+### Version Control
+
+[Internal version number](https://en.wikipedia.org/wiki/Version_control) which may increase many times in single day. It's more often referred as version control which records history versions of source code and documentation of software project.
+
+Revisions are generally modeled as a main line of development (the _trunk_) with branches off it, forming a directed tree with parallel lines of development branching off the trunk.
+
+![Revision Graph Structure](./revision_controlled_project_visualization.png)
+
+Because of merges, resulting graph is no longer a tree, but is instead a _rooted [directed acyclic graph](https://en.wikipedia.org/wiki/Directed_acyclic_graph) (DAG)_.
+
+1. It's a graph instead of a tree because merges makes a node has more than one parent, wherease tree node must have only one parent.
+1. It's rooted and directed because there's an oldest version, upon which all revisions are made sequentially along time.
+1. It's acyclic because parents always appears before children.
+
+### Semantic Versioning
+
+#### Rationale
+
+Released version such as _semantic versioning_ or _project code name_ changes far less often. Large software systems are suceptible to _dependency hell_ when many packages are integrated as dependency. _Dependency hell_ makes releasing a new software version painful.
+
+> 1. If dependency specification are too tight, you are in danger of _version lock_ (inabilibty to upgrade a package without having to release new versions of every dependent package).
+> 1. if dependencies are specified too loosely, you will inevitably be bitten by _version promiscuity_ (assuming compatibility with more future version than is reasonable)
+
+Semantic versioning is proposed to solve the problem of _dependency hell_. Given a version number format of `major.minor.patch`. Version numbers `major`, `minor` and `patch` are non-negative integers which MUST NOT contain leading zeros and MUST be incremented numerically.
+
+1. Once a version has been released, the contents MUST NOT be modified.
+1. _major_ version zero (0.y.z) is for intial development. Anything can change at any time and public API should be considered unstable.
+1. Version 1.0.0 defines the public API.
+1. _major_ version MUST be incremented only when incompatible public API changes are introduced.
+1. _minor_ version MUST be incremented only when backward compatible functionality are introduced to public API.
+1. _patch_ version MUST be incremented only when backward compatible bugs are fixed.
+1. _pre-release_ version maybe denoted by appending a hyphen and a series of dot separated identifiers([0-9A-Za-z]) following patch version.
+1. _build_ data maybe denoted by appending a plus sign (+) and a series of dot separated identifiers([0-9A-Za-z]) following patch or pre-release version.
+
+#### Version Precendence
+
+Precedence refers to how two versions are compared with each other when ordered. Build metadata doesn't contributes to precedence calculation.
+
+1. Precendence must be calculated by comparing _major_, _minor_, _patch_ version separately and numerically with _major_ having highest significance.
+    ```txt
+    1.0.0 < 2.0.0 < 2.1.0 < 2.1.1
+    ```
+1. When _major_, _minor_, _patch_ are all same, a _pre-release_ version has lower precedence than a normal one.
+    ```txt
+    1.0.0-alpha < 1.0.0
+    ```
+1. When two pre-release versions have same _major_, _minor_, _patch_ version number, pre-release versions MUST be determined by comparing each dot separated identifier from left to right.
+    1. A larger set of pre-release version has a higher precedence than a smaller set.
+    1. Identifiers consisting of only digits are compared numerically.
+    1. Identifiers consisting of letters and hyphens are compared lexically in ASCII order.
+    1. Numeric identifiers has lower precedence than non-numeric identifiers.
+    ```txt
+    1.0.0-alpha < 1.0.0-alpha.1 < 1.0.0-alpha.beta < 1.0.0-beta < 1.0.0-beta.2 < 1.0.0-beta.11 < 1.0.0-rc.1 < 1.0.0.
+    ```
+
+Sematic versioning makes it easy to upgrade denpendent packages freely as long as _major_ version is the same.
+
+#### Version Syntax
+
+![Semver Syntax](./semver.svg)
+
+#### Reference
+
+1. [Semantic Versioning Official Site](https://semver.org/)
+1. [Semantic Versioning Repository](https://github.com/semver/semver)
