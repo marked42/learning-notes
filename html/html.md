@@ -1,16 +1,30 @@
 # HTML
 
-## Key Points
-
-1. Forms
-    1. Input
-    1. Validation
-    1. Styling
-    1. Responsive Design
-1. Communication
-    1. WebSocket
-    1. Ajax
-1. Progressive Web Application
+- [HTML](#html)
+    - [Doctype](#doctype)
+    - [Basic](#basic)
+    - [Link](#link)
+    - [List](#list)
+    - [Form](#form)
+        - [Content-Type](#content-type)
+        - [Validation](#validation)
+        - [Styling](#styling)
+        - [Responsive Design](#responsive-design)
+        - [Reference](#reference)
+    - [Tables](#tables)
+    - [Audio](#audio)
+    - [Video](#video)
+    - [Canvas](#canvas)
+    - [Storage](#storage)
+        - [[Web Storage](https://html.spec.whatwg.org/multipage/webstorage.html)](#web-storagehttpshtmlspecwhatwgorgmultipagewebstoragehtml)
+        - [[IndexedDB](https://w3c.github.io/IndexedDB/)](#indexeddbhttpsw3cgithubioindexeddb)
+    - [Web Worker](#web-worker)
+    - [[Service Worker]( https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers)](#service-worker-httpsdevelopermozillaorgen-usdocswebapiserviceworkerapiusingserviceworkers)
+    - [History](#history)
+    - [[Visibility API](https://www.w3.org/TR/page-visibility/)](#visibility-apihttpswwww3orgtrpage-visibility)
+    - [WebSocket](#websocket)
+    - [Ajax](#ajax)
+    - [Progressive Web Application](#progressive-web-application)
 
 ## Doctype
 
@@ -158,7 +172,7 @@ Order list and unordered list can be nested.
 </dl>
 ```
 
-## Forms
+## Form
 
 ```html
 <form action='/my-handling-for-page' method='post'>
@@ -186,6 +200,56 @@ Order list and unordered list can be nested.
 1. `name` attribute of `input` and `textarea` associate submitted data with a name value.
 1. `for` attribute of `label` connects label with element with corresponding id, when user clicks on label, corresponding element will be activated automatically.
 1. `type` of `input` is for data validation.
+
+### Content-Type
+
+A `POST` request is usually sent via HTML form. `Content-Type` value is determined by `enctype` attribute of `<form>` element or `formenctype` attribute of the `<input>` or `<button>` elements. `enctype` attribute of `<form>` element will be overriden by `formenctype` attribute of `<input>` or `<button>` element. Three options are available.
+
+1. `application/x-www-form-urlencoded`: _default_ value if attribute is not specified. Transmitted data are encoded in multiple key/value pairs. Non-alphanumeric characters are percent encoded, so this type is not suitable to transmit binary data.
+    ```http
+    Content-Type: application/x-www-form-urlencoded
+
+    key1=value1&key2=value2&
+    ```
+1. `multipart/form-data`: used when `<input>` element with `type` attribute as `file`, suitable for transmitting files, non ASCII data and binary data.
+    ```http
+     Content-Type: multipart/form-data; boundary=AaB03x
+
+   --AaB03x
+   Content-Disposition: form-data; name="submit-name"
+
+   Larry
+   --AaB03x
+   Content-Disposition: form-data; name="files"
+   Content-Type: multipart/mixed; boundary=BbC04y
+
+   --BbC04y
+   Content-Disposition: file; filename="file1.txt"
+   Content-Type: text/plain
+
+   ... contents of file1.txt ...
+   --BbC04y
+   Content-Disposition: file; filename="file2.gif"
+   Content-Type: image/gif
+   Content-Transfer-Encoding: binary
+
+   ...contents of file2.gif...
+   --BbC04y--
+   --AaB03x--
+    ```
+1. `text/plain`: introduced by HTML5 for debuggin, never use it in production because it's not reliably interpretable by computer.
+
+When `POST` request is sent via a method other than HTML form like an `XMLHttpRequest`, content of body can be any MIME type.
+
+### Validation
+
+### Styling
+
+### Responsive Design
+
+### Reference
+
+1. [WHATWG Form Control Types Specification]( https://www.w3.org/TR/html401/interact/forms.html#h-17.2.1)
 
 ## Tables
 
@@ -244,3 +308,9 @@ Page Visibility API provides a way of detecting visibility state of page and per
 1. `document.visibilityState` is a string of four possible values, `visible`, `hidden`, `prerender`, `unloaded`.
 
 `visibilitychange` event will be fired when visibility changes, use `document.onvisibilitychange` to add event handlers.
+
+## WebSocket
+
+## Ajax
+
+## Progressive Web Application
