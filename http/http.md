@@ -318,7 +318,7 @@ HEAD method should be treated like **GET** method, only its response should not 
 #### PUT
 
 1. Create or update specified resource on server.
-1. Create resource and return **201 (Created)** when resource doesn't exist, update resource and return **200 (OK)** or **204 (No Content) if resource exist.
+1. Create resource and return **201 (Created)** when resource doesn't exist, update resource and return **200 (OK)** or **204 (No Content)** if resource exist.
 1. `method` attribute of HTML `<form>` tag supports only **GET** and **POST**, not *PUT** method.
 
 #### DELETE
