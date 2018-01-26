@@ -92,6 +92,15 @@
   - [Snippets](#snippets)
     - [Debounce](#debounce)
     - [Throttle](#throttle)
+  - [Memory Management](#memory-management)
+    - [Reference Counting Memory Management](#reference-counting-memory-management)
+    - [Mark and Sweep](#mark-and-sweep)
+    - [Typical JavaScript Memory Leaks](#typical-javascript-memory-leaks)
+      - [Accidental Global Variables](#accidental-global-variables)
+      - [Forgotten timers or callbacks](#forgotten-timers-or-callbacks)
+    - [Out of DOM References](#out-of-dom-references)
+    - [Closures](#closures)
+    - [References](#references)
 
 ## Host Environment
 
@@ -2695,3 +2704,121 @@ var debounce = function (func, wait, immediate) {
 ### Throttle
 
 1. [reference](http://www.alloyteam.com/2012/11/javascript-throttle/)
+
+## Memory Management
+
+_Memory leak_ is memory that is not required by an application anymore but for some reason is not returned to operating system or the pool of free memory.
+
+_Garbage collected languages_ manage memory automatically by periodically checking which previously allocated pieces of memory can still be "reached" from other parts of the application.
+
+### Reference Counting Memory Management
+
+### Mark and Sweep
+
+### Typical JavaScript Memory Leaks
+
+#### Accidental Global Variables
+
+Function `foo()` refers to an undeclared variable `bar`, which accidentally creates a global variable `window.bar` in browser environment.
+
+```js
+function foo(arg) {
+  bar = 'this is a hidden global variable'
+}
+```
+
+Another way of creating an accidental global variable.
+
+```js
+function foo(arg) {
+  this.bar = 'potential accidental global variable'
+}
+
+// foo called with this bind to global object implicitly,
+// thus creating a global variable accidentally
+foo()
+```
+
+#### Forgotten timers or callbacks
+
+`node` in callback function refers to a DOM node, if DOM node is removed, callback function and `someResource` is not needed anymore. But interval timer is not cleared and requires callback function. This prevents unrequired variable `someResource` and callback function from being collected and returned to operating system. Memory leak happens.
+
+```js
+var someResource = getData();
+setInterval(function() {
+    var node = document.getElementById('Node')
+    if(node) {
+        node.innerHTML = JSON.stringify(someResource))
+    }
+}, 1000)
+```
+
+Observers like timer callbacks or event listeners should be removed explicitly when they're not required anymore. Depedent memory of observers are not able to be collected because of forgotten observers. In the past, this is particularly important since old browsers like IE6 were not able to manage cyclic references. Mordern browsers are able to manage cyclic references and collects unreachable variables.
+
+```js
+var element = document.getElementById('button')
+
+// onClick references element
+function onClick(event) {
+    element.innerHtml = 'text'
+}
+
+// element references onClick
+element.addEventListener('click', onClick)
+
+// important to remove explicitly
+element.removeEventListener('click', onClick)
+element.parentNode.removeChild(element)
+```
+
+### Out of DOM References
+
+Sometimes it's useful to store DOM nodes in variables for easy manipulation. Two references to same DOM element are kept: one in DOM tree and the other in variable. Later when you decide to remove need to make both references unreachable.
+
+```js
+var elements = {
+    button: document.getElementById('button'),
+    image: document.getElementById('image'),
+    text: document.getElementById('text')
+};
+
+function doStuff() {
+    image.src = 'http://some.url/image';
+    button.click();
+    console.log(text.innerHTML);
+    // Much more logic
+}
+
+function removeButton() {
+    // The button is a direct child of body.
+    document.body.removeChild(document.getElementById('button'));
+
+    // At this point, we still have a reference to #button in the global
+    // elements dictionary. In other words, the button element is still in
+    // memory and cannot be collected by the GC.
+}
+```
+
+### Closures
+
+```js
+var theThing = null;
+var replaceThing = function () {
+  var originalThing = theThing;
+  var unused = function () {
+    if (originalThing)
+      console.log("hi");
+  };
+  theThing = {
+    longStr: new Array(1000000).join('*'),
+    someMethod: function () {
+      console.log(someMessage);
+    }
+  };
+};
+setInterval(replaceThing, 1000);
+```
+
+### References
+
+1. [Memory Management]( https://auth0.com/blog/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/)
