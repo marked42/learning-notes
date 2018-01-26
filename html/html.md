@@ -23,6 +23,10 @@
     - [History](#history)
     - [[Visibility API](https://www.w3.org/TR/page-visibility/)](#visibility-apihttpswwww3orgtrpage-visibility)
     - [WebSocket](#websocket)
+        - [Usage](#usage)
+            - [Create a Websocket Object](#create-a-websocket-object)
+            - [Send Message](#send-message)
+            - [Receive Message](#receive-message)
     - [Ajax](#ajax)
     - [Progressive Web Application](#progressive-web-application)
 
@@ -310,6 +314,79 @@ Page Visibility API provides a way of detecting visibility state of page and per
 `visibilitychange` event will be fired when visibility changes, use `document.onvisibilitychange` to add event handlers.
 
 ## WebSocket
+
+### Usage
+
+1. `binaryType` - 'blob' for `Blob` or 'arraybuffer' for `ArrayBuffer`.
+1. `bufferedAmount`
+1. `extensions`
+1. `onclose`
+1. `onerror`
+1. `onmessage`
+1. `onopen`
+1. `protocol`
+1. `readyState`
+1. `url`
+
+#### Create a Websocket Object
+
+```javascript
+WebSocket WebSocekt(in DOMString url, in optional DOMString protocols)
+```
+
+- `url` - URL to connect, Websocket object will attempt to connect target on creation.
+- `protocols` - Either a single protocol string or an array of protocol strings used to indicate sub-protocols.
+- `SECURITY_ERR` - Throws exception when connection to target port is blocked.
+
+When connection error happens, first an `error` event is sent (handled by `onerror`), then a `CloseEvent` is sent (handled by `onclose`).
+
+#### Send Message
+
+```javascript
+void send(
+  in USVString data
+);
+
+void send(
+  in Blob data
+);
+
+void send(
+  in ArrayBufferView data
+);
+
+void send(
+  in ArrayBuffer data
+);
+
+exampleSocket.send("Here's some text that the server is urgently awaiting!")
+```
+
+Send data as string, `Blob` or `ArrayBuffer`.
+
+#### Receive Message
+
+```javascript
+exampleSocket.onmessage = function(event) {
+    if (typeof event.data === 'string') {
+        // string data
+    }
+
+    if (event.data instanceof Blob) {
+        // Blob binary data
+    }
+
+    if (event.data instanceof ArrayBuffer) {
+        // ArrayBuffer binary data
+    }
+}
+
+exmapleSocket.onerror = (error) => {
+
+}
+
+exampleSocket.onclose = ()
+```
 
 ## Ajax
 

@@ -6,11 +6,13 @@ Notes on Web Knowledge
 
 ### React
 
-1. Notification System
-1. Tooltip System
-1. [Modal Dialog System](https://zhuanlan.zhihu.com/p/30271961)
+- [ ] Notification System
+- [ ] Tooltip System
+- [ ] [Modal Dialog System](https://zhuanlan.zhihu.com/p/30271961)
 
-1. Websocket, Long Polling, Server Send Events.
-1. Basic websocket creation, sending/receiving message with consideration of different data type and error handling.
-1. CORS Access-Control headers
-1. HTTP Authentication and tokens
+### Tasks
+
+- [x] Basic websocket creation, sending/receiving message with consideration of different data type and error handling.
+- [x] CORS Access-Control headers
+- [ ] Websocket, Long Polling, Server Send Events.
+- [ ] HTTP Authentication and tokens
