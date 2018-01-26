@@ -14,5 +14,5 @@ Notes on Web Knowledge
 
 - [x] Basic websocket creation, sending/receiving message with consideration of different data type and error handling.
 - [x] CORS Access-Control headers
-- [ ] Websocket, Long Polling, Server Send Events.
+- [x] Websocket, Long Polling, Server Send Events.
 - [ ] HTTP Authentication and tokens

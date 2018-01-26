@@ -41,6 +41,10 @@
             - [Version Precendence](#version-precendence)
             - [Version Syntax](#version-syntax)
             - [Reference](#reference)
+    - [Sever Push Technology](#sever-push-technology)
+        - [Ajax Polling and Comet (Long Polling)](#ajax-polling-and-comet-long-polling)
+        - [Websocket](#websocket)
+        - [Server Sent Events](#server-sent-events)
 
 ## Same Origin Policy
 
@@ -48,15 +52,15 @@ An origin is defined as a combination of protocol, host name and port number. Sa
 
 Example of same origin checking against `http://www.example.com/dir/page.html`
 
-| Compared URL | Outcome | Reason |
-|:- |:-| :-|
-|`http://www.example.com/dir/page2.html`|Success|Same protocol, host and port
-|`http://www.example.com/dir2/other.html`|Success|Same protocol, host and port
-|`http://username:password@www.example.com/dir2/other.html`|Success|Same protocol, host and port
-|`http://www.example.com:81/dir/other.html`|Failure|Same protocol and host but different port
-|`https://www.example.com/dir/other.html`|Failure|Different protocol
-|`http://en.example.com/dir/other.html`|Failure|Different host
-|`http://example.com/dir/other.html`|Failure|Different host (exact match required)
+| Compared URL                                               | Outcome | Reason                                               |
+| :--------------------------------------------------------- | :------ | :--------------------------------------------------- |
+| `http://www.example.com/dir/page2.html`                    | Success | Same protocol, host and port                         |
+| `http://www.example.com/dir2/other.html`                   | Success | Same protocol, host and port                         |
+| `http://username:password@www.example.com/dir2/other.html` | Success | Same protocol, host and port                         |
+| `http://www.example.com:81/dir/other.html`                 | Failure | Same protocol and host but different port            |
+| `https://www.example.com/dir/other.html`                   | Failure | Different protocol                                   |
+| `http://en.example.com/dir/other.html`                     | Failure | Different host                                       |
+| `http://example.com/dir/other.html`|Failure|Different host (exact match required)
 |`http://v2.www.example.com/dir/other.html`|Failure|Different host (exact match required)
 |`http://www.example.com:80/dir/other.html`|Depends|Port explicit. Depends on implementation in browser.
 
@@ -852,3 +856,45 @@ Sematic versioning makes it easy to upgrade denpendent packages freely as long a
 
 1. [Semantic Versioning Official Site](https://semver.org/)
 1. [Semantic Versioning Repository](https://github.com/semver/semver)
+
+## Sever Push Technology
+
+### Ajax Polling and Comet (Long Polling)
+
+Polling uses `setInterval` to sent events every period of time. It has drawbacks of data inconsistency and invalid request.
+
+```javascript
+setInterval(() => {
+    $.ajax({
+        url: 'http://www.example.com',
+        success: function() {
+
+        }
+    })
+}, 3000)
+```
+
+Long polling improves polling by not returning empty response when there's no update. Server will hold connection until there's new update and then send back new message and close connection.
+
+### Websocket
+
+|                 | SSE                       | WebSocket                       |
+| --------------- | ------------------------- | ------------------------------- |
+| Type            | Half Duplex               | Full Duplex                     |
+| Browser Support | IE and Edge don't support | Most browsers support WebSocket |
+| Effort          | Low                       | High                            |
+
+### Server Sent Events
+
+```javascript
+// clients
+let source = new EventSource('/user-log-stream')
+source.onmessage = function(event) {
+    let message = event.data
+    // do something
+}
+
+// server
+```
+
+1. [SSE vs WebSocket]( https://www.ibm.com/developerworks/cn/web/wa-http-server-push-with-websocket-sse/index.html)
