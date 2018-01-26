@@ -45,6 +45,12 @@
             - [Connection Header](#connection-header)
     - [Media Types](#media-types)
     - [Cookie](#cookie)
+        - [How it works](#how-it-works)
+        - [Create Cookies](#create-cookies)
+            - [Version 0 (Netscape) Cookies](#version-0-netscape-cookies)
+            - [Version 1 (RFC 2965) Cookies](#version-1-rfc-2965-cookies)
+        - [Client-side Cookie Storage](#client-side-cookie-storage)
+        - [Libs](#libs)
     - [Cache](#cache)
         - [Basic Terminology](#basic-terminology)
         - [Cache Lifecycle](#cache-lifecycle)
@@ -1075,6 +1081,124 @@ When a TCP connection is closed, new connection with exact same parameter is not
 **Multipurpose Internet Mail Extensions (MIME)** was originally designed for email. It worked so well that HTTP protocol adopted it to describe and label type of media content.
 
 ## Cookie
+
+Cookie is a piece of text composed of multiple key/value pairs stored on client-side. Cookies are used for three purposes.
+
+1. Session Management - Logins, shopping carts, game scores, or anything else the sever should remember.
+1. Personalization - User preferences, themes, and other settings.
+1. Tracking - Recording and analyzing user behaviour.
+
+It's discouraged to use cookies for client-side storage, since cookies are sent with every request which increases message size and degrades network performance. Prefer to use Web storage API (`localStorage` and `sessionStorage`) and `IndexedDB` for client side storage.
+
+Cookies are divided as two types according to their lifetime.
+
+1. Session Cookie - Temporay cookies that keep track of settings and user preferences, they're deleted when user exits browser.
+1. Persistent Cookie - Long lived cookies that are used to retain a configuration or login name for a site that users visit periodically, they're stored on disk and survive across sessions.
+
+### How it works
+
+Cookie specification is formally referred as HTTP State Management Mechanism, which enables server to able to identify same client when client visited again. Information stored inside cookie is called _client-side state_. Process of cookie creation and usage is like below.
+
+1. When a client first connects to a server, server will generate a unique identification number for that client and this identification number is stored on server.
+1. Server send reponse to client and instructs client to create cookies containing unique identification number with `Set-Cookie` header.
+1. Client receives instructions from server and creates cookies accordingly.
+1. When client visits same site again, cookies containing identification number is sent with HTTP request using `Cookie`, `Cookie2` header.
+1. Server receives request with cookie containing unique identifcation number, then it searches in stored indentification data and recognize it's the same client that has visited before.
+
+Cookie content is composed of multiple key/value pairs, which can contain any information apart from identification number. Usually, user settings and preferences are stored.
+
+```http
+Cookie: name="Brian Totty"; phone="555-1212"
+```
+
+### Create Cookies
+
+`Set-Cookie` or `Set-Cookie2` header is used in response by server to tell client that a cookie should be created and stored on client side. One `Set-Cookie` or `Set-Cookie2` header instructs client to create one cookie, multiple `Set-Cookie` or `Set-Cookie2` headers are used in HTTP response usually to create multiple cookies.
+
+#### Version 0 (Netscape) Cookies
+
+```http
+Set-Cookie: <cookie-name>=<cookie-value>; Domain=<domain-value>; Secure; HttpOnly
+```
+
+Value of `Set-Cookie` header is multiple directives separated by semi-colon (;). Available `Set-Cookie` directives are listed below.
+
+<table>
+    <tr>
+        <th>Set Cookie Directive</th>
+        <th>Explaination</th>
+    </tr>
+    <tr>
+        <td><code>&lt;cookie-name&gt;=&lt;cookie-value&gt;</code></td>
+        <td>Speicify cookie name and value</td>
+    </tr>
+    <tr>
+        <td><code>Domain=&lt;domain-value&gt;</code></td>
+        <td>Specifies a domain to which the cookie can be sent, including subdomains, leading dots in doman-value are ignored. If not specified, defaults to host portion of current document location excluding subdomains.</td>
+    </tr>
+    <tr>
+        <td><code>Path=&lt;path-value&gt;</code></td>
+        <td>Indicates a URL path that must exist in the requested resource to be allowed to send this cookie. <code>path=/docs</code> matches "/docs", "/docs/web".</td>
+    </tr>
+    <tr>
+        <td><code>Expires=&lt;date&gt;</code></td>
+        <td>The maximum lifetime of the cookie specified with HTTP-date timestamp.</td>
+    </tr>
+    <tr>
+        <td><code>Max-Age=&lt;non-zero-digit&gt;</code></td>
+        <td>Number of seconds until cookie expires. A zero on negative number will expire cookie immediately. If both <code>Max-Age</code> and <code>Expires</code> are set, <code>Max-Age</code> has higher precendence.</td>
+    </tr>
+    <tr>
+        <td><code>Secure</code></td>
+        <td>Secure cookie <em>MUST</em> only be sent only when request is made with SSL and HTTPS protocol. Secure cookie should not contain confidential or sensitive information because the entire mechanism is insecure inherently and this doesn't mean that cookie is encrypted.</td>
+    </tr>
+    <tr>
+        <td><code>HttpOnly</code></td>
+        <td>HTTP-only cookies aren't accessible via JavaScript using <code>Document.cookie</code>, <code>XMLHttpRequest</code> and <code>Request</code> to defend against XSS attacks.</td>
+    </tr>
+    <tr>
+        <td><code>SameSite=Strict|Lax</code></td>
+        <td><em>Experimental</em>, servers use this to indicate cookie should not be sent along with cross-site request to defend against CSRF attacks.</td>
+    </tr>
+</table>
+
+Session cookies contain no `Expires` and `Max-Age` headers. Long lived cookies may contain either `Expires` or `Max-Age` headers.
+
+Client sends cookie with `Cookie` header.
+
+```http
+Cookie: session-id=002-1145265-8016838; session-id-time=1007884800
+```
+
+#### Version 1 (RFC 2965) Cookies
+
+```http
+Set-Cookie2: Coupon="handvac103"; Version="1"; Path="/tools/cordless"
+```
+
+```http
+Cookie2: $Version="1"
+```
+
+### Client-side Cookie Storage
+
+Different browsers store cookies in different ways. Netscape Navigator stores cookies in single text file _cookies.txt_.
+
+```txt
+# Netscape HTTP Cookie File
+# http://www.netscape.com/newsref/std/cookie_spec.html
+# This is a generated file! Do not edit.
+#
+# domain          allh  path   secure  expires    name value
+www.fedex.com     FALSE /      FALSE   1136109676 cc /us/
+.cnn.com          TRUE  /      FALSE   1035069235 SelEdition www
+www.reformamt.org TRUE  /forum FALSE   1033761379 LastVisit 1003520952
+www.reformamt.org TRUE  /forum FALSE   1033761379 UserName Guest
+```
+
+Each line represents a cookie and contains seven tab-separated fields.
+
+### Libs
 
 [Simple cookie framework](https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie/Simple_document.cookie_framework)
 
