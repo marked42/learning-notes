@@ -10,7 +10,8 @@
             - [Request without Credentials](#request-without-credentials)
             - [Request with Credentials](#request-with-credentials)
             - [Expose Headers to Clients](#expose-headers-to-clients)
-            - [Simple Response Headers](#simple-response-headers)
+            - [Forbidden header name in Fetch Spec (TODO:)](#forbidden-header-name-in-fetch-spec-todo)
+            - [CORS-safelisted request header(Simple Response Headers)  (TODO:)](#cors-safelisted-request-headersimple-response-headers-todo)
             - [CORS Related HTTP Headers](#cors-related-http-headers)
             - [Comparison with JSONP](#comparison-with-jsonp)
             - [References](#references)
@@ -69,11 +70,30 @@ Same origin policy is relaxed for two windows with same value for `document.doma
 
 **Cross-origin resource sharing (CORS)** is a mechanism that controls whether certain resources (images, stylesheets, scripts, iframes, video etc.) are accessbile from other domain. Browser and server communicate with each other to achieve **CORS** in a fine-grained way.
 
-**CORS** requests are divided as [simple requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Simple_requests) and [preflighted requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Preflighted_requests) according to whether a **OPTIONS** request must be sent first to determine whether actual request is safe to send.
+**CORS** requests are divided as [simple requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Simple_requests) and [preflighted requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Preflighted_requests) according to whether an **OPTIONS** request must be sent first to determine whether actual request is safe to send.
 
 Simple request is safe, which means it does not has any side effect (changing server's data). Preflighted request is unsafe, so it must be preflighted first, hence the name.
 
 ![CORS XHR Flowchart](./cors_xhr_flowchart.png)
+
+```javascript
+// TODO:
+function shouldPreflight(request) {
+    if (request.method)
+    switch (request.method) {
+        case 'GET':
+        case 'HEAD':
+            // check custom header
+        case 'POST':
+            // check content type and custom header
+        default:
+            return true
+    }
+
+    // check event listener
+    // check ReadableStream
+}
+```
 
 #### [Simple Requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Simple_requests)
 
@@ -81,18 +101,7 @@ A request is a simple one if it meets all following conditions:
 
 1. Allowed methods are `GET`, `HEAD` and `POST`.
 1. Request must only contains headers `Connection`, `User-Agent`, [forbidden header name](https://fetch.spec.whatwg.org/#forbidden-header-name) and  [CORS-safelisted request headers](https://fetch.spec.whatwg.org/#cors-safelisted-request-header).
-    ```http
-    Accpet
-    Accept-Language
-    Content-Language
-    Content-Type
-    Last-Event-ID
-    DPR
-    Save-Data
-    Viewport-Width
-    Width
-    ```
-1. Only allowed values for `Content-Type` header are:
+1. Allowed values for `Content-Type` header are:
     - `application/x-www-form-urlencoded`
     - `multipart/form-data`
     - `text/plain`
@@ -105,21 +114,21 @@ Example of simple request from `http://www.example.com` to `http://service.examp
     ```http
     Origin: http://www.example.com
     ```
-1. Server responds according to target resource cross-origin authority.
+1. Server responds according to target resource cross-origin acccessibility.
     1. Target resrouce is allowed to be accessed from specific origin.
         ```http
         Access-Control-Allow-Origin: http://www.example.com
         Vary: Origin
         ```
-    1. An error page if server does not allow the cross-origin request.
     1. Target resource is allowed be accessed from any origin. It's often used when resource is intended to be completely public and accessible to everyone.
         ```http
         Access-Control-Allow-Origin: *
         ```
+    1. An error page if server does not allow the cross-origin request.
 
 #### [Preflighted Requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Preflighted_requests)
 
-A request is a preflighted request if any of following conditions is met.
+Preflighted requests contains two requests: a preflight request at first, then an actual request on successful preflight request. A request is a preflighted request if any of following conditions is met.
 
 1. Request uses following methods.
     - `PUT`
@@ -160,7 +169,7 @@ HTTP request and response process are like below.
 1. Client sends an preflight HTTP request with `OPTIONS` method asking if target resource `/doc` on `service.example.com` is accessible from origin `http://www.example.com` using `PUT` method and specified custom headers.
     ```http
     OPTIONS /doc HTTP/1.1
-    Host: service.example.coddm
+    Host: service.example.com
     Origin: http://www.example.com
     Access-Control-Request-Method: PUT
     Access-Control-Request-Headers: X-PINGOTHER, Content-Type
@@ -179,20 +188,18 @@ HTTP request and response process are like below.
     X-PINGOTHER: pingpong
     Content-Type: text/html; charset=UTF-8
     Origin: http://www.example.com
-    Access-Control-Allow-Methods: PUT
+    Access-Control-Request-Method: PUT
     Access-Control-Request-Headers: X-PINGOTHER, Content-Type
     ```
 1. Server send response message.
     ```http
     HTTP/1.1 200 OK
     Access-Control-Allow-Origin: http://www.example.com
-
-    [Body Data]
     ```
 
 #### Request without Credentials
 
-Credentials refers to cookies, authorization headers or TLS client certificates. By default, in cross-site `XMLHttpRequest` or `Fetch` invocations, browsers will **not** send credentials, which means request without credentials contains no headers related to cookies, authorization and TLS.
+_Credentials_ refers to cookies, authorization headers or TLS client certificates. By default, in cross-site `XMLHttpRequest` or `Fetch` invocations, browsers will **not** send credentials, which means request without credentials contains no headers related to cookies, authorization and TLS.
 
 Example of request without credential.
 
@@ -209,7 +216,7 @@ function callOtherDomain() {
 }
 ```
 
-HTTP request message contains header `Origin` with an URI as its value to specify message origin.
+HTTP request message contains header `Origin` with an URI as its value to specify message origin. Body of HTTP response message are **not** shown.
 
 ```http
 GET /resources/public-data/ HTTP/1.1
@@ -237,8 +244,6 @@ HTTP response message contains header `Access-Control-Allow-Origin`, two values 
     Connection: Keep-Alive
     Transfer-Encoding: chunked
     Content-Type: application/xml
-
-    [XML Data]
     ```
 1. `*` - an star means that any origin can access current resource.
     ```http
@@ -250,8 +255,6 @@ HTTP response message contains header `Access-Control-Allow-Origin`, two values 
     Connection: Keep-Alive
     Transfer-Encoding: chunked
     Content-Type: application/xml
-
-    [XML Data]
     ```
 
 #### Request with Credentials
@@ -293,7 +296,7 @@ Origin: http://foo.example
 Cookie: pageAccess=2
 ```
 
-1. CORS request may be allowed by including `Access-Control-Allow-Credentials: true` in http response.
+1. CORS request may be allowed by including `Access-Control-Allow-Credentials: true` in HTTP response.
     ```http
     HTTP/1.1 200 OK
     Date: Mon, 01 Dec 2008 01:34:52 GMT
@@ -310,8 +313,6 @@ Cookie: pageAccess=2
     Keep-Alive: timeout=2, max=100
     Connection: Keep-Alive
     Content-Type: text/plain
-
-    [text/plain payload]
     ```
 1. Or CORS request may be blocked by browser if HTTP response contains no `Access-Control-Allow-Credentials: true`.
     ```http
@@ -329,8 +330,6 @@ Cookie: pageAccess=2
     Keep-Alive: timeout=2, max=100
     Connection: Keep-Alive
     Content-Type: text/plain
-
-    [text/plain payload]
     ```
 
 For preflighted requests, preflight request carries crendentials like simple requests. If preflight fails, main request will not be sent.
@@ -341,7 +340,9 @@ When handling requests with credentials, servers **MUST** specify a URI as value
 
 In the pre-CORS, same-origin-only world, a client could trigger a cross-origin request, but it could not read the response headers. To ensure that CORS doesn't break this assumption, the CORS specification introduces `Access-Control-Expose-Headers` to give explicit permissions for client to read those headers, unpermitted headers are not accessbile to clients. Unauthorized CORS requests behave as they did in a pre-CORS world.
 
-#### Simple Response Headers
+#### Forbidden header name in Fetch Spec (TODO:)
+
+#### CORS-safelisted request header(Simple Response Headers)  (TODO:)
 
 > A simple response header (or a CORS-safelisted response header) is an HTTP header which has been safelisted so that it will not be filtered when responses are processed by CORS, since they're considered safe (as the headers listed in Access-Control-Expose-Headers). By default, the safelist includes the following response headers:
 
@@ -356,61 +357,69 @@ By default, only the 6 [simple response headers](https://developer.mozilla.org/e
 
 #### CORS Related HTTP Headers
 
+Notice that wheter a header is in singular or plural form is in conformity with whether they accept single value or a comma separated list of value.
+
 <table>
     <caption>Access Controls Headers</caption>
     <tr>
-        <th>Type</th>
         <th>Header</th>
         <th>Value</th>
         <th>Explaination</th>
+        <th>Usage</th>
     </tr>
     <tr>
-        <td rowspan='3'>Request Headers</td>
         <td><a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin'>Origin</a></td>
         <td>"" | <scheme> "://" <hostname> [ ":" <port> ]</td>
         <td>Origin of request message</td>
+        <td>request</td>
     </tr>
     <tr>
         <td><a href='<method>'>Access-Control-Request-Method</td>
         <td>&lt;method&gt;</td>
         <td>Used in a preflight request to let server know which HTTP method will be used when actual request is sent.</strong> way</td>
-        <td></td>
+        <td>request</td>
     </tr>
     <tr>
         <td><a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Request-Headers'>Access-Control-Request-Headers</a></td>
         <td>&lt;header-name&gt;, &lt;header-name&gt;, ...</td>
         <td>Ask if request using listed of custom headers can access target resource in <strong>CORS</strong> way</td>
+        <td>request</td>
     </tr>
     <tr>
-        <td rowspan='6'>Response Headers</td>
         <td><a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin'>Access-Control-Allow-Origin</a></td>
         <td>&lt;origin&gt; | *</td>
         <td>Refer to "Requests without Credentials" section</a></td>
+        <td>preflight response / actual response</td>
     </tr>
     <tr>
         <td><a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials'>Access-Control-Allow-Credentials</a></td>
         <td>true</td>
         <td>Requests with credentials are allowed to access target resource in CORS way.</td>
-    </tr>
-    <tr>
-        <td><a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Expose-Headers'>Access-Control-Expose-Headers</a></td>
-        <td>&lt;header-name&gt;, &lt;header-name&gt;, ...</td>
-        <td>Used <em>in reponse to a preflight request</em> to notify browsers a white list of headers exposed to clients. This header is designed for backward compatibility. Refer to section "Expose Headers to Clients".</td>
-    </tr>
-    <tr>
-        <td><a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age'>Access-Control-Allow-Max-Age<a></td>
-        <td>&lt;delta-seconds&gt;</td>
-        <td>Used <em>in reponse to a preflight request</em> to indicates how long (by seconds) the result of a preflight request can be cached.</td>
+        <td>preflight response/actual response</td>
     </tr>
     <tr>
         <td><a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Methods'>Access-Control-Allow-Methods</a></td>
         <td>&lt;method&gt;[, &lt;method&gt;]*</td>
-        <td>Used <em>in reponse to a preflight request</em> to specify methods allowed to access the resource.</td>
+        <td>Specify methods allowed to access the resource.</td>
+        <td>preflight response</td>
     </tr>
     <tr>
         <td><a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers'>Access-Control-Allow-Headers</a></td>
         <td>&lt;method&gt;[, &lt;method&gt;]*</td>
-        <td>The Access-Control-Allow-Headers response header is used in response to a preflight request to indicate which HTTP headers can be used during the actual request. CORS safelisted request headers are always available and needn't to be specified explicitly. This header is required if request contains <code>Access-Control-Request-Headers</code> header.</td>
+        <td>Indicate which HTTP headers can be used during the actual request. CORS safelisted request headers are always available and needn't to be specified explicitly. This header is required if request contains <code>Access-Control-Request-Headers</code> header.</td>
+        <td>preflight response</td>
+    </tr>
+    <tr>
+        <td><a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Expose-Headers'>Access-Control-Expose-Headers</a></td>
+        <td>&lt;header-name&gt;, &lt;header-name&gt;, ...</td>
+        <td>Notify browsers a white list of headers exposed to clients. This header is designed for backward compatibility. Refer to section "Expose Headers to Clients".</td>
+        <td>preflight response</td>
+    </tr>
+    <tr>
+        <td><a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age'>Access-Control-Allow-Max-Age<a></td>
+        <td>&lt;delta-seconds&gt;</td>
+        <td>Indicates how long (by seconds) the result of a preflight request can be cached.</td>
+        <td>preflight response</td>
     </tr>
 </table>
 
@@ -452,8 +461,6 @@ By default, only the 6 [simple response headers](https://developer.mozilla.org/e
 1. [Cross-Origin Resource Sharing Specification](https://www.w3.org/TR/cors/)
 1. [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
 1. [Fetch Specification](https://fetch.spec.whatwg.org/#cors-protocol)
-1. [Access-Control-Allow-Credentials](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials)
-1. [Access-Control-Expose-Headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Expose-Headers)
 1. [Vary](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary)
 1. [Why is Access-Control-Expose-Headers Neede ?](https://stackoverflow.com/questions/25673089/why-is-access-control-expose-headers-needed)
 
