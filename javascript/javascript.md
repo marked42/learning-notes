@@ -2715,6 +2715,10 @@ _Garbage collected languages_ manage memory automatically by periodically checki
 
 ### Mark and Sweep
 
+1. Garbage collector builds a list of 'roots'. 'Roots' are global variables to which a reference is kept in code.
+1. All roots are inspected and marked as active. All children are inspected recursively. Everything that can be reached from a root is not considered garbage.
+1. All pieces of memory not marked as active are considered garbage and the collector frees and returns it to operating system.
+
 ### Typical JavaScript Memory Leaks
 
 #### Accidental Global Variables
@@ -2818,6 +2822,8 @@ var replaceThing = function () {
 };
 setInterval(replaceThing, 1000);
 ```
+
+[Blog On Detailed Description](https://blog.meteor.com/an-interesting-kind-of-javascript-memory-leak-8b47d2e7f156)
 
 ### References
 
