@@ -12,7 +12,7 @@
     - [Pass Down Props](#pass-down-props)
     - [Conditional Rendering](#conditional-rendering)
     - [Container Components](#container-components)
-    - [Render Props](#render-props)
+    - [Render Callback and Render Props Pattern](#render-callback-and-render-props-pattern)
     - [Context and Provider Pattern](#context-and-provider-pattern)
 
 ## `setState()`
@@ -317,9 +317,9 @@ class CommentListContainer extends React.Component {
 }
 ```
 
-### Render Props
+### Render Callback and Render Props Pattern
 
-Component contains a 'render' property, which is a function that can render some acutal component. `Children` property is used as render property usually.
+Component contains a 'render' property, which is a function that can render some acutal component.
 
 ```jsx
 class DaobahRP extends React.Component {
@@ -352,6 +352,35 @@ export default () => {
     }
   >
 }
+```
+
+Another way is too receive a function as child, which is accessible with `this.props.children` and use it to render actual components.
+
+```jsx
+import React, { Component, PropTypes } from 'react'
+import fetchUser from 'twitter'
+class Twitter extends Component {
+  state = {
+    user: null,
+  }
+  static propTypes = {
+    username: PropTypes.string.isRequired,
+  }
+  componentDidMount () {
+    fetchUser(this.props.username)
+      .then((user) => this.setState({user}))
+  }
+  render () {
+    return this.props.children(this.state.user)
+  }
+}
+
+// use it like this
+<Twitter username='tylermcginnis33'>
+  {(user) => user === null
+    ? <Loading />
+    : <Badge info={user} />}
+</Twitter>
 ```
 
 ### Context and Provider Pattern
