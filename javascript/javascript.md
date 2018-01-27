@@ -101,6 +101,8 @@
     - [Out of DOM References](#out-of-dom-references)
     - [Closures](#closures)
     - [References](#references)
+  - [Ajax with XMLHttpRequest](#ajax-with-xmlhttprequest)
+  - [Fetch (TODO:)](#fetch-todo)
 
 ## Host Environment
 
@@ -2828,3 +2830,125 @@ setInterval(replaceThing, 1000);
 ### References
 
 1. [Memory Management]( https://auth0.com/blog/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/)
+
+## Ajax with XMLHttpRequest
+
+`XMLHttpRequest` is used to retrieve data from server. It's naming is a history issues, which doesn't mean it can only retrieve XML data. Any type of data is and other protocols like `file:` and `ftp` are supported. Prototyp chain of `XMLHttpRequest` is like below.
+
+```txt
+EventTarget -> XMLHttpRequestEventTarget -> XMLHttpRequest
+```
+
+`XMLHttpRequest.readyState` property returns a `unsigned int` value indicating state of XHR object, which can be one of following types.
+
+| Value | State | Description |
+| - | - | - |
+| 0 | UNSENT | XHR object has been created, `open()` not called |
+| 1 | OPENED | `open()` called |
+| 2 | HEADERS_RECEIVED | `send()` has been called and headers and status are available |
+| 3 | LOADING | downling, `responseText` holds partial data |
+| 4 | DONE | operation is complete |
+
+General life cycle and usage of `XMLHttpRequest` usage is like below.
+
+```js
+// 1. create xhr object with constructor, readyState is UNSENT
+let xhr = new XMLHttpRequest()
+
+/*
+* 2. initialize request with (method, url, async, user, password),
+* method and url are required, others are optional
+*/
+xhr.open('GET', 'https://www.example.com', true)
+
+/*
+* 3. set request HTTP header, must be called after open() and before send().
+*/
+xhr.setHeader(header1, value2)
+xhr.setHeader(header2, value2)
+
+// 4. send data with credentials if needed
+xhr.withCredentials = true
+
+// set time limit in milliseconds for auto termination
+// should not be used with synchronous request
+xhr.timeout = 2000
+xhr.ontime = function(e) {
+  // handle when request timed out
+  console.error('request timed out')
+
+  // maybe abort it
+  xhr.abort()
+}
+
+// data fetch succeeded
+xhr.onload = function() {
+
+}
+
+// data is transferring
+xhr.onprocess = function() {
+  xhr.upload
+}
+
+// error handling
+xhr.onerror = function() {
+  consoloe.log(xhr.statusText)
+}
+
+// 4. add listener to handle readyState change including case of
+// failing to get data, getting partial data and receiving all data,
+// usually it's needed to process reponse data by type.
+xhr.onreadystatechange = function() {
+  // request not finished
+  if (xhr.readyState === XMLHttpRequest.DONE) {
+    return
+  }
+
+  // finished request in error status
+  if (xhr.status !== 200 && xhr.statusText !== '200 OK') {
+    return
+  }
+
+  // finished request in success status
+  // check response status (unsinged int) and reason text
+  // returns string, ArrayBuffer, Blob, Document ...
+  console.log(xhr.response)
+
+  // returns one of "", "arraybuffer", "blob", 'document', 'json', 'text'
+  // empty string means "text" will be used
+  console.log(xhr.response)
+
+  // returns a DOMString that contains response as text or null
+  // if request failed or not sent yet
+  console.log(xhr.reponseText)
+
+  // returns seiralized URL of response or empty string if URL is null
+  console.log(xhr.reponseURL)
+
+  // returns Document
+  console.log(xhr.reponseXML)
+}
+
+// 5. Specify body data and send request. If request method is GET
+// or HEAD, argument is ignored and request body is set to null. If
+// Accept header hasn't been set, it's set to */* and sent with request
+// body can be string, Document, Blob, ArrayBufferView ...
+xhr.send(body)
+
+// 6. you may want to abort sent request
+xhr.abort()
+
+// get response information
+xhr.getAllResponseHeaders()
+xhr.getResponseHeader()
+
+// override MIME type
+xhr.overrideMimeType()
+```
+
+1. [Ajax Getting Started](https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX/Getting_Started)
+1. [Using XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest)
+1. [XMLHttpRequest Standard](https://xhr.spec.whatwg.org)
+
+## Fetch (TODO:)
