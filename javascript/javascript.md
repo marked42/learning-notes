@@ -34,6 +34,8 @@
       - [Implicit Binding](#implicit-binding)
       - [Default Binding](#default-binding)
       - [Arrow Function](#arrow-function)
+  - [Operators](#operators)
+    - [Short-circuit Evaluation](#short-circuit-evaluation)
   - [Types and Values](#types-and-values)
     - [Converting values to primitives](#converting-values-to-primitives)
     - [Explicit Type Conversion](#explicit-type-conversion)
@@ -1024,6 +1026,20 @@ lexical scope are different ones each time outer function is called.
 Once bound, `this` value of arrow functions cannot be changed by any other
 methods including explicit or implicit binding. Arrow functions cannot be used
 with `new` keyword as a constructor call, otherwise an error `TypeError 'x' is not a constructor` will be raised.
+
+## Operators
+
+Logical operators are usually used with boolean values and return a boolean value. But there's exception with `&&` and `||` because of short-circuit evaluation.
+
+### Short-circuit Evaluation
+
+Logical expression are evaluated from left to right. For `&&` and `||`, if first argument is enough to determine value of whole logical exrepssion, second argument will not be evaluated.
+
+| Logical Expression | Result |
+| `true  && (anything)`  | result is always `true`, `(anyting)` is not evaluated |
+| `false || (anything)`  | result is always `false`, `(anything)` is not evaluted |
+| `true  || (anything)`  | returns second argument as reulst, may not be a boolean value |
+| `false && (anything)`  | same as above |
 
 ## Types and Values
 
