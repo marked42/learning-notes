@@ -2,6 +2,12 @@
 
 - [React](#react)
   - [`setState()`](#setstate)
+  - [`React.Children`](#reactchildren)
+    - [Counting Children](#counting-children)
+    - [Looping over Children](#looping-over-children)
+    - [Convert Children to Array](#convert-children-to-array)
+    - [Single Children](#single-children)
+    - [Editing Children](#editing-children)
   - [Performance Optimization](#performance-optimization)
     - [Anti Patterns](#anti-patterns)
     - [Tools](#tools)
@@ -36,6 +42,109 @@ state = { type: 'All', format: 'json' }
 
 setState({ type: 'None' })
 // nextState is { type: 'None', format: 'json' }
+```
+
+## `React.Children`
+
+`React.Children` helper functions provides us a way to handle children of any type, such as array, function, object etc, wherease `this.props.children` is quite limited in usage.
+
+### Counting Children
+
+Component `ChildrenCounter` displays number of its children.
+
+```js
+class ChildrenCounter extends React.Component {
+  render() {
+    return <p>React.Children.count(this.props.children)</p>
+  }
+}
+```
+
+`React.Children.count` returns correct number of children all the time. On the contrary, if childen is of string, `this.props.children.length` returns string length instead of child number.
+
+### Looping over Children
+
+Likely, `React.Children.map` and `React.Children.forEach` provides similiar functions like `Array.prototype.map` and `Array.prototype.forEach` and they apply to children of any type.
+
+### Convert Children to Array
+
+Likely, converts children to array.
+
+```js
+class Sorts extends React.Component {
+  render() {
+    const children = React.Children.toArray(this.props.children)
+
+    return <p>{children.sort().join(' ')}</p>
+  }
+}
+
+<Sort>
+  {'bananas'}{'oranges'}{'apples'}
+</Sort>
+
+// sorted result
+apples bananas oranges
+```
+
+### Single Children
+
+Use `React.Children.only()` to enforce a single child. It throws error if component has more than one child, otherwise it returns the single child correctly.
+
+```js
+import React from 'react'
+import PropTypes from 'prop-types'
+
+// Executioner receives a single children that is a function
+class Executioner extends React.Component {
+  static propTypes = {
+    children: PropTypes.func.isRequired,
+  }
+
+  render() {
+    return React.Children.only(this.props.children)()
+  }
+}
+```
+
+### Editing Children
+
+Since we have access to component children with `this.props.children` and react children helper functions, we can do some transformations to children according to our needs.
+
+Consider this `RadioGroup` containing multiple `RadioButton` child components.
+
+```js
+render() {
+  return (
+    <RadioGroup>
+      <RadioButton value='first'>first</RadioButton>
+      <RadioButton value='second'>second</RadioButton>
+      <RadioButton value='third'>third</RadioButton>
+    </RadioGroup>
+  )
+}
+```
+
+There exists an issue that child `RadioButton` components need to be grouped together for mutual exclusiveness, which is the typical behaviour for radio button. We can achieve this by setting same `name` attribute value for all children manually. But that's tedious and error prone. `React.cloneElement()` comes in handy for us.
+
+```js
+class RadioGroup extends React.Component {
+  renderChildrenInSameGroup = () =>
+    React.Children.map(this.props.children, child =>
+      // clone element from child then set new name prop
+      React.cloneElement(child, {
+        name: this.props.name,
+      })
+    )
+
+  render() {
+    return (
+      <div className='group'>
+        {this.renderChildrenInSameGroup()}
+      </div>
+    )
+  }
+}
 ```
 
 ## Performance Optimization
