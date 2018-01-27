@@ -7,6 +7,7 @@
     - [Commit Message](#commit-message)
         - [Commit Message Style Guide](#commit-message-style-guide)
         - [Tools](#tools)
+    - [Undo Changes](#undo-changes)
     - [Workflow](#workflow)
         - [Centralized Workflow](#centralized-workflow)
         - [Feature Branching Workflow](#feature-branching-workflow)
@@ -181,6 +182,12 @@ Reference
 
 1. [gitemoji](https://github.com/carloscuesta/gitmoji/)
 1. [Torvalds on commit message](https://github.com/torvalds/linux/pull/17#issuecomment-5659933)
+
+## Undo Changes
+
+Undo changes in single file `git checkout <file>`
+
+Undo all changes `git checkout -- .`
 
 ## Workflow
 
