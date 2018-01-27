@@ -743,7 +743,7 @@ Dispatch event at the end of handler function or use `setTimeout(..., 0)` for an
 
 ## This
 
-When a function is called, a execution context related to the specific function
+When a function is called, an execution context related to the specific function
 call is created to record related information. When function call ends,
 execution context is destroyed. Function execution context includes:
 
@@ -765,7 +765,7 @@ sequencial order.
 #### Constructor Call
 
 Normal function calls return values explicitly (with `return` keyword) or
-implicitly (undefined). But when function is called with `new` keyword, it works
+implicitly (`undefined`). But when function is called with `new` keyword, it works
 as a constructor call to construct and return a new object. An empty object is
 created first and then bound to `this` keyword in constructor call. After
 function call finishes, it's returned as newly constructed object.
@@ -964,6 +964,27 @@ if (!Function.prototype.softBind) {
 
 It checks whether `this` is `null` or `undefined` or being bound to `window` or
 `global`. If true, replace it with `obj`.
+
+Another tricky example.
+
+```js
+function one () {
+  // 1. this bind to window, set window.name to 1
+  this.name = 1;
+
+  return function two () {
+    // 2. set to window.name to 2
+    name = 2;
+
+    return function three() {
+      var name = 3;
+      // 3. this bind to window, window.name is now 2
+      console.log(this.name);
+    }
+  }
+}
+one()()()  // => 2;
+```
 
 #### Arrow Function
 
