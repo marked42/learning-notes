@@ -2,6 +2,8 @@
 
 - [React](#react)
   - [`setState()`](#setstate)
+    - [Shallow State Merge](#shallow-state-merge)
+    - [Batched State Change](#batched-state-change)
   - [`React.Children`](#reactchildren)
     - [Counting Children](#counting-children)
     - [Looping over Children](#looping-over-children)
@@ -23,6 +25,8 @@
 
 ## `setState()`
 
+### Shallow State Merge
+
 `setState(newState)` does a shallow merge with `oldState` and `newState`, avoid using deeply nested state which could cause unexpected behaviour.
 
 Wrong Usage:
@@ -43,6 +47,149 @@ state = { type: 'All', format: 'json' }
 setState({ type: 'None' })
 // nextState is { type: 'None', format: 'json' }
 ```
+
+### Batched State Change
+
+Core philosophy of React is that UI depends on state. `this.state` corresponds to `state`, function `f` is what React library is about: it provides a mapping `f` from `state` to `UI`. Once state of a React component is set, React maps `state` to `UI` and re-renders the UI automatically.
+
+```math
+UI = f(state)
+```
+
+We can access state by `this.state` directly, however we should **not** change state directly with `this.state = newState` because state change is designed to be batched for performance consideration. What's important is to drive UI to update on state change, so changing state solely without triggering UI update makes no sense and this is what manipulating state directly (`this.state = newState`) does for us.
+
+It would be perfect for us if UI updates instantly on every single state change without degrading performance. But that's not gonna work in real world cause UI updates, aka DOM changes, are expensive. Core part of React is virtual DOM and diffing algorithm which is used to reduce DOM changes as less as possible to avoid poor performance.
+
+In considerations of problems above, `setState()` is designed to batch multiple state changes and apply resulting state once in proper time. Then it triggers UI updates on actual state change. It's possible for React designers to place logics of triggering UI updates inside setters of `this.state`. But a seemingly innocent object property assignement `this.state = newState` actually causes UI updates would be a brain-damaged design both for developers and users.
+
+There's another consideration on batched state change. We can design `setState()` to change `this.state` instantly and it's natural that multiple `setState()` calls will update state in an accumulative way. Then UI is triggered to update by last `setState()` call properly according to accumulatively changed state. But this design has two drawbacks.
+
+1. There exists a short period of time that UI and state are inconsistent with each other until component finishes re-rendering.
+1. User may want to compare between previous state and next state for some purposes. Previous state is lost after first `setState()` call in this solution.
+
+So the final solution used by React is to keep `this.state` unchanged between UI updates and batch multiple state changes. Then in proper time when UI needs to be updated, next state is calculated from unchanged `this.state` and multiple batched state changes. Both `this.state` and calculated next state is provided as argument in component lifecycle methods for user to access.
+
+- `shouldComponentUpdate(nextProps, nextState)`
+- `componentWillUpdate(nextProps, nextState)`
+- `componentDidUpdate(nextProps, nextState)`
+
+After all this discussion, it won't surprise us that 3 `setState()` calls in example below increment `this.state.count` by 1 rather than 3. Because every `setState()` call set `this.state.count` to same value `unchangedCount + 1`, and 3 batched `this.setState(unchangedCount + 1)` calls give us the same result as single one. By the way, it's the same notion as HTTP _idempotant_ method in this case.
+
+```js
+function incrementMultiple() {
+  this.setState({count: this.state.count + 1});
+  this.setState({count: this.state.count + 1});
+  this.setState({count: this.state.count + 1});
+}
+
+// equivalent to this
+function incrementMultiple() {
+  const unchnagedCount = this.state.count
+  this.setState({count: unchnagedCount + 1});
+  this.setState({count: unchnagedCount + 1});
+  this.setState({count: unchnagedCount + 1});
+}
+```
+
+Use multiple `setState()` calls that changes differnt part of state, you can notice that they're actually batched up.
+
+```js
+// batched state change result:
+// { firstName: 'Morgan', lastName: 'Cheng' }
+function setUserFullName() {
+  this.setState({firstName: 'Morgan'})
+  this.setState({LastName: 'Cheng'});
+}
+```
+
+Besides the normal usage that `setState(stateChange)` accepts a single `stateChange` object, it actually accepts an optional callback function as second argument, which will be executed once `setState` is completed and the component is re-rendered. But it's recommended by official documentation to use lifecycle method `componentDidMount()` instead of this calllback function. Try **not** to change state inside callback function cause its effect on state is uncertain.
+
+```js
+setState(updater: object, callback?: () => void)
+```
+
+`setState` also accpets a function as first argument like below.
+
+```js
+setState(updater: (prevState, props) => stateChange, callback?: () => void)
+```
+
+`updater` function accepts accumulatively changed state which is the result of preivous `setState()` calls as first argument `prevState`. This ensures every state change happens on the result of previous state changes.This is actually a typical usage of _thunk_ function.
+
+A naive code for demonstration would be like below.
+It batched state changes that happens within the duration of first `setState()` call and `batchedStateChangeLimit` milliseconds later. This time restriction is not exactly same as actual situation due to inherent limitation of JavaScript timer function.
+
+```js
+function setState(updater, callback) {
+  if (this._updaters === null ||
+    this._updaters === undefined) {
+      this._updaters = []
+    }
+  this._updaters.push(updater)
+
+  if (this._updateTimer === undefined) {
+    const batchedStateChangeLimit = 100
+    this._updateTimer = setTimeout(() => {
+      // calculate next state
+      const nextState = this._updaters.reduce(
+        (prevState, updater) => {
+          // handle function updater
+          if (typeof updater === 'function') {
+            updater(prevState, this.props)
+          }
+
+          // handle object updater
+          // shallow merges this.state and updater object
+          return shallowMerge(this.state, updater)
+        },
+        // this.state is inital object for all updaters
+        this.state
+      )
+
+      // trigger component update and provide this.state and 
+      // nextState as arguments to component lifecycle methods
+      // callback is not processed here
+
+      // after state changes are applied, clear timer and
+      // preivous updaters to prepare for another round
+      this._updateTimer = undefined
+      this._updaters = []
+    }, batchedStateChangeLimit)
+  }
+}
+```
+
+Key points to take away is:
+
+1. At the first `setState()` call, a timeout callback is set to ensure state change will be applied with a maximum delay of `batchedStateChangeLimit` milliseconds.
+1. First and following updaters are stored internally.
+1. When state changes are finally applied, `nextState` is calculated from `this.state` and stored updaters of either fuction or object type. Then `this.state` and `nextState` is provided as arguments of component lifecycle methods.
+1. After component is updated, clear internally recorded updaters and timers to start another round.
+
+Consider this example of mixed usage of object updaters and function updaters below. It would be clear that `this.state.count` will be incremented by 2 instead of 4.
+
+```js
+function incrementMultiple() {
+  // nextState.count = this.state.count + 1
+  this.setState(increment);
+
+  // nextState.count = this.state.count + 2
+  this.setState(increment);
+
+  // nextState.count = this.state.count + 1
+  this.setState({count: this.state.count + 1});
+
+  // nextState.count = this.state.count + 2
+  this.setState(increment);
+}
+```
+
+References
+
+1. [`setState()` API Reference](https://reactjs.org/docs/react-component.html#setstate)
+1. [setState：这个API设计到底怎么样](https://zhuanlan.zhihu.com/p/25954470)
+1. [setState何时同步更新状态](https://zhuanlan.zhihu.com/p/26069727)
+1. [`setState()` Gate](https://medium.com/javascript-scene/setstate-gate-abc10a9b2d82#.ftefj7nn2)
 
 ## `React.Children`
 
