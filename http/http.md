@@ -888,7 +888,7 @@ Extension headers usually should start with 'X' like `X-Rate-Limit` to be distin
     <tr>
         <td>401</td>
         <td>Unauthorized</td>
-        <td></td>
+        <td>Chanllenge user for authorization</td>
     </tr>
     <tr>
         <td>402</td>
@@ -898,7 +898,7 @@ Extension headers usually should start with 'X' like `X-Rate-Limit` to be distin
     <tr>
         <td>403</td>
         <td>Forbidden</td>
-        <td></td>
+        <td>Not allowed to access</td>
     </tr>
     <tr>
         <td>404</td>
