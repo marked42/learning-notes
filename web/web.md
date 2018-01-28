@@ -4,6 +4,10 @@
     - [Same Origin Policy](#same-origin-policy)
         - [Definition & Example](#definition-example)
         - [Access Restriction](#access-restriction)
+            - [Network Access Restriction](#network-access-restriction)
+            - [Script API Access Restriction](#script-api-access-restriction)
+            - [Data Storage Access Restriction](#data-storage-access-restriction)
+        - [References](#references)
     - [Cross Origin Methods](#cross-origin-methods)
         - [`document.domain` property](#documentdomain-property)
         - [[Cross-Origin Resource Sharing](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)](#cross-origin-resource-sharinghttpsenwikipediaorgwikicross-originresourcesharing)
@@ -101,6 +105,47 @@ Example of same origin checking against `http://www.example.com/dir/page.html`
 ### Access Restriction
 
 Same origin policy restricts how a document or script loaded in one origin can access data from other origins for security considerations.
+
+#### Network Access Restriction
+
+1. Cross-origin _writes_ are typically allowed. This what we do when we submit form data to remote servers. But some HTTP request requires preflight.
+1. Cross-origin _embedding_ is typically allowed.
+    1. JavaScript with `<script src='...'></script>`
+    1. CSS with `<link rel='stylesheet' href='...'>`
+    1. Image with `<img src='...'/>`
+    1. Media files with `<video>` and `<audio>`
+    1. Plugins with `<object>`, `<embed>`, `<applet>`
+    1. Fonts with `@font-face`
+    1. Anything with `<frame>`, `<iframe>`
+1. Cross-origin _reads_ are typically not allowed.
+
+#### Script API Access Restriction
+
+A list of APIs are restricted to access from cross-origin document.
+
+[Window API](https://html.spec.whatwg.org/multipage/browsers.html#security-window), [Location API](https://html.spec.whatwg.org/multipage/browsers.html#security-location).
+
+```js
+window.blur
+window.close
+window.focus
+window.postMessage
+window.closed
+window.frames
+window.length
+window.location
+window.opener
+window.parent
+window.self
+window.top
+window.window
+```
+
+#### Data Storage Access Restriction
+
+Web storage (`localStorage`, `sessionStorage`) and `IndexedDB` are not allowed to be accessed by other domain. Notice that cookies use a differnt strategy and are not subject to same origin policy restrictions.
+
+### References
 
 1. [Same Origin Policy - MDN](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
 1. [Same Origin Policy at W3C](https://www.w3.org/Security/wiki/Same_Origin_Policy)
@@ -491,7 +536,7 @@ Notice that wheter a header is in singular or plural form is in conformity with 
     <tr>
         <td><a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin'>Access-Control-Allow-Origin</a></td>
         <td>&lt;origin&gt; | *</td>
-        <td>Refer to "Requests without Credentials" section</a></td>
+        <td>Refer to "Requests without Credentials" section</audio></td>
         <td>preflight response / actual response</td>
     </tr>
     <tr>
