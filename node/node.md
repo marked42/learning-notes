@@ -55,7 +55,7 @@ Notice that `exports` is just a reference to `module.exports`, so don't set `exp
 1. core module
 1. is relative path or absolute path,
 1. find module in sibling folder `node_modules`, if not found repeat this process in parent folder recursively until root path.
-1. find module in folder specified by environt variable `NODE_MODULES`, throw exception is not found.
+1. find module in folder specified by environment variable `NODE_MODULES`, throw exception is not found.
 
 ![Module Resolution](./module_entry_file.png)
 
