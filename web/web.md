@@ -440,7 +440,7 @@ Notice that wheter a header is in singular or plural form is in conformity with 
         <td>preflight response</td>
     </tr>
     <tr>
-        <td><a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age'>Access-Control-Allow-Max-Age<a></td>
+        <td><a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age'>Access-Control-Max-Age<a></td>
         <td>&lt;delta-seconds&gt;</td>
         <td>Indicates how long (by seconds) the result of a preflight request can be cached.</td>
         <td>preflight response</td>
@@ -481,16 +481,16 @@ Notice that wheter a header is in singular or plural form is in conformity with 
 
 #### References
 
-1. [MDN CROS](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS)
+1. [MDN CORS](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS)
 1. [Cross-Origin Resource Sharing Specification](https://www.w3.org/TR/cors/)
 1. [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
 1. [Fetch Specification](https://fetch.spec.whatwg.org/#cors-protocol)
 1. [Vary](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary)
-1. [Why is Access-Control-Expose-Headers Neede ?](https://stackoverflow.com/questions/25673089/why-is-access-control-expose-headers-needed)
+1. [Why is Access-Control-Expose-Headers Needed?](https://stackoverflow.com/questions/25673089/why-is-access-control-expose-headers-needed)
 
 ### [Web Messaging (Cross-document messaging)](https://en.wikipedia.org/wiki/Web_Messaging)
 
-Web messaging allows scripts inside documents across origins to send text messages to each other. It relaxed security policy related to cross-site scripting a little bit for non-hostile pages.
+Web messaging allows scripts inside documents across origins to send text messages to each other. It relaxes security policy related to cross-site scripting a little bit for non-hostile pages.
 
 If `postMessage()` method of `window` object is called, an _message_ event will be fired and handler scripts on other documents will be called. `postMessage()` is non-blocking call, messages are processed asynchronously.
 
@@ -529,7 +529,7 @@ Origins must be carefully checked to prevent cross-site scripting.
 
 ### [**JSONP**](https://en.wikipedia.org/wiki/JSONP)
 
-**JSONP(JSON with Padding)** exploits the fact that HTML elements with `src` attribute (`<script>`, `<img>`, `<iframe>`) are allowed to access cross domain data.
+**JSONP(JSON with Padding)** exploits the fact that HTML elements with `src` attribute (`<script>`, `<img>`, `<iframe>`) are allowed to request cross domain data.
 
 `<script>` element links to cross origin url.
 
@@ -557,9 +557,9 @@ parseResponse({"Name": "Foo", "Id": 1234, "Rank": 7});
 
 ### [**C**ross-**S**ite **R**equest **F**orgery](https://en.wikipedia.org/wiki/Cross-site_request_forgery)
 
-CRSF exploits the trust that a site has in a user's browser to send malicious request disguised as normal user request to target website. Both the user and the target website can be victims of CRSF attack. 
+CSRF exploits the trust that a site has in a user's browser to send malicious request disguised as normal user request to target website. Both the user and the target website can be victims of CSRF attack.
 
-CRSF attack can be done by specially-crafted image tags, hidden forms, and JavaScript XMLHttpRequests, even without interaction or knowledge of user.
+CSRF attack can be done by specially-crafted image tags, hidden forms, and JavaScript XMLHttpRequests, even without interaction or knowledge of user.
 
 ### Prevention
 
@@ -863,7 +863,7 @@ Precedence refers to how two versions are compared with each other when ordered.
     1. Identifiers consisting of letters and hyphens are compared lexically in ASCII order.
     1. Numeric identifiers has lower precedence than non-numeric identifiers.
     ```txt
-    1.0.0-alpha < 1.0.0-alpha.1 < 1.0.0-alpha.beta < 1.0.0-beta < 1.0.0-beta.2 < 1.0.0-beta.11 < 1.0.0-rc.1 < 1.0.0.
+    1.0.0-alpha < 1.0.0-alpha.1 < 1.0.0-alpha.beta < 1.0.0-beta < 1.0.0-beta.2 < 1.0.0-beta.11 < 1.0.0-rc.1 < 1.0.0
     ```
 
 Sematic versioning makes it easy to upgrade denpendent packages freely as long as _major_ version is the same.
