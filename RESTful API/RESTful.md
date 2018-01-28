@@ -199,7 +199,7 @@ Resource collection.
 
 ### Authentication
 
-RESTful API is stateless, so that users should not remembered and then authenticated by cookie or session. Every request should carray all information needed to authentication.
+RESTful API is stateless, so that client data will not be stored on server-side. Every request from client should carray all information needed for authentication.
 
 Always use SSL and don't forward a request without SSL to corresponding SSL version, throw an error directly.
 
