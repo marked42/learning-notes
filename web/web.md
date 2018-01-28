@@ -2,6 +2,8 @@
 
 - [Web](#web)
     - [Same Origin Policy](#same-origin-policy)
+        - [Definition & Example](#definition-example)
+        - [Access Restriction](#access-restriction)
     - [Cross Origin Methods](#cross-origin-methods)
         - [`document.domain` property](#documentdomain-property)
         - [[Cross-Origin Resource Sharing](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)](#cross-origin-resource-sharinghttpsenwikipediaorgwikicross-originresourcesharing)
@@ -48,7 +50,39 @@
 
 ## Same Origin Policy
 
-An origin is defined as a combination of protocol, host name and port number. Same origin policy allows data of one webpage to be accessible to pages inside same origin only.
+### Definition & Example
+
+An origin is defined as a tuple of URI scheme (protocol), host name and port number. Use `document.origin` or `document.location.origin` to get origin of current document.
+
+<table>
+    <caption>Origin of Different Documents</caption>
+    <tr>
+        <th>URL</th>
+        <th>Origin Value (string)</th>
+    </tr>
+    <tr>
+        <td><code>https://www.bing.come</code></td>
+        <td>'https://www.bing.com'</td>
+    </tr>
+    <tr>
+        <td><code>data:text/html,&lt;b&gt;foo&lt;/b&gt;</code></td>
+        <td>'null'</td>
+    </tr>
+    <tr>
+        <td><code>about:blank</code></td>
+        <td>'null'</td>
+    </tr>
+    <tr>
+        <td><code>javascript:alert(1)</code></td>
+        <td>'null'</td>
+    </tr>
+    <tr>
+        <td><code>file:alert(1)</code></td>
+        <td>'file:'</td>
+    </tr>
+</table>
+
+Among the three components (URI scheme, host and port number) of a document's origin, URI scheme and port number are usually not changed, and port number is sometimes implicitly stored by browser. But host, aka domain can be changed with DOM API `document.domain`. Refer to section [`document.domain` property](#documentdomain-property) for details.
 
 Example of same origin checking against `http://www.example.com/dir/page.html`
 
@@ -64,11 +98,56 @@ Example of same origin checking against `http://www.example.com/dir/page.html`
 |`http://v2.www.example.com/dir/other.html`|Failure|Different host (exact match required)
 |`http://www.example.com:80/dir/other.html`|Depends|Port explicit. Depends on implementation in browser.
 
+### Access Restriction
+
+Same origin policy restricts how a document or script loaded in one origin can access data from other origins for security considerations.
+
+1. [Same Origin Policy - MDN](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
+1. [Same Origin Policy at W3C](https://www.w3.org/Security/wiki/Same_Origin_Policy)
+1. [Same-origin policy for file: URIs](https://developer.mozilla.org/en-US/docs/Archive/Misc_top_level/Same-origin_policy_for_file:_URIs)
+1. [The Web Origin Concept (RFC6454 )](https://tools.ietf.org/html/rfc6454)
+1. [Same Origin Policy for file: URI](https://developer.mozilla.org/en-US/docs/Archive/Misc_top_level/Same-origin_policy_for_file:_URIs)
+
 ## Cross Origin Methods
 
 ### `document.domain` property
 
-Same origin policy is relaxed for two windows with same value for `document.domain` property. Documents with same value for `document.domain` property can read each other's properties. This might not always work due to acutal implementation.
+When a major domain like `mozilla.org` has multiple subdomains like `api.mozilla.org`, `user.mozilla.org`, documents of differnt subdomains are stricted by same origin policy so that they cannot access each other's document data. When it's actually needed to share data across multiple subdomains, we can use `document.domain` to relax same origin policy restriction.
+
+`document.domain` can be set with limitation, it can be set to its original value or superdomain (suffix of its current domain) of its current domain. Top-level domain is illegal too. A DOMExcpetion will be thrown if value is not acceptable.
+
+```js
+// suppose we are in domain 'mozilla.org'
+document.domain === 'mozilla.org'
+
+// DOMException: Failed to set the 'domain' property on 'Document':
+// 'bing.com' is not a suffix of 'mozilla.org'
+document.domain = 'bing.com'
+
+// DOMException: Failed to set the 'domain' property on 'Document':
+// 'org' is a top-level domain
+document.domain = 'org'
+```
+
+By setting two documents of different domains to same superdomain, browsers allow these two documents to pass through same origin policy and access each other's data.
+
+```js
+// document1 (api.mozilla.org)
+document.domain = 'mozilla.org'
+
+// document2 (user.mozilla.org)
+document.domain = 'mozilla.org'
+```
+
+A special behaviour is that port number is stored separately by the browser. Any call to `document.domain` setter including `document.domain = document.domain` causes the port number to be overwritten as `null`. So for domain `company.com:8080` to access data of domain `company.com`, setting `company.com:8080` to `company.com` solely is not enough, cause port number is changed implicitly. You have to set domain of both documents to same value to ensure expected effects.
+
+```js
+// document1 (company.com:8080)
+document.domain = 'company.com'     // port changed to null
+
+// document2 (company.com)
+document.domain = 'company.com'     // port changed to null
+```
 
 ### [Cross-Origin Resource Sharing](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 
