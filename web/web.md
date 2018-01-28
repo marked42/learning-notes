@@ -104,7 +104,7 @@ Example of same origin checking against `http://www.example.com/dir/page.html`
 
 ### Access Restriction
 
-Same origin policy restricts how a document or script loaded in one origin can access data from other origins for security considerations.
+Same origin policy restricts how a document or script loaded in one origin can access data from other origins for security considerations. Restricted functions calls and network requests are blocked by browsers directly.
 
 #### Network Access Restriction
 
@@ -651,7 +651,7 @@ function receiver(event) {
 window.addEventListener('message', receiver, false);
 ```
 
-Origins must be carefully checked to prevent cross-site scripting.
+Origins must be carefully checked to prevent cross-site scripting. This methods is a modern solution in replace of communication through _`window.name`_ and _fragment identifier_, which should be avoided.
 
 1. [Web Messaging Standard](https://html.spec.whatwg.org/multipage/web-messaging.html#web-messaging)
 
