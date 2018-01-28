@@ -170,6 +170,10 @@ document.domain === 'mozilla.org'
 document.domain = 'bing.com'
 
 // DOMException: Failed to set the 'domain' property on 'Document':
+// 'zilla.org' is not a suffix of 'mozilla.org'
+document.domain = 'zilla.org'
+
+// DOMException: Failed to set the 'domain' property on 'Document':
 // 'org' is a top-level domain
 document.domain = 'org'
 ```
