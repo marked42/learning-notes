@@ -82,20 +82,40 @@ Simple request is safe, which means it does not has any side effect (changing se
 
 ```javascript
 // TODO:
+function isStandardHeader(header) {
+    // is forbidden header
+    // is cros safelisted headers
+}
+
+function containsCustomHeader(request) {
+    return request.headers.all(isStandardHeader)
+}
+
+function contentTypeIsStandard(contentType) {
+    return contentType === 'application/x-www-form-urlencoded' ||
+        contentType === 'multipart/form-data' ||
+        contentType === 'text/plain'
+}
+
 function shouldPreflight(request) {
-    if (request.method)
-    switch (request.method) {
-        case 'GET':
-        case 'HEAD':
-            // check custom header
-        case 'POST':
-            // check content type and custom header
-        default:
-            return true
+    if (request.method !== 'GET' ||
+        request.method !== 'HEAD' ||
+        request.method !== 'POST'
+    ) {
+        return true
     }
 
-    // check event listener
-    // check ReadableStream
+    if (containsStandardHeaderOnly(request)) {
+        return true
+    }
+
+    if (request.method === 'GET' ||
+        request.method === 'HEAD'
+    ) {
+        return false
+    }
+
+    return !contentTypeIsStandard(request)
 }
 ```
 
