@@ -1,33 +1,33 @@
 # React
 
 - [React](#react)
-  - [`setState()`](#setstate)
-    - [Shallow State Merge](#shallow-state-merge)
-    - [Batched State Change](#batched-state-change)
-  - [`React.Children`](#reactchildren)
-    - [Counting Children](#counting-children)
-    - [Looping over Children](#looping-over-children)
-    - [Convert Children to Array](#convert-children-to-array)
-    - [Single Children](#single-children)
-    - [Editing Children](#editing-children)
-  - [Performance Optimization](#performance-optimization)
-    - [Anti Patterns](#anti-patterns)
-    - [Tools](#tools)
-      - [Chrome DevTools](#chrome-devtools)
-      - [why-did-you-update](#why-did-you-update)
-      - [React Developer Tools for Chrome](#react-developer-tools-for-chrome)
-  - [Patterns](#patterns)
-    - [Pass Down Props](#pass-down-props)
-    - [Conditional Rendering](#conditional-rendering)
-    - [Container Components](#container-components)
-    - [Render Callback and Render Props Pattern](#render-callback-and-render-props-pattern)
-    - [Context and Provider Pattern](#context-and-provider-pattern)
+    - [`setState()`](#setstate)
+        - [Shallow State Merge](#shallow-state-merge)
+        - [Batched State Change](#batched-state-change)
+    - [`React.Children`](#reactchildren)
+        - [Counting Children](#counting-children)
+        - [Looping over Children](#looping-over-children)
+        - [Convert Children to Array](#convert-children-to-array)
+        - [Single Child](#single-child)
+        - [Editing Children](#editing-children)
+    - [Performance Optimization](#performance-optimization)
+        - [Anti Patterns](#anti-patterns)
+        - [Tools](#tools)
+            - [Chrome DevTools](#chrome-devtools)
+            - [why-did-you-update](#why-did-you-update)
+            - [React Developer Tools for Chrome](#react-developer-tools-for-chrome)
+    - [Patterns](#patterns)
+        - [Pass Down Props](#pass-down-props)
+        - [Conditional Rendering](#conditional-rendering)
+        - [Container Components](#container-components)
+        - [Render Callback and Render Props Pattern](#render-callback-and-render-props-pattern)
+        - [Context and Provider Pattern](#context-and-provider-pattern)
 
 ## `setState()`
 
 ### Shallow State Merge
 
-`setState(newState)` does a shallow merge with `oldState` and `newState`, avoid using deeply nested state which could cause unexpected behaviour.
+`setState(updater)` does a shallow merge with `this.state` and `updater`, avoid using deeply nested state which could cause unexpected behaviour.
 
 Wrong Usage:
 
@@ -50,7 +50,7 @@ setState({ type: 'None' })
 
 ### Batched State Change
 
-Core philosophy of React is that UI depends on state. `this.state` corresponds to `state`, function `f` is what React library is about: it provides a mapping `f` from `state` to `UI`. Once state of a React component is set, React maps `state` to `UI` and re-renders the UI automatically.
+Core philosophy of React is that UI depends on state. `this.state` corresponds to `state`, function `f` is what React library is about: it provides a mapping from `state` to `UI`. Once state of a React component is set, React maps `state` to `UI` and re-renders the UI automatically.
 
 ```math
 UI = f(state)
@@ -73,7 +73,7 @@ So the final solution used by React is to keep `this.state` unchanged between UI
 - `componentWillUpdate(nextProps, nextState)`
 - `componentDidUpdate(nextProps, nextState)`
 
-After all this discussion, it won't surprise us that 3 `setState()` calls in example below increment `this.state.count` by 1 rather than 3. Because every `setState()` call set `this.state.count` to same value `unchangedCount + 1`, and 3 batched `this.setState(unchangedCount + 1)` calls give us the same result as single one. By the way, it's the same notion as HTTP _idempotant_ method in this case.
+After all this discussion, it won't surprise us that 3 `setState()` calls in example below increment `this.state.count` by 1 rather than 3. Because every `setState()` call set `this.state.count` to same value `unchangedCount + 1`, and 3 batched `this.setState({count: unchangedCount + 1})` calls give us the same result as single one. By the way, it's the same notion as HTTP _idempotant_ method in this case.
 
 ```js
 function incrementMultiple() {
@@ -102,7 +102,7 @@ function setUserFullName() {
 }
 ```
 
-Besides the normal usage that `setState(stateChange)` accepts a single `stateChange` object, it actually accepts an optional callback function as second argument, which will be executed once `setState` is completed and the component is re-rendered. But it's recommended by official documentation to use lifecycle method `componentDidMount()` instead of this calllback function. Try **not** to change state inside callback function cause its effect on state is uncertain.
+Besides the normal usage that `setState(updater)` accepts a single `updater` object, it actually accepts an optional callback function as second argument, which will be executed once `setState` is completed and the component is re-rendered. But it's recommended by official documentation to use lifecycle method `componentDidMount()` instead of this calllback function. Try **not** to change state inside callback function cause its effect on state is uncertain.
 
 ```js
 setState(updater: object, callback?: () => void)
@@ -135,7 +135,7 @@ function setState(updater, callback) {
         (prevState, updater) => {
           // handle function updater
           if (typeof updater === 'function') {
-            updater(prevState, this.props)
+            return updater(prevState, this.props)
           }
 
           // handle object updater
@@ -163,23 +163,25 @@ Key points to take away is:
 
 1. At the first `setState()` call, a timeout callback is set to ensure state change will be applied with a maximum delay of `batchedStateChangeLimit` milliseconds.
 1. First and following updaters are stored internally.
-1. When state changes are finally applied, `nextState` is calculated from `this.state` and stored updaters of either fuction or object type. Then `this.state` and `nextState` is provided as arguments of component lifecycle methods.
+1. When state changes are finally applied, `nextState` is calculated from `this.state` and stored updaters of either function or object type. Then `this.state` and `nextState` is provided as arguments of component lifecycle methods.
 1. After component is updated, clear internally recorded updaters and timers to start another round.
 
 Consider this example of mixed usage of object updaters and function updaters below. It would be clear that `this.state.count` will be incremented by 2 instead of 4.
 
 ```js
 function incrementMultiple() {
-  // nextState.count = this.state.count + 1
+  const count = this.state.count
+
+  // nextState.count = count + 1
   this.setState(increment);
 
-  // nextState.count = this.state.count + 2
+  // nextState.count = count + 2
   this.setState(increment);
 
-  // nextState.count = this.state.count + 1
-  this.setState({count: this.state.count + 1});
+  // nextState.count = count + 1
+  this.setState({count: .count + 1});
 
-  // nextState.count = this.state.count + 2
+  // nextState.count = count + 2
   this.setState(increment);
 }
 ```
@@ -234,7 +236,7 @@ class Sorts extends React.Component {
 apples bananas oranges
 ```
 
-### Single Children
+### Single Child
 
 Use `React.Children.only()` to enforce a single child. It throws error if component has more than one child, otherwise it returns the single child correctly.
 
@@ -350,7 +352,7 @@ When `marked` data for single todo item changes.
 1. `TodoList` component receives new todo array returned by `todoReducer`, so `TodoList` component is rendered again.
 1. When parent component `TodoList` is rendered again, it triggers all child `TodoItem` components to be rendered again.
 
-However, other child `TodoItems` not changed should not be rendered again. Uneccessary re-renders can be avoided with `shouldComponentUpdate()` or `React.PureComponent`.
+However, other unchanged child `TodoItem` should not be rendered again. Uneccessary re-renders can be avoided with `shouldComponentUpdate()` or `React.PureComponent`.
 
 ```javascript
 class Item extends Component {
@@ -462,7 +464,7 @@ const props = { a: 1, b: 2, c: 3}
 const {a, ...others} = props
 ```
 
-Extract part of component props and pass them down. It allows users to assign default props like 'id', 'className', 'htmlFor' etc... for html element to high order component, and lower component could inherit assigned value from high order component. This pattern allows users to manipulate lower component properties from high order component.
+Extract part of component props and pass them down. It allows users to assign default props like 'id', 'className', 'htmlFor' etc... for html element to parent component, and child component could inherit assigned value from parent component. This pattern allows users to pass properties down to child component by setting parent component properties..
 
 ```javascript
 import React, { Component } from "react"
@@ -517,7 +519,7 @@ const Root = () => {
     const props = { options: numbers, ...passedDownProps };
     ```
 
-Maybe consider put `passedDownProps` at first so that any duplicate props from high order component would not overwrite props of lower component by accident. Or use this pattern only for default props of html element, so that it's propbably always being done on purpose.
+Maybe consider put `passedDownProps` at first so that any duplicate props from high order component would not overwrite props of lower component by accident. Or use this pattern only for default props of html element, so it would be obvious that properties are overriden on purpose.
 
 ```javascript
 const props = { ...passedDownProps, options: numbers };
@@ -532,13 +534,13 @@ const props = { ...passedDownProps, options: numbers };
 // renders if  condition is false
 {condition || <span>Rendered when `falsey`</span> }
 
-// renders if by condition
+// renders by condition
 {condition
   ? <span>Rendered when `truthy`</span>
   : <span>Rendered when `falsey`</span>
 }
 
-// renders if by condition
+// renders by condition
 {condition ? (
   <span>
     Rendered when `truthy`
@@ -641,7 +643,7 @@ class Twitter extends Component {
 
 ### Context and Provider Pattern
 
-When passing props from parent compoent to descendant components across multiple levels, manual property passing down is is cumbersome and makes parent component and child components highly coupled together. React provides context property to do it automatically.
+When passing props from parent component to descendant components across multiple levels, passing down properties manually is cumbersome and makes parent component and child components highly coupled together. React provides context property to do it automatically.
 
 First we need a context provider, which must implements function `getChildContext()` to provide context to any components in subtree.
 
@@ -661,7 +663,7 @@ class MessageList extends React.Component {
 }
 ```
 
-Then any component can access context from parents by declaring static  `contextTypes` property to declare which context properties it intends to receive. Access context props with `this.context` property in sub components.
+Then any component can access context from parents by declaring static  `contextTypes` property to declare which context properties it intends to receive. Use `this.context` to get context properties in descendant components.
 
 ```jsx
 // MessageList -> Message -> Button
@@ -696,7 +698,7 @@ Button.contextTypes = {color: PropTypes.string}
 
 Context pattern is used in libraries like _react-redux_, _react-router v4_.
 
-Context makes parent properties easily accessible to descendant components, but it's easily to be used inappropriately which makes descendant components harder to test. So use it only if with obvious benefits.
+Context makes parent properties easily accessible to descendant components, but implicity context dependency also makes descendant components logic obsecure and harder to test. So use it only if with obvious benefits.
 
 ```jsx
 
