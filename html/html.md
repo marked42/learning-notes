@@ -70,7 +70,7 @@ Inline elements
 
 Block elemets are inside a block box, inline elements are inside inline box. CSS `display` property can be used to change default behaviour.
 
-HTML5 replace this binary distinction with more complext content categories. Block level elements roughly corresponds to flow content, inline elements corresponds to phasing content.
+HTML5 replace this binary distinction with more complex content categories. Block level elements roughly corresponds to flow content, inline elements corresponds to phasing content.
 
 ![HTML Content Categories](./html_content_categories.png)
 
@@ -88,7 +88,7 @@ An empty element cannot have any child nodes (nested elements or text nodes). A 
 | area   | base     | br   | col   | embed  | hr    | img | input |
 | keygen | link     | meta | param | source | track | wbr |       |
 
-Single element attributes includes name, a equal sign and quoted string value. Adjacent attributes must be separated by space. Boolean attributes has a shorthand syntax with only attribute name.
+Single element attribute includes name, a equal sign and quoted string value. Adjacent attributes must be separated by space. Boolean attribute has a shorthand syntax with only attribute name.
 
 ```html
 // These two forms are equal
