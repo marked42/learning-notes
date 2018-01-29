@@ -53,14 +53,17 @@
         - [Libs](#libs)
     - [Cache](#cache)
         - [Basic Terminology](#basic-terminology)
-        - [Cache Lifecycle](#cache-lifecycle)
-            - [Cache or Not Cache](#cache-or-not-cache)
-            - [Cache Creation & Expiration](#cache-creation-expiration)
-                - [Explicit Expiration](#explicit-expiration)
-                - [Heuristic Expiration](#heuristic-expiration)
+        - [Cache Life Cycle](#cache-life-cycle)
+        - [Cache Strategy](#cache-strategy)
+        - [Cache Expiration Strategy](#cache-expiration-strategy)
+            - [Time Limit Expiration](#time-limit-expiration)
+                - [Explicity Expiration](#explicity-expiration)
+                - [Heuristic Expiration (Implicit Expiration)](#heuristic-expiration-implicit-expiration)
                 - [Stale Cache](#stale-cache)
-            - [Cache Revalidation](#cache-revalidation)
-            - [Force Refresh](#force-refresh)
+            - [Resource Content Expiration](#resource-content-expiration)
+            - [Revalidation](#revalidation)
+            - [Page Refresh](#page-refresh)
+        - [Which Cache Strategy Should I Use(TODO:)](#which-cache-strategy-should-i-usetodo)
         - [Cache Topologies](#cache-topologies)
         - [Algorithm (TODO)](#algorithm-todo)
         - [Setting Caches in Apache Sever(TODO)](#setting-caches-in-apache-severtodo)
@@ -1214,6 +1217,8 @@ Caches are copies of visited resrouce stored on local machine or proxy server. I
 1. Balance traffic spike by flash crowds using mutliple cache servers.
 1. Reduce distance delays by setting up multiple cache servers around the globe.
 
+### Cache Life Cycle
+
 Cache Hit & Miss
 
 1. Cache hit - A request arrives at a cache, and resource is severed with cache.
@@ -1226,64 +1231,65 @@ Cache Revalidate
 1. Resource deleted - A response of status code **404(Not Found)** is sent back and cache should be deleted.
 
 > The fraction of requests that are served from cache is called the cache hit rate (or cache hit ratio), or sometimes the document hit rate (or document hit ratio).
-
 > The byte hit rate represents the fraction of all bytes transferred that were served from cache.
 
-### Cache Lifecycle
+### Cache Strategy
 
-#### Cache or Not Cache
-
-`Cache-Control` header is used by server to specify directives for caching mechanisms used for resource. `Cache-Control` can have a list of comma separated values.
-
-```html
-<meta http-equiv='Cache-Control' content='no-cache'>
-```
-
-HTML meta tag can also be used to specify cache control, but it's only supported in few browsers, since most browers don't parse content of html document.
+Cache strategy control whether a resource should be stored as cache on client and proxy servers. HTTP header `Cache-Control` is used by server to apply different cache strategy for each resource. Each cache directive corresponds to a specific cache strategy. `Cache-Control` header accepts a list of comma separated cache directives as its value.
 
 <table>
     <tr>
-        <th>Header</th>
+        <th>Cache Directive</th>
         <th>Explaination</th>
         <th>Request/Response</th>
     </tr>
     <tr>
-        <td><code>Cache-Control: public</code></td>
+        <td><code>public</code></td>
         <td>Resource in response may be cached by client or proxy server</td>
         <td>Response</td>
     </tr>
     <tr>
-        <td><code>Cache-Control: private</code></td>
+        <td><code>private</code></td>
         <td>Resource in response may be cached by client but not by proxy server</td>
         <td>Reponse</td>
     </tr>
     <tr>
-        <td><code>Cache-Control: no-store</code></td>
+        <td><code>no-store</code></td>
         <td>Request and response are not allowed to be stored as cache, any existing ones should be delted. This header must be forwared by intermediary servers.</td>
         <td>Both</td>
     </tr>
     <tr>
-        <td><code>Cache-Control: no-cache</code></td>
-        <td>Request or response may be cached, but cache is always considered as expired and should request server for revalidation before serving cache. When request arrives at a proxy server, it must forward the header and revalidate the cache on behalf of client, otherwise an expired cache in intermediary server may be served inappropriately. Meaningfully equivalent to <code>Cache-Control: max-age=0, must-revalidate</code></td>
+        <td><code>no-cache</code></td>
+        <td>Request or response may be cached, but cache is always considered as expired and should request server for revalidation before serving cache. When request arrives at a proxy server, it must forward the header and revalidate the cache on behalf of client, otherwise an expired cache in intermediary server may be served inappropriately. Meaningfully equivalent to <code>Cache-Control: max-age=0, must-revalidate</code>. Header <code>Cache-Control</code> is defined by HTTP1.1, so in HTTP/1.0, use <code>Pragma</code> header for same effect, and it's also included in HTTP/1.1 for backward compatibility.</td>
         <td>Both</td>
     </tr>
     <tr>
-        <td><code>Pragma: no-cache</code></td>
-        <td>Same as above, included in HTTP/1.1 for backward compatibility.</td>
-        <td>Both</td>
-    </tr>
-    <tr>
-        <td><code>Cache-Control: only-if-cached</code></td>
+        <td><code>only-if-cached</code></td>
         <td>Indicates that client only wishs to obtain a cached resource and should not contact origin-server and retrieve new data.</td>
         <td>Request</td>
     </tr>
 </table>
 
-#### Cache Creation & Expiration
+Cache strategy can also be specified with HTML `<meta>` tag like below. But it's quite limited in usage because most proxy servers won't parse HTML document and only a few browsers support this. Even when it's supported, it has lower priority over HTTP header `Cache-Control`.
 
-An expiration mechanism must be specified explicitly or implicitly for cache to prevent it from being fresh forever.
+```html
+<meta http-equiv='Cache-Control' content='no-cache'>
+```
 
-##### Explicit Expiration
+### Cache Expiration Strategy
+
+Cache for a server resource should obviously have a limited period of time during which it's considered valid, meaning the cached resource is same as or is a similiar enough representation of latest resource on server. Caches in this valid state is called _fresh_ cache and when cache _expires_, it's no longer fresh.
+
+There exist two expiration strategies that control whether a cache is considered fresh.
+
+1. Time Limit Expiration - Cache is assigned a determined period of time during which it's considered fresh.
+    1. Absolute date time -　Cache is considered fresh until a fixed time point.
+    1. Relative Time Period (Explicit/Heuristic) - Cache is considered fresh until a period of time elapsed.
+1. Resource Content Expiration - Cache is considered fresh as long as it has same or similiar enough content with latest resource on server. A hash of resource content is calculated for identification and comparision with latest resource on server. If two hashes are not same or similar enough, cache is considered no longer fresh.
+
+#### Time Limit Expiration
+
+##### Explicity Expiration
 
 Specifies that cache is fresh before an absolute date or during a relative period of time.
 
@@ -1310,7 +1316,7 @@ Specifies that cache is fresh before an absolute date or during a relative perio
     </tr>
 </table>
 
-##### Heuristic Expiration
+##### Heuristic Expiration (Implicit Expiration)
 
 When reponse contains no `Cache-Control: max-age` or `Expires` header, a heuristic expiration strategy is used. Any heuristic expiration algorithm may be used, however it's required to add a `Warning` header if calculated maximum age is greater than 24 hours.
 
@@ -1379,7 +1385,7 @@ Client might tighten cache expiration constraint for applications that need the 
     </tr>
 </table>
 
-#### Cache Revalidation
+#### Resource Content Expiration
 
 <table>
     <caption><strong>Last-Modified Date Revalidation</strong></caption>
@@ -1496,9 +1502,13 @@ So content validation by a _entity tags_(ETags) is used.
 1. [If-None-Match](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match)
 1. [Lost Update Problem](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match) (TODOS)
 
-#### Force Refresh
+#### Revalidation
 
-Browsers usually provides buttons or keyboard shortcuts for users to refresh page. In Chrome, when page is refreshed by **F5**, `Cache-Control: max-age=0` is used to expire current cache; `Cache-Control: no-cache` is used to force retrieving resource from server.
+#### Page Refresh
+
+Browsers usually provides buttons or keyboard shortcuts for users to refresh page. In Chrome, when page is refreshed by **F5**, local cache is expired, request to server carries headers like `ETag` to freshness revalidation, if cache is still fresh, **304 Not Modified** response without body is returned, if cache is not fresh, **200 OK** response with new resource data and new value for `Expires`, `Max-Age` or `Etag` is returned, local cache content and freshness lmit is updated. When page is refrehsed by **Ctrl+F5**, all local cache is discarded with `Cache-Control: no-cache`,
+
+### Which Cache Strategy Should I Use(TODO:)
 
 ### Cache Topologies
 
