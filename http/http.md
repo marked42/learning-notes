@@ -57,10 +57,10 @@
         - [Cache Strategy](#cache-strategy)
         - [Cache Expiration Strategy](#cache-expiration-strategy)
             - [Time Limit Expiration](#time-limit-expiration)
-                - [Explicity Expiration](#explicity-expiration)
+                - [Explicit Expiration](#explicit-expiration)
                 - [Heuristic Expiration (Implicit Expiration)](#heuristic-expiration-implicit-expiration)
-                - [Stale Cache](#stale-cache)
             - [Resource Content Expiration](#resource-content-expiration)
+                - [Stale Cache](#stale-cache)
             - [Revalidation](#revalidation)
             - [Page Refresh](#page-refresh)
         - [Which Cache Strategy Should I Use(TODO:)](#which-cache-strategy-should-i-usetodo)
@@ -1211,7 +1211,7 @@ Each line represents a cookie and contains seven tab-separated fields.
 
 ### Basic Terminology
 
-Caches are copies of visited resrouce stored on local machine or proxy server. It's used to save users from requesting same resource from server again.
+Caches are copies of visited resource stored on local machine or proxy server. It's used to save users from requesting same resource from server again.
 
 1. Prevent redundant resource request, reduce transport load, improve bandwidth bottleneck.
 1. Balance traffic spike by flash crowds using mutliple cache servers.
@@ -1219,12 +1219,19 @@ Caches are copies of visited resrouce stored on local machine or proxy server. I
 
 ### Cache Life Cycle
 
-Cache Hit & Miss
+Lifecyle of cache includes several phases.
+
+1. Creation - When server first receives a resource request from client, if the resource is configured to be cached, server will send a response with cache related headers like `Expires`, `Cache-Control: max-age=1000`, `ETag`, to instruct client to store feedback response as cache.
+1. Serving - When client requests already cached resource, browsers first check if cache expires. If cache doesn't expire, it's used directly as response of resource request without interacting with servers.
+1. Revalidation - If cache already expires, which means it's not fresh. Cache header `Last-Modified` and `ETag` must be included in request to server for freshness check. If content of cache is still same with resource on server, resource cache data like `Last-Modified` and `ETag` is sent back to client and updated.
+1. Deletion - If cached is no logner used, user or server could clear it.
+
+There's an important notion of _cache hit_ and _cache miss_.
 
 1. Cache hit - A request arrives at a cache, and resource is severed with cache.
-1. Cache miss - A request arrives at a cache, but cache is not fresh and resource is served by server.
+1. Cache miss - A request arrives at a cache, but cache expires or is not fresh and resource is served by server.
 
-Cache Revalidate
+Another hit and miss concept related to cache revalidate.
 
 1. Revalidate hit - A request arrives at a cache, but not sure if cache is fresh, cache is confirmed by server to be fresh and resource is served with cache. A http reponse of status code **304(Not Modified)** will be sent back and cache freshness is updated.
 1. Revalidate miss - A request arrives at a cache, but not sure if cache is fresh, cache is confirmed by server to be unfresh and resource is served by server. A http reponse of status code **200(Ok)** with full content of resource is sent back and cache is updated.
@@ -1289,9 +1296,9 @@ There exist two expiration strategies that control whether a cache is considered
 
 #### Time Limit Expiration
 
-##### Explicity Expiration
+##### Explicit Expiration
 
-Specifies that cache is fresh before an absolute date or during a relative period of time.
+Specifies that cache is fresh before an absolute date or after a relative period of time.
 
 <table>
     <tr>
@@ -1359,93 +1366,16 @@ const calculateFreshnessLimit = (
 };
 ```
 
-##### Stale Cache
-
-Client might tighten cache expiration constraint for applications that need the very freshest resource. On the other hand, client might loosen cache expiration date as comproimse to improve performance. When a cache is expired, client have the option to contact server to revalidate cache freshness.
-
-<table>
-    <tr>
-        <th>Header</th>
-        <th>Explaination</th>
-        <th>Request/Response</th>
-    </tr>
-    <tr>
-        <td>
-            <code>Cache-Control: min-fresh=&lt;seconds&gt;</code>
-        </td>
-        <td>Specifies that client wants a cache that will still be fresh for at least specified number of seconds.</td>
-        <td>Request</td>
-    </tr>
-    <tr>
-        <td>
-            <code>Cache-Control: max-stale[=&lt;seconds&gt;]</code>
-        </td>
-        <td>Specifies that client is willing to accept a stale cache. When a number is provided, it indicates that a stale cache is acceptable if it's been expired for specified number of seconds at maximum.</td>
-        <td>Request</td>
-    </tr>
-</table>
-
 #### Resource Content Expiration
 
-<table>
-    <caption><strong>Last-Modified Date Revalidation</strong></caption>
-    <tr>
-        <th>Header</th>
-        <th>Explaintion</th>
-        <th>Request/Response</th>
-    </tr>
-    <tr>
-        <td>
-            <code>Cache-Control: must-revalidate</code>
-        </td>
-        <td>A stale cache is not acceptable and must pass revalidation before being served.</td>
-        <td>Response</td>
-    </tr>
-    <tr>
-        <td>
-            <code>Cache-Control: proxy-revalidate</code>
-        </td>
-        <td>Same as above, only applies to public caches, ignored by private cache.</td>
-        <td>Response</td>
-    </tr>
-    <tr>
-        <td>
-            <code>Last-Modified: &lt;date&gt;</code>
-        </td>
-        <td></td>
-        <td>Response</td>
-    </tr>
-    <tr>
-        <td>
-            <code>If-modified-since: &lt;date&gt;</code>
-        </td>
-        <td>If resource is modified since specified date, modified version of resource will be sent back from server and cache content and expiration date should be updated. Otherwise, a 304 Not Modified reponse message without body is returned, only headers that need updating like expiration date are needed to be sent back.</td>
-        <td>Request</td>
-    </tr>
-    <tr>
-        <td>
-            <code>If-Unmodified-since: &lt;date&gt;</code>
-        </td>
-        <td></td>
-        <td>Request</td>
-    </tr>
-    <tr>
-        <td>
-            <code>Cache-Control: immutable</code>
-        </td>
-        <td>Indicates that a resource on serve will not change before a cache expires and therefore the client should not send a condiational revalidation even when users refreshes the page. <a href="https://bitsup.blogspot.jp/2016/05/cache-control-immutable.html">See this blog</a></td>
-        <td>Response</td>
-    </tr>
-</table>
+Resource content expiration uses an _entity tags_(ETags), which is a hash of resource content, to check if resource has been changed. When resource is cached, `ETag` header with a hash value is included in reponse to instruct clients that this resource should be cached and uses ETag as revalidation method.
 
-There're cases where last-modified date revalidation isn't adequate.
+`ETag` is normally used in cases where a bare time limit it not enough or suitable for expiration.
 
 1. Some documents may be rewritten periodically but contains same data.
 1. Some documents may have minor content change that isn't important enough to enforce a cache update.
 1. Some servers cannot determine last modification date accurately.
 1. For documents that may change within a second, its content changes but last modification date remains the same.
-
-So content validation by a _entity tags_(ETags) is used.
 
 <table>
     <caption><strong>Resource Content Revalidation</strong></caption>
@@ -1499,8 +1429,85 @@ So content validation by a _entity tags_(ETags) is used.
     </tr>
 </table>
 
+<table>
+    <caption><strong>Last-Modified Date Revalidation</strong></caption>
+    <tr>
+        <th>Header</th>
+        <th>Explaintion</th>
+        <th>Request/Response</th>
+    </tr>
+    <tr>
+        <td>
+            <code>Cache-Control: must-revalidate</code>
+        </td>
+        <td>A stale cache is not acceptable and must pass revalidation before being served.</td>
+        <td>Response</td>
+    </tr>
+    <tr>
+        <td>
+            <code>Cache-Control: proxy-revalidate</code>
+        </td>
+        <td>Same as above, only applies to public caches, ignored by private cache.</td>
+        <td>Response</td>
+    </tr>
+    <tr>
+        <td>
+            <code>Last-Modified: &lt;date&gt;</code>
+        </td>
+        <td></td>
+        <td>Response</td>
+    </tr>
+    <tr>
+        <td>
+            <code>If-modified-since: &lt;date&gt;</code>
+        </td>
+        <td>If resource is modified since specified date, modified version of resource will be sent back from server and cache content and expiration date should be updated. Otherwise, a 304 Not Modified reponse message without body is returned, only headers that need updating like expiration date are needed to be sent back.</td>
+        <td>Request</td>
+    </tr>
+    <tr>
+        <td>
+            <code>If-Unmodified-since: &lt;date&gt;</code>
+        </td>
+        <td></td>
+        <td>Request</td>
+    </tr>
+    <tr>
+        <td>
+            <code>Cache-Control: immutable</code>
+        </td>
+        <td>Indicates that a resource on serve will not change before a cache expires and therefore the client should not send a condiational revalidation even when users refreshes the page. <a href="https://bitsup.blogspot.jp/2016/05/cache-control-immutable.html">See this blog</a></td>
+        <td>Response</td>
+    </tr>
+</table>
+
 1. [If-None-Match](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match)
 1. [Lost Update Problem](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match) (TODOS)
+
+##### Stale Cache
+
+Client might tighten cache expiration constraint for applications that need the very freshest resource. On the other hand, client might loosen cache expiration date as comproimse to improve performance. When a cache is expired, client have the option to contact server to revalidate cache freshness.
+
+<table>
+    <tr>
+        <th>Header</th>
+        <th>Explaination</th>
+        <th>Request/Response</th>
+    </tr>
+    <tr>
+        <td>
+            <code>Cache-Control: min-fresh=&lt;seconds&gt;</code>
+        </td>
+        <td>Specifies that client wants a cache that will still be fresh for at least specified number of seconds.</td>
+        <td>Request</td>
+    </tr>
+    <tr>
+        <td>
+            <code>Cache-Control: max-stale[=&lt;seconds&gt;]</code>
+        </td>
+        <td>Specifies that client is willing to accept a stale cache. When a number is provided, it indicates that a stale cache is acceptable if it's been expired for specified number of seconds at maximum.</td>
+        <td>Request</td>
+    </tr>
+</table>
 
 #### Revalidation
 
