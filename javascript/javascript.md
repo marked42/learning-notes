@@ -96,12 +96,13 @@
     - [Throttle](#throttle)
   - [Memory Management](#memory-management)
     - [Reference Counting Memory Management](#reference-counting-memory-management)
+    - [WeakMap and WeakSet](#weakmap-and-weakset)
     - [Mark and Sweep](#mark-and-sweep)
     - [Typical JavaScript Memory Leaks](#typical-javascript-memory-leaks)
       - [Accidental Global Variables](#accidental-global-variables)
       - [Forgotten timers or callbacks](#forgotten-timers-or-callbacks)
-    - [Out of DOM References](#out-of-dom-references)
-    - [Closures](#closures)
+      - [Out of DOM References](#out-of-dom-references)
+      - [Closures](#closures)
     - [References](#references)
   - [Ajax with XMLHttpRequest](#ajax-with-xmlhttprequest)
   - [Fetch (TODO:)](#fetch-todo)
@@ -2752,11 +2753,34 @@ _Garbage collected languages_ manage memory automatically by periodically checki
 
 ### Reference Counting Memory Management
 
+Reference counting uses a counter recording how many viariables references a piece of memory. When there's no variables referencing a certain piece of memory, it will be collected and returned to operating system.
+
+But there's exist a case that reference counting memory management cannot solve: circular reference.
+
+When two variables refers to each other and no other varaibles refers to them, a circular reference is formed. These two variables ought to be collected but is prevented by references to each other.
+
+### WeakMap and WeakSet
+
+`WeakMap` and `WeakSet` are introduced in ES6 to solve reference counting problem. When a `WeakMap` or `WeakSet` instance refers to a varaible `a`, a _weak_ reference is created, which means it will not increase reference count to `a`. So when there's no other variables refering to `a` and only weak references to `a` exist, reference count is 0 and `a` can be collected and returned to operating system.
+
+Use weak reference to DOM nodes, so it's not necessary for developers to dereference DOM nodes when no longer needed. This reduces cognitive load of manual reference management for developers.
+
+```js
+const wm = new WeakMap()
+
+const element = document.getElementById('example')
+
+wm.get(element, 'some information')
+wm.get(element) // 'some information'
+```
+
 ### Mark and Sweep
 
 1. Garbage collector builds a list of 'roots'. 'Roots' are global variables to which a reference is kept in code.
 1. All roots are inspected and marked as active. All children are inspected recursively. Everything that can be reached from a root is not considered garbage.
 1. All pieces of memory not marked as active are considered garbage and the collector frees and returns it to operating system.
+
+![Mark and Sweep](./mark_and_sweep.gif)
 
 ### Typical JavaScript Memory Leaks
 
@@ -2791,7 +2815,7 @@ var someResource = getData();
 setInterval(function() {
     var node = document.getElementById('Node')
     if(node) {
-        node.innerHTML = JSON.stringify(someResource))
+        node.innerHTML = JSON.stringify(someResource)
     }
 }, 1000)
 ```
@@ -2814,7 +2838,7 @@ element.removeEventListener('click', onClick)
 element.parentNode.removeChild(element)
 ```
 
-### Out of DOM References
+#### Out of DOM References
 
 Sometimes it's useful to store DOM nodes in variables for easy manipulation. Two references to same DOM element are kept: one in DOM tree and the other in variable. Later when you decide to remove need to make both references unreachable.
 
@@ -2842,7 +2866,7 @@ function removeButton() {
 }
 ```
 
-### Closures
+#### Closures
 
 ```js
 var theThing = null;
@@ -2867,6 +2891,7 @@ setInterval(replaceThing, 1000);
 ### References
 
 1. [Memory Management]( https://auth0.com/blog/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/)
+1. [Memory Leak Patterns in JavaScript](https://www.ibm.com/developerworks/web/library/wa-memleak/wa-memleak-pdf.pdf)
 
 ## Ajax with XMLHttpRequest
 
