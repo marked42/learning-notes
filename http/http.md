@@ -60,10 +60,16 @@
                 - [Explicit Expiration](#explicit-expiration)
                 - [Heuristic Expiration (Implicit Expiration)](#heuristic-expiration-implicit-expiration)
             - [Resource Content Expiration](#resource-content-expiration)
-                - [Stale Cache](#stale-cache)
             - [Revalidation](#revalidation)
+                - [Revalidation Instruction](#revalidation-instruction)
+                - [Revalidation By ETag](#revalidation-by-etag)
+                - [Revalidation By Time](#revalidation-by-time)
+            - [Request Stale Cache by Client](#request-stale-cache-by-client)
+            - [Hitting Proxy Cache](#hitting-proxy-cache)
             - [Page Refresh](#page-refresh)
-        - [Which Cache Strategy Should I Use(TODO:)](#which-cache-strategy-should-i-usetodo)
+        - [Serving Request with Cache](#serving-request-with-cache)
+        - [Which Cache Strategy Should I Use](#which-cache-strategy-should-i-use)
+        - [Resource Cache and Version (TODO:)](#resource-cache-and-version-todo)
         - [Cache Topologies](#cache-topologies)
         - [Algorithm (TODO)](#algorithm-todo)
         - [Setting Caches in Apache Sever(TODO)](#setting-caches-in-apache-severtodo)
@@ -1228,17 +1234,8 @@ Lifecyle of cache includes several phases.
 
 There's an important notion of _cache hit_ and _cache miss_.
 
-1. Cache hit - A request arrives at a cache, and resource is severed with cache.
+1. Cache hit - A request arrives at a cache, and resource is served with cache.
 1. Cache miss - A request arrives at a cache, but cache expires or is not fresh and resource is served by server.
-
-Another hit and miss concept related to cache revalidate.
-
-1. Revalidate hit - A request arrives at a cache, but not sure if cache is fresh, cache is confirmed by server to be fresh and resource is served with cache. A http reponse of status code **304(Not Modified)** will be sent back and cache freshness is updated.
-1. Revalidate miss - A request arrives at a cache, but not sure if cache is fresh, cache is confirmed by server to be unfresh and resource is served by server. A http reponse of status code **200(Ok)** with full content of resource is sent back and cache is updated.
-1. Resource deleted - A response of status code **404(Not Found)** is sent back and cache should be deleted.
-
-> The fraction of requests that are served from cache is called the cache hit rate (or cache hit ratio), or sometimes the document hit rate (or document hit ratio).
-> The byte hit rate represents the fraction of all bytes transferred that were served from cache.
 
 ### Cache Strategy
 
@@ -1269,11 +1266,6 @@ Cache strategy control whether a resource should be stored as cache on client an
         <td><code>no-cache</code></td>
         <td>Request or response may be cached, but cache is always considered as expired and should request server for revalidation before serving cache. When request arrives at a proxy server, it must forward the header and revalidate the cache on behalf of client, otherwise an expired cache in intermediary server may be served inappropriately. Meaningfully equivalent to <code>Cache-Control: max-age=0, must-revalidate</code>. Header <code>Cache-Control</code> is defined by HTTP1.1, so in HTTP/1.0, use <code>Pragma</code> header for same effect, and it's also included in HTTP/1.1 for backward compatibility.</td>
         <td>Both</td>
-    </tr>
-    <tr>
-        <td><code>only-if-cached</code></td>
-        <td>Indicates that client only wishs to obtain a cached resource and should not contact origin-server and retrieve new data.</td>
-        <td>Request</td>
     </tr>
 </table>
 
@@ -1327,7 +1319,7 @@ Specifies that cache is fresh before an absolute date or after a relative period
 
 When reponse contains no `Cache-Control: max-age` or `Expires` header, a heuristic expiration strategy is used. Any heuristic expiration algorithm may be used, however it's required to add a `Warning` header if calculated maximum age is greater than 24 hours.
 
-A popular one is _LM-Factor_ algorithm, which utilizes last modfied date of a resource to determine appropriate expiration date.
+A popular one is _LM-Factor_ algorithm, which utilizes last modfication date of a resource to determine appropriate expiration date.
 
 ![LM-Factor Expiration Algorithm](lm_factor_heuristic_expiration_algorithm.png)
 
@@ -1377,19 +1369,79 @@ Resource content expiration uses an _entity tags_(ETags), which is a hash of res
 1. Some servers cannot determine last modification date accurately.
 1. For documents that may change within a second, its content changes but last modification date remains the same.
 
+`ETag` is a _response header_ used to represent resource content uniquely.
+
+```http
+ETag: [W/]"<etag_value>"
+```
+
+- `'W/'` (case-sensitive) means that this tag is a weak validator that remains the same when resource has minor content change. Strong validators are same when resource remains exactly same.
+- `<etag_value>` - an unique identification number of resource content
+
+Refer to [etag revalidation](#revalidation-by-etag) for details.
+
+#### Revalidation
+
+When a cache expires, client should send conditional requests to revalidate cache. There's also cache hit and miss concept related to cache revalidation as response to conditional requests.
+
+1. Revalidate hit - A request arrives at a cache, but not sure if cache is fresh, cache is confirmed by server to be fresh and resource is served with cache. A http reponse of status code **304(Not Modified)** will be sent back and cache freshness is updated.
+1. Revalidate miss - A request arrives at a cache, but not sure if cache is fresh, cache is confirmed by server to be unfresh and resource is served by server. A http reponse of status code **200(Ok)** with full content of resource is sent back and cache is updated.
+1. Resource deleted - A response of status code **404(Not Found)** is sent back and cache should be deleted.
+
+> The fraction of requests that are served from cache is called the cache hit rate (or cache hit ratio), or sometimes the document hit rate (or document hit ratio).
+> The byte hit rate represents the fraction of all bytes transferred that were served from cache.
+
+Cache can be revalidated by `ETag` or last modification date, `ETag` has higher priority over last modification date if both appears in request headers.
+
+##### Revalidation Instruction
+
+General header `Cache-Control` can be used by server and client to specify revalidation requirements for a cache.
+
 <table>
-    <caption><strong>Resource Content Revalidation</strong></caption>
+    <tr>
+        <th>Header</th>
+        <th>Explaintion</th>
+        <th>Directive Type</th>
+    </tr>
+    <tr>
+        <td>
+            <code>Cache-Control: must-revalidate</code>
+        </td>
+        <td>A stale cache is not acceptable and must pass revalidation before being served.</td>
+        <td>Response</td>
+    </tr>
+    <tr>
+        <td>
+            <code>Cache-Control: proxy-revalidate</code>
+        </td>
+        <td>Same as above, only applies to public caches, ignored by private cache.</td>
+        <td>Response</td>
+    </tr>
+    <tr>
+        <td>
+            <code>Cache-Control: immutable</code>
+        </td>
+        <td>Indicates that a resource on server will not change before a cache expires and therefore the client should not send a condiational revalidation even when users refreshes the page. <a href="https://bitsup.blogspot.jp/2016/05/cache-control-immutable.html">See this blog</a></td>
+        <td>Response (<strong>Extension Header</strong>)</td>
+    </tr>
+    <tr>
+        <td>
+            <code>Cache-Control: no-transform</code>
+        </td>
+        <td>No transformations or convertions should be made to the resource. Content-Encoding, Content-Range, Content-Type headers should not be modfied by proxy. A non-transparent proxy migth convert between image formats to reduce network traffic, disallowed by <code>no-transform</code></td>
+        <td>Both</td>
+    </tr>
+</table>
+
+##### Revalidation By ETag
+
+When a cache uses `ETag` for resource content identification, `ETag` value is used with conditional request headers `If-Match`, `If-None-Match` for cache revalidation.
+
+<table>
     <tr>
         <th>Header</th>
         <th>Explaintion</th>
         <th>Request/Response</th>
-    </tr>
-    <tr>
-        <td>
-            <code>ETag: [W/]&lt;tags&gt;</code>
-        </td>
-        <td>'W' or 'w' means that this tag is a weak validator that remains the same when resource has minor content change. Strong validators are same when resource remains exactly same.</td>
-        <td></td>
     </tr>
     <tr>
         <td>
@@ -1429,8 +1481,18 @@ Resource content expiration uses an _entity tags_(ETags), which is a hash of res
     </tr>
 </table>
 
+1. [If-None-Match](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match)
+1. [Lost Update Problem](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match) (TODOS)
+
+##### Revalidation By Time
+
+_response header_ `Last-Modified` records last modification date of this resource. When cache expires, value of `Last-Modifcation` is used with conditional request headers `If-Modified-Since`, `If-Unmodified-Since` for cache revalidation.
+
+```http
+Last-Modifed: <day-name>, <day> <month> <year> <hour>:<minute>:<second> GMT
+```
+
 <table>
-    <caption><strong>Last-Modified Date Revalidation</strong></caption>
     <tr>
         <th>Header</th>
         <th>Explaintion</th>
@@ -1438,54 +1500,23 @@ Resource content expiration uses an _entity tags_(ETags), which is a hash of res
     </tr>
     <tr>
         <td>
-            <code>Cache-Control: must-revalidate</code>
-        </td>
-        <td>A stale cache is not acceptable and must pass revalidation before being served.</td>
-        <td>Response</td>
-    </tr>
-    <tr>
-        <td>
-            <code>Cache-Control: proxy-revalidate</code>
-        </td>
-        <td>Same as above, only applies to public caches, ignored by private cache.</td>
-        <td>Response</td>
-    </tr>
-    <tr>
-        <td>
-            <code>Last-Modified: &lt;date&gt;</code>
-        </td>
-        <td></td>
-        <td>Response</td>
-    </tr>
-    <tr>
-        <td>
-            <code>If-modified-since: &lt;date&gt;</code>
+            <code>If-Modified-Since: &lt;date&gt;</code>
         </td>
         <td>If resource is modified since specified date, modified version of resource will be sent back from server and cache content and expiration date should be updated. Otherwise, a 304 Not Modified reponse message without body is returned, only headers that need updating like expiration date are needed to be sent back.</td>
         <td>Request</td>
     </tr>
     <tr>
         <td>
-            <code>If-Unmodified-since: &lt;date&gt;</code>
+            <code>If-Unmodified-Since: &lt;date&gt;</code>
         </td>
         <td></td>
         <td>Request</td>
     </tr>
-    <tr>
-        <td>
-            <code>Cache-Control: immutable</code>
-        </td>
-        <td>Indicates that a resource on serve will not change before a cache expires and therefore the client should not send a condiational revalidation even when users refreshes the page. <a href="https://bitsup.blogspot.jp/2016/05/cache-control-immutable.html">See this blog</a></td>
-        <td>Response</td>
-    </tr>
 </table>
 
-1. [If-None-Match](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match)
-1. [Lost Update Problem](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match) (TODOS)
+#### Request Stale Cache by Client
 
-##### Stale Cache
-
-Client might tighten cache expiration constraint for applications that need the very freshest resource. On the other hand, client might loosen cache expiration date as comproimse to improve performance. When a cache is expired, client have the option to contact server to revalidate cache freshness.
+Client might tighten cache expiration constraint for applications that need the very freshest resource. On the other hand, client might loosen cache expiration date as comproimse to improve performance. When a cache is expired, client have the option to contact server to revalidate cache freshness. Several `Cache-Control` directives can be used to do this.
 
 <table>
     <tr>
@@ -1507,15 +1538,48 @@ Client might tighten cache expiration constraint for applications that need the 
         <td>Specifies that client is willing to accept a stale cache. When a number is provided, it indicates that a stale cache is acceptable if it's been expired for specified number of seconds at maximum.</td>
         <td>Request</td>
     </tr>
+    <tr>
+        <td><code>only-if-cached</code></td>
+        <td>Indicates that client only wishs to obtain a cached resource and should not contact origin-server and retrieve new data.</td>
+        <td>Request</td>
+    </tr>
+    <tr>
+        <td><code>stale-while-revalidate=&lt;seconds&gt;</code></td>
+        <td>Indicates that client is willing to accept a stale response while asynchronously revalidating cache. <code>seconds</code> indicates how long the client is willing accept a stale response</td>
+        <td>Request (<strong>Extension Header</strong>)</td>
+    </tr>
+    <tr>
+        <td><code>stale-if-error=&lt;seconds&gt;</code></td>
+        <td>Indicates that client is willing to accept a stale resource for <code>seconds</code> at maximum when request fails.</td>
+        <td>Request (<strong>Extension Header</strong>)</td>
+    </tr>
 </table>
 
-#### Revalidation
+1. [Stale-While-Revalidate, Stale-If-Error Available Today](https://www.fastly.com/blog/stale-while-revalidate-stale-if-error-available-today/)
+
+#### Hitting Proxy Cache
+
+`Age`, `Date`, `Vary`
 
 #### Page Refresh
 
 Browsers usually provides buttons or keyboard shortcuts for users to refresh page. In Chrome, when page is refreshed by **F5**, local cache is expired, request to server carries headers like `ETag` to freshness revalidation, if cache is still fresh, **304 Not Modified** response without body is returned, if cache is not fresh, **200 OK** response with new resource data and new value for `Expires`, `Max-Age` or `Etag` is returned, local cache content and freshness lmit is updated. When page is refrehsed by **Ctrl+F5**, all local cache is discarded with `Cache-Control: no-cache`,
 
-### Which Cache Strategy Should I Use(TODO:)
+### Serving Request with Cache
+
+General process of serving request with cache resource is like below.
+
+![General Request Cache Process](./serving_request_with_cache.png)
+
+### Which Cache Strategy Should I Use
+
+![Cache Decision Tree](./http_cache_decision_tree.png)
+
+1. [HTTP Caching](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching?hl=zh-cn)
+
+### Resource Cache and Version (TODO:)
+
+[前端工程化]( https://www.zhihu.com/question/20790576/answer/32602154)
 
 ### Cache Topologies
 
@@ -1555,21 +1619,6 @@ Mulitple caches could build complex _cache mesh_ instead of tree-shaped _cache h
 > 1. Response creation—Cache makes a response message with the new headers and cached body.
 > 1. Sending—Cache sends the response back to the client over the network.
 > 1. Logging—Optionally, cache creates a log file entry describing the transaction.
-
-<table>
-    <tr>
-        <th>Header</th>
-        <th>Explaintion</th>
-        <th>Request/Response</th>
-    </tr>
-    <tr>
-        <td>
-            <code>Cache-Control: no-transform</code>
-        </td>
-        <td>No transformations or convertions should be made to the resource. Content-Encoding, Content-Range, Content-Type headers should not be modfied by proxy. A non-transparent proxy migth convert between image formats to reduce network traffic, disallowed by <code>no-transform</code></td>
-        <td>Both</td>
-    </tr>
-</table>
 
 ### Algorithm (TODO)
 
