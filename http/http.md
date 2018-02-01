@@ -54,19 +54,19 @@
     - [Cache](#cache)
         - [Basic Terminology](#basic-terminology)
         - [Cache Life Cycle](#cache-life-cycle)
-        - [Cache Strategy](#cache-strategy)
+        - [Cache Storage Strategy](#cache-storage-strategy)
         - [Cache Expiration Strategy](#cache-expiration-strategy)
             - [Time Limit Expiration](#time-limit-expiration)
                 - [Explicit Expiration](#explicit-expiration)
                 - [Heuristic Expiration (Implicit Expiration)](#heuristic-expiration-implicit-expiration)
             - [Resource Content Expiration](#resource-content-expiration)
             - [Revalidation](#revalidation)
-                - [Revalidation Instruction](#revalidation-instruction)
+                - [Cache Revalidation Directives](#cache-revalidation-directives)
                 - [Revalidation By ETag](#revalidation-by-etag)
                 - [Revalidation By Time](#revalidation-by-time)
-            - [Request Stale Cache by Client](#request-stale-cache-by-client)
+            - [Request Stale Cache](#request-stale-cache)
             - [Hitting Proxy Cache](#hitting-proxy-cache)
-            - [Page Refresh](#page-refresh)
+            - [Manual Page Refresh](#manual-page-refresh)
         - [Serving Request with Cache](#serving-request-with-cache)
         - [Which Cache Strategy Should I Use](#which-cache-strategy-should-i-use)
         - [Resource Cache and Version (TODO:)](#resource-cache-and-version-todo)
@@ -231,7 +231,7 @@ All messages flow downstream, intermediate nodes closer to message sender are up
 
 ### Message Syntax
 
-Both request and reponse message is composed of three parts: start line, headers and body.
+Both request and response message is composed of three parts: start line, headers and body.
 
 - Request
     ```http
@@ -454,7 +454,7 @@ Some WebDAV extension methods.
 
 #### General Headers
 
-General headers are generic headers that can appear both in request and in reponse message.
+General headers are generic headers that can appear both in request and in response message.
 
 <table>
     <tr>
@@ -630,7 +630,7 @@ Request headers provide extra information to servers. They appears only in reque
 
 #### Response Headers
 
-Reponse headers provide extra information to clients. They appears only in reponse messages.
+Response headers provide extra information to clients. They appears only in response messages.
 
 <table>
     <tr>
@@ -1109,7 +1109,7 @@ Cookies are divided as two types according to their lifetime.
 Cookie specification is formally referred as HTTP State Management Mechanism, which enables server to able to identify same client when client visited again. Information stored inside cookie is called _client-side state_. Process of cookie creation and usage is like below.
 
 1. When a client first connects to a server, server will generate a unique identification number for that client and this identification number is stored on server.
-1. Server send reponse to client and instructs client to create cookies containing unique identification number with `Set-Cookie` header.
+1. Server send response to client and instructs client to create cookies containing unique identification number with `Set-Cookie` header.
 1. Client receives instructions from server and creates cookies accordingly.
 1. When client visits same site again, cookies containing identification number is sent with HTTP request using `Cookie`, `Cookie2` header.
 1. Server receives request with cookie containing unique identifcation number, then it searches in stored indentification data and recognize it's the same client that has visited before.
@@ -1228,16 +1228,16 @@ Caches are copies of visited resource stored on local machine or proxy server. I
 Lifecyle of cache includes several phases.
 
 1. Creation - When server first receives a resource request from client, if the resource is configured to be cached, server will send a response with cache related headers like `Expires`, `Cache-Control: max-age=1000`, `ETag`, to instruct client to store feedback response as cache.
-1. Serving - When client requests already cached resource, browsers first check if cache expires. If cache doesn't expire, it's used directly as response of resource request without interacting with servers.
-1. Revalidation - If cache already expires, which means it's not fresh. Cache header `Last-Modified` and `ETag` must be included in request to server for freshness check. If content of cache is still same with resource on server, resource cache data like `Last-Modified` and `ETag` is sent back to client and updated.
-1. Deletion - If cached is no logner used, user or server could clear it.
+1. Serving - When client requests cached resource, browsers first check if cache expires. If cache doesn't expire, it's used directly as response of resource request without interacting with servers.
+1. Revalidation - If cache already expires, which means it's not fresh. Either one of conditional request headers `If-Modified-Since`, `If-Unmodified-Since`, `If-Match`, `If-None-Match` may be included in request to server for freshness check. If content of cache is still same with resource on server, resource cache information like `Last-Modified` and `ETag` is sent back to client and cache is updated.
+1. Deletion - If cached is no logner used, client should delete it on server instruction.
 
 There's an important notion of _cache hit_ and _cache miss_.
 
-1. Cache hit - A request arrives at a cache, and resource is served with cache.
-1. Cache miss - A request arrives at a cache, but cache expires or is not fresh and resource is served by server.
+1. Cache hit - A request arrives at a cache, and resource cache is served by server.
+1. Cache miss - A request arrives at a cache, but cache expires and latest resource is served by server.
 
-### Cache Strategy
+### Cache Storage Strategy
 
 Cache strategy control whether a resource should be stored as cache on client and proxy servers. HTTP header `Cache-Control` is used by server to apply different cache strategy for each resource. Each cache directive corresponds to a specific cache strategy. `Cache-Control` header accepts a list of comma separated cache directives as its value.
 
@@ -1255,7 +1255,7 @@ Cache strategy control whether a resource should be stored as cache on client an
     <tr>
         <td><code>private</code></td>
         <td>Resource in response may be cached by client but not by proxy server</td>
-        <td>Reponse</td>
+        <td>Response</td>
     </tr>
     <tr>
         <td><code>no-store</code></td>
@@ -1282,7 +1282,7 @@ Cache for a server resource should obviously have a limited period of time durin
 There exist two expiration strategies that control whether a cache is considered fresh.
 
 1. Time Limit Expiration - Cache is assigned a determined period of time during which it's considered fresh.
-    1. Absolute date time -　Cache is considered fresh until a fixed time point.
+    1. Absolute date time - Cache is considered fresh until a fixed time point.
     1. Relative Time Period (Explicit/Heuristic) - Cache is considered fresh until a period of time elapsed.
 1. Resource Content Expiration - Cache is considered fresh as long as it has same or similiar enough content with latest resource on server. A hash of resource content is calculated for identification and comparision with latest resource on server. If two hashes are not same or similar enough, cache is considered no longer fresh.
 
@@ -1317,7 +1317,7 @@ Specifies that cache is fresh before an absolute date or after a relative period
 
 ##### Heuristic Expiration (Implicit Expiration)
 
-When reponse contains no `Cache-Control: max-age` or `Expires` header, a heuristic expiration strategy is used. Any heuristic expiration algorithm may be used, however it's required to add a `Warning` header if calculated maximum age is greater than 24 hours.
+When response contains no `Cache-Control: max-age` or `Expires` header, a heuristic expiration strategy is used. Any heuristic expiration algorithm may be used, however it's required to add a `Warning` header if calculated maximum age is greater than 24 hours.
 
 A popular one is _LM-Factor_ algorithm, which utilizes last modfication date of a resource to determine appropriate expiration date.
 
@@ -1360,7 +1360,7 @@ const calculateFreshnessLimit = (
 
 #### Resource Content Expiration
 
-Resource content expiration uses an _entity tags_(ETags), which is a hash of resource content, to check if resource has been changed. When resource is cached, `ETag` header with a hash value is included in reponse to instruct clients that this resource should be cached and uses ETag as revalidation method.
+Resource content expiration uses an _entity tag_(ETags), which is a unique hash of resource content, to check if resource has been changed. When resource is cached, `ETag` header with a hash value is included in response to instruct clients that this resource should be cached and uses ETag as revalidation method.
 
 `ETag` is normally used in cases where a bare time limit it not enough or suitable for expiration.
 
@@ -1384,8 +1384,8 @@ Refer to [etag revalidation](#revalidation-by-etag) for details.
 
 When a cache expires, client should send conditional requests to revalidate cache. There's also cache hit and miss concept related to cache revalidation as response to conditional requests.
 
-1. Revalidate hit - A request arrives at a cache, but not sure if cache is fresh, cache is confirmed by server to be fresh and resource is served with cache. A http reponse of status code **304(Not Modified)** will be sent back and cache freshness is updated.
-1. Revalidate miss - A request arrives at a cache, but not sure if cache is fresh, cache is confirmed by server to be unfresh and resource is served by server. A http reponse of status code **200(Ok)** with full content of resource is sent back and cache is updated.
+1. Revalidate hit - A request arrives at a cache, but not sure if cache is fresh, cache is confirmed by server to be fresh and resource is served with cache. A http response of status code **304(Not Modified)** will be sent back and cache freshness is updated.
+1. Revalidate miss - A request arrives at a cache, but not sure if cache is fresh, cache is confirmed by server to be unfresh and resource is served by server. A http response of status code **200(Ok)** with full content of resource is sent back and cache is updated.
 1. Resource deleted - A response of status code **404(Not Found)** is sent back and cache should be deleted.
 
 > The fraction of requests that are served from cache is called the cache hit rate (or cache hit ratio), or sometimes the document hit rate (or document hit ratio).
@@ -1393,7 +1393,7 @@ When a cache expires, client should send conditional requests to revalidate cach
 
 Cache can be revalidated by `ETag` or last modification date, `ETag` has higher priority over last modification date if both appears in request headers.
 
-##### Revalidation Instruction
+##### Cache Revalidation Directives
 
 General header `Cache-Control` can be used by server and client to specify revalidation requirements for a cache.
 
@@ -1451,7 +1451,7 @@ When a cache uses `ETag` for resource content identification, `ETag` value is us
             <ul>
                 <li>
                 <strong>GET</strong> or <strong>HEAD</strong> method,
-                used in combination with <strong>Range</strong> header to ensure range request responded by same resource. If it doesn't match, a 416 (Range Not Satisfiable) reponse is returned.
+                used in combination with <strong>Range</strong> header to ensure range request responded by same resource. If it doesn't match, a 416 (Range Not Satisfiable) response is returned.
                 </li>
                 <li>
                 <strong>PUT</strong> method,
@@ -1502,7 +1502,7 @@ Last-Modifed: <day-name>, <day> <month> <year> <hour>:<minute>:<second> GMT
         <td>
             <code>If-Modified-Since: &lt;date&gt;</code>
         </td>
-        <td>If resource is modified since specified date, modified version of resource will be sent back from server and cache content and expiration date should be updated. Otherwise, a 304 Not Modified reponse message without body is returned, only headers that need updating like expiration date are needed to be sent back.</td>
+        <td>If resource is modified since specified date, modified version of resource will be sent back from server and cache content and expiration date should be updated. Otherwise, a 304 Not Modified response message without body is returned, only headers that need updating like expiration date are needed to be sent back.</td>
         <td>Request</td>
     </tr>
     <tr>
@@ -1514,7 +1514,7 @@ Last-Modifed: <day-name>, <day> <month> <year> <hour>:<minute>:<second> GMT
     </tr>
 </table>
 
-#### Request Stale Cache by Client
+#### Request Stale Cache
 
 Client might tighten cache expiration constraint for applications that need the very freshest resource. On the other hand, client might loosen cache expiration date as comproimse to improve performance. When a cache is expired, client have the option to contact server to revalidate cache freshness. Several `Cache-Control` directives can be used to do this.
 
@@ -1561,9 +1561,12 @@ Client might tighten cache expiration constraint for applications that need the 
 
 `Age`, `Date`, `Vary`
 
-#### Page Refresh
+#### Manual Page Refresh
 
-Browsers usually provides buttons or keyboard shortcuts for users to refresh page. In Chrome, when page is refreshed by **F5**, local cache is expired, request to server carries headers like `ETag` to freshness revalidation, if cache is still fresh, **304 Not Modified** response without body is returned, if cache is not fresh, **200 OK** response with new resource data and new value for `Expires`, `Max-Age` or `Etag` is returned, local cache content and freshness lmit is updated. When page is refrehsed by **Ctrl+F5**, all local cache is discarded with `Cache-Control: no-cache`,
+Browsers usually provides buttons or keyboard shortcuts for users to refresh page. Users can use **F5** or **Ctrl+F5** to force page refresh.
+
+- **F5**, force all local cache to expire with `Cache-Control: no-cache`, send conditional requests for cache revalidation. If cache is still fresh, **304 Not Modified** response without body is returned. Otherwise, **200 OK** response with latest resource is returned and cache data and expiration information like `Expires`, `Max-Age` or `Etag` are updated.
+- **Ctrl+F5**, force local cache to expire with `Cache-Control: no-cache`, send requests without conditional headers for latest resource. **200 OK** response with latest resource is returned.
 
 ### Serving Request with Cache
 
