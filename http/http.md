@@ -134,7 +134,7 @@
         <td>path</td>
         <td rowspan='2'>
             <p>
-            Separated from preceding components by a slash(/), consisted of multiple path segments separated by slash (/). Each path segment can may have its own param. Param is a list of key-value pairs separated from preceding part by semicolor(;)
+            Separated from preceding components by a slash(/), consisted of multiple path segments separated by slash (/). Each path segment can may have its own param. Param is a list of key-value pairs separated from preceding part by semicolon(;)
             </p>
             <code>http://www.joes-hardware.com/hammers;sale=false/index.html;graphics=true</code>
         </td>
