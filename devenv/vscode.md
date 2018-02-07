@@ -134,3 +134,42 @@ Folder structure of `/dir1/dir2/index.js`,
 1. `cd /dir1/dir2`, execute `node index.js`.
    1. `__dirname` is `/dir1/dir2`
    1. `.` resolves to `/dir1/dir2`, working directory.
+
+## Appearance
+
+Color Theme - One Dark Pro
+File Icon Theme - vscode-icons
+Font - Fira Code
+
+```json
+{
+  "editor.cursorBlinking": "solid",
+  "editor.cursorStyle": "line",
+  "editor.fontFamily": "Fira Code",
+  "editor.fontLigatures": true,
+  "editor.fontSize": 16,
+  "editor.lineNumbers": "on",
+  "editor.renderIndentGuides": true,
+  "editor.rulers": [120],
+
+  "workbench.startupEditor": "welcomePage",
+  "workbench.colorTheme": "One Dark Pro",
+  "workbench.iconTheme": "vscode-icons",
+}
+```
+
+## Linting
+
+ESLint, StyleLint, TSLint, MarkdownLint, EditorConfig, Prettier
+
+## Snippets
+
+Emmet, js-patterns-snippets, VS Code ES7 React/Redux/React-Native/JS snippets,
+
+## Auto Complete
+
+Auto Close Tag, Auto Rename Tag, Path Inteelisense, NPM Intellisense, Intellisense for CSS class names
+
+## Others
+
+Color Highlight, Bracket Pair Colorizer, Project Manager
