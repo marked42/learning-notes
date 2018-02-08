@@ -162,6 +162,30 @@ Font - Fira Code
 
 ESLint, StyleLint, TSLint, MarkdownLint, EditorConfig, Prettier
 
+Install husky to add git hooks directly in package.json file easily. Use lint-staged to lint staged files only.
+
+```bash
+yarn add --dev lint-staged husky@next
+```
+
+Set up linting configurations.
+
+```json
+{
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.js": ["eslint --fix", "git add"],
+        "*.css": "stylelint"
+    }
+}
+```
+
+[Issue 142](https://github.com/okonet/lint-staged/issues/142): duplicate error output when using lint-staged.
+
 ## Snippets
 
 Emmet, js-patterns-snippets, VS Code ES7 React/Redux/React-Native/JS snippets,
