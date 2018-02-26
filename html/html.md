@@ -16,12 +16,12 @@
     - [Video](#video)
     - [Canvas](#canvas)
     - [Storage](#storage)
-        - [[Web Storage](https://html.spec.whatwg.org/multipage/webstorage.html)](#web-storagehttpshtmlspecwhatwgorgmultipagewebstoragehtml)
-        - [[IndexedDB](https://w3c.github.io/IndexedDB/)](#indexeddbhttpsw3cgithubioindexeddb)
+        - [Web Storage](#web-storage)
+        - [IndexedDB](#indexeddb)
     - [Web Worker](#web-worker)
-    - [[Service Worker]( https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers)](#service-worker-httpsdevelopermozillaorgen-usdocswebapiserviceworkerapiusingserviceworkers)
+    - [Service Worker](#service-worker)
     - [History](#history)
-    - [[Visibility API](https://www.w3.org/TR/page-visibility/)](#visibility-apihttpswwww3orgtrpage-visibility)
+    - [Visibility API](#visibility-api)
     - [WebSocket](#websocket)
         - [Usage](#usage)
             - [Create a Websocket Object](#create-a-websocket-object)
@@ -29,6 +29,8 @@
             - [Receive Message](#receive-message)
     - [Ajax](#ajax)
     - [Progressive Web Application](#progressive-web-application)
+    - [Accessible Rich Internet Applications (ARIA)](#accessible-rich-internet-applications-aria)
+        - [Keyboard Navigation](#keyboard-navigation)
 
 ## Doctype
 
@@ -391,3 +393,34 @@ exampleSocket.onclose = ()
 ## Ajax
 
 ## Progressive Web Application
+
+## Accessible Rich Internet Applications (ARIA)
+
+> The information assistive technologies need about the meaing and purpose of user interface elements is called accessibility semantics.
+
+1. A role is a promise.
+1. ARIA can both cloak and enhance, creating both power and danger.
+
+### Keyboard Navigation
+
+ARIA requires html element to be navigable with keyboard, when an element is navigated currently, it's focused (receives focus).
+
+1. **tabbable** element can be navigated sequentially in normal order with `Tab` key, use `Shift+Tab` key to navigate sequentially in reverse order.
+1. For composite element like radio button group, all radio buttons in it is **focusable**, but only one radio button is **tabbable**. If composite element receives focus when navigated with `Tab` and `Shift+Tab` key, the only **tabbable** element is focused automatically. Other **non-tabbable** but **focusable** elements can be navigated with arrows keys.
+
+Global attribute `tab-index` indicates how an element receives and loses focus with keyboard navigation.
+
+1. Negative value (`tabindex="-1"` by _default_) means an element is **focusable** but not **tabbable**.
+1. `tab-index="0"` means an element is tabbable.
+1. Positive value means element should be navigated in sequenatial order by its value. Maximum value is `32767`.
+
+Tabbable elements with positive integer value are navigated in ascending order firstly, then elements with `tab-index="0"` or invalid value are navigated by its order in document source. Elements with negative integer value for `tab-index` cannot be navigated by keyboard.
+
+Reference
+
+1. [ARIA Specification](https://www.w3.org/TR/2017/NOTE-wai-aria-practices-1.1-20171214/)
+1. [no-static-element-interactions](https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-static-element-interactions.md)
+1. [interactive-supports-focus](https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/interactive-supports-focus.md)
+1. [Fundamental Keyboard Navigation](https://www.w3.org/TR/2017/NOTE-wai-aria-practices-1.1-20171214/#kbd_generalnav)
+1. [WHATWG tab-index attribute](https://html.spec.whatwg.org/multipage/interaction.html#attr-tabindex)
+1. [MDN Keyboard and Focus](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_button_role#Keyboard_and_focus)
