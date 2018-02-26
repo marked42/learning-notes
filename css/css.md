@@ -17,6 +17,61 @@
 1. animation
 1. SASS, LESS, BEM, OOCSS
 
+- [CSS](#css)
+    - [Elements](#elements)
+        - [Replaced and Nonreplaced Elements](#replaced-and-nonreplaced-elements)
+        - [Styles](#styles)
+            - [External Styles](#external-styles)
+            - [Embedded Styles](#embedded-styles)
+            - [Inline Styles](#inline-styles)
+    - [CSS Rule](#css-rule)
+        - [Vendor prefixing](#vendor-prefixing)
+        - [Comments](#comments)
+    - [Selector](#selector)
+        - [Basic Selector](#basic-selector)
+        - [Combinator](#combinator)
+        - [Pseudo Class](#pseudo-class)
+        - [Pseudo Elements](#pseudo-elements)
+        - [Link Related Selector](#link-related-selector)
+        - [Specificity](#specificity)
+        - [Cascading and Inheritance](#cascading-and-inheritance)
+    - [Box Model](#box-model)
+    - [Margin Collapsing](#margin-collapsing)
+    - [Normal Flow](#normal-flow)
+    - [`display`](#display)
+    - [Positioning](#positioning)
+        - [Nonreplaced Elements](#nonreplaced-elements)
+        - [Positioned Element](#positioned-element)
+        - [Containing Block](#containing-block)
+        - [Inline Element Formatting](#inline-element-formatting)
+        - [Float](#float)
+        - [Offset Property](#offset-property)
+    - [Formatting Context](#formatting-context)
+    - [Dispaly](#dispaly)
+    - [Media Query](#media-query)
+        - [Media types](#media-types)
+        - [Media Features](#media-features)
+        - [Logical Operators](#logical-operators)
+        - [Comma Separated Lists](#comma-separated-lists)
+    - [Feature Query](#feature-query)
+    - [Transform](#transform)
+        - [Transform Functions](#transform-functions)
+            - [Translate](#translate)
+            - [Scale](#scale)
+            - [Rotate](#rotate)
+            - [Skew](#skew)
+            - [Perspective](#perspective)
+            - [Matrix](#matrix)
+        - [Transform Related Properties](#transform-related-properties)
+    - [Transition](#transition)
+    - [Flexible Box Layout](#flexible-box-layout)
+    - [Centering](#centering)
+        - [Centering Text](#centering-text)
+        - [Centering Block Or Image](#centering-block-or-image)
+        - [Centering Inline or Table Content](#centering-inline-or-table-content)
+        - [Centering by Absolute Positioning and Transform](#centering-by-absolute-positioning-and-transform)
+        - [Centering By Flex Layout](#centering-by-flex-layout)
+
 ## Elements
 
 ### Replaced and Nonreplaced Elements
@@ -1701,3 +1756,84 @@ The justify-content property enables us to direct how flex items are distributed
 The `align-items` property defines how flex items are aligned along its flex line’s cross axis.
 
 This `align-self` is used to override the align-items property value on a per-flex-item basis.
+
+## Centering
+
+### Centering Text
+
+Use `text-align` to center text content a html element.
+
+```css
+p { text-align: center }
+```
+
+### Centering Block Or Image
+
+Use `auto` horizontal margin to center `<img>`, left and right margins split remaing space equally.
+
+```css
+img {
+    margin-left: auto;
+    margin-right: auto;
+}
+```
+
+### Centering Inline or Table Content
+
+Contents of a inline or table cell element can be aligned vertically using `vertical-align`.
+
+```css
+div {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+p, img {
+    vertical-align: middle;
+}
+```
+
+### Centering by Absolute Positioning and Transform
+
+Center contents of a block by absolute positioning and transform.
+
+```css
+/* forced to be containing block for child elements layout */
+.parent {
+    position: relative;
+}
+
+/*
+* 1. apply absolute poistioning on child
+* 2. child top border offset downward by 50% of parent height
+* 3. child top border offset upward by 50% of child height, so that child center
+* is on same honrizontal line with parent center
+*
+* same rationale for honrizontal centering
+*/
+.child {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* ensures child inherits default parent width, otherwise
+     * child width is calculated under 50% of parent width
+     */
+    margin-right: -50%;
+    transform: transform(-50%, -50%);
+}
+```
+
+### Centering By Flex Layout
+
+```css
+div {
+    display: flex;
+    /* similar to text-align */
+    justify-content: center;
+    /* similar to vertical-align */
+    align-items: center;
+}
+```
+
+1. [Centering Things](https://www.w3.org/Style/Examples/007/center.en.html)
+1. [MDN vertical-align](https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align)
