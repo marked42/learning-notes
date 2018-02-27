@@ -66,10 +66,13 @@
     - [Transition](#transition)
     - [Flexible Box Layout](#flexible-box-layout)
     - [Centering](#centering)
-        - [Centering Text](#centering-text)
-        - [Centering Block Or Image](#centering-block-or-image)
-        - [Centering Inline or Table Content](#centering-inline-or-table-content)
-        - [Centering by Absolute Positioning and Transform](#centering-by-absolute-positioning-and-transform)
+        - [Centering Horizontally](#centering-horizontally)
+            - [Text](#text)
+            - [Block Or Image](#block-or-image)
+        - [Centering Vertically](#centering-vertically)
+            - [Single Line of Text](#single-line-of-text)
+            - [Inline or Table Content](#inline-or-table-content)
+            - [Centering by Absolute Positioning and Transform](#centering-by-absolute-positioning-and-transform)
         - [Centering By Flex Layout](#centering-by-flex-layout)
 
 ## Elements
@@ -1759,7 +1762,9 @@ This `align-self` is used to override the align-items property value on a per-fl
 
 ## Centering
 
-### Centering Text
+### Centering Horizontally
+
+#### Text
 
 Use `text-align` to center text content a html element.
 
@@ -1767,7 +1772,7 @@ Use `text-align` to center text content a html element.
 p { text-align: center }
 ```
 
-### Centering Block Or Image
+#### Block Or Image
 
 Use `auto` horizontal margin to center `<img>`, left and right margins split remaing space equally.
 
@@ -1778,7 +1783,19 @@ img {
 }
 ```
 
-### Centering Inline or Table Content
+### Centering Vertically
+
+#### Single Line of Text
+
+For an element with single line of text, if element height is fixed, set `line-height` property to element height so that text is rendered in vertically centering way by default.
+
+```css
+.parent {
+    line-height: 4em;
+}
+```
+
+#### Inline or Table Content
 
 Contents of a inline or table cell element can be aligned vertically using `vertical-align`.
 
@@ -1793,7 +1810,7 @@ p, img {
 }
 ```
 
-### Centering by Absolute Positioning and Transform
+#### Centering by Absolute Positioning and Transform
 
 Center contents of a block by absolute positioning and transform.
 
@@ -1816,7 +1833,8 @@ Center contents of a block by absolute positioning and transform.
     top: 50%;
     left: 50%;
     /* ensures child inherits default parent width, otherwise
-     * child width is calculated under 50% of parent width
+     * child width is calculated under 50% of parent width which
+     * may not be what you expected
      */
     margin-right: -50%;
     transform: transform(-50%, -50%);
