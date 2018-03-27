@@ -14,6 +14,7 @@
       - [Custom Attributes and `dataset`](#custom-attributes-and-dataset)
       - [Reference](#reference)
     - [DOM Size and Positions](#dom-size-and-positions)
+      - [Element Size and Scrolling](#element-size-and-scrolling)
     - [**B**rowser **O**bject **M**odel](#browser-object-model)
   - [DOM Event](#dom-event)
     - [Event Fundamentals](#event-fundamentals)
@@ -430,7 +431,53 @@ To avoid potential conflicts when using custom attributes to pass around data, a
 
 ### DOM Size and Positions
 
-1. [Element Size and Scrolling](http://javascript.info/size-and-scroll)
+#### [Element Size and Scrolling](http://javascript.info/size-and-scroll)
+
+1. `offsetParent` - containing block element(positioned element/th,td,table/body.) for current element,  maybe  `null` in some cases.
+    1. element is not show (`display: none`).
+    1. element is `<body>` and `<html>`
+    1. element is positioned relatively to window viewport rather than containing element `position: fixed`.
+1. `offsetLeft/offsetTop` - coordinate of left upper outer corner (border included) of inner element relative to left upper inner corner (padding included) of outer element.
+1. `offsetWidth/offsetHeight` - outer width/height of inner element with borders included.
+1. `clientWidth/clientHeight` - width/height of element content including paddings but not scrollbar if present.
+    1. In left to right OS, `clientWidth` equals to left border width.
+    1. In right to left OS, `clientWidth = leftBorderWith + scrollBarWidth` since scroll bar appears on left side.
+1. `clientLeft/clientTop` - distance from element left upper outer corner to its left upper inner corner.
+
+![Element Size All](element-size-all.png)
+
+![Element Size clientLeft](element-size-client-left.png)
+
+1. `scrollWidth/scrollHeight` - minimum width/height that can contains all child elements without scrolling (scroll bar not included)
+1. `scrollLeft/scrollTop` - distance between left upper corner of scrolled content (including invisible area) to left upper corner of visible area.
+
+![Element Size Scroll](element-size-scroll.png)
+
+All properties above are `0` or `null` if element is not shown (`display: none`), aka, not in document flow.
+
+All properties above are read only except for `scrollTop`/`scrollLeft` and all Set `scrollTop` to `0` to scroll it to top, set it to `Infinity` to scroll it to bottom.
+
+Calculate `scrollBottom` value
+
+```js
+ele.scrollBottom = ele.scrollHeight - ele.scrollTop - ele.clientHeight
+```
+
+Use `ele.style` to change read only geometries above.
+
+```js
+// centering inner element horizontally and vertically
+child.style.left = Math.round(parent.clientWidth / 2 - child.offsetWidth / 2) + 'px'
+child.style.top = Math.round(parent.clientHeight / 2 - child.offsetHeight / 2) + 'px'
+```
+
+Notice difference between geomerties properties above and geometry values from element style, eg. `getComputedStyle(ele).width` and `ele.clientWidth`.
+
+1. Geometry property values from DOM API are integer value without unit, and only `scrollTop`/`scrollLeft` are writable. Geometry value from styles returns string with unit `px`.
+1. `getComputedStyle(ele).width` may return `auto`.
+1. `clientWidth` is inner content width including paddings, while `getComputedStyle(ele).width` varies according to box model value used (`box-sizing`).
+1. If a scroll bar appears, `clientWidth` doesn't include it, but `getComputedStyle(ele).wdith` returns different values on different browsers (Chrome includes scroll bar width, Firefox not).
+
 1. [Window Size and Scrolling](http://javascript.info/size-and-scroll-window)
 1. [Coordinates](http://javascript.info/coordinates)
 
