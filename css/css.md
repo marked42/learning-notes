@@ -1774,7 +1774,7 @@ p { text-align: center }
 
 #### Block Or Image
 
-Use `auto` horizontal margin to center `<img>`, left and right margins split remaing space equally.
+Use `auto` horizontal margin to center `<img>`, left and right margins split remaining space equally.
 
 ```css
 img {

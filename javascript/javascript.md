@@ -555,6 +555,36 @@ Notice that positive direction for scoll coordinates and bounding rectangle coor
 
 ![Document Relative Coordinate](document_relative_coordinate.png)
 
+A case of placing notes at different positions relative to another element.
+
+![Place Notes At Different Positions](./place_note_at_positions.png)
+
+```js
+// anchorElement is the element to refer to
+// anchorCoords is coordinate relative to document
+let anchorCoords = getDocumentCoords(anchorElement)
+
+// top-out
+elem.style.left = anchorCooords.left + 'px'
+elem.style.top = anchorCoords.top - elem.offsetHeight + 'px'
+
+// "top-in":
+elem.style.left = anchorCoords.left + "px";
+elem.style.top = anchorCoords.top + "px";
+
+// "right-out":
+elem.style.left = anchorCoords.left + anchor.offsetWidth + "px";
+elem.style.top = anchorCoords.top + "px";
+
+// "bottom-in":
+elem.style.left = anchorCoords.left + "px";
+elem.style.top = anchorCoords.top + anchor.offsetHeight - elem.offsetHeight + "px";
+
+// "bottom-out":
+elem.style.left = anchorCoords.left + "px";
+elem.style.top = anchorCoords.top + anchor.offsetHeight + "px"; 
+```
+
 ### **B**rowser **O**bject **M**odel
 
 BOM is part of [HTML Specification](https://html.spec.whatwg.org/)
