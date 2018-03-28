@@ -444,14 +444,14 @@ To avoid potential conflicts when using custom attributes to pass around data, a
     1. In right to left OS, `clientWidth = leftBorderWith + scrollBarWidth` since scroll bar appears on left side.
 1. `clientLeft/clientTop` - distance from element left upper outer corner to its left upper inner corner.
 
-![Element Size All](element-size-all.png)
+![Element Size All](element_size_all.png)
 
-![Element Size clientLeft](element-size-client-left.png)
+![Element Size clientLeft](element_size_client_left.png)
 
 1. `scrollWidth/scrollHeight` - minimum width/height that can contains all child elements without scrolling (scroll bar not included)
 1. `scrollLeft/scrollTop` - distance between left upper corner of scrolled content (including invisible area) to left upper corner of visible area.
 
-![Element Size Scroll](element-size-scroll.png)
+![Element Size Scroll](element_size_scroll.png)
 
 All properties above are `0` or `null` if element is not shown (`display: none`), aka, not in document flow.
 
@@ -478,8 +478,50 @@ Notice difference between geomerties properties above and geometry values from e
 1. `clientWidth` is inner content width including paddings, while `getComputedStyle(ele).width` varies according to box model value used (`box-sizing`).
 1. If a scroll bar appears, `clientWidth` doesn't include it, but `getComputedStyle(ele).wdith` returns different values on different browsers (Chrome includes scroll bar width, Firefox not).
 
-1. [Window Size and Scrolling](http://javascript.info/size-and-scroll-window)
-1. [Coordinates](http://javascript.info/coordinates)
+#### [Window Size and Scrolling](http://javascript.info/size-and-scroll-window)
+
+`window.document.documentElement` is the root element of document, it's geometry properties can be used to get width/height of whole window.
+
+1. `window.document.documentElement.clientWidth` - Width of visible part of document not including vertical scroll bar.
+1. `window.document.documentElement.clientHeight` - Height of visible part of document not including honrizontal scroll bar.
+
+There's some properties on `window` that gives us inner and outer size of browser window.
+
+1. `window.innerWidth/window.innerHeight` - Width and height of browser window viewport, including scroll bar and debug console if present.
+1. `window.outerWidth/window.outerHeight` - Width and height of whole browser window.
+
+![Browser Window Size](browser_window_size.png)
+
+To get width and height of whole document including scrolled out part, use code below.
+
+```js
+function getWindowScrollHeight() {
+  const body = document.body
+  const documentElement = document.documentElement
+
+  return Math.max(
+    body.scrollHeight, documentElement.scrollHeight,
+    body.offsetHeight, documentElement.offsetHeight,
+    body.clientHeight, documentElement.clientHeight
+  )
+}
+```
+
+Theoretically, root element `scrollHeight/scrollWidth` can be used to get full size of window and these properties work fine for non root elements. But for historical reasons, inconsistenscies exist betweeen different browsers, thus this trick is used.
+
+To get scolled position of window, `documentElement.scrollTop/documentElement.scrollLeft` can be used. But Chrome/Safari/Opera have bugs and we should use `document.body.scrollLeft/document.body.scrollTop` instead.
+
+Fortunately, we have a simpler and universal solution, `window.pageXOffset/window.pageYOffset` works consistently between different browsers. They're read only properties, use `scrollTo`, `scrollBy`, `scrollIntoView` to scroll whole window.
+
+1. `scrollTo(x,y)` - scrolls point (x,y) on root element to top left corner of window viewport.
+1. `scrollBy(x,y)` - scrolls page relative to its current position to right and bottom direction.
+1. `element.scrollIntoView(top=true)` - scrolls an element into view. If parameter `top` is `true`, align element upper edge with window top, otherwise, align element bottom edge with window bottom.
+
+Set `overflow` css property to forbid scrolling of element or window.
+
+1. `document.body.style.overflow = 'hiddent'` - disable window scrolling
+1. `document.body.style.overflow = ''` - enable window scrolling
+
 
 ### **B**rowser **O**bject **M**odel
 
