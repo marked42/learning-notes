@@ -522,6 +522,38 @@ Set `overflow` css property to forbid scrolling of element or window.
 1. `document.body.style.overflow = 'hiddent'` - disable window scrolling
 1. `document.body.style.overflow = ''` - enable window scrolling
 
+#### [Coordinates](http://javascript.info/coordinates)
+
+To get **window** related coordinates, use method `element.getBoundingClientRect()` returns an `DOMRect` object with geometry properties.
+
+![Window Relative Coordinate](window_relative_coordinate.png) 
+
+1. `left` / `x` - X Coordinate for left element edge
+1. `right` - X coordinate for right element edge
+1. `top` / `y` - Y coordinate for top element edge
+1. `bottom` - Y coordinate for bottom element edge
+1. `height` - height of bounding rectangle `height = bottom - top`
+1. `width` - width of bounding rectangle `width = right - left`
+
+`left`, `right`, `top`, `bottom` are relative to viewport top left corner, and could be negative values since bounding client rect encloses scrolled part of element.
+
+`document.elementFromPoint(x, y)` returns most nested element at window coordinate `(x, y)`. When coordinate is out of window region, it returns `null`.
+
+To get **document** related coordinates, we have to calculate it.
+
+```js
+function getDocumentCoords(element) {
+  const box = element.getBoundingClientRect()
+  return {
+    top: box.top + pageYOffset,
+    left: box.left + pageXOffset,
+  }
+}
+```
+
+Notice that positive direction for scoll coordinates and bounding rectangle coordinates are opposite, so that they should be added together to get coordinate relative to document top left corner.
+
+![Document Relative Coordinate](document_relative_coordinate.png)
 
 ### **B**rowser **O**bject **M**odel
 
