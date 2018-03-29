@@ -4,6 +4,9 @@ Notes on Web Knowledge
 
 ## Memo
 
+- 登陆态,单点登录
+- js-cookie
+
 ### React
 
 #### Components
