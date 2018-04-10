@@ -46,6 +46,7 @@
         - [Inline Element Formatting](#inline-element-formatting)
         - [Float](#float)
         - [Offset Property](#offset-property)
+    - [Stacking Context](#stacking-context)
     - [Formatting Context](#formatting-context)
     - [Dispaly](#dispaly)
     - [Media Query](#media-query)
@@ -1242,6 +1243,62 @@ Positioning allows you to define
         <td>&lt;length&gt;, &lt;percentage&gt;</td>
     </tr>
 </table>
+
+## Stacking Context
+
+Stacking context describes is the model describing how multiple overlapping elements stack with each other from bottom to top. Elements with lower stacking order are drawn first and will be covered by elements with higher stacking order. Elements with highest stacking order are closest to users.
+
+A stacking context is created on an element under following situations, refer to [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context) for details.
+
+1. Root element `<html>` of document. (Just like initial containing block)
+1. `position` is 'absolute' or 'relative' and `z-index` is not 'auto'.
+1. `position` is 'fixed' or 'sticky'.
+1. child element of a flex box with `z-index` value other than 'auto'
+1. Element with `opacity` less than 1
+1. Element with `mix-blend-mode` value other than "normal"
+1. Element with any of following properties with value other than "none"
+    1. `transform'
+    1. `filter'
+    1. `perspective'
+    1. `clip-path'
+    1. `mask`/`mask-image`/`mask-border`
+1. Element with `isolation` value "isolate"
+1. Element with `-webkit-overflow-scrolling` value "touch"
+1. Element with a `will-change` value, [this post](http://dev.opera.com/articles/css-will-change-property/)
+
+`z-index` describes stacking order elements and it takes effect relative to its parent stacking context instead of root stacking context on root element. Child stacking context is contained within parent stacking context just like hierarchies of containg blocks.
+
+A local stacking context established on an element is used as a base for all descendent elements to stack on it. When this process is done, all elements in this local stacking contex are considered to be combined into single inseparable layer, which then stacks with its siblings on parent stacking context.
+
+So for two sibling stacking contexts s1 and s2, given a child element of s1 a very large `z-index` would not make it shown top of child elements of s2. It's decided by the relative order of `z-index` value between s1 and s2.
+
+Stacking order is much like a version number, major number is compared firstly, then minor number. A larger minor number itself doesn't make whole version number a larger one.
+
+Inside a local stacking context, stacking order from bottom to top is as below.
+
+1. Background and borders of local stacking context's root element.
+1. Descendant positioned elements (and their children) with negative `z-index` values.
+1. Descendant in-flow non-positioned non-inline blocks elements.
+1. Descendant non-positioned floating blocks.
+1. Descendant non-positioned inline elements.
+1. Descendant positioned elements with `z-index` value of "auto" and any stacking contexts with `z-index: 0`.
+1. Descendant positioned elements with positive `z-index` values.
+1. Elements with same stacking order will be rendered in source order.
+
+![Stacking Order](./stacking_order.png)
+
+For global stacking order, refer to [the spec](https://www.w3.org/TR/CSS2/zindex.html).
+Positioned elements with negative `z-index` may appear below its own parent when child element and parent element are within same stacking context, see this [blog](http://nicolasgallagher.com/css-drop-shadows-without-images/). But parent element cannot be root element of a stacking context, because the root element of a stacking context is always the first one to be drawn.
+
+`z-index` only applies to positioned elements, no effects on non-positioned elements.
+
+Reference
+
+1. [Elaborate description of Stacking Contexts](https://www.w3.org/TR/CSS2/zindex.html)
+1. [Layered presentatio spec](https://www.w3.org/TR/CSS21/visuren.html#layers)
+1. [What No One Told You About Z-Index](https://philipwalton.com/articles/what-no-one-told-you-about-z-index/)
+1. [CSS stacking contexts: What they are and how they work](https://tiffanybbrown.com/2015/09/css-stacking-contexts-wtf/index.html)
+1. [Z-Index And The CSS Stack: Which Element Displays First?](http://vanseodesign.com/css/css-stack-z-index/)
 
 ## Formatting Context
 
