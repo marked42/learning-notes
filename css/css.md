@@ -1272,7 +1272,7 @@ A local stacking context established on an element is used as a base for all des
 
 So for two sibling stacking contexts s1 and s2, given a child element of s1 a very large `z-index` would not make it shown top of child elements of s2. It's decided by the relative order of `z-index` value between s1 and s2.
 
-Stacking order is much like a version number, major number is compared firstly, then minor number. A larger minor number itself doesn't make whole version number a larger one.
+Stacking order is much like a version number, major number compared firstly, then minor number. A larger minor number itself doesn't make whole version number a larger one.
 
 Inside a local stacking context, stacking order from bottom to top is as below.
 
@@ -1287,7 +1287,7 @@ Inside a local stacking context, stacking order from bottom to top is as below.
 
 ![Stacking Order](./stacking_order.png)
 
-For global stacking order, refer to [the spec](https://www.w3.org/TR/CSS2/zindex.html).
+For global stacking order, refer to [the spec](https://www.w3.org/TR/CSS2/zindex.html). 
 Positioned elements with negative `z-index` may appear below its own parent when child element and parent element are within same stacking context, see this [blog](http://nicolasgallagher.com/css-drop-shadows-without-images/). But parent element cannot be root element of a stacking context, because the root element of a stacking context is always the first one to be drawn.
 
 `z-index` only applies to positioned elements, no effects on non-positioned elements.
