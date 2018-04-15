@@ -1837,12 +1837,12 @@ Center contents of a block by absolute positioning and transform.
 }
 
 /*
-* 1. apply absolute poistioning on child
+* 1. apply absolute positioning on child
 * 2. child top border offset downward by 50% of parent height
 * 3. child top border offset upward by 50% of child height, so that child center
-* is on same honrizontal line with parent center
+* is on same horizontal line with parent center
 *
-* same rationale for honrizontal centering
+* same rationale for horizontal centering
 */
 .child {
     position: absolute;
