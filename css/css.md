@@ -621,7 +621,7 @@ h1 {color: gray;}  /* This CSS comment is several lines */
             Selects elements based on language they are determined to be in.
          </p>
          <blockquote>
-            In HTML, the language is determined by a combination of the lang attribute, the 
+            In HTML, the language is determined by a combination of the lang attribute, the
             &lt;meta&gt;
             element, and possibly by information from the protocol (such as HTTP headers). For other document types there may be other document methods for determining the language.
          </blockquote>
@@ -1581,7 +1581,7 @@ transition-duration: 1s, 2s, 3s;
 
 /* suppress all property from being transitioned
  * 'none' can only be used by itself, it cannot by used with
- * other property to suppress all and enable some property to 
+ * other property to suppress all and enable some property to
  * transitioned.
  */
 transition-property: none
@@ -1764,22 +1764,38 @@ This `align-self` is used to override the align-items property value on a per-fl
 
 ### Centering Horizontally
 
-#### Text
+#### Centering Inline Element
 
-Use `text-align` to center text content a html element.
+`text-align` specifies how inline child elements like `<img>`, `<input>` or text content is aligned in parent block element. This property has no effect on block child elements.
+
+| keyword | remark |
+| - | - |
+| left/center/right | aligns inline element at left, center, right |
+| start/end | similar to left/right, but it's decided by `writing-mode` |
+| justify| aligns text so that in each lines of text, left side of left-most text aligns with left parent's left content border, right side of right most text aligns with parent's right content border, last line is not affected. |
+| justify-all | enforces all lines(including last line) to aligned in same way |
+| match-parent | see [details](https://developer.mozilla.org/en-US/docs/Web/CSS/text-align) |
+| -webkit-center/-moz-center | centers block elements, extended properties |
+
+`justify` and `justify-all` aligns parent's text content, which are considered as multiple inline boxes when being aligned. They're not designed to align single inline element like `<input>`, `<img>` with intrinsic width, and is ignored when applied.
+
+#### Centering Block Element
+
+Use browser extended keyword for `text-align` property to center child block elements.
 
 ```css
-p { text-align: center }
+div {
+  text-align: -webkit-center;
+  text-align: -moz-center;
+}
 ```
 
-#### Block Or Image
-
-Use `auto` horizontal margin to center `<img>`, left and right margins split remaining space equally.
+Use `auto` horizontal margin to center block element, left and right margins split remaining space equally so that block element is horizontally centered.
 
 ```css
-img {
-    margin-left: auto;
-    margin-right: auto;
+div {
+  margin-left: auto;
+  margin-right: auto;
 }
 ```
 
