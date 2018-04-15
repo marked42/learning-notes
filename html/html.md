@@ -36,9 +36,9 @@
 
 Rendering mode.
 
-1. full standards mode - rendering behaviour follows standard specification
+1. full standards mode - rendering behavior follows standard specification
 1. almost standards mode - a very small number of quirks
-1. quirks mode - layout emulates non-starndard hehaviour for legacy support
+1. quirks mode - layout emulates non-standard behavior for legacy support
 
 `<!DOCTYPE html>` is used to ensure html page use full standard mode for rendering.
 
@@ -70,7 +70,7 @@ Inline elements
 | label  | map      | object  | q   | samp     | script | select | small  |
 | span   | strong   |sub     | sup | textarea | time   | tt     | var    |
 
-Block elemets are inside a block box, inline elements are inside inline box. CSS `display` property can be used to change default behaviour.
+Block elements are inside a block box, inline elements are inside inline box. CSS `display` property can be used to change default behavior.
 
 HTML5 replace this binary distinction with more complex content categories. Block level elements roughly corresponds to flow content, inline elements corresponds to phasing content.
 
@@ -98,8 +98,8 @@ Single element attribute includes name, a equal sign and quoted string value. Ad
 <input type='text' disabled='disabled'>
 
 // These two forms are equal
-<inpt type='text'>
-<inpt type='text' disabled=''>
+<input type='text'>
+<input type='text' disabled=''>
 ```
 
 Element attribute value must be wrapped inside single quote or double quote.
@@ -112,7 +112,7 @@ Metadata
 <meta name='description' content='The MDN Learning Area'>
 ```
 
-[**O**pen **Gr**aph **P**rotocol](http://ogp.me/) defines more meta data to make web page a rich objec in social path.
+[**O**pen **Gr**aph **P**rotocol](http://ogp.me/) defines more meta data to make web page a rich object in social path.
 
 Icons
 
@@ -243,7 +243,7 @@ A `POST` request is usually sent via HTML form. `Content-Type` value is determin
    --BbC04y--
    --AaB03x--
     ```
-1. `text/plain`: introduced by HTML5 for debuggin, never use it in production because it's not reliably interpretable by computer.
+1. `text/plain`: introduced by HTML5 for debugging, never use it in production because it's not reliably interpretable by computer.
 
 When `POST` request is sent via a method other than HTML form like an `XMLHttpRequest`, content of body can be any MIME type.
 
@@ -333,7 +333,7 @@ Page Visibility API provides a way of detecting visibility state of page and per
 #### Create a Websocket Object
 
 ```javascript
-WebSocket WebSocekt(in DOMString url, in optional DOMString protocols)
+WebSocket WebSocket(in DOMString url, in optional DOMString protocols)
 ```
 
 - `url` - URL to connect, Websocket object will attempt to connect target on creation.
@@ -396,7 +396,7 @@ exampleSocket.onclose = ()
 
 ## Accessible Rich Internet Applications (ARIA)
 
-> The information assistive technologies need about the meaing and purpose of user interface elements is called accessibility semantics.
+> The information assistive technologies need about the meaning and purpose of user interface elements is called accessibility semantics.
 
 1. A role is a promise.
 1. ARIA can both cloak and enhance, creating both power and danger.
@@ -412,7 +412,7 @@ Global attribute `tab-index` indicates how an element receives and loses focus w
 
 1. Negative value (`tabindex="-1"` by _default_) means an element is **focusable** but not **tabbable**.
 1. `tab-index="0"` means an element is tabbable.
-1. Positive value means element should be navigated in sequenatial order by its value. Maximum value is `32767`.
+1. Positive value means element should be navigated in sequential order by its value. Maximum value is `32767`.
 
 Tabbable elements with positive integer value are navigated in ascending order firstly, then elements with `tab-index="0"` or invalid value are navigated by its order in document source. Elements with negative integer value for `tab-index` cannot be navigated by keyboard.
 
