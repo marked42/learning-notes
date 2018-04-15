@@ -1813,7 +1813,7 @@ For an element with single line of text, if element height is fixed, set `line-h
 
 #### Inline or Table Content
 
-Contents of a inline or table cell element can be aligned vertically using `vertical-align`.
+Contents of a inline or table cell element can be aligned vertically using [`vertical-align`](https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align).
 
 ```css
 div {
