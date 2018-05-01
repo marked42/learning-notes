@@ -526,7 +526,7 @@ Set `overflow` css property to forbid scrolling of element or window.
 
 To get **window** related coordinates, use method `element.getBoundingClientRect()` returns an `DOMRect` object with geometry properties.
 
-![Window Relative Coordinate](window_relative_coordinate.png) 
+![Window Relative Coordinate](window_relative_coordinate.png)
 
 1. `left` / `x` - X Coordinate for left element edge
 1. `right` - X coordinate for right element edge
@@ -582,7 +582,7 @@ elem.style.top = anchorCoords.top + anchor.offsetHeight - elem.offsetHeight + "p
 
 // "bottom-out":
 elem.style.left = anchorCoords.left + "px";
-elem.style.top = anchorCoords.top + anchor.offsetHeight + "px"; 
+elem.style.top = anchorCoords.top + anchor.offsetHeight + "px";
 ```
 
 ### **B**rowser **O**bject **M**odel
@@ -3165,3 +3165,40 @@ xhr.overrideMimeType()
 1. [XMLHttpRequest Standard](https://xhr.spec.whatwg.org)
 
 ## Fetch (TODO:)
+
+## Tricks
+
+### `parseInt`
+
+```js
+['11', '11', '11', '11'].map(parseInt)
+```
+
+Result is `[11, NaN, 3, 4]`, because `parseInt` receives a second argument as radix to parse string. `Array.prototype.map` receives parameters like below.
+
+```js
+Array.prototype.map(
+  callback: (currentValue, index, array) => any,
+  thisArg,
+)
+```
+
+So `parseInt` is called four times like below.
+
+```js
+parseInt('11', 0)   // radix is 10
+parseInt('11', 1)   // invalid radix, return NaN
+parseInt('11', 2)
+parseInt('11', 3)
+```
+
+`parseInt` parses string according to its radix.
+
+1. `2` ~ `36` - valid radix is an integer in range of 2 ~ 36.
+1. `undefined` or `0` - JavaScript assumes radix based on string prefix.
+  1. `0x` or `0X` - radix is 16
+  1. `0` - radix is 8 or 10, ES5 specifies that 10 is used, but it's not universally supported.
+  1. other - radix is 10
+1. radix of non-integer value will be truncated to an integer firstly.
+
+For invalid radix or invalid string , `NaN` is returned.
