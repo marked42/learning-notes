@@ -1246,7 +1246,7 @@ Positioning allows you to define
 
 ## Stacking Context
 
-Stacking context describes is the model describing how multiple overlapping elements stack with each other from bottom to top. Elements with lower stacking order are drawn first and will be covered by elements with higher stacking order. Elements with highest stacking order are closest to users.
+Stacking context is the model describing how multiple overlapping elements stack with each other from bottom to top. Elements with lower stacking order are drawn first and will be covered by elements with higher stacking order. Elements with highest stacking order are closest to users.
 
 A stacking context is created on an element under following situations, refer to [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context) for details.
 
@@ -1287,7 +1287,7 @@ Inside a local stacking context, stacking order from bottom to top is as below.
 
 ![Stacking Order](./stacking_order.png)
 
-For global stacking order, refer to [the spec](https://www.w3.org/TR/CSS2/zindex.html). 
+For global stacking order, refer to [the spec](https://www.w3.org/TR/CSS2/zindex.html).
 Positioned elements with negative `z-index` may appear below its own parent when child element and parent element are within same stacking context, see this [blog](http://nicolasgallagher.com/css-drop-shadows-without-images/). But parent element cannot be root element of a stacking context, because the root element of a stacking context is always the first one to be drawn.
 
 `z-index` only applies to positioned elements, no effects on non-positioned elements.

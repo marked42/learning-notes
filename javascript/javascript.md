@@ -3202,3 +3202,14 @@ parseInt('11', 3)
 1. radix of non-integer value will be truncated to an integer firstly.
 
 For invalid radix or invalid string , `NaN` is returned.
+
+```js
+function toHex(value) {
+  let hex = value.toString(16)
+  return hex.length < 2 ? `0${hex}` : hex
+}
+
+function rgbToHexString(r, g, b) {
+  return ['#', toHext(r), toHext(g), toHext(b)].join('')
+}
+```
