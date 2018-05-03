@@ -2,7 +2,47 @@
 
 Notes on Web Knowledge
 
-## Memo
+## TODO
+
+1. Questions components ul element height could not adjust automatically according to its contents.
+1. half px border in new ui
+
+1. containing block for normal child element and pseudo element ::before
+1. vue v-loading `<yam-section v-loading='true'></yam-section>` and custom directives
+
+1. computed properties are **cached** based on their dependencies.
+
+1. font awesome, svg and images in web
+1. vue extend component
+  ```js
+  {
+    extends: BaseComponent
+  }
+  ```
+
+1. BEM style naming convention.
+  1. `section_body`
+  1. `section_body--loading`
+  1. `section_body--error`
+  1. `section_body--created`
+  1. `section_body--ready`
+  1. `main-container__body`
+
+1. CSS 如何布局，margin设置在父元素还是子元素上。
+
+1. box-shadow
+
+1. height, width 用在inline上没有效果,用在inline-block
+1. z-index
+1. responsive ui layout
+1. ellipsis 断行,在span和p上效果不同。 [word-wrap, word-break](http://www.zhangxinxu.com/wordpress/2015/11/diff-word-break-break-all-word-wrap-break-word/)
+```css
+text-overflow hidden
+white-space nowrap
+text-overflow ellipsis
+```
+1. html color: rgba, hlsa, hex
+1. image,icon,svg used in web
 
 - 登陆态,单点登录
 - js-cookie
