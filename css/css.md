@@ -1855,3 +1855,29 @@ div {
 
 1. [Centering Things](https://www.w3.org/Style/Examples/007/center.en.html)
 1. [MDN vertical-align](https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align)
+
+## White Space, Line Break, Word Break
+
+### white-space
+
+It applies to all elements and is inherited by default. It instructs browser how to handle white spaces in side element text content.
+
+1. whether white spaces should be collapsed ?
+1. whether text should wrap to next line when there's no enough space ?
+
+Answer combination of these two questions corresponds to four possible keyword value.
+
+| keyword | white spaces | text wrap |
+|:-|:-|:-|
+|normal|collapse|wrap|
+|nowrap|collapse|no wrap|
+|pre-wrap|preserve|wrap|
+|pre|preserve|no wrap|
+
+Notice the contradicted naming between `normal` and `pre`, guess that is because normally we want to both collapse spaces and wrap text, but when users decide to preserve spaces, it's more often that they also don't want to wrap text. So the naming is not like `pre` and `pre-nowrap`.
+
+And there's one more keyword value `pre-line`, it's almost same `pre-wrap` except that it preserves new line only and collapse spaces and tabs.
+
+`nowrap` is often used to keep **text content** or **child inline elements** from wrapping to next line.
+
+![white-space](./white-space.jpg)
