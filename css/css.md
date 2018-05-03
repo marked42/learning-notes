@@ -1885,3 +1885,28 @@ And there's one more keyword value `pre-line`, it's almost same `pre-wrap` excep
 Reference
 
 [White Space and Wrapping: the white-space property](https://drafts.csswg.org/css-text-3/#propdef-white-space)
+
+### text-overflow
+
+`text-overflow` decides how overflowed content is displayed to user. It doesn't force overflow to occur, so you've to use with other two properties to force overflow and thus making `text-overflow` to take effect.
+
+```css
+white-space nowrap
+overflow hidden
+```
+
+Some times you've to specify element width so that overflow can happen.
+
+> The text-overflow property only affects content that is overflowing a block container element in its inline progression direction (not text overflowing at the bottom of a box, for example).
+
+Formal syntax is like this.
+
+```
+[ clip | ellipsis | <string> ]{1,2}
+```
+
+Usually, we use only one keyword value. `clip` clips overflow content at parent block element's content area edge. `ellipsis` displays HONRIZONTAL ELLIPSIS (U+2026) to represent clipped text.
+
+Reference
+
+[text-overflow MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/text-overflow)
