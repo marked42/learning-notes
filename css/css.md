@@ -1881,3 +1881,7 @@ And there's one more keyword value `pre-line`, it's almost same `pre-wrap` excep
 `nowrap` is often used to keep **text content** or **child inline elements** from wrapping to next line.
 
 ![white-space](./white-space.jpg)
+
+Reference
+
+[White Space and Wrapping: the white-space property](https://drafts.csswg.org/css-text-3/#propdef-white-space)
