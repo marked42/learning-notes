@@ -621,7 +621,7 @@ h1 {color: gray;}  /* This CSS comment is several lines */
             Selects elements based on language they are determined to be in.
          </p>
          <blockquote>
-            In HTML, the language is determined by a combination of the lang attribute, the 
+            In HTML, the language is determined by a combination of the lang attribute, the
             &lt;meta&gt;
             element, and possibly by information from the protocol (such as HTTP headers). For other document types there may be other document methods for determining the language.
          </blockquote>
@@ -1581,7 +1581,7 @@ transition-duration: 1s, 2s, 3s;
 
 /* suppress all property from being transitioned
  * 'none' can only be used by itself, it cannot by used with
- * other property to suppress all and enable some property to 
+ * other property to suppress all and enable some property to
  * transitioned.
  */
 transition-property: none
@@ -1855,58 +1855,3 @@ div {
 
 1. [Centering Things](https://www.w3.org/Style/Examples/007/center.en.html)
 1. [MDN vertical-align](https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align)
-
-## White Space, Line Break, Word Break
-
-### white-space
-
-It applies to all elements and is inherited by default. It instructs browser how to handle white spaces in side element text content.
-
-1. whether white spaces should be collapsed ?
-1. whether text should wrap to next line when there's no enough space ?
-
-Answer combination of these two questions corresponds to four possible keyword value.
-
-| keyword | white spaces | text wrap |
-|:-|:-|:-|
-|normal|collapse|wrap|
-|nowrap|collapse|no wrap|
-|pre-wrap|preserve|wrap|
-|pre|preserve|no wrap|
-
-Notice the contradicted naming between `normal` and `pre`, guess that is because normally we want to both collapse spaces and wrap text, but when users decide to preserve spaces, it's more often that they also don't want to wrap text. So the naming is not like `pre` and `pre-nowrap`.
-
-And there's one more keyword value `pre-line`, it's almost same `pre-wrap` except that it preserves new line only and collapse spaces and tabs.
-
-`nowrap` is often used to keep **text content** or **child inline elements** from wrapping to next line.
-
-![white-space](./white-space.jpg)
-
-Reference
-
-[White Space and Wrapping: the white-space property](https://drafts.csswg.org/css-text-3/#propdef-white-space)
-
-### text-overflow
-
-`text-overflow` decides how overflowed content is displayed to user. It doesn't force overflow to occur, so you've to use with other two properties to force overflow and thus making `text-overflow` to take effect.
-
-```css
-white-space nowrap
-overflow hidden
-```
-
-Some times you've to specify element width so that overflow can happen.
-
-> The text-overflow property only affects content that is overflowing a block container element in its inline progression direction (not text overflowing at the bottom of a box, for example).
-
-Formal syntax is like this.
-
-```
-[ clip | ellipsis | <string> ]{1,2}
-```
-
-Usually, we use only one keyword value. `clip` clips overflow content at parent block element's content area edge. `ellipsis` displays HONRIZONTAL ELLIPSIS (U+2026) to represent clipped text.
-
-Reference
-
-[text-overflow MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/text-overflow)
