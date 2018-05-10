@@ -1928,3 +1928,47 @@ div {
 
 1. [Centering Things](https://www.w3.org/Style/Examples/007/center.en.html)
 1. [MDN vertical-align](https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align)
+
+### white space between inline blocks
+
+Aligning two inline blocks horizontally with percentage width is a method used for flexible layout.
+
+```html
+<div class="root">
+  <div class="left">left</div>
+  <div class="right">right</div>
+</div>
+
+<style>
+.root {
+  width: 100px;
+}
+
+.left, .right {
+  width: 50%;
+  // use border box to specify total width of element instead of content-box
+  // total width is affected by border width using content-box
+  box-sizing: border-box;
+  border: 1px solid black;
+}
+</style>
+```
+
+We expect these two child '<div>' elements to align side by side, each taking 50% of parent width, but that's not what it is. Because there's a space between two `<div>` elements inside html source, and it takes some space that second child is wrapped to next line.
+
+Solutions
+
+1. change html source to deliberately remove space between child elements.
+```html
+<div class="root">
+  <div class="left">left</div><div class="right">right</div>
+</div>
+
+<div class="root">
+  <div class="left">left</div><!--
+  --><div class="right">right</div>
+</div>
+```
+
+1. set parent element `font-size` to 0 so that white space doesn't occupies any width. restore font-size on child elements.
+1. `white-space: nowrap` can force inline elements to be in same line, but the white space between child elements still exist.
