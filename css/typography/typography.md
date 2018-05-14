@@ -100,9 +100,35 @@ Possible keyword values for `word-break`.
 1. `normal` - default behavior described above.
 1. `break-all` - when a word overflows, break it to wrap to next line.
 1. `keep-all` - do not allow word break, if a word overflows, let it be, then place next word at start of next line.
+1. `break-word` - see `overflow-wrap`
 
+Notice that `break-all` breaks non CJK words only, example below don't break under it.
+
+```
+// keep-all
+----------------------------------
+一段非常长长长长长长长长长长长长！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+----------------------------------
+
+// normal/break-all
+----------------------------------
+一段非常长长长长长长长长长长长
+长！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+----------------------------------
+
+// word-break: break-word or overflow: break-word
+----------------------------------
+一段非常长长长长长长长长长长长
+长！！！！！！！！！！！！！！！！！！！
+！！！！！！！！！！！！！！！
+----------------------------------
+```
+
+This long
 
 `word-wrap` is an ms only css property and it's standardized as `overflow-wrap`,
 
 1. `normal` - word cannot be broken
-1. `break-word` - when there's no acceptable line break point, break a word at needed position to prevent overflow. Notice that in MDN doc, `word-break` has a keyword value `break-word` which has same meaning like `overflow-wrap: break-word` , but it's not a standard value described as in [CSS Text Module Level 3](https://drafts.csswg.org/css-text-3/#propdef-word-break).
+1. `break-word` - when there's no acceptable line break point, break a word at needed position to prevent overflow.
+
+Notice that in MDN doc, `word-break` has a keyword value `break-word` which has same meaning like `overflow-wrap: break-word` , but it's not a standard value described as in [CSS Text Module Level 3](https://drafts.csswg.org/css-text-3/#propdef-word-break). However, this keyword value is supported in Chrome and Firefox.
