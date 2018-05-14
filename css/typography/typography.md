@@ -90,3 +90,19 @@ White space that was not removed or collapsed during the white space processing 
 Reference
 
 1. [UNICODE](https://www.unicode.org/reports/tr14/tr14-39.html)
+
+### word break
+
+`word-break` is used control how a word should be broken when wrapping to next line. Normally, any adjacent CJK characters can be broken, there's no word (consecutive characters) that should be broken inside normally. But for non-CJK languages, a word of consecutive characters is basic element of a sentence. Word should not be broken normally, and a 'hyphen' is often use indicate break inside word.
+
+Possible keyword values for `word-break`.
+
+1. `normal` - default behavior described above.
+1. `break-all` - when a word overflows, break it to wrap to next line.
+1. `keep-all` - do not allow word break, if a word overflows, let it be, then place next word at start of next line.
+
+
+`word-wrap` is an ms only css property and it's standardized as `overflow-wrap`,
+
+1. `normal` - word cannot be broken
+1. `break-word` - when there's no acceptable line break point, break a word at needed position to prevent overflow. Notice that in MDN doc, `word-break` has a keyword value `break-word` which has same meaning like `overflow-wrap: break-word` , but it's not a standard value described as in [CSS Text Module Level 3](https://drafts.csswg.org/css-text-3/#propdef-word-break).
