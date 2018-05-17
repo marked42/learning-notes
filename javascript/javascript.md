@@ -3213,3 +3213,39 @@ function rgbToHexString(r, g, b) {
   return ['#', toHext(r), toHext(g), toHext(b)].join('')
 }
 ```
+
+### wraps an object
+
+Given an object `http` like below. If you want to wrap it and provides new implementation some methods. Remeber that except target implementation to repalce, other properties should remain same on wrapped object, this ensures full compatability.
+
+```js
+const http = {
+  get() {
+    console.log('original get')
+  },
+  post() {
+    console.log('original post')
+  },
+  other() {
+    console.log('original other')
+  }
+}
+
+const methods = ['get', 'post']
+const wrappedHttp = {
+  // inherit all properties from original object so that other properties remains same,
+  ...http,
+}
+
+methods.forEach(method => {
+  const orignalMethod = http[method]
+
+  wrappedHttp[method] = (...args) => {
+    // reimplementation using original method, add enhanced function here
+    return originalMethod(...args)
+  }
+
+  // new method should inherit orignal method so that any properties on orignal method are accessible too
+  Object.setPrototypeOf(wrappedHttp[method], originalMethod)
+})
+```
