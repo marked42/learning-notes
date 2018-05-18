@@ -277,7 +277,7 @@ Both request and response message is composed of three parts: start line, header
         <td>A human-readable string corresponding to status-code.</td>
     </tr>
     <tr>
-        <td>headers</td>    
+        <td>headers</td>
         <td>A list of headers, each of which starts with a name, followed by a colon(:), followed by optional whitespace, followed by a value, followed by a CRLF. Headers and bodies are separated by a blank line represented by a CRLF.</td>
     </tr>
     <tr>
@@ -1095,13 +1095,13 @@ Cookie is a piece of text composed of multiple key/value pairs stored on client-
 
 1. Session Management - Logins, shopping carts, game scores, or anything else the sever should remember.
 1. Personalization - User preferences, themes, and other settings.
-1. Tracking - Recording and analyzing user behaviour.
+1. Tracking - Recording and analyzing user behavior.
 
 It's discouraged to use cookies for client-side storage, since cookies are sent with every request which increases message size and degrades network performance. Prefer to use Web storage API (`localStorage` and `sessionStorage`) and `IndexedDB` for client side storage.
 
 Cookies are divided as two types according to their lifetime.
 
-1. Session Cookie - Temporay cookies that keep track of settings and user preferences, they're deleted when user exits browser.
+1. Session Cookie - Temporary cookies that keep track of settings and user preferences, they're deleted when user exits browser.
 1. Persistent Cookie - Long lived cookies that are used to retain a configuration or login name for a site that users visit periodically, they're stored on disk and survive across sessions.
 
 ### How it works
@@ -1112,7 +1112,7 @@ Cookie specification is formally referred as HTTP State Management Mechanism, wh
 1. Server send response to client and instructs client to create cookies containing unique identification number with `Set-Cookie` header.
 1. Client receives instructions from server and creates cookies accordingly.
 1. When client visits same site again, cookies containing identification number is sent with HTTP request using `Cookie`, `Cookie2` header.
-1. Server receives request with cookie containing unique identifcation number, then it searches in stored indentification data and recognize it's the same client that has visited before.
+1. Server receives request with cookie containing unique identification number, then it searches in stored identification data and recognize it's the same client that has visited before.
 
 Cookie content is composed of multiple key/value pairs, which can contain any information apart from identification number. Usually, user settings and preferences are stored.
 
