@@ -662,7 +662,22 @@ let handler = new Function("alert(this.value)");
 elem.onclick = handler;
 ```
 
-Add event handler using `addEventListener(event, handler[, phase])`, remove event handlers with `removeEventListener(event, handler[, phase])`. Exact event handler must be passed to remove it.
+Add event handler using `addEventListener(event, handler[, phase])`, remove event handlers with `removeEventListener(event, handler[, phase])`. Exact event handler must be passed to remove it. A event handler is distinguished from another by three factors.
+
+1. event type,
+1. handler function
+1. registered phase (capture or bubble)
+
+Other options like `passive` and `once` are insignificant here. Adding same event handler multiple times is the same as adding it once, event handler will only be called once.
+
+```js
+function handler(e) {
+  console.log('handle: ', e)
+}
+
+element.addEventHandler('click', handler, { capture: true })
+element.addEventHandler('click', handler, { capture: true })  // no effect
+```
 
 ```javascript
 elem.addEventListener("click", () => alert("Thanks!"));
@@ -821,7 +836,7 @@ try {
   window.removeEventListener("testPassive", null, opts);
 } catch (e) {}
 
-// Use our detect's results. passive applied if supported, capture will be false either way.
+// Use our detected result, passive applied if supported, capture will be false either way.
 elem.addEventListener('touchstart', fn, supportsPassive ? { passive: true } : false);
 ```
 
@@ -950,9 +965,15 @@ let event = new CustomEvent("unique-type", {
 
 ### Events-in-events are synchronous
 
-Usually events are processed asynchronously. If during the process of one event, other events are triggered by users, browsers will first finish handling current event and the keep handling newly triggered events in a sequential order.
+TODO:
 
-However, if other event is dispatched inside an event handler, broswer will first handles newly triggered event, then resume execution of current event handler.
+1. add listener during dispatch
+1. multiple identical listener
+1. `this` in listener
+
+Usually events are processed asynchronously. If during the process of one event, other events are triggered by users, browsers will first finish handling current event and then keep handling newly triggered events in a sequential order.
+
+However, if other event is dispatched inside an event handler, browser will first handles newly triggered event, then resume execution of current event handler.
 
 ```html
 <button id="menu">Menu (click me)</button>
@@ -974,7 +995,7 @@ However, if other event is dispatched inside an event handler, broswer will firs
 </script>
 ```
 
-Dispatch event at the end of handler function or use `setTimeout(..., 0)` for an asynchrounous event.
+Dispatch event at the end of handler function or use `setTimeout(..., 0)` for an asynchronous event.
 
 ```html
 <button id="menu">Menu (click me)</button>
@@ -999,6 +1020,10 @@ Dispatch event at the end of handler function or use `setTimeout(..., 0)` for an
 ### Detailed Event
 
 [Detailed event](http://javascript.info/event-details)
+
+### Touch Events
+
+[Touch Events - Level 2 Draft Community Group Report 27 April](https://w3c.github.io/touch-events/#list-of-touchevent-types)
 
 ### Reference
 
