@@ -40,7 +40,7 @@
     - [Normal Flow](#normal-flow)
     - [`display`](#display)
     - [Positioning](#positioning)
-        - [Nonreplaced Elements](#nonreplaced-elements)
+        - [Non-replaced Elements](#nonreplaced-elements)
         - [Positioned Element](#positioned-element)
         - [Containing Block](#containing-block)
         - [Inline Element Formatting](#inline-element-formatting)
@@ -48,7 +48,7 @@
         - [Offset Property](#offset-property)
     - [Stacking Context](#stacking-context)
     - [Formatting Context](#formatting-context)
-    - [Dispaly](#dispaly)
+    - [Display](#dispaly)
     - [Media Query](#media-query)
         - [Media types](#media-types)
         - [Media Features](#media-features)
@@ -1972,3 +1972,120 @@ Solutions
 
 1. set parent element `font-size` to 0 so that white space doesn't occupies any width. restore font-size on child elements.
 1. `white-space: nowrap` can force inline elements to be in same line, but the white space between child elements still exist.
+
+## Counters
+
+### Creation & Inheritance
+
+Counters are created on and scoped to an HTML element for numbering.
+
+```html
+<ol>
+  <li>item
+    <ol>
+      <li>item</li>
+      <li>item</li>
+    </ol>
+  </li>
+</ol>
+
+<style>
+ol {
+  counter-reset: ol 0;
+  list-style-type: none;
+}
+
+li:before {
+  counter-increment ol 1;
+  content: counters(ol, '-') " ";
+}
+</style>
+```
+
+Multiple counters of different names can be created on single element, counters of same name can be created on different elements. `counter-reset` can create multiple counters at once, `<integer>` specifies initial value for newly created counters, defaults to `0` if not present. `none` means to not create any new counter. Formal syntax like below
+
+```css
+counter: [ <custom-ident> <integer>?] | none
+```
+
+`counter-set` and `counter-increment` is used to alter one or more counters' value. It applies to innermost counter of specified name. If counter of specified name doesn't exist, a new counter with that name is created implicitly. If `<integer>` value not specified, `counter-set` set counter value to 0 and `counter-increment` increments counter value by 1.
+
+
+counter properties follow cascading rule so that only the last rule takes effect.
+
+```css
+/* only the section takes effect */
+h1 { counter-reset: section -1; }
+h1 { counter-reset: image 99; }
+
+/* create multiple counters in one rule */
+h1 { counter-reset: section -1 image 99; }
+```
+
+Counters are created and nested following rules below.
+
+1. If no counters of that name exist on the element, create a new counter with that name on the element.
+1. Otherwise, if a counter of that name exists on the element, and it was created by a preceding sibling, replace the innermost counter of that name on the element with a newly-created counter with that name.
+1. Otherwise, create a new counter with that name and nest it inside of the innermost counter with that name.
+
+Counters are inherited and nested in HTML document in a special way.
+
+1. name - First child of parent element inherits all counters from parent element, other child elements inherit all counters of its immediate previous sibling. Inherited counter of same name actually refers to same counter, new counter can only be created with `counter-reset` explicitly or `counter-set`/`counter-increment` implicitly.
+1. value - Inherit counter value from last previous element with same level of counter depth in document order. This allows single counter to be used across nested structure.
+
+### Manipulation
+
+`counter-set` and `counter-increment` are used to change counter values, and their formal syntax is below.
+
+```css
+[ <custom-ident> <integer>? ]+ | none
+```
+
+1. they applies to innermost counters with specified name on target element.
+1. `none` means to not change counter value
+1. they can change multiple counters at once
+1. when integer not specified, `counter-set` has a default value of `0`, `counter-increment` has a default value of `1`.
+1. when counter with specified not exist, new counters are created implicitly, which also follows rules above.
+
+### Elements Not Generating Boxes
+
+HTML elements that don't generate a box
+
+1. Element with `display: none`, not including element with `visibility: hidden`
+1. Pseudo element with `content: none`
+
+Counter related css rules are still valid on those elements, but they must have no effect.
+
+### Usage Counters
+
+`counter()` and `counters()` functions are used to get counter value as string.
+
+```js
+counter()  = counter( <custom-ident>, [ <counter-style> | none ]? )
+counters() = counters( <custom-ident>, <string>, [ <counter-style> | none ]? )
+```
+
+1. second argument is `none`, function returns empty string
+1. `counter()` applies to _innermost_ counter with specified name on target element, and transform that counter value to a appropriate representation following rules by [Counter Style Spec](https://drafts.csswg.org/css-counter-styles-3/#generate-a-counter).
+1. `counters()` applies to _nested_ counter with specified name on target element, transform each counter value to appropriate representation, then concat them with specified `<string>` argument, innermost counter value is on the right, outermost counter is on the left.
+
+Reference
+
+### Counter Processing Order
+
+Order of counter related css rules has no effect on final result. Counter related process must follow sequence below.
+
+1. Inherit counter
+1. resetting counter - `counter-reset`
+1. setting counter - `counter-set`
+1. incrementing counter - `counter-increment`
+1. using counter - `counter()` and `counters()`
+
+### Counter styles and Customization
+
+Counter styles can be customized with `@counter-style` at rule, see [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style) and [Spec](https://drafts.csswg.org/css-counter-styles-3/#generate-a-counter)
+
+### Reference
+
+1. [Automatic Numbering With Counters](https://drafts.csswg.org/css-lists-3/#auto-numbering)
+1. [CSS Counter Style Level 3](https://drafts.csswg.org/css-counter-styles-3/#generate-a-counter)
