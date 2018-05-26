@@ -1977,39 +1977,105 @@ Solutions
 
 ### Creation & Inheritance
 
-Counters are created on and scoped to an HTML element for numbering.
+Counters are created on and scoped to an HTML element for numbering. Multiple counters of different names can be created on single element, counters of same name can be created on different elements. First child element inherits all counters from parent, other child elements inherit all counters from previous sibling. When a child element creates a counter with same name as one counter inherited from parent element, counters of same name builds a nested structure with latest counter at innermost position. It's like language variable scope, multiple variables with same name are nested, inner variable hides outer variable, and any changes can only affect variable of corresponding scope.
+
+`counter-reset` is used to create counters at target element, `<integer>` specifies initial value for newly created counters, defaults to `0` if not present. `none` means to not create any new counter. Formal syntax like below
+
+```css
+counter-reset: [ <custom-ident> <integer>?] | none
+```
+
+When counter with specified name doesn't exist, `counter-reset` creates a new counter on target element. Otherwise
+When `counter-reset` creates a counter which already exists in inherited counters. Following rules apply.
+
+1. If child element inherits a counter with same name and that inherited counter is created on ancestor element, newly created counter is nested inside.
+1. If child element inherits a counter with same name and that inherited counter is created on sibling element, reset innermost counter value instead of creating a new nested counter with specified value.
 
 ```html
-<ol>
-  <li>item
-    <ol>
-      <li>item</li>
-      <li>item</li>
-    </ol>
+<ul style="counter-reset: ul 1;">&lt;ul&gt;ul[0] = 1, creates counter 'ul'
+  <li style="counter-reset: ul 2 li 3;" >&lt;li&gt;
+    ul[0].ul[1] = 1.2, inherits counter 'ul[0]', creates new counter 'ul[1]', it will be nested
+    li[0] = 3, creates new counter 'li[0]'
   </li>
-</ol>
+  <li style="counter-reset: li 4;">
+    ul[0].ul[1] = 1.2, inherits counter ul[0].ul[1]
+    li[0] = 4, reset counter li[0] to 4
+  </li>
+</ul>
+```
 
+Counters are inherited and nested in HTML document in a special way. Counter names are inherited from parent or previous sibling, counter values are inherited from immediately previous element in document order.
+
+```html
+<div style="counter-reset: item 1"> item[1] = 1, create counter 'item[1]'
+  <div style="counter-reset: item 2"> item[1].item[2] = 1.2, inherits counter 'item[1]', create counter 'item[2]' and nest inside
+    <div style="counter-reset: item 3"> item[1].item[2].item[3] = 1.2.3, inherits counter 'item[1].item[2]', create counter 'item[3]' and nested inside
+    </div>
+    <div style="counter-reset: item 4"> item[1].item[2].item[3] = 1.2.4, inherits counter 'item[1].item[2].item[3]' from sibling, reset item[3] to 4
+    </div>
+  </div>
+  <div style="counter-reset: item 5"> item[1].item[2] = 1.5, inherits counter 'item[1].item[2]' from sibling, reset item[2] = 5
+  </div>
+</div>
+```
+
+This special inheritance rule is designed so that nested html lists can be numbered with nested counters of **same name**, since it's impossible to have unique name on each level of a list, which may have many or even infinite levels. See example below.
+
+```html
 <style>
 ol {
-  counter-reset: ol 0;
+  counter-reset: section;
   list-style-type: none;
 }
 
-li:before {
-  counter-increment ol 1;
-  content: counters(ol, '-') " ";
+li::before {
+  counter-increment: section;
+  content: counters(section, ".") " ";
 }
 </style>
+
+<ol>
+  <li>item</li>          <!-- 1     -->
+  <li>item               <!-- 2     -->
+    <ol>
+      <li>item</li>      <!-- 2.1   -->
+      <li>item</li>      <!-- 2.2   -->
+      <li>item           <!-- 2.3   -->
+        <ol>
+          <li>item</li>  <!-- 2.3.1 -->
+          <li>item</li>  <!-- 2.3.2 -->
+        </ol>
+        <ol>
+          <li>item</li>  <!-- 2.3.1 -->
+          <li>item</li>  <!-- 2.3.2 -->
+          <li>item</li>  <!-- 2.3.3 -->
+        </ol>
+      </li>
+      <li>item</li>      <!-- 2.4   -->
+    </ol>
+  </li>
+  <li>item</li>          <!-- 3     -->
+  <li>item</li>          <!-- 4     -->
+</ol>
+<ol>
+  <li>item</li>          <!-- 1     -->
+  <li>item</li>          <!-- 2     -->
+</ol>
 ```
 
-Multiple counters of different names can be created on single element, counters of same name can be created on different elements. `counter-reset` can create multiple counters at once, `<integer>` specifies initial value for newly created counters, defaults to `0` if not present. `none` means to not create any new counter. Formal syntax like below
+### Manipulation
+
+`counter-set` and `counter-increment` is used to alter one or more counters' value. It applies to innermost counter of specified name. If counter of specified name doesn't exist, a new counter with that name is created implicitly. If `<integer>` value not specified, `counter-set` set counter value to 0 and `counter-increment` increments counter value by 1. Formal syntax is below.
 
 ```css
-counter: [ <custom-ident> <integer>?] | none
+[ <custom-ident> <integer>? ]+ | none
 ```
 
-`counter-set` and `counter-increment` is used to alter one or more counters' value. It applies to innermost counter of specified name. If counter of specified name doesn't exist, a new counter with that name is created implicitly. If `<integer>` value not specified, `counter-set` set counter value to 0 and `counter-increment` increments counter value by 1.
-
+1. they applies to innermost counters with specified name on target element.
+1. `none` means to not change counter value
+1. they can change multiple counters at once
+1. when integer not specified, `counter-set` has a default value of `0`, `counter-increment` has a default value of `1`.
+1. when counter with specified not exist, new counters are created implicitly, which also follows rules above.
 
 counter properties follow cascading rule so that only the last rule takes effect.
 
@@ -2022,31 +2088,6 @@ h1 { counter-reset: image 99; }
 h1 { counter-reset: section -1 image 99; }
 ```
 
-Counters are created and nested following rules below.
-
-1. If no counters of that name exist on the element, create a new counter with that name on the element.
-1. Otherwise, if a counter of that name exists on the element, and it was created by a preceding sibling, replace the innermost counter of that name on the element with a newly-created counter with that name.
-1. Otherwise, create a new counter with that name and nest it inside of the innermost counter with that name.
-
-Counters are inherited and nested in HTML document in a special way.
-
-1. name - First child of parent element inherits all counters from parent element, other child elements inherit all counters of its immediate previous sibling. Inherited counter of same name actually refers to same counter, new counter can only be created with `counter-reset` explicitly or `counter-set`/`counter-increment` implicitly.
-1. value - Inherit counter value from last previous element with same level of counter depth in document order. This allows single counter to be used across nested structure.
-
-### Manipulation
-
-`counter-set` and `counter-increment` are used to change counter values, and their formal syntax is below.
-
-```css
-[ <custom-ident> <integer>? ]+ | none
-```
-
-1. they applies to innermost counters with specified name on target element.
-1. `none` means to not change counter value
-1. they can change multiple counters at once
-1. when integer not specified, `counter-set` has a default value of `0`, `counter-increment` has a default value of `1`.
-1. when counter with specified not exist, new counters are created implicitly, which also follows rules above.
-
 ### Elements Not Generating Boxes
 
 HTML elements that don't generate a box
@@ -2056,7 +2097,7 @@ HTML elements that don't generate a box
 
 Counter related css rules are still valid on those elements, but they must have no effect.
 
-### Usage Counters
+### Using Counters
 
 `counter()` and `counters()` functions are used to get counter value as string.
 
@@ -2067,9 +2108,7 @@ counters() = counters( <custom-ident>, <string>, [ <counter-style> | none ]? )
 
 1. second argument is `none`, function returns empty string
 1. `counter()` applies to _innermost_ counter with specified name on target element, and transform that counter value to a appropriate representation following rules by [Counter Style Spec](https://drafts.csswg.org/css-counter-styles-3/#generate-a-counter).
-1. `counters()` applies to _nested_ counter with specified name on target element, transform each counter value to appropriate representation, then concat them with specified `<string>` argument, innermost counter value is on the right, outermost counter is on the left.
-
-Reference
+1. `counters()` applies to _nested_ counter with specified name on target element, transform each counter value to appropriate representation, then concatenate them with specified `<string>` argument, innermost counter value is on the right, outermost counter is on the left.
 
 ### Counter Processing Order
 
