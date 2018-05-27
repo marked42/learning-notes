@@ -2071,6 +2071,7 @@ li::before {
 [ <custom-ident> <integer>? ]+ | none
 ```
 
+1. `counter-set` is not support by now 2018.05.27, and all its function can be done by `counter-reset`, so use `counter-reset` instead
 1. they applies to innermost counters with specified name on target element.
 1. `none` means to not change counter value
 1. they can change multiple counters at once
@@ -2109,6 +2110,8 @@ counters() = counters( <custom-ident>, <string>, [ <counter-style> | none ]? )
 1. second argument is `none`, function returns empty string
 1. `counter()` applies to _innermost_ counter with specified name on target element, and transform that counter value to a appropriate representation following rules by [Counter Style Spec](https://drafts.csswg.org/css-counter-styles-3/#generate-a-counter).
 1. `counters()` applies to _nested_ counter with specified name on target element, transform each counter value to appropriate representation, then concatenate them with specified `<string>` argument, innermost counter value is on the right, outermost counter is on the left.
+
+Notice that when retrieving counter values using `counter()` and `counters()` function, if there's currently no counter with specified name exist, a new counter with that name will be created **implicitly** with default value `0`.
 
 ### Counter Processing Order
 
