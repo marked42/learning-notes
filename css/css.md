@@ -2019,7 +2019,7 @@ Counters are inherited and nested in HTML document in a special way. Counter nam
 </div>
 ```
 
-This special inheritance rule is designed so that nested html lists can be numbered with nested counters of **same name**, since it's impossible to have unique name on each level of a list, which may have many or even infinite levels. See example below.
+It's only possible to on first child element to create nested counter named 'item'. Since other child elements always inherits from sibling, which already has a counter named 'item' created on parent, Then `counter-reset: item 1` resets value of counter 'item' instead of creating a new nested counter. This special inheritance rule is designed so that nested html lists can be numbered with nested counters of **same name**, since it's impossible to have unique name on each level of a list, which may have many or even infinite levels. See example below.
 
 ```html
 <style>
