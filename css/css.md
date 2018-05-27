@@ -2071,6 +2071,7 @@ li::before {
 [ <custom-ident> <integer>? ]+ | none
 ```
 
+1. `counter-set` is not support by now 2018.05.27, and all its function can be done by `counter-reset`, so use `counter-reset` instead
 1. they applies to innermost counters with specified name on target element.
 1. `none` means to not change counter value
 1. they can change multiple counters at once
