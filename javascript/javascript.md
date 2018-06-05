@@ -1021,6 +1021,93 @@ Dispatch event at the end of handler function or use `setTimeout(..., 0)` for an
 
 [Detailed event](http://javascript.info/event-details)
 
+### Focus
+
+#### focusable element
+
+`focus` is used to indicate that an element is active now and is ready to accept user input. HTML elements with a content area is generally **focusable**. Only **focusable** element can accept focus and is said to be focused. An element is focusable if all of the following conditions are met.
+
+1. The element's `tabindex` focus flag is set.
+2. The element is either being rendered or is a descendant of a [canvas](https://www.w3.org/TR/html5/scripting-1.html#the-canvas-element) element that represents embedded content.
+3. The element is not [inert](https://www.w3.org/TR/html5/editing.html#inert-subtrees).
+4. The element is not [disabled](https://www.w3.org/TR/html5/disabled-elements.html#concept-element-disabled).
+
+By default, elements like `<input>`, `textarea`, `button` are focusable and they've a default `tabindex` of `0` which indicates that they should be navigated in document order. `tabindex` attribute can be added to make other elements focusable. List of default focusable elements depend on browser, refer to [this](https://allyjs.io/data-tables/focusable.html) a completed list of focusable elements by test.
+
+
+Reference
+
+1. [CSS `:focus` selector](https://gist.github.com/jamiewilson/c3043f8c818b6b0ccffd)
+1. [W3 ORG the `tabindex` attribute](https://www.w3.org/TR/html5/editing.html#the-tabindex-attribute)
+1. [W3 ORG focusable area](https://www.w3.org/TR/html5/editing.html#focusable)
+1. [WHATWG focusable area](https://html.spec.whatwg.org/multipage/interaction.html#focusable-area)
+
+#### focus mechanism
+
+There three levels of _focus context_.
+
+1. operating system level - focus can be on any currently running application.
+1. browser level - when browser is current application running with focus, any of its tabs can receive focus.
+1. document level - On document corresponding to active browser tab, zero or one focusable element in the document can receive focus.
+
+Document level focus context are what we talked about when we refer to focus in html document. When switching between different focus context, focus on document level remains unchanged and no related elements will be dispatched because of context switching.
+
+Focusable element can receive and lose focus in different ways.
+
+1. `autofocus`() attribute - introduce in HTML5, boolean value indicating that a form control should have focus automatically when page loads. At most one element can have this attribute in a document.
+1. change focus on user interaction.
+  1. keyboard navigation (usually `tab` key or `shift+tab` key).
+  1. mouse click - when clicking on an element, currently focused element loses focus and clicked element receives focus.
+  1. alert box receivs focus and returns it back when disappears.
+  1. other ways supported by browser.
+1. DOM API - use `element.focus()` or `element.blur()` to receive focus or lose focus. Notice that it only works focusable element, calling it on unfocusable element may have no effect or raise an error.
+
+Document may have one or more [focus ring](https://www.w3.org/TR/DOM-Level-3-Events/#focus-ring), which refers to an order list of elements that can be navigated sequantially through keyboard event. When last element in focus ring is reached, it wraps back to first one.
+
+1. [HTML5 `autofocus` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attr-autofocus)
+
+#### focus DOM API
+
+Focus related DOM API
+
+1. `element.focus()` - focus current element
+1. `element.blur()` - blur current element
+1. `element.activeElement` - currently focused element
+1. `HTMLSelectElement.autofocus` - corresponding to HTML5 `autofocus` attribute.
+1. `element.tabindex` - change element to be focusable.
+
+#### Focus Events
+
+There are four types of focus events 'focus', 'blur', 'focusin', 'focusout', which all implements same  `FocusEvent` interface.
+
+```javascript
+[Constructor(DOMString type, optional FocusEventInit eventInitDict)]
+interface FocusEvent : UIEvent {
+  readonly attribute EventTarget? relatedTarget;
+};
+
+dictionary FocusEventInit : UIEventInit {
+  EventTarget? relatedTarget = null;
+};
+```
+
+There're usually two elements involving a foucs event, one that receives focus and one loses focus. `relatedTarget` property refers to the other element except the event target. In 'focus' and 'focusin', it refers to element that loses focus. In 'blur' and 'focusout', it refers to element that receives focus.
+If there's no defautlly focused element, it's `null`.
+
+All four types of focus event can be capture, but only 'focusin', 'focusout' event _bubbles_. Focus related event happens in order as listed below when sser shifts focus (no element is initially focuse).
+
+1. focusin - Sent before first target element receives focus
+2. focus - Sent after first target element receives focus
+3. focusout	- Sent before first target element loses focus
+4. focusin - Sent before second target element receives focus
+5. blur	- Sent after first target element loses focus
+6. focus - Sent after second target element receives focus
+
+Repeated in sequantial order `focusout` -> `foucsin` -> `blur` -> `focus`.
+
+1. [W3C Focus Events](https://www.w3.org/TR/DOM-Level-3-Events/#events-focusevent)
+1. [focus/blur](http://javascript.info/focus-blur)
+
 ### Touch Events
 
 [Touch Events - Level 2 Draft Community Group Report 27 April](https://w3c.github.io/touch-events/#list-of-touchevent-types)

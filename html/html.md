@@ -408,13 +408,13 @@ ARIA requires html element to be navigable with keyboard, when an element is nav
 1. **tabbable** element can be navigated sequentially in normal order with `Tab` key, use `Shift+Tab` key to navigate sequentially in reverse order.
 1. For composite element like radio button group, all radio buttons in it is **focusable**, but only one radio button is **tabbable**. If composite element receives focus when navigated with `Tab` and `Shift+Tab` key, the only **tabbable** element is focused automatically. Other **non-tabbable** but **focusable** elements can be navigated with arrows keys.
 
-Global attribute `tab-index` indicates how an element receives and loses focus with keyboard navigation.
+Global attribute `tabindex` indicates how an element receives and loses focus with keyboard navigation.
 
 1. Negative value (`tabindex="-1"` by _default_) means an element is **focusable** but not **tabbable**.
-1. `tab-index="0"` means an element is tabbable.
+1. `tabindex="0"` means an element is tabbable.
 1. Positive value means element should be navigated in sequential order by its value. Maximum value is `32767`.
 
-Tabbable elements with positive integer value are navigated in ascending order firstly, then elements with `tab-index="0"` or invalid value are navigated by its order in document source. Elements with negative integer value for `tab-index` cannot be navigated by keyboard.
+Tabbable elements with positive integer value are navigated in ascending order firstly, then elements with `tabindex="0"` or invalid value are navigated by its order in document source. Elements with negative integer value for `tabindex` cannot be navigated by keyboard.
 
 Reference
 
@@ -423,4 +423,5 @@ Reference
 1. [interactive-supports-focus](https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/interactive-supports-focus.md)
 1. [Fundamental Keyboard Navigation](https://www.w3.org/TR/2017/NOTE-wai-aria-practices-1.1-20171214/#kbd_generalnav)
 1. [WHATWG tab-index attribute](https://html.spec.whatwg.org/multipage/interaction.html#attr-tabindex)
+1. [W3 ORG the `tabindex` attribute](https://www.w3.org/TR/html5/editing.html#the-tabindex-attribute)
 1. [MDN Keyboard and Focus](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_button_role#Keyboard_and_focus)
