@@ -15,7 +15,7 @@ block-level elements
 }
 ```
 
-**block level elements** generate block-level boxes
+**block level elements** generate block-level boxes. Browser typically display block level elements with a newline both before and after it. A block level element takes up all available space if possible.
 
 1. a principle block-level box (all)
 1. additional block-level box (`display: list-item` only, marker box)

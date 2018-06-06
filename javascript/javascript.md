@@ -778,7 +778,7 @@ If an event on descendant element is handled manually and its default actions ar
 On mobile browsers, when user touches to scroll a web page, it's expected that the web page scrolls instantly and sticks to position of user finger. When there's a human sensible lag behind between web page scroll and user touch action, it's called scroll jank. Scroll jank happens for mainly two reasons.
 
 1. Expensive event handler function are registered to 'touchmove' event.
-1. 'touchmove' event handler may invoke `e.preventDefault()` to cancel scrolling behavior (default behavior of 'touchmove' event), so scrolling behavior must wait until 'touchmove' event handlers finishes, then scrolling happens. This waiting process delays scrolling behavior and produces scroll jank.
+1. 'touchmove' event handler may invoke `e.preventDefault()` to cancel scrolling behavior (default behavior of 'touchmove' event), so scrolling behavior must wait until 'touchmove' event handlers finishes to make sure it's not prevented. This waiting process delays scrolling behavior and produces scroll jank.
 
 Expensive event handler callback should not be added to 'touchmove' event, and better use `debounce` or `throttle` to control number of executions of original event handler.
 
