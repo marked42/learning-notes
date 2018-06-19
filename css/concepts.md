@@ -46,3 +46,20 @@ Inline-level elements generate **inline-level boxes**, which participates in inl
 
 1. [W3C ORG Visual Formatting Model](https://www.w3.org/TR/CSS21/visuren.html#inline-boxes)
 1. [WHATWG CSS Display Module Level 3](https://drafts.csswg.org/css-display/#block-formatting-context)
+
+## Box Width & Margin
+
+1. margin-left + border-box-width + margin right = containing-block-width
+1. border-box-width = box-sizing == border-box ? width :
+    border-left + padding-left + content-width + padding-right + border-right 
+1. width: auto | percentage, auto makes it occupies all available space
+1. margin-left, margin-right auto, auto splits available space
+1. if over constrained, margin-right with explicit width are ignored, treated as auto and evaluated to any value that satisfies this equation in left-to-right language context, otherwise margin-left are ignored and reevaluated in right-to-left language context.
+1. for replace element with intrinsic width, 'auto' is evaluated to intrinsic width
+1. width and height scales up or down proportionally for replace element with intrinsic ratio
+1. 'auto' for margin-top/margin-bottom will evaluate to 0 instead of splitting available
+1. percentage values are calculated with respect to containing block content width or height
+1. percentage height for margin-top and margin-bottom are reset to auto if containing-block height is not explicitly specified.
+1. border width doesn't accept percentage values
+1. vertical auto height is decided by vertical space occupied by all child elements
+1. vertical margins are collapsed if possible, negative margins are collapse that distance between two contents box are margin with larger absolute value.
