@@ -1,28 +1,21 @@
 # Concepts
 
-1. containing block
-1. initial containing block
-1. content height/content width/content area/margin area
-1. line box/block level elements/block boxes/block formatting context
+## Box Generation
 
-block-level elements
+**block-level elements** generate block-level boxes. Browser typically display block level elements with a newline both before and after it. A block level element takes up all available space if possible. Element with `position` of `block`, `list-item` and `table` are block elements.
 
-```css
-.block-level-elements {
-  display: block;
-  display: list-item;
-  display: table;
-}
-```
+**block-level elements** generate **block-level box**.
 
-**block level elements** generate block-level boxes. Browser typically display block level elements with a newline both before and after it. A block level element takes up all available space if possible.
+1. all generate a principal block-level box (all)
+1. `list-item` element generates additional block-level box(marker box).
 
-1. a principal block-level box (all)
-1. additional block-level box (`display: list-item` only, marker box)
+**block-level box** are laid out vertically, each box occupies one line. **block box** are **block-level box** that's **block container box** at the same time.
 
-**block-level box** are laid out vertically, each box occupies one line.
+**Inline-level elements** are those that don't form new blocks but are distributed in lines. Element with `display` value of `inline`, `inline-block` and `inline-table` are inline elements.
 
-A **block container box** either establishes a block formatting context and thus contains only contains block boxes inside it, or establishes an inline formatting context and thus contains only inline boxes inside it.
+**Inline-level elements** generate **inline-level boxes**, which participates in inline outer formatting context. **Inline-box** is inline-level box with its content participating in inline formatting context. Inline-level boxes like replaced inline-level elements, inline-block elements, and inline-table elements are not inline boxes, they're referred as **atomic inline-level boxes** because they participate in inline formatting context as a single opaque box.
+
+**Block container box** is box that contains boxes. It either establishes a block formatting context and thus contains only contains block boxes inside it, or establishes an inline formatting context and thus contains only inline boxes inside it.
 
 1. block boxes
 1. non-replaced inline box, `display: inline-block`
@@ -30,19 +23,51 @@ A **block container box** either establishes a block formatting context and thus
 
 If a block container box has block-level box inside it, then anonymous block-level boxes are created to contain text content to ensure that block container box only contains block-level boxes.
 
-Inline-level elements are those that don't form new blocks but are distributed in lines. Following `display` properties make an element to be inline-level elements.
-
-```css
-.inline-level-elements {
-  display: inline;
-  display: inline-block;
-  display: inline-table;
-}
-```
-
-Inline-level elements generate **inline-level boxes**, which participates in inline outer formatting context. **Inline box** is inline-level box with its content participating in inline formatting context. Inline-level boxes like replaced inline-level elements, inline-block elements, and inline-table elements are not inline boxes, they're referred as atomic inline-level boxes because they participate in inline formatting context as a single opaque box.
-
 ![Box Generation](./box_generation_display.jpeg)
+
+<table>
+  <tr>
+    <th>element type</th>
+    <th>position</th>
+    <th>replaced</th>
+    <th>non-replaced</th>
+  </tr>
+  <tr>
+    <td rowspan='3'>block-level box</td>
+    <td>block</td>
+    <td rowspan='3'></td>
+    <td rowspan='2'>block box</td>
+  </tr>
+  <tr>
+    <td>list-item</td>
+  </tr>
+  <tr>
+    <td>table</td>
+  </tr>
+  <tr>
+    <td rowspan='3'>inline-level box</td>
+    <td>inline</td>
+    <td rowspan='3'>atomic inline level box</td>
+    <td>inline box</td>
+  </tr>
+  <tr>
+    <td>inline-block</td>
+  </tr>
+  <tr>
+    <td>inline-table</td>
+  </tr>
+</table>
 
 1. [W3C ORG Visual Formatting Model](https://www.w3.org/TR/CSS21/visuren.html#inline-boxes)
 1. [WHATWG CSS Display Module Level 3](https://drafts.csswg.org/css-display/#block-formatting-context)
+
+## Box Model
+
+1. border doesn't accept percentage values
+1. padding-top/padding-bottom percentage values are calculated base on parent content area width. parent element's content height would change base on its children height, while parent width doesn't.
+1. height/width percentage values are calculated to parent height/width
+
+There're two choices for content area of inline non-replaced elements left for user agent's decision.
+
+1. em box - content area has the same height as em box, which also equals font size, but some character glyphs with certain font may go beyond em box, so character glyphs of different lines may overlap with each other.
+1. highest ascender and lowest descender - character glyphs will not cross content area, but content area height is decided by used font instead of em box, so content area height is indeterminate.
