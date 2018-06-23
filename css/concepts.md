@@ -71,3 +71,20 @@ There're two choices for content area of inline non-replaced elements left for u
 
 1. em box - content area has the same height as em box, which also equals font size, but some character glyphs with certain font may go beyond em box, so character glyphs of different lines may overlap with each other.
 1. highest ascender and lowest descender - character glyphs will not cross content area, but content area height is decided by used font instead of em box, so content area height is indeterminate.
+
+## Box Width & Margin
+
+1. margin-left + border-box-width + margin right = containing-block-width
+1. border-box-width = box-sizing == border-box ? width :
+    border-left + padding-left + content-width + padding-right + border-right
+1. width: auto | percentage, auto makes it occupies all available space
+1. margin-left, margin-right auto, auto splits available space
+1. if over constrained, margin-right with explicit width are ignored, treated as auto and evaluated to any value that satisfies this equation in left-to-right language context, otherwise margin-left are ignored and reevaluated in right-to-left language context.
+1. for replaced element with intrinsic width, 'auto' is evaluated to intrinsic width
+1. width and height scales up or down proportionally for replace element with intrinsic ratio
+1. 'auto' for margin-top/margin-bottom will evaluate to 0 instead of splitting available
+1. percentage values are calculated with respect to containing block content width or height
+1. percentage height for margin-top and margin-bottom are reset to auto if containing-block height is not explicitly specified.
+1. border width doesn't accept percentage values
+1. vertical auto height is decided by vertical space occupied by all child elements
+1. vertical margins are collapsed if possible, negative margins are collapse that distance between two contents box are margin with larger absolute value.
