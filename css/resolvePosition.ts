@@ -5,7 +5,25 @@ interface PositionOptions {
   position: string,
 }
 
-function resolvePosition(options: PositionOptions) {
+function resolvePoistion(position) {
+  const positionMap = {
+    'inline-table': 'table',
+    'inline': 'block',
+    'table-row-group': 'block',
+    'table-column': 'block',
+    'table-column-group': 'block',
+    'table-header-group': 'block',
+    'table-footer-group': 'block',
+    'table-row': 'block',
+    'table-cell': 'block',
+    'table-caption': 'block',
+    'inline-block': 'block',
+  }
+
+  return positionMap[position] || position
+}
+
+function resolveLayout(options: PositionOptions, isRootElement: boolean = true) {
   const computedOptions = {...options}
 
   if (computedOptions.display === 'none') {
@@ -14,23 +32,15 @@ function resolvePosition(options: PositionOptions) {
 
   if (computedOptions.position === 'absolute' || computedOptions.position === 'fixed') {
     computedOptions.float = 'none'
+    computedOptions.position = resolvePoistion(computedOptions.position)
     return computedOptions
   }
 
-  const isRootElement = true
-
-  const map = {
-    'inline-table': 'table',
-    'inline': 'block',
-    'inline-block': 'block',
-    // omitted some more maps
-  }
-
+  // undefined whether 'list-item' computed to 'block' or 'list-item' for root element in CSS 2.1
   if (computedOptions.float !== 'none' || isRootElement) {
-    if (map[computedOptions.display]) {
-      computedOptions.display = map[computedOptions.display]
-    }
-
+    computedOptions.position = resolvePoistion(computedOptions.position)
     return computedOptions
   }
+
+  return computedOptions
 }
