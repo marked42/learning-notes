@@ -25,36 +25,39 @@ If a block container box has block-level box inside it, then anonymous block-lev
 
 ![Box Generation](./box_generation_display.jpeg)
 
-<table>
+<table style="border: 1px solid gray">
   <tr>
-    <th>element type</th>
-    <th>position</th>
-    <th>replaced</th>
-    <th>non-replaced</th>
+    <th style="border: 1px solid gray">element type</th>
+    <th style="border: 1px solid gray">position</th>
+    <th style="border: 1px solid gray">replaced</th>
+    <th style="border: 1px solid gray">non-replaced</th>
   </tr>
-  <tr>
-    <td rowspan='3'>block-level box</td>
-    <td>block</td>
-    <td rowspan='3'></td>
-    <td rowspan='2'>block box</td>
+  <tr style="border: 1px solid gray">
+    <td style="border: 1px solid gray" rowspan='3'>block-level box</td>
+    <td style="border: 1px solid gray">block</td>
+    <td style="border: 1px solid gray" rowspan='3'></td>
+    <td style="border: 1px solid gray" rowspan='2' style="border: 1px solid gray">block box</td>
   </tr>
   <tr>
     <td>list-item</td>
   </tr>
   <tr>
     <td>table</td>
+    <td></td>
   </tr>
-  <tr>
+  <tr style="border: 1px solid gray">
     <td rowspan='3'>inline-level box</td>
-    <td>inline</td>
+    <td style="border: 1px solid gray">inline</td>
     <td rowspan='3'>atomic inline level box</td>
-    <td>inline box</td>
+    <td style="border: 1px solid gray">inline box</td>
   </tr>
   <tr>
     <td>inline-block</td>
+    <td></td>
   </tr>
   <tr>
-    <td>inline-table</td>
+    <td style="border: 1px solid gray">inline-table</td>
+    <td></td>
   </tr>
 </table>
 
