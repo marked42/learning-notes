@@ -1106,7 +1106,7 @@ Cookies are divided as two types according to their lifetime.
 
 ### How it works
 
-Cookie specification is formally referred as HTTP State Management Mechanism, which enables server to able to identify same client when client visited again. Information stored inside cookie is called _client-side state_. Process of cookie creation and usage is like below.
+Cookie specification is formally referred as HTTP State Management Mechanism, which enables server to be able to identify same client when client visited again. Information stored inside cookie is called _client-side state_. Process of cookie creation and usage is like below.
 
 1. When a client first connects to a server, server will generate a unique identification number for that client and this identification number is stored on server.
 1. Server send response to client and instructs client to create cookies containing unique identification number with `Set-Cookie` header.
@@ -1225,7 +1225,7 @@ Caches are copies of visited resource stored on local machine or proxy server. I
 
 ### Cache Life Cycle
 
-Lifecyle of cache includes several phases.
+Life cycle of cache includes several phases.
 
 1. Creation - When server first receives a resource request from client, if the resource is configured to be cached, server will send a response with cache related headers like `Expires`, `Cache-Control: max-age=1000`, `ETag`, to instruct client to store feedback response as cache.
 1. Serving - When client requests cached resource, browsers first check if cache expires. If cache doesn't expire, it's used directly as response of resource request without interacting with servers.
