@@ -1222,12 +1222,21 @@ An old solution is to add an extra element in html source code or use pseudo ele
   overflow: auto;   //
   overflow: hidden; // 'hidden' can also expands element if element height is auto
 }
+
+// clearfix hack
+.element::after {
+    content: '';
+    display: block;
+    clear: both;
+}
 ```
 
 When floated element is very high and parent element cannot be expanded higher than it, drawbacks of this method appears.
 
 1. `overflow: auto` displays a scroll bar to contain floated element.
 1. `overflow: hidden` hides overflowed part of floated element.
+
+1. use `display: flow-root` to construct a BFC explicitly.
 
 In typical layout of an left floated avatar and a paragraph text, text will wrap under avatar normally, 'overflow' property can also prevent it from wrapping around avatar.
 

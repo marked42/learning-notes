@@ -5,7 +5,7 @@ interface PositionOptions {
   position: string,
 }
 
-function resolvePoistion(position) {
+function resolvePosition(position) {
   const positionMap = {
     'inline-table': 'table',
     'inline': 'block',
@@ -32,13 +32,13 @@ function resolveLayout(options: PositionOptions, isRootElement: boolean = true) 
 
   if (computedOptions.position === 'absolute' || computedOptions.position === 'fixed') {
     computedOptions.float = 'none'
-    computedOptions.position = resolvePoistion(computedOptions.position)
+    computedOptions.position = resolvePosition(computedOptions.position)
     return computedOptions
   }
 
   // undefined whether 'list-item' computed to 'block' or 'list-item' for root element in CSS 2.1
   if (computedOptions.float !== 'none' || isRootElement) {
-    computedOptions.position = resolvePoistion(computedOptions.position)
+    computedOptions.position = resolvePosition(computedOptions.position)
     return computedOptions
   }
 
