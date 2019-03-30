@@ -1207,45 +1207,6 @@ Auto Heights
 
 ### Inline Element Formatting
 
-### Float
-
-If a nonreplaced element is floated, width must be specified for that element, otherwise its width is set to zero.
-
-When an element contains only floated child elements, since floated elements are taken out of normal flow, so the calculation of element height doesn't take floated child elements into consideration, which causes elements height to be 0 if it doesn't have non-floated child elements.
-
-An old solution is to add an extra element in html source code or use pseudo element and add `clear: both` on the element to clear floats in both side.
-
-`overflow` property other than `visible` can be used to solve this problem in a neat way.
-
-```css
-.element {
-  overflow: auto;   //
-  overflow: hidden; // 'hidden' can also expands element if element height is auto
-}
-
-// clearfix hack
-.element::after {
-    content: '';
-    display: block;
-    clear: both;
-}
-```
-
-When floated element is very high and parent element cannot be expanded higher than it, drawbacks of this method appears.
-
-1. `overflow: auto` displays a scroll bar to contain floated element.
-1. `overflow: hidden` hides overflowed part of floated element.
-
-1. use `display: flow-root` to construct a BFC explicitly.
-
-In typical layout of an left floated avatar and a paragraph text, text will wrap under avatar normally, 'overflow' property can also prevent it from wrapping around avatar.
-
-![No Wrapping Around Avatar](./overflow-auto-avatar.png)
-
-1. [Clearing floats](https://www.quirksmode.org/css/clearing.html)
-1. [CSS: Clearing Floats with Overflow](http://webdesignerwall.com/tutorials/css-clearing-floats-with-overflow)
-1. [How To Clear Floats Without Structural Markup](http://www.positioniseverything.net/easyclearing.html)
-
 ### Offset Property
 
 Positioning allows you to define
