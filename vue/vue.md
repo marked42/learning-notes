@@ -78,5 +78,20 @@ Vue2.6中引入`v-slot`指令，统一普通插槽和作用域插槽，`slot`属
 </foo>
 ```
 
+`v-slot`的简化语法是`#`后面跟插槽名称，注意和`v-bind`,`v-on`等指令一样，如果指令后没有参数的话不能使用简化写法，即`#="props"`不能代替`v-slot="props"。
+
+```vue
+<foo>
+  <template #header="{ msg }">
+    Message from header: {{ msg }}
+  </template>
+
+   <template #footer>
+    A static footer
+  </template>
+</foo>
+```
+
 
 1. [New Slots Syntax](https://github.com/vuejs/rfcs/blob/master/active-rfcs/0001-new-slot-syntax.md)
+1. [Slot Syntax Shorthand](https://github.com/vuejs/rfcs/blob/master/active-rfcs/0002-slot-syntax-shorthand.md)
