@@ -2,14 +2,14 @@
 
 [**Re**presentational **S**tate **T**ransfer](http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm) is an architectural style for distributed hypermedia systems.
 
-## Architectural Design Contraints (TODO:)
+## Architectural Design Constraints (TODO:)
 
 RESTful architectural styled is derived from applying constraints to arbitrary web system design.
 
-1. Client-Server constraint separates server data storage from client using same data access interface which simplyfies servers components and improves scalability.
+1. Client-Server constraint separates server data storage from client using same data access interface which simplifies servers components and improves scalability.
 1. Communication must be stateless in that each request must contain all needed information for server to handle single request without store states between requests. Stateless constraint is a design trade-off to improve visibility, reliability and scalability at the cost of increased repetitive data between multiple requests.
 1. Cache constraint improve network efficiency at the cost of decreased scalability due to stale cache.
-1. Uniform interface constraint decouples server services from their implementation, which simplifies client interactions. Its drawback is that standadized users interface may descrease server performance when it doesn't suit acutal data requirements by client.
+1. Uniform interface constraint decouples server services from their implementation, which simplifies client interactions. Its drawback is that standardized users interface may decrease server performance when it doesn't suit actual data requirements by client.
 1. Layered System.
 1. Code On Command.
 
@@ -43,7 +43,7 @@ GET /tickets/12/messages
 GET /tickets/12/messages/4
 ```
 
-### CRUD Operaitons
+### CRUD Operations
 
 Data manipulation is specified using HTTP methods.
 
@@ -57,7 +57,7 @@ Data manipulation is specified using HTTP methods.
 | `POST /tickets/1` | `POST /tickets` | Create data | No | No |
 | `PATCH /tickets/1` | `POST /tickets` | Update data partially | No | No |
 
-_Safe_ methods don't modify resources on server, so it can be used without worring about making any unexpected changes to server status.
+_Safe_ methods don't modify resources on server, so it can be used without worrying about making any unexpected changes to server status.
 
 _Idempotent_ methods may change resources, but result of calling it once or more times is same. For example, **PUT** method will create resource if it doesn't exist at first time, following **PUT** methods would do nothing cause resource already exist. It's same for **DELETE** methods.
 
@@ -65,9 +65,9 @@ _Idempotent_ methods may change resources, but result of calling it once or more
 
 ### Beyond CRUD Operations
 
-Operations beyond CRUD should be abstracted and manipluated as a resource. 
+Operations beyond CRUD should be abstracted and manipulated as a resource.
 
-1. User loggin operation mapped to a session resource.
+1. User login operation mapped to a session resource.
     ```html
     GET http://api.host.com/session/
     ```
@@ -91,7 +91,7 @@ Request limit strategies (TODO:)
 
 Responds with **429 (Too Many Requests)** for access restriction.
 
-| Header | Explaination |
+| Header | Explanation |
 | - | - |
 | X-Rate-Limit-Limit | Allowed total number of concurrent requests |
 | X-Rate-Limit-Remaining | Allowed remaining number of concurrent requests |
@@ -99,24 +99,24 @@ Responds with **429 (Too Many Requests)** for access restriction.
 
 ### Cache
 
-Refers to cache machanism in http.
+Refers to cache mechanism in http.
 
 ### Override HTTP Method
 
-Some HTTP client only supports **GET** and **POST**. Method can be overriden by extention HTTP header to provide support for more HTTP methods.
+Some HTTP client only supports **GET** and **POST**. Method can be overridden by extension HTTP header to provide support for more HTTP methods.
 
 ```http
 POST host HTTP/1.1
 X-HTTP-Method-Override: [PUT | PATCH | DELETE]
 ```
 
-Only **POST** method can be overriden, because **GET** method should never change server data.
+Only **POST** method can be overridden, because **GET** method should never change server data.
 
 ### Filtering & Pagination
 
 Use query string to provide parameters to select a subset of a large amount of resources instead of returning all resource data.
 
-| Query String | Explaination |
+| Query String | Explanation |
 | - | - |
 | `?limit=10` | Specify number of returned resource |
 | `?offset=10` | Specify offset of record |
@@ -182,7 +182,7 @@ Resource collection.
 
 ### Status Code (TODO:)
 
-| Status Code | Explaination |
+| Status Code | Explanation |
 | - | - |
 | 200 OK | |
 | 201 Created | |
@@ -199,7 +199,7 @@ Resource collection.
 
 ### Authentication
 
-RESTful API is stateless, so that client data will not be stored on server-side. Every request from client should carray all information needed for authentication.
+RESTful API is stateless, so that client data will not be stored on server-side. Every request from client should carry all information needed for authentication.
 
 Always use SSL and don't forward a request without SSL to corresponding SSL version, throw an error directly.
 
