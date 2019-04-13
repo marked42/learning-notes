@@ -23,7 +23,6 @@
 
 1. 定时器 `setTimeout`/`setInterval`/`setImmediate`
 1. MessageChannel
-1. requestAnimationFrame,
 1. I/O
 1. UI渲染
 
