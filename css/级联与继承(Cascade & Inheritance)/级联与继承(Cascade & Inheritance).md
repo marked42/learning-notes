@@ -1,15 +1,6 @@
 # [级联与继承(Cascade & Inheritance)](https://drafts.csswg.org/css-cascade-4/)
 
-<!-- ```graphviz
-digraph cascade_inheritance {
-    rankdir=TB;
-
-    node[shape=box];
-
-    Filtering -> DeclaredValues
-    Filtering -> Cascading
-}
-``` -->
+![cascade inheritance](./cascade-inheritance.png)
 
 ## 获取样式文件
 
