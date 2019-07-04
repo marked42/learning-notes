@@ -19,17 +19,39 @@ RESTful architectural styled is derived from applying constraints to arbitrary w
 
 1. Services placed at special domain `https://api.example.com`
 1. API version placed inside URL `https://api.example.com/v1`
-1. URL is case sensitive, so use lower case consistently.
-1. Use URL with suffix backward slash '/' consistently. Redirect URL `/posts` to URL `/posts/` with backward slash address.
+1. URL中协议名称大小写不敏感，但是其余部分大小写敏感，统一使用小写字母。
+1. Use URL with suffix backward slash '/' consistently. Redirect URL `/posts` to URL `/posts/` with backward slash address. 不使用'/'作为路径结尾字符。
 1. Use dash (-) instead of underscore (_) for url segment composed of multiple words to avoid clashing with URL links shown with underscore by default.
     ```html
     /api/feature-post
     ```
+1. URL不要添加文件后缀，应该通过HTTP协议中`Content-Type`字段来指示内容类型。
 1. Use query string to specify parameters on target resource.
+1. 使用统一的子域名
+    ```html
+    // 后台接口使用api子域名
+    http://api.bluestar.com
+    // 开发者使用developer子域名
+    http://developer.bluestar.com
+    ```
 
 ### Resource Abstraction
 
-Data is abstracted as resource, resource name should be meaninful nouns. Endpoint resource name is prefered to be plural consistently, specify resource id to identify single resource in a collection. This ensures same route prefix for single resource and resource collection, which is easily handled by same controller in practice.
+资源分为单个资源和复数资源
+
+1. 单个资源名称用单数，复数资源名称用复数
+1. 资源之间可以嵌套包含，形成的路径也就是嵌套的形式
+1. 对单个资源的操作分为两类，增删改查等有对应HTTP方法的操作和其他操作。
+    ```html
+    // 增删改查的使用HTTP方法和资源路径共同确定
+    GET/POST/PUT/DELETE http://api.bluestart.com/users
+
+    // 其他类型操作使用POST方法与特定动词词组共同确定
+    GET/POST/PUT/DELETE http://api.bluestart.com/users/adam/logout
+    ```
+1. query部分可以用来对复数资源进行过滤，典型应用是分页。另外也可以作为附加参数功能使用。
+
+Data is abstracted as resource, resource name should be meaningful nouns. Endpoint resource name is preferred to be plural consistently, specify resource id to identify single resource in a collection. This ensures same route prefix for single resource and resource collection, which is easily handled by same controller in practice.
 
 ```http
 GET /tickets

@@ -18,3 +18,17 @@ Notes on Web Knowledge
 - [ ] HTTP Authentication and tokens
 - [ ] image-previewer
 - [ ] Popup窗口设计
+
+1. typescript export function declaration only `export function h(sel: any, data: VNodeData, children: VNodeChildren);`
+
+## Vue
+
+1. an reactive data system
+1. an vnode structure/update
+1. slot
+1. component events
+1. lifecycle
+1. render
+1. template engine
+1. store data management
+1. router
