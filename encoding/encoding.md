@@ -265,7 +265,7 @@ UTF-8网络传输使用,内存操作使用UTF-16.
 
 Windows与Linux平台下使用的默认编码并不相同, 因此同一文件在不同系统间会造成显示乱码的现象. Windows系统下使用默认编码ANSI(America Nantional Standards Institue), ANSI并不指某个固定编码, 在Win7简体中文系统下ANSI就是GBK编码, 在港台地区可能是Big5(繁体中文的一种编码方案), 在欧洲可能是(Latin-1). 即使都是简体中文系统, XP和Win7的默认编码也肯能不一致.
 Linux系统下的默认编码都是不带BOM的UTF-8编码.
-Windows平台下的记事本编码比较坑爹, 如下图中显示有四种编码. 
+Windows平台下的记事本编码比较坑爹, 如下图中显示有四种编码.
  ![notepad_encoding](./notepad_encoding.png)
 但是指代的具体编码却并不明显, 如下表, ANSI默认为GBK编码, Unicode实际上指的是, 与Unicode big endian(UTF-16-BE)对应, 注意UTF-16都是带有BOM的, UTF-8
 
@@ -323,6 +323,72 @@ set fileencodings=ucs-bom,gbk,utf-8,gb18030,big5,euc-jp,euc-kr,latin1
 由于前几行都是ASCII字符, 这种策略首先使用ASCII对于文件进行解码, 获得指定的正确编码后在对文件重新解码.
 
 ## JavaScript
+
+JavaScript使用UTF16编码，没有字符类型，对于单个字符用内容相同的字符串表示。设计上对于字符串码点（Code Point）相关操作只提供**常量时间**的接口。
+
+1. `str.charAt(index)` 返回下标`index`对应的代码单元（2个字节)代表的单个字符形成的字符串，不考虑代理对因素。
+1. `str.charCodeAt(index)` 返回下标`index`对应的代码单元整数值 [0, 65536) 之间，不考虑代理对的因素。
+1. `str.codePointAt(index)` 返回下标`index`对应的字节处的字符码点，如果`index`位置开始的四个字节不是合法的代理对，直接返回`index`开始的两个字节对应的代码单元代表的码点。
+
+检查UTF16编码字节流是否合法，获取字符串中Unicode字符个数，获取字符串从左到右第几个Unicode字符等操作是线性时间操作，JavaScript没有直接提供内置实现。
+
+```javascript
+/**
+ * find code point count in a string
+ * @param {*} str target string whose unicode character count will be returned
+ * @returns unicode character count of input string
+ */
+export function getCodePointCount(str) {
+  function isSurrogatePairHigh(code) {
+    if (!Number.isInteger(code)) {
+      throw new Error(`code ${code} must be integer`)
+    }
+
+    return code >= 0xD800 && code <= 0xDBFF
+  }
+
+  function isSurrogatePairLow(code) {
+    if (!Number.isInteger(code)) {
+      throw new Error(`code ${code} must be integer`)
+    }
+
+    return code >= 0xDC00 && code <= 0xDFFF
+  }
+
+  if (typeof str !== 'string') {
+    throw new Error('str is not string')
+  }
+
+  let count = 0
+
+  for (let i = 0; i < str.length;) {
+    const charCode = str.charCodeAt(i)
+
+    if (isSurrogatePairHigh(charCode)) {
+      const nextCharCode = str.charCodeAt(i + 1)
+      if (Number.isNaN(nextCharCode)) {
+        throw new Error('[invalid utf16 sequence]: string ends in unpaired high surrogate')
+      }
+
+      if (!isSurrogatePairLow(nextCharCode)) {
+        throw new Error(`[invalid utf16 code sequence]: high surrogate pair not followed by low part, (${charCode} at ${i} is high, ${nextCharCode} at ${i + 1} is not low)`)
+      }
+      count += 1
+      i += 2
+    } else if (isSurrogatePairLow(charCode)) {
+      throw new Error(`[invalid utf16 code sequence]: low surrogate pair ${charCode} at ${i} not preceded by high part`)
+    } else {
+      count += 1
+      i += 1
+    }
+  }
+
+  return count
+}
+
+```
+
+查找从左到右第几个Code Point实现可以参考[mdn knownCharCodeAt](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/charCodeAt)。
 
 ## C++
 
