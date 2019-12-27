@@ -96,14 +96,6 @@
     - [asm.js](#asmjs)
     - [Benchmark.js](#benchmarkjs)
     - [Tail Call Optimization](#tail-call-optimization)
-  - [Module](#module)
-    - [CommonJS](#commonjs)
-      - [require()](#require)
-      - [module.exports &amp; exports](#moduleexports-amp-exports)
-    - [ES6 module](#es6-module)
-      - [Import](#import)
-      - [Export](#export)
-      - [默认导出与命名导出](#%e9%bb%98%e8%ae%a4%e5%af%bc%e5%87%ba%e4%b8%8e%e5%91%bd%e5%90%8d%e5%af%bc%e5%87%ba)
   - [Snippets](#snippets)
     - [Debounce](#debounce)
     - [Throttle](#throttle)
@@ -3094,26 +3086,6 @@ function factorial(n) {
   return fact(n, 1);
 }
 ```
-
-## Module
-
-### CommonJS
-
-#### `require()`
-
-#### `module.exports` & `exports`
-
-### ES6 module
-
-#### Import
-
-#### Export
-
-
-#### 默认导出与命名导出
-
-https://github.com/xitu/gold-miner/blob/master/TODO1/stop-using-default-exports-javascript-module.md
-
 
 ## Snippets
 
