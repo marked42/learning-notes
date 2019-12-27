@@ -500,3 +500,78 @@ declare var d3: D3.Base;
 ### 别名
 
 别名（alias）使用`import q = x.y.z`可以为命名空间或者模块中导出的对象起一个别名，方便使用。
+
+## 编译环境
+
+### 默认全局环境
+
+Typescript编译环境默认都带有一个`lib.d.ts`文件，其中定了常见的浏览器宿主环境和Javascript规定的API的类型定义，默认使用这个定义文件为全局环境提供常见的定义信息。如果想要细粒度控制全局环境中的类型信息可以使用`--noLib`命令行参数或者在tsconfig.json的`lib: false`配置来禁用`lib.d.ts`文件。使用`--lib`参数或者配置文件编译选项`lib: string[]`来指定具体使用的全局API定义，Typescript中默认包含了很多预先定义好的类型定义文件。
+
+```bash
+tsc --target es5 --lib dom,es6
+```
+
+或者
+
+```json
+"compilerOptions": {
+    "lib": ["dom", "es6"]
+}
+```
+
+可用的类型定义文件大致如下：
+
+1. JavaScript 功能
+    - es5
+    - es6
+    - es2015
+    - es7
+    - es2016
+    - es2017
+    - esnext
+1. 运行环境
+    - dom
+    - dom.iterable
+    - webworker
+    - scripthost
+1. ESNext 功能选项
+    - es2015.core
+    - es2015.collection
+    - es2015.generator
+    - es2015.iterable
+    - es2015.promise
+    - es2015.proxy
+    - es2015.reflect
+    - es2015.symbol
+    - es2015.symbol.wellknown
+    - es2016.array.include
+    - es2017.object
+    - es2017.sharedmemory
+    - esnext.asynciterable
+
+注意使用较新的API时Typescript只提供了类型定义信息，相关Polyfill要另外引入，否则无法使用。
+
+### 三方库全局环境
+
+寻找一个[三方库全局环境的类型定义](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html#types-typeroots-and-types)时首先会去库本身的目录`./node_modules/lib-name`下去查找自带的类型定义文件，即`.ts`、`.tsx`、`d.ts`或者`package.json`的`types`字段指定的文件。对于Javascript实现的不带有类型定义文件的库，社区项目Definitely Typed为大多数库提供了定义文件，这些文件位于`./node_modules/@types`文件夹下。使用如下命令为JQuery安装类型定义文件：
+
+```bash
+npm install @types/jquery --save-dev
+```
+
+库类型文件查找的过程是从当前目录向上直到项目根目录，在每个目录下查找`./node_modules/@types/lib-name`目录对应库`lib-name`的类型定义。其中项目所在目录名称@types可用typeRoots选项配置，要引入的库`lib-name`由`types`选项配置。
+
+```json
+{
+   "compilerOptions": {
+       // 类型定义库目标目录名，可以有多个，此字段不存在时默认使用 '@types'
+       "typeRoots" : ["./typings"],
+
+       // 要引入的类型定义库名称，此字段不存在时目录下所有库都会被引入
+       // 需要精确控制库类型定义时使用此字段明确要引入的库类型定义，其他库不会引入，使用空数组完全禁用库类型自动引入
+       "types" : ["node", "lodash", "express"]
+   }
+}
+```
+
+一个类型定义库目录可能是包含一个`index.d.ts`文件或者一个`package.json`文件其中`types`字段指定了类型定义文件名。
