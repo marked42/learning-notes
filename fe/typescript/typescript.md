@@ -160,23 +160,112 @@ function create<T>(c: {new(): T; }): T {
 }
 ```
 
-## Enum
+## 枚举
 
-Enum value can be number or string, and it's value must be able to determined in compile time.
+### 数字与字符串枚举
+
+枚举值可以是数字或者字符串，数字类型的枚举适用于区分若干个不同类型，但并不关心具体具体值；字符串枚举在需要查看枚举值的时候使用，通常使用说明性的文字内容作为枚举值。数字枚举和字符串枚举类型允许混合使用，但是除非必须通常不要混合使用数字和字符串类型枚举。
+
+如果枚举值没有指定初始值的话必须是第一个枚举或者前面跟了一个有初始值的数字枚举，数字枚举值根据之前的值递增决定。字符串类型没有明确的递增规则所以必须显示指定初始值。枚举值在编译期间就需要计算确定，因此只能使用数字或者字符串字面量或者常量表达式（由数字、字符串、其他枚举值组成）。
+
+数字枚举和字符串枚举运行时行为稍有差异，数字枚举编译时有反向映射，即从枚举值（数字）到枚举名称（字符串）的映射，字符串枚举值没有反向映射。手动指定枚举值的话可能出现多个枚举的值相同的情况，编译器对此不做限制，但是使用时避免出现这种情况。多对一的正向映射其反向映射只有最后一个枚举值生效，这种不一致的情况可能造成误判。
+
+枚举类型同时也可以作为命名空间使用，在同名的命名空间上声明枚举类型的静态函数，编译到js时枚举类型和命名空间都只是个普通的变量。
 
 ```ts
 enum Direction {
-  Left,   // first enum value is considered 0 if value not specified
-  Right,  // other enum value will be 1 plus preceding enum value
+  // 初始化为0
+  Up,
+  // 递增初始化为1
+  Down,
+  Left,
+
+  // 手动指定为1，允许重复的枚举值，编译器对次不做检查
+  Right = Down,
 }
+
+namespace Direction {
+  export function isUp(direction: Direction): boolean {
+    return direction === Direction.Up;
+  }
+}
+
+// false
+Direction[Direction.Down] === "Down";
+// true
+Direction[Direction.Down] === "Right";
+// true
+Direction[Direction.Right] === "Right";
+
+// 编译的js
+var Direction;
+(function (Direction) {
+    // 初始化为0
+    Direction[Direction["Up"] = 0] = "Up";
+    // 递增初始化为1
+    Direction[Direction["Down"] = 1] = "Down";
+    Direction[Direction["Left"] = 2] = "Left";
+    // 手动指定为1，允许重复的枚举值，编译器对次不做检查
+    Direction[Direction["Right"] = 1] = "Right";
+})(Direction || (Direction = {}));
+(function (Direction) {
+    function isUp(direction) {
+        return direction === Direction.Up;
+    }
+    Direction.isUp = isUp;
+})(Direction || (Direction = {}));
 ```
 
-When all enum values are constant enum members initialized to
+### 常量枚举
 
-1. number literal (maybe prefixed with unary sign `-`/`+`)
-1. string literal
+使用`const enum`语法声明常量枚举，常量枚举默认情况下不会编译生成对应的Javascript对象，所用使用到枚举值的地方被内联替换为常量值。使用命令行参数`--preserveConstEnums`可以指定为常量枚举编译生成对应的Javascript对象。
 
-Each enum member becomes a type and enum itself becomes a union type of all enum members.
+```ts
+const enum Directions {
+    Up,
+    Down,
+    Left,
+    Right
+}
+
+let directions = [Directions.Up, Directions.Down, Directions.Left, Directions.Right]
+```
+
+### 开放式枚举
+
+一个模块中同一个枚举可以多处定义，只要这些定义不重复，同时多处定义只允许有最多有一个定义的第一个枚举值没初始化。和命名空间处理方法相同，为每处定义生成对应的Javascript代码，将所有枚举值聚合到一个普通Javascript对象上。通常在多个脚本文件（都属于全局模块）中使用开放式枚举，一个模块文件中也可如此使用，但是通常来说没有必要。
+
+```ts
+enum Color {
+  Red,
+  Green,
+  Blue
+}
+
+enum Color {
+  DarkRed = 3,
+  DarkGreen,
+  DarkBlue
+}
+
+// 对应js
+var Color;
+(function (Color) {
+    Color[Color["Red"] = 0] = "Red";
+    Color[Color["Green"] = 1] = "Green";
+    Color[Color["Blue"] = 2] = "Blue";
+})(Color || (Color = {}));
+(function (Color) {
+    Color[Color["DarkRed"] = 3] = "DarkRed";
+    Color[Color["DarkGreen"] = 4] = "DarkGreen";
+    Color[Color["DarkBlue"] = 5] = "DarkBlue";
+})(Color || (Color = {}));
+//# sourceMappingURL=enum.js.map
+```
+
+### 枚举类型信息
+
+每个声明的枚举值同时是一个类型，而枚举类型是所有单个枚举值类型的联合类型（union type）。
 
 ```ts
 enum ShapeKind {
@@ -201,52 +290,29 @@ let c: Circle = {
 }
 ```
 
-Integer enum members have reverse mapping, which maps from value to numeric key.
+直接枚举名称作为类型时实际上使用的是普通的Javascript对象类型（数字或者字符串），使用`typeof`关键字来明确使用其对应的枚举类型信息。
 
 ```ts
-enum Enum {
-    A
-}
-let a = Enum.A;
-let nameOfA = Enum[a]; // "A"
-```
-
-Enum is compiled as an actual object, so it may be passed around as an normal variable.
-
-```js
-var Enum;
-(function (Enum) {
-    Enum[Enum["A"] = 0] = "A";
-})(Enum || (Enum = {}));
-var a = Enum.A;
-var nameOfA = Enum[a]; // "A"
-```
-
-Const enums can only use constant enum expression and are removed completely during compilation. Any use of const enum members are inlined (replace with corresponding constant value).
-
-```ts
-const enum Directions {
-    Up,
-    Down,
-    Left,
-    Right
+enum LogLevel {
+    ERROR, WARN, INFO, DEBUG
 }
 
-let directions = [Directions.Up, Directions.Down, Directions.Left, Directions.Right]
-```
+/**
+ * This is equivalent to:
+ * type LogLevelStrings = 'ERROR' | 'WARN' | 'INFO' | 'DEBUG';
+ */
+type LogLevelStrings = keyof typeof LogLevel;
 
-Uninitialized enum `B` is considered as computed and it's value is not calculated from previous enum value since ambient enums are declared to describe existed enums.
-
-```ts
-declare enum Enum {
-  A = 1,
-  B,
-  C = 2
+function printImportant(key: LogLevelStrings, message: string) {
+    const num = LogLevel[key];
+    if (num <= LogLevel.WARN) {
+       console.log('Log level key is: ', key);
+       console.log('Log level value is: ', num);
+       console.log('Log level message is: ', message);
+    }
 }
+printImportant('ERROR', 'This is a message');
 ```
-
-## Type Compatibility
-
 
 ## 模块和命名空间
 
