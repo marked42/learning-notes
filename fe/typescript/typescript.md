@@ -359,6 +359,32 @@ mathLib.isPrime(2);
 
 ### 模块解析
 
+相对路径模块
+
+1. `/`、`./`、`../`开头的模块名称，不会解析成ambient module declaration
+1. 绝对路径模块会已`baseUrl`或者路径映射（path mapping）的方式解析，可以解析成ambient module declaration
+
+Typescript模块解析和Node.js保持一致，区别在于
+
+1. 搜索文件.ts/.tsx/.d.ts，
+1. 在`package.json`文件中由`types`字段指定模块主文件位置。
+1. 另外增加node_modules文件夹下的@types文件夹搜索
+1. baseUrl: 命令行参数或者`tsconfig.json`文件指定的一个相对或者绝对路径
+1. path mapping配置
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".", // This must be specified if "paths" is.
+    "paths": {
+      "jquery": ["node_modules/jquery/dist/jquery"] // This mapping is relative to "baseUrl"
+    }
+  }
+}
+```
+
+使用--traceResolution参数显示模块解析过程。
+
 ### 命名空间
 
 [命名空间](https://www.typescriptlang.org/docs/handbook/namespaces.html)用来将逻辑上相关的一组变量、类、接口等聚合在一起，放到同一个命名空间下。命名空间内的变量通常只在该命名空间下可见，在外部使用同样要用`export`进行导出。
