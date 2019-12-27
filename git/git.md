@@ -1,22 +1,9 @@
 # Git
 
-- [Git](#git)
-    - [Setup](#setup)
-        - [Generating Account](#generating-account)
-        - [Configuration](#configuration)
-    - [Commit Message](#commit-message)
-        - [Commit Message Style Guide](#commit-message-style-guide)
-        - [Tools](#tools)
-    - [Undo Changes](#undo-changes)
-    - [Workflow](#workflow)
-        - [Centralized Workflow](#centralized-workflow)
-        - [Feature Branching Workflow](#feature-branching-workflow)
-        - [Gitflow](#gitflow)
-        - [Forking flow](#forking-flow)
-    - [Amend Last Commit](#amend-last-commit)
-    - [Merging and Rebasing](#merging-and-rebasing)
-        - [Interactive Rebasing](#interactive-rebasing)
-        - [Abortion](#abortion)
+TODO:
+
+1. https://zhuanlan.zhihu.com/p/34844206
+1. https://zhuanlan.zhihu.com/p/38245039
 
 ## Setup
 

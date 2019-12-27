@@ -1,5 +1,10 @@
 # Node
 
+TODO:
+
+1. https://zhuanlan.zhihu.com/p/38187460
+1. https://zhuanlan.zhihu.com/p/38095069
+
 ## Contents
 
 1. Fundamentals [2, 3, 5]

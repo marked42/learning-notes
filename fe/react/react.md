@@ -1,27 +1,27 @@
 # React
 
 - [React](#react)
-    - [`setState()`](#setstate)
-        - [Shallow State Merge](#shallow-state-merge)
-        - [Batched State Change](#batched-state-change)
-    - [`React.Children`](#reactchildren)
-        - [Counting Children](#counting-children)
-        - [Looping over Children](#looping-over-children)
-        - [Convert Children to Array](#convert-children-to-array)
-        - [Single Child](#single-child)
-        - [Editing Children](#editing-children)
-    - [Performance Optimization](#performance-optimization)
-        - [Anti Patterns](#anti-patterns)
-        - [Tools](#tools)
-            - [Chrome DevTools](#chrome-devtools)
-            - [why-did-you-update](#why-did-you-update)
-            - [React Developer Tools for Chrome](#react-developer-tools-for-chrome)
-    - [Patterns](#patterns)
-        - [Pass Down Props](#pass-down-props)
-        - [Conditional Rendering](#conditional-rendering)
-        - [Container Components](#container-components)
-        - [Render Callback and Render Props Pattern](#render-callback-and-render-props-pattern)
-        - [Context and Provider Pattern](#context-and-provider-pattern)
+  - [setState()](#setstate)
+    - [Shallow State Merge](#shallow-state-merge)
+    - [Batched State Change](#batched-state-change)
+  - [React.Children](#reactchildren)
+    - [Counting Children](#counting-children)
+    - [Looping over Children](#looping-over-children)
+    - [Convert Children to Array](#convert-children-to-array)
+    - [Single Child](#single-child)
+    - [Editing Children](#editing-children)
+  - [Performance Optimization](#performance-optimization)
+    - [Anti Patterns](#anti-patterns)
+    - [Tools](#tools)
+      - [Chrome DevTools](#chrome-devtools)
+      - [why-did-you-update](#why-did-you-update)
+      - [React Developer Tools for Chrome](#react-developer-tools-for-chrome)
+  - [Patterns](#patterns)
+    - [Pass Down Props](#pass-down-props)
+    - [Conditional Rendering](#conditional-rendering)
+    - [Container Components](#container-components)
+    - [Render Callback and Render Props Pattern](#render-callback-and-render-props-pattern)
+    - [Context and Provider Pattern](#context-and-provider-pattern)
 
 ## `setState()`
 
@@ -146,7 +146,7 @@ function setState(updater, callback) {
         this.state
       )
 
-      // trigger component update and provide this.state and 
+      // trigger component update and provide this.state and
       // nextState as arguments to component lifecycle methods
       // callback is not processed here
 
@@ -703,3 +703,5 @@ Context makes parent properties easily accessible to descendant components, but 
 ```jsx
 
 ```
+
+https://zhuanlan.zhihu.com/p/34237442

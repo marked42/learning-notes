@@ -668,3 +668,7 @@ Base64 index table is used to encode 6 bits as ASCII character.
 | 15 | P | 31 | f | 47 | v | 63 | / |
 
 Algorithm for Encoding and Decoding
+
+TODO:
+
+1. https://zhuanlan.zhihu.com/p/46216008

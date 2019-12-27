@@ -1,6 +1,7 @@
 # 模块化
 
-https://github.com/xitu/gold-miner/blob/master/TODO1/stop-using-default-exports-javascript-module.md
+1. https://github.com/xitu/gold-miner/blob/master/TODO1/stop-using-default-exports-javascript-module.md
+1. https://zhuanlan.zhihu.com/p/40733281
 
 default导出不利于treeshaking
 
