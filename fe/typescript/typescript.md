@@ -160,6 +160,78 @@ function create<T>(c: {new(): T; }): T {
 }
 ```
 
+## 接口
+
+一个普通的Javascript对象是一组键值对（Object）的实例，为了描述对象可能的情况，Typescript中的接口被设计用来描述对象的形状（Shape），即对象可能含有哪些键（key），这些键是否只读（readonly）、键对应的的值类型是什么。符合接口描述对象形状的对象自动视作接口类型，而不必显式实现接口，称为鸭子类型（duck typing）或者结构化类型（structural typing）。
+
+在函数参数返回值等需要接口类型的地方可以直接使用字面量对象定义类型信息。
+
+```js
+function printLabel(labeledObj: { label: string }) {
+    console.log(labeledObj.label);
+}
+
+let myObj = {size: 10, label: "Size 10 Object"};
+printLabel(myObj);
+```
+
+接口属性可以是只读`readonly`和可选的`optional`。
+
+```ts
+interface SquareConfig {
+    color?: string;
+    width?: number;
+}
+
+interface Point {
+    readonly x: number;
+    readonly y: number;
+}
+```
+
+判断一个对象是否符合接口定义时只需要对象满足接口定义的所有键值类型信息即可，对象允许包含接口定义之外的键值。但是字符串字面值赋值给其他变量时会严格检查所有键值对，要求所有键值不多不少精确匹配，这样可以避免不小心的拼写错误。
+
+```ts
+interface SquareConfig {
+    color?: string;
+    width?: number;
+}
+
+function createSquare(config: SquareConfig): { color: string; area: number } {
+    // ...
+}
+
+// 注意此处拼写不一致 colour -> color
+let mySquare = createSquare({ colour: "red", width: 100 });
+```
+
+当然最好是对一个对象的所有可能键值类型都进行定义。
+
+```ts
+interface SquareConfig {
+    color?: string;
+    width?: number;
+    // color, width之外的string类型key其值可以是任意类
+    [propName: string]: any;
+}
+```
+
+### 函数类型
+
+接口可以用来描述函数的类型，接口定义中使用只有参数列表和返回值类型而没有实现的定义描述函数类型。一个接口可以声明多个函数类型定义，一个函数只需要满足其中一个定义即可认为是该接口描述的类型。
+
+### Indexable Types
+
+使用下标语法声明字符串（string）、数字（number）、符号（symbol）类型类型的键对应的值类型。
+
+```ts
+interface NumberDictionary {
+    // 只读
+    readonly [index: string]: number;
+    length: number;    // ok, length is a number
+    name: string;      // error, the type of 'name' is not a subtype of the indexer
+```
+
 ## 声明合并
 
 Typescript中每个声明会在命名空间、类型、值三个范围内创建实体。
