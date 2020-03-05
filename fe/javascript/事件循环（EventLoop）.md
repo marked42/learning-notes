@@ -25,6 +25,7 @@
 1. MessageChannel
 1. I/O
 1. UI渲染
+1. requestAnimationFrame
 
 ### 微任务
 
@@ -56,16 +57,15 @@ console.log('script end');
 
 运行结果是
 
-1. 脚本顺序执行
+1. 脚本顺序执行，本身就是一个任务
     ```
     script start
-    script start
+    script end
     ```
 1. 脚本执行完后进入清除阶段，检查微任务执行点，执行Promise添加的两个微任务
     ```
     promise1
     promise2
-    setTimeout
     ```
 1. 执行`setTimeout`添加的任务
     ```
@@ -135,8 +135,8 @@ outer.addEventListener('click', onClick);
     ```
 1. 回调函数执行完毕，顺序执行两个定时器函数的任务回调函数。
     ```
-    task
-    task
+    timeout
+    timeout
     ```
 
 ### 例子3
@@ -168,3 +168,5 @@ timeout
 ## 参考
 
 1. [知乎问题](https://www.zhihu.com/question/55364497/answer/144215284)
+1. https://zhuanlan.zhihu.com/p/35958023
+1. https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop

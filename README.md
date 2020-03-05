@@ -2,13 +2,12 @@
 
 Notes on Web Knowledge
 
-## TODO
+面试题
 
-- [ ] semver
-- [ ] 防抖与节流
-- [ ] 浏览器渲染机制reflow repaint
-- [ ] DOM事件
-- [ ] half px border in new ui
-- [ ] 登陆态,单点登录
-- [ ] js-cookie
-- [ ] HTTP Authentication and tokens
+1. https://github.com/qiu-deqing/FE-interview
+1. https://juejin.im/post/5aae076d6fb9a028cc6100a9
+1. cookie httpOnly Secure SameSite Lax
+1. XSS CRSF
+
+1. https status code
+1. 浏览器渲染
