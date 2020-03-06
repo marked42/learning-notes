@@ -1,89 +1,87 @@
 # HTTP
 
 - [HTTP](#http)
-    - [**U**niform **R**esrouce **I**dentifier](#uniform-resrouce-identifier)
-        - [Syntax](#syntax)
-        - [Absolute and Relative URLs](#absolute-and-relative-urls)
-        - [Percent Encoding (URL Encoding)](#percent-encoding-url-encoding)
-    - [HTTP Message](#http-message)
-        - [Terminology](#terminology)
-        - [Message Syntax](#message-syntax)
-        - [HTTP Methods](#http-methods)
-            - [GET](#get)
-            - [HEAD](#head)
-            - [PUT](#put)
-            - [DELETE](#delete)
-            - [POST](#post)
-            - [TRACE](#trace)
-            - [OPTIONS](#options)
-            - [CONNECT](#connect)
-            - [Extension Methods](#extension-methods)
-        - [Headers](#headers)
-            - [General Headers](#general-headers)
-            - [Request Headers](#request-headers)
-            - [Response Headers](#response-headers)
-            - [Entity Headers](#entity-headers)
-            - [Extension Headers](#extension-headers)
-        - [Status Code](#status-code)
-            - [100-199 Informational Status Code](#100-199-informational-status-code)
-                - [100 Continue](#100-continue)
-            - [200-299 Success Status Code](#200-299-success-status-code)
-            - [300-399 Redirect Status Code](#300-399-redirect-status-code)
-            - [400-499 Client Error Status Code](#400-499-client-error-status-code)
-            - [500-599 Server Error Status Code](#500-599-server-error-status-code)
-    - [Connection Management](#connection-management)
-        - [TCP Handshake Delay](#tcp-handshake-delay)
-            - [Delayed Acknowledgement](#delayed-acknowledgement)
-            - [TCP Slow Start](#tcp-slow-start)
-            - [Nagle's Algorithm & TCP_NODELAY](#nagles-algorithm-tcpnodelay)
-            - [TIME_WAIT Accumulation & Port Exhaustion](#timewait-accumulation-port-exhaustion)
-        - [Connection](#connection)
-            - [Serial Connection](#serial-connection)
-            - [Parallel Connection](#parallel-connection)
-            - [Persistent Connection](#persistent-connection)
-            - [Pipelined Connection](#pipelined-connection)
-            - [Connection Header](#connection-header)
-    - [Media Types](#media-types)
-    - [Cookie](#cookie)
-        - [How it works](#how-it-works)
-        - [Create Cookies](#create-cookies)
-            - [Version 0 (Netscape) Cookies](#version-0-netscape-cookies)
-            - [Version 1 (RFC 2965) Cookies](#version-1-rfc-2965-cookies)
-        - [Client-side Cookie Storage](#client-side-cookie-storage)
-        - [Libs](#libs)
-    - [Cache](#cache)
-        - [Basic Terminology](#basic-terminology)
-        - [Cache Life Cycle](#cache-life-cycle)
-        - [Cache Storage Strategy](#cache-storage-strategy)
-        - [Cache Expiration Strategy](#cache-expiration-strategy)
-            - [Time Limit Expiration](#time-limit-expiration)
-                - [Explicit Expiration](#explicit-expiration)
-                - [Heuristic Expiration (Implicit Expiration)](#heuristic-expiration-implicit-expiration)
-            - [Resource Content Expiration](#resource-content-expiration)
-            - [Revalidation](#revalidation)
-                - [Cache Revalidation Directives](#cache-revalidation-directives)
-                - [Revalidation By ETag](#revalidation-by-etag)
-                - [Revalidation By Time](#revalidation-by-time)
-            - [Request Stale Cache](#request-stale-cache)
-            - [Hitting Proxy Cache](#hitting-proxy-cache)
-            - [Manual Page Refresh](#manual-page-refresh)
-        - [Serving Request with Cache](#serving-request-with-cache)
-        - [Which Cache Strategy Should I Use](#which-cache-strategy-should-i-use)
-        - [Resource Cache and Version (TODO:)](#resource-cache-and-version-todo)
-        - [Cache Topologies](#cache-topologies)
-        - [Algorithm (TODO)](#algorithm-todo)
-        - [Setting Caches in Apache Sever(TODO)](#setting-caches-in-apache-severtodo)
-        - [Cache and Advertising (TODO)](#cache-and-advertising-todo)
-    - [Connection Management (TODO:)](#connection-management-todo)
-    - [Client Identification (TODO:)](#client-identification-todo)
-    - [HTTPS (TODO:)](#https-todo)
-    - [Authentication (TODO:)](#authentication-todo)
-    - [Architectural Components (TODO:)](#architectural-components-todo)
-        - [Web Servers (TODO:)](#web-servers-todo)
-        - [Proxies (TODO:)](#proxies-todo)
-        - [Gateways, Tunnels and Relays (TODO:)](#gateways-tunnels-and-relays-todo)
-    - [HTTP-NG & HTTP2.0 (TODO:)](#http-ng-http20-todo)
-    - [Lib & Tools](#lib-tools)
+  - [**U**niform **R**esrouce **I**dentifier](#uniform-resrouce-identifier)
+    - [Syntax](#syntax)
+    - [Absolute and Relative URLs](#absolute-and-relative-urls)
+    - [Percent Encoding (URL Encoding)](#percent-encoding-url-encoding)
+  - [HTTP Message](#http-message)
+    - [Terminology](#terminology)
+    - [Message Syntax](#message-syntax)
+    - [HTTP Methods](#http-methods)
+      - [GET](#get)
+      - [HEAD](#head)
+      - [PUT](#put)
+      - [DELETE](#delete)
+      - [POST](#post)
+      - [TRACE](#trace)
+      - [OPTIONS](#options)
+      - [CONNECT](#connect)
+      - [Extension Methods](#extension-methods)
+    - [Headers](#headers)
+      - [General Headers](#general-headers)
+      - [Request Headers](#request-headers)
+      - [Response Headers](#response-headers)
+      - [Entity Headers](#entity-headers)
+      - [Extension Headers](#extension-headers)
+    - [Status Code](#status-code)
+      - [100-199 Informational Status Code](#100-199-informational-status-code)
+        - [100 Continue](#100-continue)
+      - [200-299 Success Status Code](#200-299-success-status-code)
+      - [300-399 Redirect Status Code](#300-399-redirect-status-code)
+      - [400-499 Client Error Status Code](#400-499-client-error-status-code)
+      - [500-599 Server Error Status Code](#500-599-server-error-status-code)
+  - [Connection Management](#connection-management)
+    - [TCP Handshake Delay](#tcp-handshake-delay)
+      - [Delayed Acknowledgement](#delayed-acknowledgement)
+      - [TCP Slow Start](#tcp-slow-start)
+      - [Nagle's Algorithm & TCP_NODELAY](#nagles-algorithm--tcpnodelay)
+      - [TIME_WAIT Accumulation & Port Exhaustion](#timewait-accumulation--port-exhaustion)
+    - [Connection](#connection)
+      - [Serial Connection](#serial-connection)
+      - [Parallel Connection](#parallel-connection)
+      - [Persistent Connection](#persistent-connection)
+      - [Pipelined Connection](#pipelined-connection)
+      - [Connection Header](#connection-header)
+  - [Media Types](#media-types)
+  - [Cookie](#cookie)
+    - [完整流程](#%e5%ae%8c%e6%95%b4%e6%b5%81%e7%a8%8b)
+    - [创建Cookies](#%e5%88%9b%e5%bb%bacookies)
+      - [Version 0 (Netscape) Cookies](#version-0-netscape-cookies)
+    - [客户端存储格式](#%e5%ae%a2%e6%88%b7%e7%ab%af%e5%ad%98%e5%82%a8%e6%a0%bc%e5%bc%8f)
+  - [Cache](#cache)
+    - [Basic Terminology](#basic-terminology)
+    - [Cache Life Cycle](#cache-life-cycle)
+    - [Cache Storage Strategy](#cache-storage-strategy)
+    - [Cache Expiration Strategy](#cache-expiration-strategy)
+      - [Time Limit Expiration](#time-limit-expiration)
+        - [Explicit Expiration](#explicit-expiration)
+        - [Heuristic Expiration (Implicit Expiration)](#heuristic-expiration-implicit-expiration)
+      - [Resource Content Expiration](#resource-content-expiration)
+      - [Revalidation](#revalidation)
+        - [Cache Revalidation Directives](#cache-revalidation-directives)
+        - [Revalidation By ETag](#revalidation-by-etag)
+        - [Revalidation By Time](#revalidation-by-time)
+      - [Request Stale Cache](#request-stale-cache)
+      - [Hitting Proxy Cache](#hitting-proxy-cache)
+      - [Manual Page Refresh](#manual-page-refresh)
+    - [Serving Request with Cache](#serving-request-with-cache)
+    - [Which Cache Strategy Should I Use](#which-cache-strategy-should-i-use)
+    - [Resource Cache and Version (TODO:)](#resource-cache-and-version-todo)
+    - [Cache Topologies](#cache-topologies)
+    - [Algorithm (TODO)](#algorithm-todo)
+    - [Setting Caches in Apache Sever(TODO)](#setting-caches-in-apache-severtodo)
+    - [Cache and Advertising (TODO)](#cache-and-advertising-todo)
+  - [Connection Management (TODO:)](#connection-management-todo)
+  - [Client Identification (TODO:)](#client-identification-todo)
+  - [HTTPS (TODO:)](#https-todo)
+  - [Authentication (TODO:)](#authentication-todo)
+  - [Architectural Components (TODO:)](#architectural-components-todo)
+    - [Web Servers (TODO:)](#web-servers-todo)
+    - [Proxies (TODO:)](#proxies-todo)
+    - [Gateways, Tunnels and Relays (TODO:)](#gateways-tunnels-and-relays-todo)
+  - [HTTP-NG & HTTP2.0 (TODO:)](#http-ng--http20-todo)
+  - [Lib & Tools](#lib--tools)
 
 ## **U**niform **R**esrouce **I**dentifier
 
@@ -1091,46 +1089,42 @@ When a TCP connection is closed, new connection with exact same parameter is not
 
 ## Cookie
 
-Cookie is a piece of text composed of multiple key/value pairs stored on client-side. Cookies are used for three purposes.
+Cookie是存储在客户端（浏览器）中的一小段文字，包含若干个键值对。HTTP协议本身是无状态的，包括用户登陆态等信息的Cookie随着请求发送给服务器端可以用来识别用户身份。在识别用户身份的基础上可以实现会话管理、自动登陆、个性化设置、用户追踪、记录分析、针对性广告等功能。
 
-1. Session Management - Logins, shopping carts, game scores, or anything else the sever should remember.
-1. Personalization - User preferences, themes, and other settings.
-1. Tracking - Recording and analyzing user behavior.
-
-It's discouraged to use cookies for client-side storage, since cookies are sent with every request which increases message size and degrades network performance. Prefer to use Web storage API (`localStorage` and `sessionStorage`) and `IndexedDB` for client side storage.
+Cookie可以存储一小段信息，但是不鼓励用Cookie来作为单纯的存储使用，因为Cookie会跟随HTTP请求发送给服务器，这样会造成请求报文体积较大，减缓请求速度，浪费带宽。客户端存储推荐使用Web Storage API（`localStorage` and `sessionStorage`）和 `IndexedDB`。
 
 Cookies are divided as two types according to their lifetime.
+Cookies从生命周期上划分为两类：
 
-1. Session Cookie - Temporary cookies that keep track of settings and user preferences, they're deleted when user exits browser.
-1. Persistent Cookie - Long lived cookies that are used to retain a configuration or login name for a site that users visit periodically, they're stored on disk and survive across sessions.
+1. 会话Cookie - 只在一个会话中有效的Cookie，会话结束（即网页tab关闭）后Cookie被清除。会话Cookie不包括`Expires`和`Max-Age`头。
+1. 永久性Cookie - 设置了有效时长的Cookie被存储在本地，可以在生命周期内横跨多个会话使用。
 
-### How it works
+### 完整流程
 
-Cookie specification is formally referred as HTTP State Management Mechanism, which enables server to be able to identify same client when client visited again. Information stored inside cookie is called _client-side state_. Process of cookie creation and usage is like below.
+1. 客户端首次发送请求到服务器，服务器为该客户端生成一个唯一标识并存储在服务器端。
+1. 服务器发送响应给客户端，客户端根据HTTP响应头`Set-Cookie`来创建Cookie。
+    ```http
+    Set-Cookie2: Coupon="handvac103"; Version="1"; Path="/tools/cordless"
+    ```
+1. 客户端再次请求相同网站时，和网站同源的Cookie会被附带在请求头`Cookie`，`Cookie2`中发送给服务器。
+    ```http
+    Cookie: session-id=002-1145265-8016838; session-id-time=1007884800
+    Cookie2: $Version="1"
+    ```
+1. 服务器接收到带有Cookie的请求后，根据Cookie中的信息识别客户端，并作出对应响应。
 
-1. When a client first connects to a server, server will generate a unique identification number for that client and this identification number is stored on server.
-1. Server send response to client and instructs client to create cookies containing unique identification number with `Set-Cookie` header.
-1. Client receives instructions from server and creates cookies accordingly.
-1. When client visits same site again, cookies containing identification number is sent with HTTP request using `Cookie`, `Cookie2` header.
-1. Server receives request with cookie containing unique identification number, then it searches in stored identification data and recognize it's the same client that has visited before.
+### 创建Cookies
 
-Cookie content is composed of multiple key/value pairs, which can contain any information apart from identification number. Usually, user settings and preferences are stored.
-
-```http
-Cookie: name="Brian Totty"; phone="555-1212"
-```
-
-### Create Cookies
-
-`Set-Cookie` or `Set-Cookie2` header is used in response by server to tell client that a cookie should be created and stored on client side. One `Set-Cookie` or `Set-Cookie2` header instructs client to create one cookie, multiple `Set-Cookie` or `Set-Cookie2` headers are used in HTTP response usually to create multiple cookies.
+`Set-Cookie`和`Set-Cookie2`响应头用来指示客户端创建Cookie，多个`Set-Cookie`和`Set-Cookie2`头指示生成多个Cookie。
 
 #### Version 0 (Netscape) Cookies
+
+Value of `Set-Cookie` header is multiple directives separated by semi-colon (;). Available `Set-Cookie` directives are listed below.
+`Set-Cookie`值是分号隔开的多个键值对或者关键字，关键字用来设置Cookie的属性信息。
 
 ```http
 Set-Cookie: <cookie-name>=<cookie-value>; Domain=<domain-value>; Secure; HttpOnly
 ```
-
-Value of `Set-Cookie` header is multiple directives separated by semi-colon (;). Available `Set-Cookie` directives are listed below.
 
 <table>
     <tr>
@@ -1139,7 +1133,7 @@ Value of `Set-Cookie` header is multiple directives separated by semi-colon (;).
     </tr>
     <tr>
         <td><code>&lt;cookie-name&gt;=&lt;cookie-value&gt;</code></td>
-        <td>Speicify cookie name and value</td>
+        <td>被存储的键值对</td>
     </tr>
     <tr>
         <td><code>Domain=&lt;domain-value&gt;</code></td>
@@ -1159,58 +1153,101 @@ Value of `Set-Cookie` header is multiple directives separated by semi-colon (;).
     </tr>
     <tr>
         <td><code>Secure</code></td>
-        <td>Secure cookie <em>MUST</em> only be sent only when request is made with SSL and HTTPS protocol. Secure cookie should not contain confidential or sensitive information because the entire mechanism is insecure inherently and this doesn't mean that cookie is encrypted.</td>
+        <td>安全cookie必须通过HTTPS协议发送，这种方式不代表Cookie被加密，不应当用来传送敏感信息</td>
     </tr>
     <tr>
         <td><code>HttpOnly</code></td>
-        <td>HTTP-only cookies aren't accessible via JavaScript using <code>Document.cookie</code>, <code>XMLHttpRequest</code> and <code>Request</code> to defend against XSS attacks.</td>
+        <td>cookies不能被<code>Document.cookie</code>, <code>XMLHttpRequest</code>和<code>Request</code>获取</td>
     </tr>
     <tr>
-        <td><code>SameSite=Strict|Lax</code></td>
-        <td><em>Experimental</em>, servers use this to indicate cookie should not be sent along with cross-site request to defend against CSRF attacks.</td>
+        <td><code>SameSite</code></td>
+        <td>
+            <dl>
+                <dt><a href="https://www.ruanyifeng.com/blog/2019/09/cookie-samesite.html">Strict</a></dt>
+                <dd>域名a当前页面发送请求到非同源地址b时，永远不附带属于域名b的SameSite=Strict的Cookie</dd>
+            </dl>
+            <dl>
+                <dt>Lax</dt>
+                <dd>
+                    域名a当前页面发送请求到非同源地址b时，大部分请求不附带属于域名b的SameSite=Lax的Cookie。但是导航到目标网站的Get请求例外。例如登陆态等不那么敏感的信息，可以获得b网站自动登陆的效果。
+                    <table>
+                        <tr>
+                            <th scope="col">请求类型</th>
+                            <th scope="col">示例</th>
+                            <th scope="col">None</th>
+                            <th scope="col">Lax</th>
+                        </tr>
+                        <tr>
+                            <td>链接</td>
+                            <td><code>&lt;a href="..."&gt;&lt;/a&gt;</code></td>
+                            <td>发送Cookie</td>
+                            <td>发送Cookie</td>
+                        </tr>
+                        <tr>
+                            <td>预加载</td>
+                            <td><code>&lt;link rel="prerender" href="..." /&gt;</code></td>
+                            <td>发送Cookie</td>
+                            <td>发送Cookie</td>
+                        </tr>
+                        <tr>
+                            <td>GET表单</td>
+                            <td><code>&lt;form method="GET" action="..."&gt;</code></td>
+                            <td>发送Cookie</td>
+                            <td>发送Cookie</td>
+                        </tr>
+                        <tr>
+                            <td>POST表单</td>
+                            <td><code>&lt;form method="POST" action="..."&gt;</code></td>
+                            <td>发送Cookie</td>
+                            <td>不发送Cookie</td>
+                        </tr>
+                        <tr>
+                            <td>iframe</td>
+                            <td><code>&lt;iframe src="..."&gt;&lt;/iframe&gt;</code></td>
+                            <td>发送Cookie</td>
+                            <td>不发送Cookie</td>
+                        </tr>
+                        <tr>
+                            <td>链接</td>
+                            <td><code>$.get("...")</code></td>
+                            <td>发送Cookie</td>
+                            <td>不发送Cookie</td>
+                        </tr>
+                        <tr>
+                            <td>链接</td>
+                            <td><code>&lt;img href="..."&gt;</code></td>
+                            <td>发送Cookie</td>
+                            <td>不发送Cookie</td>
+                        </tr>
+                    </table>
+                </dd>
+            </dl>
+            <dl>
+                <dt>None</dt>
+                <dd></dd>
+                <dd>域名a当前页面发送请求到非同源地址b时，请求附带属于域名b的SameSite=None的Cookie，cookie包含敏感信息的话会造成CSRF攻击</dd>
+            </dl>
+        </td>
     </tr>
 </table>
 
-Session cookies contain no `Expires` and `Max-Age` headers. Long lived cookies may contain either `Expires` or `Max-Age` headers.
+### 客户端存储格式
 
-Client sends cookie with `Cookie` header.
-
-```http
-Cookie: session-id=002-1145265-8016838; session-id-time=1007884800
-```
-
-#### Version 1 (RFC 2965) Cookies
-
-```http
-Set-Cookie2: Coupon="handvac103"; Version="1"; Path="/tools/cordless"
-```
-
-```http
-Cookie2: $Version="1"
-```
-
-### Client-side Cookie Storage
-
-Different browsers store cookies in different ways. Netscape Navigator stores cookies in single text file _cookies.txt_.
+客户端存储Cookie方式各有不同，Netscape浏览器存储在本地文本文件 _cookies.txt_ 中。
 
 ```txt
 # Netscape HTTP Cookie File
 # http://www.netscape.com/newsref/std/cookie_spec.html
 # This is a generated file! Do not edit.
 #
-# domain          allh  path   secure  expires    name value
+# domain          all  path   secure  expires    name value
 www.fedex.com     FALSE /      FALSE   1136109676 cc /us/
 .cnn.com          TRUE  /      FALSE   1035069235 SelEdition www
 www.reformamt.org TRUE  /forum FALSE   1033761379 LastVisit 1003520952
 www.reformamt.org TRUE  /forum FALSE   1033761379 UserName Guest
 ```
 
-Each line represents a cookie and contains seven tab-separated fields.
-
-### Libs
-
-[Simple cookie framework](https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie/Simple_document.cookie_framework)
-
+1. [Simple cookie framework](https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie/Simple_document.cookie_framework)
 1. [HTTP Cookie](https://en.wikipedia.org/wiki/HTTP_cookie#Session_cookie)
 
 ## Cache
