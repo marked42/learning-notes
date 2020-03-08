@@ -1,4 +1,19 @@
-# BFC浮动与边距收缩
+# BFC
+
+规范
+
+https://www.w3.org/TR/CSS21/visuren.html#block-formatting
+
+position schemes
+
+1. normal flow
+2. relative position
+3. absolute position
+
+TODO: BFC对定位和布局有什么影响
+
+1. BFC 嵌套有什么效果？
+1. 两个相邻的BFC有什么效果
 
 ## BFC
 
@@ -18,7 +33,7 @@ CSS中有三种布局环境:
 1. `overflow`值不是`visible`的元素
 1. `contain: layout | content | strict`元素
 1. table, flex, grid相关的元素
-  ```csss
+  ```css
     display: table;
     display: table-cell;
     display: table-caption;
@@ -32,7 +47,7 @@ CSS中有三种布局环境:
   ```
 1. `column-span: all` `column-count: 1`的元素
 
-元素之间的定位布局、浮动与清除和边距合并(Margin Collapsing)只局限在一个BFC内部的元素之间。
+注意`display: block`并不建立新BFC，元素之间的定位布局、浮动与清除和边距合并(Margin Collapsing)只局限在一个BFC内部的元素之间。
 
 ## 浮动与清除
 
@@ -224,3 +239,8 @@ display: flow-root;
 ```
 
 ![BFC防止边距收缩](./bfc-margin-collapse.jpg)
+
+## 参考
+
+1. [Understanding Block Formatting Contexts in CSS](https://www.sitepoint.com/understanding-block-formatting-contexts-in-css/
+)
