@@ -1,5 +1,7 @@
 # [事件循环（Event Loop）](https://html.spec.whatwg.org/multipage/webappapis.html#event-loops)
 
+1. background - 浏览器为什么存在事件循环机制？
+
 ## 任务与微任务
 
 浏览器中每个线程拥有单独的事件循环，由DOM变动、用户操作、网络请求、HTML解析等情况产生的事件(event)会添加对应的任务（task）或者微任务（microtask）到任务或者微任务队列中，任务或者微任务会被按照一定顺序依次取出并执行。
@@ -16,8 +18,9 @@
 1. 检查微任务
 1. 重新渲染
 
-
 执行该事件循环的微任务队列中所有微任务直到队列清空，这个过程中可能会加载运行脚本，在此进行脚本清除，并进行微任务检查。但是微任务检查过程会有一个初始值为`false`的布尔类型标志位，在初次进入时设置为`true`从而防止微任务检查过程重入(reentrancy)。
+
+> Examples of macrotasks include creating the main document object, parsing HTML, executing mainline (or global) JavaScript code, changing the current URL, as well as various events such as page loading, input, network events, and timer events. From the browser’s perspective, a macrotask represents one discrete, self-contained unit of work. After running a task, the browser can continue with other assignments such as re-rendering the UI of the page, or performing garbage collection.
 
 ### 任务
 
@@ -27,15 +30,40 @@
 1. UI渲染
 1. requestAnimationFrame
 
+1. creating main document object
+2. parsing HTML
+3. execute global javascript code
+4. change current url
+5. page loading
+6. user input
+7. network events
+8. timer events
+
 ### 微任务
 
-1. MutationObserver
 1. Promise
+1. MutationObserver
 1. addEventListener添加的事件回调函数
 1. Object.observe
-1. process.nextTick
+1. process.nextTick (node)
 
 ## [实例](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)
+
+当前微任务队列清空之后才会进行下一帧的渲染，之后执行下一个任务，所以微任务是被用来运行一些影响渲染结果的计算，多个微任务可以提前全部计算完成，从而只需要一次重新渲染，避免使用任务造成的多次渲染和中间状态。
+
+事件循环实现中应当包含至少一个任务队列和至少一个微任务队列，常见的实现是任务队列和微任务队列各有多个，这样性能敏感的任务队列可以率先执行，具体情况依赖于实现。
+
+事件循环两个基本原则
+
+1. 任务是一个一个处理的，一次循环最多处理一个。
+2. 一个任务开始执行后不能被其他任务打断直到完成。
+
+TODO: ??
+Both task queues are placed outside the event loop, to indicate that the act of adding tasks to their matching queues happens outside the event loop. If this wasn’t the case, any events that occur while JavaScript code is being executed would be ignored. Because we most definitely don’t want to do this, the acts of detecting and adding tasks are done separately from the event loop.
+
+浏览器渲染的理想频率是60FPS，即一个任务应该在16ms内完成才不会卡顿。
+
+![event loop](./event-loop.png)
 
 ### 例子1
 

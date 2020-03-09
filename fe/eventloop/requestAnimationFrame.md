@@ -119,5 +119,3 @@ function blockWithNextTick() {
 1. 对于`callbackHandles`中每个key，如果Map对象中有对应callback值，移除并执行该callback。
 
 从上述过程中知道，每次处理`requestAnimationFrame`回调时，关键在于会首先查询当前所有注册的回调，相当于做了个缓存，然后对其进行遍历调用。因此，尽管嵌套使用的`requestAnimationFrame`回调会注册新的回调，但是这些回调不会立即被执行，而是在处理完之前注册的所有回调并完成重绘之后，才会在下一此重绘之前被执行。
-
-## 节流
