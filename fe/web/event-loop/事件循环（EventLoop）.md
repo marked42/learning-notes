@@ -1,6 +1,6 @@
 # [事件循环（Event Loop）](https://html.spec.whatwg.org/multipage/webappapis.html#event-loops)
 
-1. background - 浏览器为什么存在事件循环机制？
+1. background - 浏览器为什么存在事件循环机制，为什么是单线程事件循环机制？
 
 ## 任务与微任务
 
@@ -39,11 +39,12 @@
 7. network events
 8. timer events
 
+1. addEventListener添加的事件回调函数
+
 ### 微任务
 
 1. Promise
 1. MutationObserver
-1. addEventListener添加的事件回调函数
 1. Object.observe
 1. process.nextTick (node)
 
@@ -58,12 +59,35 @@
 1. 任务是一个一个处理的，一次循环最多处理一个。
 2. 一个任务开始执行后不能被其他任务打断直到完成。
 
-TODO: ??
-Both task queues are placed outside the event loop, to indicate that the act of adding tasks to their matching queues happens outside the event loop. If this wasn’t the case, any events that occur while JavaScript code is being executed would be ignored. Because we most definitely don’t want to do this, the acts of detecting and adding tasks are done separately from the event loop.
+向任务队列和微任务队列中添加新任务的动作发生在事件循环之外的线程，这样事件循环所在线程执行Javascript脚本任务的时候，其他事件可以被相应从而将时间回调函数作为新任务添加到任务队列中。
 
 浏览器渲染的理想频率是60FPS，即一个任务应该在16ms内完成才不会卡顿。
 
+`setTimeout(fn, delay)`、`setInterval(fn, delay)`中`delay`代表了回调函数作为任务被添加到任务队列中的等待时间，并不是回调函数执行的等待时间。任务队列中存在的其他正在被执行的任务，直到所有之前添加的任务执行完成后才开始执行`fn`。定时任务的添加由其他的线程完成。
+
+同一个`setInterval`在任务队列中有最多只有一个回调函数任务，不会重复添加。
+ The browser won’t queue up more than one instance of a specific inter- val handler.
+
+```js
+setTimeout(function repeatMe(){
+  /* Some long block of code... */
+  setTimeout(repeatMe, 10);
+}, 10);
+```
+
+每个回调事件最少等待10ms后被执行，执行时添加新的回调，两个回调之间添加的时间间隔不一定是10ms，由于其他任务和此定时器任务本身执行耗时会导致时间间隔大于10ms。
+
+```
+setInterval(() => {
+  /* Some long block of code... */
+}, 10);
+```
+
+由其他线程保证每隔恒定10ms触发一次，如果任务队列中还没有该定时器的回调函数任务则添加一个。可能造成的结果是一个回调刚刚执行完10ms中之内到了下次触发时间，这样两个回调执行的间隔会小于10ms。
+
 ![event loop](./event-loop.png)
+
+一个复杂的长时间任务对于用户来说浏览器从无响应卡死状态，TODO: 利用`setTimeout`将划分成若干个短任务处理，使浏览器可以在每个短任务完成后重新渲染，用户感知到浏览器正常响应。
 
 ### 例子1
 

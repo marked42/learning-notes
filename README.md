@@ -4,6 +4,7 @@ Notes on Web Knowledge
 
 1. https://github.com/qiu-deqing/FE-interview
 1. https://juejin.im/post/5aae076d6fb9a028cc6100a9
+1. https://github.com/haizlin/fe-interview?utm_source=gold_browser_extension
 
 Knowledge Level
 
@@ -12,6 +13,14 @@ Knowledge Level
 3. 实例
 4. 输出总结
 5. 亲自实现
+
+## CSS
+
+1. position & layout
+    1. parent block width: auto; child block: width: calc(100% - 100px)使用100%不生效
+    1. [flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+    1. https://www.w3.org/TR/CSS2/visuren.html#positioning-scheme
+    1. [常见布局问题](https://juejin.im/post/5aa252ac518825558001d5de)
 
 ## 组件
 
@@ -34,13 +43,17 @@ Knowledge Level
 ## 工程化
 
 1. webpack
+    1. webpack 打包形成的模块结果分析
+    1. style-loader,css-loader,less-loader,url-loader
+    1. 样式文件、图片文字文件处理
+    1. Tree Shaking
     1. https://medium.com/webpack/webpack-and-rollup-the-same-but-different-a41ad427058c
     1. https://juejin.im/post/59cb6307f265da064e1f65b9#heading-5
     1. 异步组件
-    2. code splitting
-    3. tree shaking
-    1. tapable
-    2. webpack 使用tapable的定制流程 webpack/compiler/compilation
+    1. code splitting
+    1. tree shaking
+    1. tapable https://segmentfault.com/a/1190000008060440
+    1. webpack 使用tapable的定制流程 webpack/compiler/compilation
 2. babel
   1. https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/user-handbook.md
 3. [开发部署系统](https://www.zhihu.com/question/20790576)
@@ -57,15 +70,11 @@ Knowledge Level
 
 ## 性能优化
 
+1. [Preload & Prefetch](https://medium.com/reloading/preload-prefetch-and-priorities-in-chrome-776165961bbf)
+
 ## node
 
 1. [ElemeFE/node-interview](https://github.com/ElemeFE/node-interview/tree/master/sections/zh-cn)
-
-## CSS
-
-1. position & layout
-    1. https://www.w3.org/TR/CSS2/visuren.html#positioning-scheme
-    1. [常见布局问题](https://juejin.im/post/5aa252ac518825558001d5de)
 
 ## UI UX
 
