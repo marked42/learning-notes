@@ -110,7 +110,7 @@ cancelled = !target.dispatchEvent(event);
 
 When an event happens, it goes through 3 phases of event processing.
 
-| Phase          | Explaination                                               |
+| Phase          | Explanation                                               |
 | -------------- | ---------------------------------------------------------- |
 | Capture Phase  | Events passed downward from root element to target element |
 | Target Phase   | Events on target element                                   |
@@ -314,6 +314,8 @@ There exists an old-fashioned way of constructing events using `initEvent(type, 
 
 ### Custom Event
 
+自定义事件最大的优势是可以将事件的触发代码和处理代码解耦，可以在多个不同位置触发自定义事件，而且并不需要关心是否存在、以及在那个元素上注册了回调函数。
+
 Use `CustomEvent` to generate customized event with an event type different from any built-in events. `CustomEvent` is same as `Event` with one exception that it accepts a property `detail` in second argument of constructor. `detail` property avoids clash with built-in event type and passes data required by custom event.
 
 ```javascript
@@ -365,6 +367,8 @@ TODO:
 1. add listener during dispatch
 1. multiple identical listener
 1. `this` in listener
+
+`this`指向回调函数注册的DOM元素，`event.target`指向事件发生的元素，`event.relativeTarget`指向事件相关的DOM元素。
 
 Usually events are processed asynchronously. If during the process of one event, other events are triggered by users, browsers will first finish handling current event and then keep handling newly triggered events in a sequential order.
 

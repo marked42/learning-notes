@@ -2,9 +2,12 @@
 
 Notes on Web Knowledge
 
+1. https://github.com/Advanced-Frontend/Daily-Interview-Question
 1. https://github.com/qiu-deqing/FE-interview
 1. https://juejin.im/post/5aae076d6fb9a028cc6100a9
 1. https://github.com/haizlin/fe-interview?utm_source=gold_browser_extension
+1. https://github.com/yangshun/front-end-interview-handbook/blob/master/Translations/Chinese/README.md
+1. https://github.com/h5bp/Front-end-Developer-Interview-Questions
 
 Knowledge Level
 
@@ -39,6 +42,7 @@ Knowledge Level
 ## HTML
 
 1. DOM manipulation
+1. innerHtml,outerHtml,textContent,innerText,outerText, textNode.data
 
 ## 工程化
 
@@ -91,6 +95,10 @@ Knowledge Level
     2. event emitter
     3. observer 观察者
     1. https://juejin.im/post/59eff1fb6fb9a044ff30a942
+1. Javascript Execution Context Javascript代码运行时总是位于一个执行环境（execution context）中，有三种方式创建新的执行环境。
+    1. 全局的`Javascript`代码 global context
+    2. 函数 local context
+    1. `eval()`函数
 
 1. [常见算法问题](https://juejin.im/post/5958bac35188250d892f5c91#heading-27)
 
@@ -111,3 +119,4 @@ Knowledge Level
 - [ ] Refactoring 2nd Edition
 - [ ] 高性能网站建设指南
 - [ ] You Don't Know Javascript
+- [ ] [Algorithms In JS](https://github.com/trekhleb/javascript-algorithms?utm_source=gold_browser_extension)
