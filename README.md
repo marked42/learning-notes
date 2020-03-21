@@ -92,6 +92,8 @@ Knowledge Level
 
 ## UI UX
 
+1. figma
+
 ## JS & TS
 
 1. function
@@ -111,22 +113,33 @@ Knowledge Level
     1. props and methods on function
     1. arguments[0] is an alias for first parameter in function, change arguments affects parameter, strict mode disables aliasing and make arguments and parameters independent
     1. js和bst一起研究
-1. Javascript Execution Context Javascript代码运行时总是位于一个执行环境（execution context）中，有三种方式创建新的执行环境。
-    1. 全局的`Javascript`代码 global context
-    2. 函数 local context
-    3. `eval()`函数
-3. es6 新特性
-4. 异步 async/await/Promise
+    1. Javascript Execution Context Javascript代码运行时总是位于一个执行环境（execution context）中，有三种方式创建新的执行环境。
+        1. 全局的`Javascript`代码 global context
+        2. 函数 local context
+        3. `eval()`函数
+4. 异步 async/await/Promise  05_You_Don't _Know_JS_Async_&_Performance
+    1. java script with promises
     1. https://css-tricks.com/understanding-async-await/
     2. Promise https://juejin.im/post/5b16800fe51d4506ae719bae
     3. https://juejin.im/post/5b2f02cd5188252b937548ab
-5. https://juejin.im/post/5d6aa4f96fb9a06b112ad5b1
-2. 面向对象
+1. https://juejin.im/post/5d6aa4f96fb9a06b112ad5b1
+1. 模块化 js ninja ch11
+1. object相关 
+    1. 01_You_Don't _Know_JS_Up_&_Going
+    1. 03_You_Don't _Know_JS_this_&_Object_Prototypes
+    1. 基础 04_You_Don't _Know_JS_Types_&_Grammar
+    1. javascript ninja ch7 ch8
+    1. collections, Array, Map, set, WeakSet js ninja ch9 
+    1. RegExp js ninja ch10
+1. 跨浏览器 js ninja ch14
 6. [js常见模式](https://www.cnblogs.com/tugenhua0707/p/5198407.html)
     1. pub/sub
     2. event emitter
     3. observer 观察者
     4. https://juejin.im/post/59eff1fb6fb9a044ff30a942
+3. es6 新特性
+    1. class 面向对象
+    1. 06_You_Don't _Know_JS_ES6_&_Beyond
 
 7. [常见算法问题](https://juejin.im/post/5958bac35188250d892f5c91#heading-27)
 
