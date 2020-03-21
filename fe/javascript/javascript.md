@@ -25,6 +25,7 @@
       - [Focus Events](#focus-events)
     - [Touch Events](#touch-events)
     - [Reference](#reference-1)
+  - [函数](#%e5%87%bd%e6%95%b0)
   - [This](#this)
     - [Rules for Determining this](#rules-for-determining-this)
       - [Constructor Call](#constructor-call)
@@ -699,6 +700,36 @@ Repeated in sequantial order `focusout` -> `foucsin` -> `blur` -> `focus`.
 1. [Event Reference](https://developer.mozilla.org/en-US/docs/Web/Events)
 1. [Event Interface](https://dom.spec.whatwg.org/#interface-event)
 1. [Custom Event Interface](https://dom.spec.whatwg.org/#customevent)
+
+## 函数
+
+调用的四种方法
+
+1. function `this`绑定到global，`undefined`严格模式
+1. method
+2. constructor
+3. call/apply
+
+函数调用表达式的详细解析过程：
+
+1. 参数确定过程
+2. `this`绑定过程
+3. 返回值确定过程
+
+构造函数调用`new Fun()`，如果函数有`return`语句，返回基本类型的话，构造函数调用的值等于`this`默认绑定到的新建对象；如果函数`return`语句返回对象类型的话，构造函数表达式的值为这个对象。
+
+1. 箭头函数的this绑定到箭头函数创建时的context上，全局window对象或者Function Execution Context的scope对象。箭头函数的this绑定不能修改，
+1. bind函数，返回一个绑定了context的新函数，新函数的context不能再修改
+2. 箭头函数可以调用bind，但是不能重新绑定this，bind也可以重复调用但是只有第一次生效。
+1. 一个绑定了this之后就不能改变了？
+
+1. lexical scopes/environment 包含哪些数据，identifiers ?
+1. lexical environment 和 execution context区别？
+1. identifier 注册的过程？注册和执行两个阶段？
+2. global
+3. function
+4. block with let/const
+建立嵌套的environment的过程，识别所有的identifier即其值
 
 ## This
 

@@ -8,6 +8,7 @@ Notes on Web Knowledge
 1. https://github.com/haizlin/fe-interview?utm_source=gold_browser_extension
 1. https://github.com/yangshun/front-end-interview-handbook/blob/master/Translations/Chinese/README.md
 1. https://github.com/h5bp/Front-end-Developer-Interview-Questions
+1. https://github.com/include-all/front-end-learning/issues/5
 
 Knowledge Level
 
@@ -24,6 +25,15 @@ Knowledge Level
     1. [flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
     1. https://www.w3.org/TR/CSS2/visuren.html#positioning-scheme
     1. [常见布局问题](https://juejin.im/post/5aa252ac518825558001d5de)
+    1. 字体，行高，vertical-align 对齐 font-size, em box, 中文字体，全角字体，13px的字体水平宽度为8px？
+    1. https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Alignment#Types_of_alignment
+    1. text-align
+        1. https://developer.mozilla.org/zh-CN/docs/Web/CSS/text-align
+        1. https://css-tricks.com/almanac/properties/t/text-align/
+    1. vertical-align
+        1. https://developer.mozilla.org/zh-CN/docs/Web/CSS/vertical-align
+    1. font-size
+       1. https://developer.mozilla.org/en-US/docs/Web/CSS/font-size
 
 ## 组件
 
@@ -84,23 +94,41 @@ Knowledge Level
 
 ## JS & TS
 
-1. es6 新特性
-1. async/await/Promise
-    1. https://css-tricks.com/understanding-async-await/
-    1. Promise https://juejin.im/post/5b16800fe51d4506ae719bae
-    1. https://juejin.im/post/5b2f02cd5188252b937548ab
-
-1. [js常见模式](https://www.cnblogs.com/tugenhua0707/p/5198407.html)
-    1. pub/sub
-    2. event emitter
-    3. observer 观察者
-    1. https://juejin.im/post/59eff1fb6fb9a044ff30a942
+1. function
+    2. function statement 独立的，必须有名字
+    1. function expression 非独立的作为另外一个statement的一部分存在，可以匿名
+    ```js
+    // functions expressions
+    // 不同形式的IIFE
+    (function () {})()
+    (function () {}(3))
+    +function () {}()
+    !function () {}()
+    ~function () {}()
+    return function(){}
+    call(function (){})
+    ```
+    1. props and methods on function
+    1. arguments[0] is an alias for first parameter in function, change arguments affects parameter, strict mode disables aliasing and make arguments and parameters independent
+    1. js和bst一起研究
 1. Javascript Execution Context Javascript代码运行时总是位于一个执行环境（execution context）中，有三种方式创建新的执行环境。
     1. 全局的`Javascript`代码 global context
     2. 函数 local context
-    1. `eval()`函数
+    3. `eval()`函数
+3. es6 新特性
+4. 异步 async/await/Promise
+    1. https://css-tricks.com/understanding-async-await/
+    2. Promise https://juejin.im/post/5b16800fe51d4506ae719bae
+    3. https://juejin.im/post/5b2f02cd5188252b937548ab
+5. https://juejin.im/post/5d6aa4f96fb9a06b112ad5b1
+2. 面向对象
+6. [js常见模式](https://www.cnblogs.com/tugenhua0707/p/5198407.html)
+    1. pub/sub
+    2. event emitter
+    3. observer 观察者
+    4. https://juejin.im/post/59eff1fb6fb9a044ff30a942
 
-1. [常见算法问题](https://juejin.im/post/5958bac35188250d892f5c91#heading-27)
+7. [常见算法问题](https://juejin.im/post/5958bac35188250d892f5c91#heading-27)
 
 ## 经典题目
 
@@ -110,13 +138,15 @@ Knowledge Level
 
 1. [从浏览器多进程到JS单线程，JS运行机制最全面的一次梳理](https://juejin.im/post/5a6547d0f265da3e283a1df7)
 1. 浏览器渲染机制
+1. https://time.geekbang.org/column/intro/216
 
 ## Books
 
 - [ ] CSS揭秘
 - [ ] Secrets of the JavaScript Ninja, 2nd Edition
+- [ ] You Don't Know Javascript
+- [ ] Functional Programming in JavaScript by Luis Atencio (Manning, 2016),
 - [ ] DOM Enlightenment
 - [ ] Refactoring 2nd Edition
 - [ ] 高性能网站建设指南
-- [ ] You Don't Know Javascript
 - [ ] [Algorithms In JS](https://github.com/trekhleb/javascript-algorithms?utm_source=gold_browser_extension)

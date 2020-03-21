@@ -78,7 +78,7 @@ function testRequestAnimationFrame() {
   })
 }
 
-testAnimationFrame()
+testRequestAnimationFrame()
 ```
 
 执行函数`testAnimationFrame()`，首先注册task1和microtask1，之后顺序输出如下:
