@@ -2,13 +2,13 @@
 
 Notes on Web Knowledge
 
-1. https://github.com/Advanced-Frontend/Daily-Interview-Question
 1. https://github.com/qiu-deqing/FE-interview
 1. https://juejin.im/post/5aae076d6fb9a028cc6100a9
 1. https://github.com/haizlin/fe-interview?utm_source=gold_browser_extension
 1. https://github.com/yangshun/front-end-interview-handbook/blob/master/Translations/Chinese/README.md
 1. https://github.com/h5bp/Front-end-Developer-Interview-Questions
 1. https://github.com/include-all/front-end-learning/issues/5
+1. https://github.com/Advanced-Frontend/Daily-Interview-Question
 
 Knowledge Level
 
@@ -17,9 +17,6 @@ Knowledge Level
 3. 实例
 4. 输出总结
 5. 亲自实现
-
-## CSS
-
 
 ## 组件
 
@@ -110,12 +107,12 @@ Knowledge Level
     3. https://juejin.im/post/5b2f02cd5188252b937548ab
 1. https://juejin.im/post/5d6aa4f96fb9a06b112ad5b1
 1. 模块化 js ninja ch11
-1. object相关 
+1. object相关
     1. 01_You_Don't _Know_JS_Up_&_Going
     1. 03_You_Don't _Know_JS_this_&_Object_Prototypes
     1. 基础 04_You_Don't _Know_JS_Types_&_Grammar
     1. javascript ninja ch7 ch8
-    1. collections, Array, Map, set, WeakSet js ninja ch9 
+    1. collections, Array, Map, set, WeakSet js ninja ch9
     1. RegExp js ninja ch10
 1. 跨浏览器 js ninja ch14
 6. [js常见模式](https://www.cnblogs.com/tugenhua0707/p/5198407.html)
@@ -128,6 +125,10 @@ Knowledge Level
     1. 06_You_Don't _Know_JS_ES6_&_Beyond
 
 7. [常见算法问题](https://juejin.im/post/5958bac35188250d892f5c91#heading-27)
+
+## Vue
+
+1. https://juejin.im/post/5e778c71518825491d3240fd?utm_source=gold_browser_extension
 
 ## 经典题目
 
