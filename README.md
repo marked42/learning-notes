@@ -20,20 +20,6 @@ Knowledge Level
 
 ## CSS
 
-1. position & layout
-    1. parent block width: auto; child block: width: calc(100% - 100px)使用100%不生效
-    1. [flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
-    1. https://www.w3.org/TR/CSS2/visuren.html#positioning-scheme
-    1. [常见布局问题](https://juejin.im/post/5aa252ac518825558001d5de)
-    1. 字体，行高，vertical-align 对齐 font-size, em box, 中文字体，全角字体，13px的字体水平宽度为8px？
-    1. https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Alignment#Types_of_alignment
-    1. text-align
-        1. https://developer.mozilla.org/zh-CN/docs/Web/CSS/text-align
-        1. https://css-tricks.com/almanac/properties/t/text-align/
-    1. vertical-align
-        1. https://developer.mozilla.org/zh-CN/docs/Web/CSS/vertical-align
-    1. font-size
-       1. https://developer.mozilla.org/en-US/docs/Web/CSS/font-size
 
 ## 组件
 
