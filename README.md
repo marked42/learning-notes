@@ -2,11 +2,12 @@
 
 Notes on Web Knowledge
 
+1. https://github.com/yangshun/front-end-interview-handbook/blob/master/Translations/Chinese/README.md
+
+1. https://github.com/h5bp/Front-end-Developer-Interview-Questions
 1. https://github.com/qiu-deqing/FE-interview
 1. https://juejin.im/post/5aae076d6fb9a028cc6100a9
 1. https://github.com/haizlin/fe-interview?utm_source=gold_browser_extension
-1. https://github.com/yangshun/front-end-interview-handbook/blob/master/Translations/Chinese/README.md
-1. https://github.com/h5bp/Front-end-Developer-Interview-Questions
 1. https://github.com/include-all/front-end-learning/issues/5
 1. https://github.com/Advanced-Frontend/Daily-Interview-Question
 
@@ -79,28 +80,29 @@ Knowledge Level
 
 ## JS & TS
 
-1. function
-    2. function statement 独立的，必须有名字
-    1. function expression 非独立的作为另外一个statement的一部分存在，可以匿名
-    ```js
-    // functions expressions
-    // 不同形式的IIFE
-    (function () {})()
-    (function () {}(3))
-    +function () {}()
-    !function () {}()
-    ~function () {}()
-    return function(){}
-    call(function (){})
-    ```
-    1. props and methods on function
-    1. arguments[0] is an alias for first parameter in function, change arguments affects parameter, strict mode disables aliasing and make arguments and parameters independent
-    1. js和bst一起研究
-    1. Javascript Execution Context Javascript代码运行时总是位于一个执行环境（execution context）中，有三种方式创建新的执行环境。
-        1. 全局的`Javascript`代码 global context
-        2. 函数 local context
-        3. `eval()`函数
+1. articles
+    1. [JavaScript. The Core: 2nd Edition](http://dmitrysoshnikov.com/ecmascript/javascript-the-core-2nd-edition/)
+    1. [ECMA-262-5 in detail. Chapter 0. Introduction](http://dmitrysoshnikov.com/ecmascript/es5-chapter-0-introduction/)
+    1. [ECMA-262-5 in detail. Chapter 1. Properties and Property Descriptors.](http://dmitrysoshnikov.com/ecmascript/es5-chapter-1-properties-and-property-descriptors/)
+    1. [ECMA-262-5 in detail. Chapter 2. Strict Mode.](http://dmitrysoshnikov.com/ecmascript/es5-chapter-2-strict-mode/)
+    1. [ECMA-262-5 in detail. Chapter 3.1. Lexical environments: Common Theory](http://dmitrysoshnikov.com/ecmascript/es5-chapter-3-1-lexical-environments-common-theory/#rules-of-function-creation-and-application)
+    1. [ECMA-262-5 in detail. Chapter 3.2. Lexical environments: ECMAScript implementation.](http://dmitrysoshnikov.com/ecmascript/es5-chapter-3-2-lexical-environments-ecmascript-implementation/#identifier-resolution)
+    1. [ECMA-262-3 in detail. Chapter 1. Execution Contexts](http://dmitrysoshnikov.com/ecmascript/chapter-1-execution-contexts/)
+    1. [ECMA-262-3 in detail. Chapter 2. Variable object](http://dmitrysoshnikov.com/ecmascript/chapter-2-variable-object/)
+    1. [ECMA-262-3 in detail. Chapter 3. This](http://dmitrysoshnikov.com/ecmascript/chapter-3-this/)
+    1. [ECMA-262-3 in detail. Chapter 4. Scope chain](http://dmitrysoshnikov.com/ecmascript/chapter-4-scope-chain/)
+    1. [ECMA-262-3 in detail. Chapter 5. Functions.](http://dmitrysoshnikov.com/ecmascript/chapter-5-functions/)
+    1. [ECMA-262-3 in detail. Chapter 6. Closures.](http://dmitrysoshnikov.com/ecmascript/chapter-6-closures/)
+    1. [ECMA-262-3 in detail. Chapter 7.1. OOP: The general theory](http://dmitrysoshnikov.com/ecmascript/chapter-7-1-oop-general-theory/)
+    1. [ECMA-262-3 in detail. Chapter 7.2. OOP: ECMAScript implementation.](http://dmitrysoshnikov.com/ecmascript/chapter-7-2-oop-ecmascript-implementation/)
+    1. [ECMA-262-3 in detail. Chapter 8. Evaluation strategy](http://dmitrysoshnikov.com/ecmascript/chapter-8-evaluation-strategy/)
+    1. [The Quiz](http://dmitrysoshnikov.com/ecmascript/the-quiz/)
+    1. [OO Relationships](https://medium.com/@DmitrySoshnikov/oo-relationships-5020163ab162)
+    1. [Note 6. ES6: Default values of parameters](http://dmitrysoshnikov.com/ecmascript/es6-notes-default-values-of-parameters/)
+    1. [JavaScript Array “Extras” in Detail](https://dev.opera.com/articles/javascript-array-extras-in-detail/)
+    1. [Javascript Closures](http://jibbering.com/faq/notes/closures/)
 4. 异步 async/await/Promise  05_You_Don't _Know_JS_Async_&_Performance
+
     1. java script with promises
     1. https://css-tricks.com/understanding-async-await/
     2. Promise https://juejin.im/post/5b16800fe51d4506ae719bae
