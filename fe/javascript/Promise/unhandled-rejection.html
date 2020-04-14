@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <script>
+      function testUnhandledRejection() {
+        window.onunhandledrejection = event => {
+          console.log('[unhandledrejection]: ', event)
+
+          // 默认行为是将未处理的rejected信息打印到控制台
+          event.preventDefault()
+          return false
+        }
+
+        Promise.reject(new Error('unhandled error'))
+      }
+
+      function testRejectionHandled() {
+        window.onrejectionhandled = event => {
+          console.log('[rejectionhandled]: ', event)
+        }
+
+        // reject时没有handler，这个未被handled的rejection错误信息会被打印到控制台
+        const p = Promise.reject(new Error('handled error'))
+
+        // 后来添加handler处理rejected的情况，此时触发rejectionhandled事件
+        setTimeout(() => {
+          p.catch(error => console.log('catch: ' + error))
+        }, 3000)
+      }
+
+      testUnhandledRejection()
+      // testRejectionHandled()
+    </script>
+  </head>
+</html>
