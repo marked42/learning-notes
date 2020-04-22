@@ -10,6 +10,7 @@ Notes on Web Knowledge
 1. https://github.com/haizlin/fe-interview?utm_source=gold_browser_extension
 1. https://github.com/include-all/front-end-learning/issues/5
 1. https://github.com/Advanced-Frontend/Daily-Interview-Question
+1. https://github.com/YvetteLau/Blog
 
 Knowledge Level
 
@@ -32,6 +33,7 @@ Knowledge Level
     1. 200 201 Created 206, 300 304 Not Mo, 400, 500
 1. [HTTP2.0](https://www.cnblogs.com/yingsmirk/p/5248506.html)
 2. HTTPS
+1. network-path reference protocol-relative url https://tools.ietf.org/html/rfc3986#section-4.2
 
 ## HTML
 
@@ -80,6 +82,8 @@ Knowledge Level
 
 ## JS & TS
 
+1. https://www.zhihu.com/question/303073602
+1. https://www.npmjs.com/package/especially
 1. articles
     1. [JavaScript. The Core: 2nd Edition](http://dmitrysoshnikov.com/ecmascript/javascript-the-core-2nd-edition/)
     1. [ECMA-262-5 in detail. Chapter 0. Introduction](http://dmitrysoshnikov.com/ecmascript/es5-chapter-0-introduction/)
