@@ -2,12 +2,8 @@
 
 Notes on Web Knowledge
 
-1. https://github.com/yangshun/front-end-interview-handbook/blob/master/Translations/Chinese/README.md
-
-1. https://github.com/h5bp/Front-end-Developer-Interview-Questions
 1. https://github.com/qiu-deqing/FE-interview
-1. https://juejin.im/post/5aae076d6fb9a028cc6100a9
-1. https://github.com/haizlin/fe-interview?utm_source=gold_browser_extension
+1. 深入 javascript https://juejin.im/post/59278e312f301e006c2e1510
 1. https://github.com/include-all/front-end-learning/issues/5
 1. https://github.com/Advanced-Frontend/Daily-Interview-Question
 1. https://github.com/YvetteLau/Blog
@@ -24,6 +20,9 @@ Knowledge Level
 
 1. css-in-js
 1. components
+    1. 图片懒加载组件
+    1. 虚拟化列表组件
+    1. lodash/dayjs
 
 ## HTTP
 
@@ -67,6 +66,8 @@ Knowledge Level
 1. [SameSite cookies explained](https://web.dev/samesite-cookies-explained/)
 1. https://juejin.im/post/593df628da2f60006728cff2
 1. [劫持与反劫持](https://juejin.im/post/593df628da2f60006728cff2)
+1. X-Frame-Options
+1. Content-Security-Policy
 
 ## 性能优化
 
@@ -106,12 +107,8 @@ Knowledge Level
     1. [JavaScript Array “Extras” in Detail](https://dev.opera.com/articles/javascript-array-extras-in-detail/)
     1. [Javascript Closures](http://jibbering.com/faq/notes/closures/)
 4. 异步 async/await/Promise  05_You_Don't _Know_JS_Async_&_Performance
-
-    1. java script with promises
     1. https://css-tricks.com/understanding-async-await/
-    2. Promise https://juejin.im/post/5b16800fe51d4506ae719bae
-    3. https://juejin.im/post/5b2f02cd5188252b937548ab
-1. https://juejin.im/post/5d6aa4f96fb9a06b112ad5b1
+1. https://juejin.im/post/5d6aa4f96fb9a06b112ad5b1 deep copy
 1. 模块化 js ninja ch11
 1. object相关
     1. 01_You_Don't _Know_JS_Up_&_Going
@@ -126,11 +123,33 @@ Knowledge Level
     2. event emitter
     3. observer 观察者
     4. https://juejin.im/post/59eff1fb6fb9a044ff30a942
-3. es6 新特性
+1. es6 新特性
     1. class 面向对象
     1. 06_You_Don't _Know_JS_ES6_&_Beyond
+1. 自动插入分号 https://www.zhihu.com/question/20298345
+    ```js
+    function foo1()
+    {
+    return {
+        bar: "hello"
+    };
+    }
 
-7. [常见算法问题](https://juejin.im/post/5958bac35188250d892f5c91#heading-27)
+    function foo2()
+    {
+    return
+    {
+        bar: "hello"
+    };
+    }
+    ```
+1. 表达式求值策略
+    ```js
+    var foo = {n: 1};
+    var bar = foo;
+    foo.x = foo = {n: 2};
+    ```
+1. [常见算法问题](https://juejin.im/post/5958bac35188250d892f5c91#heading-27)
 
 ## Vue
 
