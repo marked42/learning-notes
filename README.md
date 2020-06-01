@@ -151,6 +151,7 @@ Knowledge Level
     ```
 1. [常见算法问题](https://juejin.im/post/5958bac35188250d892f5c91#heading-27)
 
+
 ## Vue
 
 1. https://juejin.im/post/5e778c71518825491d3240fd?utm_source=gold_browser_extension
@@ -161,6 +162,7 @@ Knowledge Level
 
 ## 浏览器
 
+1. https://zhuanlan.zhihu.com/p/47407398
 1. [从浏览器多进程到JS单线程，JS运行机制最全面的一次梳理](https://juejin.im/post/5a6547d0f265da3e283a1df7)
 1. 浏览器渲染机制
 1. https://time.geekbang.org/column/intro/216
