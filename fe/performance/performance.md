@@ -128,12 +128,31 @@ https://betterexplained.com/articles/how-to-optimize-your-site-with-gzip-compres
 
 1. 去除原信息(metadata) http://www.verexif.com/en/.
 
+Metrics:
+
+1. DOMContentLoaded 最初的HTML页面加载和解析完成后再`document`对象上触发
+1. onload 最初的HTML页面其所依赖的相关资源（CSS样式文件、图片等）完成加载后，在`window`上触发；在`<img>`，`<embed>`等元素上在资源下载完成时出发。
+
+1. First Paint
+1. First Meaningful Paint https://web.dev/first-meaningful-paint/
+1. First Contentful Paint https://web.dev/fcp/  https://web.dev/first-contentful-paint/
+1. Largest Contentful Paint https://web.dev/lcp/
+1. First Input Delay https://web.dev/fid/
+1. Cumulative Layout Shift
+1. Time to First Byte 从浏览器发出页面请求到接收到第一个字节响应数据的时间，用来衡量服务器的相应速度和网络情况，包括连接建立时间、请求发送时间、第一个字节响应返回时间。
+
+https://github.com/GoogleChrome/web-vitals
+
+https://web.dev/render-blocking-resources/
+
 #### cache
 
 #### 性能测量工具
 
 1. [ChromeDevTools](https://developers.google.com/web/fundamentals/performance/rail#devtools)
-https://developers.google.com/web/tools/chrome-devtools/evaluate-performance
+
+https://developers.google.com/web/tools/chrome-devtools/
+
 1. Lighthouse
 1. WebpageTest
 1. [PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/)
@@ -277,3 +296,9 @@ TODO:
 1. https://zhuanlan.zhihu.com/p/38548289
 
 高性能响应式Web开发实战
+
+https://www.youtube.com/watch?v=thNyy5eYfbc
+
+1. side navigation bar https://www.youtube.com/watch?v=Mhnj3PiPnZw
+1. swipeable cards https://www.youtube.com/watch?v=e5CXg1sjTqQ
+1. expande collapse FLIP

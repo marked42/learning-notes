@@ -6,15 +6,6 @@ Ambient
 
 > We call declarations that don’t define an implementation “ambient”.
 
-## Types
-
-1. `any` is super type of any other type
-1. `void` type is used as return type of function that doesn't returns. A variable of `void` can only accept `null` and `undefined` as its value.
-1. `undefined` and `null` type are type with single valid value `undefined` and `null` respectively. And they are subtypes of normal type like `string`/`number` so that a variable of type `string` can accept `undefined` and `null`. However, when `strictNullCheck` option is enabled, this is not allowed.
-1. `never` type is the return type of function when function throws exception or never ends (dead loop), `never` type is subtype of any other type.
-
-![Type graph](./typegraph.jpeg)
-
 ## Interface
 
 Interface `SquareConfig` specifies `color` property as optional, so object literal is actually compatible with `SquareConfig`. But it's probably that object literal property `colour` is a misspell instead of intentional naming. So when object literals are used, every property of object literal is checked against target type to avoid careless like typos below and this is called **excess property checks**.
@@ -673,3 +664,608 @@ npm install @types/jquery --save-dev
 ```
 
 一个类型定义库目录可能是包含一个`index.d.ts`文件或者一个`package.json`文件其中`types`字段指定了类型定义文件名。
+
+### 类型
+
+#### 类型体系
+
+TS有两个顶层类型（Top Type ）`any`和[unknown](https://github.com/Microsoft/TypeScript/pull/24439)，任何其他类型都是这两个类型的子类型。有一个底层类型（Bottom Type）`never`是所有其他类型的子类型。
+
+![Type graph](./typegraph.jpeg)
+
+使用`any`是说我不知道具体是什么类型，所以不管我做什么操作，都可能是正确的，所以不要提示错误。`any`提供了一个从JS到`TS`渐进迁移的方法，所有不确定类型或者暂时不想耗费精力去指定精确类型的地方都可以使用`any`，类型系统不再报错，但是程序运行时的正确性由程序员自己保证。
+
+使用`unknown`类型是说我不知道具体是什么类型，所以进行任何操作之前请提醒我进行类型检查。在`any`类型的基础上，想要更准确的类型检查就将`any`修改为`unknown`或者准确的类型上。
+
+```ts
+// unknown类型可以直接赋值给any或者unknown
+let value1: unknown = value;   // OK
+let value2: any = value;       // OK
+
+// 赋值给任何其他类型都会报错，使用前必须进行类型检查，收缩unknown到具体类型
+let value3: boolean = value;   // Error
+let value4: number = value;    // Error
+let value5: string = value;    // Error
+let value6: object = value;    // Error
+let value7: any[] = value;     // Error
+let value8: Function = value;  // Error
+
+// union unknown
+type UnionType1 = unknown | null;       // unknown
+type UnionType2 = unknown | undefined;  // unknown
+type UnionType3 = unknown | string;     // unknown
+type UnionType4 = unknown | number[];   // unknown
+type UnionType5 = unknown | any;  // any
+
+// intersection
+type IntersectionType1 = unknown & null;       // null
+type IntersectionType2 = unknown & undefined;  // undefined
+type IntersectionType3 = unknown & string;     // string
+type IntersectionType4 = unknown & number[];   // number[]
+type IntersectionType5 = unknown & any;        // any
+```
+
+大部分运算符对于`unknown`类型没有意义，能够直接使用的只有这几个`===`、`==`、`!==`、`!=`。
+
+1. `void` type is used as return type of function that doesn't returns. A variable of `void` can only accept `null` and `undefined` as its value.
+1. `undefined` and `null` type are type with single valid value `undefined` and `null` respectively. And they are subtypes of normal type like `string`/`number` so that a variable of type `string` can accept `undefined` and `null`. However, when `strictNullCheck` option is enabled, this is not allowed.
+1. `never` type is the return type of function when function throws exception or never ends (dead loop), `never` type is subtype of any other type.
+
+#### Type Guards
+
+类型谓词（type predicate），在函数签名返回值类型处使用`parameter is Type`形式，函数返回值为真时参数类型成立。
+
+```ts
+interface Bird {
+    fly();
+    layEggs();
+}
+
+interface Fish {
+    swim();
+    layEggs();
+}
+
+function isFish(pet: Fish | Bird): pet is Fish {
+    return (pet as Fish).swim !== undefined
+}
+
+if (isFish(pet)) {
+    // isFish返回真时pet是Fish成立
+    pet.swim()
+} else {
+    // pet是Fish不成立，pet只能是Bird
+    pet.fly()
+}
+```
+
+类型谓词只能有使用一次。
+
+`n in x`操作符，其中`n`是字符串或者字符串类型，`x`是联合类型（union type）。
+
+```ts
+function move(pet: Fish | Bird) {
+    if ("swim" in pet) {
+        // 收缩到联合类型中具有可选的或者必须的"swim"字段的类型
+        return pet.swim();
+    }
+    // 收缩到联合类型中具有可选的"swim"字段或者没有“swim”字段的类型
+    return pet.fly();
+}
+```
+
+`typeof v === "typename"`或者`typeof v !== "typename"`两种形式，其中`typename`只能是`"number"`，`"string"`,`"boolean"`或者`"symbol"`，这些情况下被识别为类型保护声明。
+
+注意"typename"中不包括`null`和`undefined`，对于`null`和`undefined`的类型守卫直接使用等式判断即可。
+
+```ts
+function f(sn: string | null): string {
+  if (sn == null) {
+    return "default";
+  } else {
+    return sn;
+  }
+}
+
+// 或者更简洁的形式
+function f(sn: string | null): string {
+  return sn || "default";
+}
+```
+
+对于编译器尚不能分析确定但是根据代码流程变量类型不可能是`null`或者`undefined`的情况，使用`v!`变量名加`!`的形式提示编译器该变量不可能是`null`或者`undefined`。
+
+```ts
+function broken(name: string | null): string {
+  function postfix(epithet: string) {
+    // error, 'name' is possibly null
+    return name.charAt(0) + ".  the " + epithet;
+  }
+  name = name || "Bob";
+  return postfix("great");
+}
+
+function fixed(name: string | null): string {
+  function postfix(epithet: string) {
+    // 不再提示错误
+    return name![0] + ".  the " + epithet;
+  }
+  name = name || "Bob";
+  return postfix("great");
+}
+```
+
+`obj instanceof ConstructorName`中右侧必须是构造函数，在条件成立时对象`obj`会被收窄类型，函数原型存在的话收窄到`ConstructorName.prototype`的类型，收窄到所有重载的构造函数返回类型的联合类型。
+
+断言函数（assertion function）是Javascript中用来确保断言条件成立的函数，在失败的情况下抛出异常。[断言签名](https://github.com/microsoft/TypeScript/pull/32695)用来指示如果断言函数正常执行，没有抛出异常，那么后续流程中断言成立（可能是type guard）或者断言的参数类型为真。
+
+```ts
+// 断言条件成立
+function assert(condition: any, msg?: string): asserts condition {
+    if (!condition) {
+        throw new AssertionError(msg)
+    }
+}
+
+function yell(str) {
+    assert(typeof str === "string");
+
+    // error: Property 'toUppercase' does not exist on type 'string'.
+    return str.toUppercase();
+}
+
+// 断言参数类型
+function assertIsString(val: any): asserts val is string {
+    if (typeof val !== "string") {
+        throw new AssertionError("Not a string!");
+    }
+}
+
+// 使用
+function yell(str: any) {
+    assertIsString(str);
+
+    // error: Property 'toUppercase' does not exist on type 'string'.
+    return str.toUppercase();
+}
+```
+
+`keyof T`（index type query operator）返回类型`T`的所有`public`属性名称字符串的联合类型，可以用在泛型表达式中。
+`T[K]`（the indexed access operator）返回类型`T`的所有键值`K`对应的属性值类型的联合类型。
+
+索引类型和索引签名，具有`string`类型索引签名的类型`T`，对应的`keyof T`是`number | string`，因为Javascript中`number`下标的访问被自动转换成字符串。具有`number`索引类型签名的类型`T`，对应的`keyof T`是`number`。
+
+```ts
+interface Dictionary<T> {
+  [key: string]: T;
+}
+let keys: keyof Dictionary<number>; // string | number
+let value: Dictionary<number>["foo"]; // number
+
+interface Dictionary<T> {
+  [key: number]: T;
+}
+let keys: keyof Dictionary<number>; // number
+let value: Dictionary<number>["foo"]; // Error, Property 'foo' does not exist on type 'Dictionary<number>'.
+let value: Dictionary<number>[42]; // number
+```
+
+映射类型从现有的对象类型基础上，创建出新的对象类型，`[P in keyof T]`表达式中`keyof T`表示现有类型`T`的所有键类型，`T[P]`是每个键的对应值类型。
+
+```ts
+type Readonly<T> = {
+  readonly [P in keyof T]: T[P];
+};
+type Partial<T> = {
+  [P in keyof T]?: T[P];
+};
+```
+
+上面是[一一映射](https://en.wikipedia.org/wiki/Homomorphism)，只改变每个键值对的类型信息，增加或者减少成员的话不能使用这种形式。
+
+```ts
+// This is an error!
+type PartialWithNewMember<T> = {
+  [P in keyof T]?: T[P];
+  newMember: boolean;
+}
+```
+
+可以在`K in keyof T`中使用不同的键名称联合类型替换`keyof T`，然后配合条件类型指定对值的类型。
+
+```ts
+type AddNewMember<T, Name extends string, U> = {
+  [K in (keyof T | Name)]: K extends keyof T ? T[K] : U;
+}
+
+type AddNameCar = AddNewMember<Car, "fuck", number>
+```
+
+或者使用交集类型
+
+```ts
+// Use this:
+type PartialWithNewMember<T> = {
+  [P in keyof T]?: T[P];
+} & { newMember: boolean }
+```
+
+// TODO:
+
+as const
+
+control flow analysis https://github.com/microsoft/TypeScript/pull/32695
+
+this parameter
+function
+constructor
+tuple
+
+
+// intersection type of function ?
+f12('hello', 'world')
+f12(1, 3)
+f12(1, 'test')
+
+lookup type
+
+```ts
+type E7 = (string[])[number]
+
+type E8 = (string[])[1]
+type E9 = (string[])[number]
+// error
+// type E9 = (string[])[string]
+type E91 = (string[])[never]
+type E92 = (string[])[any]
+// type E93 = (string[])[void]
+
+type E10 = ([string, number])[0]
+type E11 = ([string, number])[1]
+type E12 = ([string, number])[0 | 1]
+type E13 = ([string, number])[number]
+type E14 = ([string, number])[never]
+type E15 = ([string, number])[any]
+// type E14 = ([string, number])[string]
+
+```
+
+#### 交集与并集（intersection & union）
+
+函数签名中参数类型是输入类型，符合逆变（contra-variance），返回值是输出类型，符合协变（covariance）。
+
+两个函数的交集函数类型如下：
+
+```ts
+type F1 = (a: string, b: string) => string | number;
+type F2 = (a: number, b: number) => number | boolean;
+
+let fNumber: F1 & F2 = (a: string | number, b: string | number): number => { return 1 }
+// 返回类型错误
+// let fString: F1 & F2 = (a: string | number, b: string | number): string => { return '1' }
+// let fBoolean: F1 & F2 = (a: string | number, b: string | number): boolean => { return true }
+```
+
+交集函数`fNumber`的输入参数是逆变的，类型`F1 & F2`的函数必须同时接受`F1`参数类型和`F2`参数类型，所以`F1 & F2`的参数类型是`F1`和`F2`对应参数类型的并集类型；返回值类型是协变的，所以必须同时是`F1`和`F2`的返回值类型的子类型，也就是其共同部分`number`。
+
+下面是三个使用例子，需要注意的是第三个例子混合了字符串和数字的调用，这种情况能被编译器判定为**类型错误**。
+
+TODO: 在`fNumber(1, 'test')`调用处会根据参数进一步**收缩**类型。注意决定`F1 & F2`的过程和赋值语句中类型推导的收缩过程是两个独立的过程。
+
+```ts
+fNumber('hello', 'world')
+fNumber(1, 3)
+// typescript可以从重载中选出一个从而检测出这个调用是不合法的。
+// fNumber(1, 'test')
+```
+
+根据上述概念可以实现交集函数操作的泛型类`IntersectionFun<T>`
+
+```ts
+type IntersectionFun<F1 extends (a: any, b: any) => any, F2 extends (a: any, b: any) => any>
+  = (
+      a: Parameters<F1>[0] | Parameters<F2>[0],
+      b: Parameters<F1>[1] | Parameters<F2>[1],
+    ) => ReturnType<F1> & ReturnType<F2>
+
+let fNumber: IntersectionFun<F1, F2> = (a: string | number, b: string | number): number => { return 1 }
+
+fNumber('hello', 'world')
+fNumber(1, 3)
+// 类型正确
+fNumber(1, 'test')
+```
+
+`IntersectionFun<T>`相比于交集类型操作符有两点不同：
+
+1. 只能准确得到固定个数的函数参数类型，这里是2个。
+1. 第三个混合类型的调用类型正确。
+
+`F1 & F2`类似于函数重载的效果
+
+```ts
+// F1
+declare function fNumber(a: number, b: number): string | number;
+// F2
+declare function fNumber(a: string, b: string): number | boolean;
+// F1 & F2  参数类型错误
+fNumber(1, 'test')
+
+// IntersectionFun<F1, F2>
+declare function fNumber(a: string | number, b: string | number): number;
+```
+
+两个函数类型的并集函数类型，`fUnion: F1 | F2`赋值语句中进行类型推导的过程是从并集`F1 | F2`中依次检查目标类型例如`(a: string, b: string): number`，去除掉不符合的类型`F2`，最终收缩到符合类型的并集上`F1`。
+
+```ts
+namespace FnUnion {
+  type F1 = (a: string, b: string) => string | number;
+  type F2 = (a: number, b: number) => number | boolean;
+
+  namespace E1 {
+    // F1符合 (a: string, b: string) => string | number
+    let fUnion: F1 | F2 = (a: string , b: string): number => {
+      return 1
+    }
+    fUnion('hello', 'world')
+    fUnion(1, 3)
+    fUnion(1, 'test')
+  }
+
+  namespace E2 {
+    // F2符合 (a: number, b: number) => number | boolean
+    let fUnion: F1 | F2 = (a: number, b: number): number => {
+      return 1
+    }
+    fUnion('hello', 'world')
+    fUnion(1, 3)
+    fUnion(1, 'test')
+  }
+
+  namespace E3 {
+    // (a: never, b: never) => string : number | boolean
+    let fUnion: F1 | F2 = (a: number | string, b: number | string): any => {
+      return 1
+    }
+    fUnion('hello', 'world')
+    fUnion(1, 3)
+    fUnion(1, 'test')
+  }
+}
+```
+
+#### tuple
+
+map函数的类型签名，每个位置的参数类型准确？
+
+#### 条件类型
+
+条件类型的形式`T extends U ? X : Y`，如果`T`是`U`的子类型，结果类型是`X`，否则是`Y`。还可能在类型信息不足以判断`T extends U`结果时延迟类型决定，这个时候条件类型的值可以赋值给类型`X | Y`，因为不论结果如何，最终类型不是`X`就是`Y`。
+
+```ts
+declare function f<T extends boolean>(x: T): T extends true ? string : number;
+let x = f(Math.random() < 0.5)
+
+let x: string | number = f(Math.random() < 0.5)
+let x1: string = f(true)
+let x2: number = f(false)
+```
+
+**分配的条件类型**（distributive conditional types），在条件类型表达式中`T extends U ? X : Y`中，`T`是一个**单纯的泛型类型参数**时，在条件类型表达式使用具体类型实例化时，如果实际类型是联合类型`A | B | C`，条件类型的结果是每个子类型的条件类型的联合类型。
+
+```ts
+// 联合类型
+type ABC = A | B | C
+
+// 泛型类型定义
+type Distributive<T, U> = T extends U ? T[] : never
+
+// 使用联合类型实例化条件类型表达式，结果符合分配律
+type DistributedABC = Distributive<A | B | C, number | boolean>
+type ExpandedDistributedABC =
+    (A extends number | boolean ? A[] : never)
+  | (B extends number | boolean ? B[] : never)
+  | (C extends number | boolean ? C[] : never)
+
+// T[]是符合类型，不是单纯的类型参数所以不发生分配
+type NotDistributiveCauseNonNakedType<T, U> = T[] extends U[] ? T[] : never
+// never
+type N1 = NotDistributiveCauseNonNakedType<A | B | C, number | boolean>
+
+// string[]不是单纯的类型参数，不发生分配
+type NotDistributiveCauseNotTypeParameter<T> = string[] extends any[] ? T[] : never
+```
+
+当分配不发生时可以采用嵌套的语法强制实现分配，参考下例。
+
+```ts
+namespace Conditional {
+  interface Student {
+    name: string;
+    friends: string[];
+    teachers: string[];
+  }
+
+  // 实现一个FilterArrayKeys<T>，返回T中所有值是数组类型的键的集合
+  // 从Student中找出值是数组类型的键名称类型 FilterArrayKeys
+  // ArrayKeys应该是 "friends" | "teachers"
+  // type ArrayKeys = FilterArrayKeys<Student>
+
+  namespace NonDistributive {
+    // T[K]是值的类型，但是这种形式不发生分配
+    type FilterArrayKeys<T, K extends keyof T = keyof T> = T[K] extends any[] ? K : never;
+
+    // ArrayKeys = never
+    type ArrayKeys = FilterArrayKeys<Student, keyof Student>
+  }
+
+  namespace Distributive {
+    // 为了发生分配，使用K嵌套一层即可
+    type FilterArrayKeys<T, K extends keyof T = keyof T> = K extends any
+      ? T[K] extends any[] ? K : never
+      : never
+
+    // ArrayKeys = "friends" | "teachers"
+    type ArrayKeys = FilterArrayKeys<Student>
+  }
+}
+
+```
+
+注意分配的条件类型是typescript提供的一个工具对联合类型中某些类型做过滤，并不是一个类型系统的定律。下面两种情况并不等价
+
+```ts
+// A = never
+type A = (number | string) extends string ? true : never
+// B = true
+type B =
+    | number extends string ? true : never
+    | string extends string ? true : never
+```
+
+条件类型和映射类型联合使用，
+
+```ts
+// 注意索引类型,never类型，映射类型、条件类型的组合使
+type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
+type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
+
+type NonFunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? never : K }[keyof T];
+type NonFunctionProperties<T> = Pick<T, NonFunctionPropertyNames<T>>;
+
+interface Part {
+    id: number;
+    name: string;
+    subparts: Part[];
+    updatePart(newName: string): void;
+}
+
+type T40 = FunctionPropertyNames<Part>;  // "updatePart"
+type T41 = NonFunctionPropertyNames<Part>;  // "id" | "name" | "subparts"
+type T42 = FunctionProperties<Part>;  // { updatePart(newName: string): void }
+type T43 = NonFunctionProperties<Part>;  // { id: number, name: string, subparts: Part[] }
+```
+
+条件类型**不能嵌套使用**
+
+```ts
+type ElementType<T> = T extends any[] ? ElementType<T[number]> : T;  // Error
+```
+
+条件类型表达式可以嵌套
+
+```ts
+type V = true extends true ? (string extends number ? 1 : 2) : 3
+```
+
+#### TODO
+
+1. 参考例子condtional-exer1.ts，https://artsy.github.io/blog/2018/11/21/conditional-types-in-typescript/
+
+#### 条件类型中的类型推导
+
+在条件类型表达式中可以使用`infer`关键字引入一个被推导出值的类型标志，类型标志通常作为复合类型的一部分使用，推导出的类型标志后续在条件类型为**真**的分支中使用。
+
+```ts
+type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
+```
+
+可以使用**多个相同或者不同**的类型关键字，
+
+一个类型有多个约束时在协变的情况下推导为所有可能类型的并集类型（union），在逆变的情况下推导为所有类型的交集类型(intersection）。
+
+```ts
+type Foo<T> = T extends { a: infer U, b: infer U } ? U : never;
+type T10 = Foo<{ a: string, b: string }>;  // string
+// 协变
+type T11 = Foo<{ a: string, b: number }>;  // string | number
+
+type Bar<T> = T extends { a: (x: infer U) => void, b: (x: infer U) => void } ? U : never;
+type T20 = Bar<{ a: (x: string) => void, b: (x: string) => void }>;  // string
+// 逆变
+type T21 = Bar<{ a: (x: string) => void, b: (x: number) => void }>;  // string & number
+```
+
+被推导的类型有多种签名类型（函数重载）时，使用最后一种。
+
+```ts
+declare function foo(x: string): number;
+declare function foo(x: number): string;
+declare function foo(x: string | number): string | number;
+type T30 = ReturnType<typeof foo>;  // string | number
+```
+
+#### 索引类型
+
+注意类型表达式
+索引类型(index types)
+
+```ts
+interface Person {
+    name: string;
+    age: number;
+    sex: boolean;
+}
+
+// string | number
+type P = Person['name' | 'age']
+
+// 去除数组类型
+type E = (string[])[number]
+```
+
+#### Types
+
+TODO:
+
+1. Partial
+1. Required
+1. Readonly
+1. Pick
+1. Record
+1. Exclude
+1. Extract
+1. Omit
+1. NonNullable
+1. Parameters
+1. ConstructorParameters
+1. ReturnType
+1. InstanceType
+1. Unpack 剥离数组，函数，Promise等复合类型的基础类型
+1. 映射类型
+    1. 改变值的类型
+    1. 根据key名称过滤一部分
+    1. 根据值类型过滤一部分
+    1. 添加新的键值对类型 从类型`Person`构建一个新类型，新类型只包括`Person`中值是函数的键值对。 为类型`Person`添加新的类型
+        ```ts
+        interface A {
+            name: string;
+        }
+
+        interface B {
+            age: string;
+        }
+
+        interface C {
+            name: string;
+            age: string;
+        }
+        type C1 = A | B
+        ```
+1. conditional types
+    ```ts
+    function process(text: string | null): string | null {
+        return text && text.replace(/f/g, "p")
+    }
+
+    function process<T extends string | null>(text: T):
+        T extends null ? null : string
+    {
+        return text && text.replace(/f/g, "p")
+    }
+    ```
+
+#### 图灵完备
+
+https://github.com/Microsoft/TypeScript/issues/14833
+https://mariusschulz.com/blog/series/typescript-evolution
