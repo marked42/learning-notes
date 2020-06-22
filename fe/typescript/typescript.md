@@ -892,7 +892,81 @@ type PartialWithNewMember<T> = {
 
 // TODO:
 
-as const
+#### Const Assertion
+
+[Always use literal types](https://github.com/Microsoft/TypeScript/pull/10676)
+
+基本字面值（数字、字符串、布尔、枚举）的类型赋值给常量`const a = 1`变量时，`a`的值不会再发生变化，所以变量`a`类型可以收缩到字面值类型`1`，即不再接受其他任何数字；赋值给变量`let a = 1`时，`a`后续可以赋值为其他数字，所以`a`的类型从`1`[拓宽](https://mariusschulz.com/blog/literal-type-widening-in-typescript)为`number`。
+
+下面的例子
+
+```ts
+// 常量HTTPResponseMethod本身不可变，但是其属性可变，所以默认推导的类型是 string
+// const HTTPRequestMethod: {
+//   CONNECT: string;
+//   DELETE: string;
+//   GET: string;
+//   HEAD: string;
+//   OPTIONS: string;
+//   PATCH: string;
+//   POST: string;
+//   PUT: string;
+//   TRACE: string;
+// }
+const HTTPRequestMethod = {
+  CONNECT: "CONNECT",
+  DELETE: "DELETE",
+  GET: "GET",
+  HEAD: "HEAD",
+  OPTIONS: "OPTIONS",
+  PATCH: "PATCH",
+  POST: "POST",
+  PUT: "PUT",
+  TRACE: "TRACE"
+};
+
+// 可以显式指定为字面值类型
+const HTTPRequestMethod = {
+  CONNECT: "CONNECT" as "CONNECT",
+  DELETE: "DELETE" as "DELETE",
+  GET: "GET" as "GET",
+  HEAD: "HEAD" as "HEAD",
+  OPTIONS: "OPTIONS" as "OPTIONS",
+  PATCH: "PATCH" as "PATCH",
+  POST: "POST" as "POST",
+  PUT: "PUT" as "PUT",
+  TRACE: "TRACE" as "TRACE"
+};
+```
+
+或者使用常量声明（`as const`），有三个方面的效果。
+
+1. 字面值基本类型不会扩展
+1. 字面值对象属性变为只读（readonly）
+1. 字面值数组变为只读元组类型（readonly tuple）
+
+```ts
+const HTTPRequestMethod: {
+  readonly CONNECT: "CONNECT";
+  readonly DELETE: "DELETE";
+  readonly GET: "GET";
+  readonly HEAD: "HEAD";
+  readonly OPTIONS: "OPTIONS";
+  readonly PATCH: "PATCH";
+  readonly POST: "POST";
+  readonly PUT: "PUT";
+  readonly TRACE: "TRACE";
+} = {
+  CONNECT: "CONNECT",
+  DELETE: "DELETE",
+  GET: "GET",
+  HEAD: "HEAD",
+  OPTIONS: "OPTIONS",
+  PATCH: "PATCH",
+  POST: "POST",
+  PUT: "PUT",
+  TRACE: "TRACE"
+```
 
 control flow analysis https://github.com/microsoft/TypeScript/pull/32695
 
