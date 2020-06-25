@@ -15,7 +15,7 @@ namespace FnIntersection {
   fNumber('hello', 'world')
   fNumber(1, 3)
   // typescript可以从重载中选出一个从而检测出这个调用是不合法的。
-  // fNumber(1, 'test')
+  fNumber(1, 'test')
 
   type IntersectionFun<F1 extends (a: any, b: any) => any, F2 extends (a: any, b: any) => any>
     = (

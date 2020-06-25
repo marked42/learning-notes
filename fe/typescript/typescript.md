@@ -1008,6 +1008,8 @@ type E15 = ([string, number])[any]
 
 函数签名中参数类型是输入类型，符合逆变（contra-variance），返回值是输出类型，符合协变（covariance）。
 
+#### 函数交集
+
 两个函数的交集函数类型如下：
 
 ```ts
@@ -1071,6 +1073,8 @@ declare function fNumber(a: string | number, b: string | number): number;
 
 两个函数类型的并集函数类型，`fUnion: F1 | F2`赋值语句中进行类型推导的过程是从并集`F1 | F2`中依次检查目标类型例如`(a: string, b: string): number`，去除掉不符合的类型`F2`，最终收缩到符合类型的并集上`F1`。
 
+#### 函数并集
+
 ```ts
 namespace FnUnion {
   type F1 = (a: string, b: string) => string | number;
@@ -1108,9 +1112,234 @@ namespace FnUnion {
 }
 ```
 
-#### tuple
+### 映射类型 Mapped Type
 
-map函数的类型签名，每个位置的参数类型准确？
+同构映射类型和联合烈类型（Isomorphic Mapped Type and Union)
+
+如下形式的映射类型被称为同构类型，因为新的类型拥有和类型参数`T`相同名字的键，形状相同。
+
+```ts
+type Readonly<T> = {
+  readonly [K in keyof T]: T[K];
+}
+```
+同构映射类型有[两条处理规则](https://github.com/Microsoft/TypeScript/pull/12447)：
+
+1. 当类型`T`是联合类型例如`A | B`时，映射类型会在`T`上发生分配，即`Readonly<A | B> = Readonly<A> | Readonly<B>`
+1. 当类型`T`是基本类型时，同构映射类型的结果就是该类型本身。
+
+```ts
+type A = { a: string };
+type B = { b: string };
+type C = { c: string };
+
+type T1 = Partial<A | B | C>;  // Partial<A> | Partial<B> | Partial<C>
+type T2 = Readonly<A | B | null | undefined>;  // Readonly<A> | Readonly<B> | null | undefined
+type T3 = Readonly<A | B[] | string>;  // Readonly<A> | Readonly<B[]> | string
+type T4 = Readonly<string>;  // string
+type T5 = Readonly<string | number | boolean>;  // string | number | boolean
+```
+
+注意非泛型类型参数的同构映射类型常规处理，先求键的集合再做映射处理，不会保留基本类型本身。
+
+```ts
+// M = {}   keyof (null | undefined) 是空集
+type M = {
+  [K in keyof (null | undefined)]: string;
+}
+```
+
+考虑只读类型的递归版本，上述两条规则都涉及到了。
+
+```ts
+type NestedReadonly<T> = {
+  readonly [K in keyof T]: NestedReadonly<T[K]>;
+}
+
+let a = {
+  a: 1,
+  b: {
+    c: 2,
+    d: {
+      e: 3,
+    }
+  }
+}
+
+type ExpectedType = {
+  readonly a: number;
+  readonly b: {
+    readonly c: number;
+    readonly d: {
+      readonly e: number;
+    }
+  }
+}
+
+type NRA = NestedReadonly<typeof a>
+
+// true
+type same = ExpectedType extends NestedReadonly<typeof a> ? true : false
+// true
+type same1 = NestedReadonly<typeof a> extends ExpectedType ? true : false
+```
+
+`NestedReadonly<typeof a>`类型的展开过程如下。
+
+```ts
+// 1
+{
+  readonly a: number;
+  readonly b: NestedReadonly<{
+    c: number;
+    d: {
+      e: number;
+    };
+  }>;
+}
+
+// 2
+{
+  readonly a: number;
+  readonly b: {
+    readonly c: number;
+    readonly d: NestedReadonly<{
+      e: number;
+    }>;
+  };
+}
+
+// 3
+{
+  readonly a: number;
+  readonly b: {
+    readonly c: number;
+    readonly d: {
+      readonly e: NestedReadonly<number>;
+    };
+  };
+}
+
+// 4 类型参数是基本类型时映射到自身
+{
+  readonly a: number;
+  readonly b: {
+    readonly c: number;
+    readonly d: {
+      readonly e: number;
+    };
+  };
+}
+```
+
+使用条件类型手动处理递归到基本类型的情况。
+
+```ts
+type NestedReadonlyV2<T> = {
+  readonly [K in keyof T]: T[K] extends object ? NestedReadonlyV2<T[K]> : T[K];
+}
+```
+
+一个奇怪的例子
+
+```ts
+type k1  = keyof (string)
+type k2  = keyof (number)
+type k3  = keyof (boolean)
+// "valueOf"
+type k4  = keyof (Boolean)
+
+// TODO:
+// keyof (string | number | boolean) 直接求值，共同的键值只有一个”valueOf"
+// k = "valueOf"
+type k  = keyof (string | number | boolean)
+
+// 在映射类型中变成了三个 "toString" | "toLocaleString" | "valueOf"
+// M = {
+//   toString: "toString",
+//   toLocaleString: "toLocalString",
+//   valueOf: "valueOf",
+// }
+type M = {
+  [K in keyof (string | number | boolean)]: K;
+}
+type M1 = {
+  [K in keyof string]: K;
+}
+type M2 = {
+  [K in keyof number]: K;
+}
+type M3 = {
+  [K in keyof boolean]: K;
+}
+```
+
+#### 元组（Tuple）
+
+元组类型元素个数固定，且每个位置的类型独立。元组类型用来准确推导函数参数类型。
+
+获取一个元组类型的第一个元素类型
+
+```ts
+export type Head<T extends any[]> = T extends [any, ...any[]] ? T[0] : never
+```
+
+获取元组类型的除了第一个位置的其余子元组类型，使用函数参数类型推导时，会被推导成元组的特点，`...tail: infer A`会被推导成元组。
+
+```ts
+// 返回一个元祖类型里的除第一个类型, Tail<[1, 2, 3]> => [2, 3]
+export type Tail<T extends any[]> = ((...args: T) => any) extends ((arg1: any, ...tail: infer A) => any) ? A : []
+```
+
+注意下面的实现不同，其中类型`...(infer R)[]`指定剩余参数类型为数组类型`R[]`，所以最终被推导为剩余元素类型的联合类型。
+
+```ts
+type Tail<T extends any[]> = T extends [infer R, ...(infer U)[]] ? U : []
+```
+
+判断一个元组类型是否有超过一个元素。
+
+```ts
+// 判断一个元祖类型元素数量是否 >= 1
+export type HasTail<T extends any[]> = T extends ([] | [any]) ? false : true
+```
+
+通过嵌套的调用`Tail`可以不断的去除元组的第一个类型，从而得到最后一个元素的类型
+
+```ts
+export type Last<T extends any[]> = {
+  0: Last<Tail<T>>,
+  1: Head<T>,
+}[HasTail<T> extends true ? 0 : 1]
+```
+
+获取元组类型的长度。
+
+```ts
+type Length<T extends any[]> = T["length"]
+```
+
+比较两个元组类型的长度
+
+```ts
+type CompareLength<T1 extends any[], T2 extends any[]> = keyof T1 extends keyof T2
+  ? keyof T2 extends keyof T1
+    ?  0
+    : -1
+  : 1
+
+type shorter = CompareLength<[string, number], [null, undefined, number]>
+type equal = CompareLength<[string, number], [null, undefined]>
+type longer = CompareLength<[string, number], [null]>
+```
+
+同样利用函数参数类型推导将元组拼接组成更长的元组。
+
+```ts
+type concat<T, U extends any[]> = ((arg: T, ...args: U) => void) extends ((...args: infer R) => void)
+  ? R : never
+type a1 = concat<number, [string, boolean]>
+```
 
 #### 条件类型
 
@@ -1220,6 +1449,9 @@ type T42 = FunctionProperties<Part>;  // { updatePart(newName: string): void }
 type T43 = NonFunctionProperties<Part>;  // { id: number, name: string, subparts: Part[] }
 ```
 
+映射类型也可以实现在类型键值上的分配效果，再配合lookup type的语法获得所有值类型的并集类型。
+
+
 条件类型**不能嵌套使用**
 
 ```ts
@@ -1231,10 +1463,6 @@ type ElementType<T> = T extends any[] ? ElementType<T[number]> : T;  // Error
 ```ts
 type V = true extends true ? (string extends number ? 1 : 2) : 3
 ```
-
-#### TODO
-
-1. 参考例子condtional-exer1.ts，https://artsy.github.io/blog/2018/11/21/conditional-types-in-typescript/
 
 #### 条件类型中的类型推导
 
@@ -1268,6 +1496,165 @@ declare function foo(x: number): string;
 declare function foo(x: string | number): string | number;
 type T30 = ReturnType<typeof foo>;  // string | number
 ```
+
+#### 例子1
+
+1. 参考例子condtional-exer1.ts，https://artsy.github.io/blog/2018/11/21/conditional-types-in-typescript/
+
+#### UnionToIntersection
+
+利用条件类型推导和函数参数逆变实现 [UnionToIntersection](https://github.com/Microsoft/TypeScript/issues/27907?utm_source=wechat_session&utm_medium=social&utm_oi=32148677459968)，在同一个类型参数`I`受到多个分配条件类型的约束，所以被推导成多个类型的交集类型。
+
+```ts
+type UnionToIntersection<U> =
+  (U extends any ? (k: U) => void : never) extends ((k: infer I) => void) ? I : never
+
+type AB: A & B = UnionToIntersection<A | B>
+  = (
+    (A extends any ? (k: A) => void : never)
+    | (B extends any ? (k: B) => void : never)
+  ) extends ((k: infer I) => void) ? I : never
+  = ((k: A) => void | (k: B) => void)
+   extends ((k: infer I) => void) ? I : never
+  = ((k: A & B) => void) extends ((k: infer I) => void) ? I : never
+  = A & B
+```
+
+#### `Flatten`函数
+
+`flatten`函数将一个对象拍平，属性值是基本类型和数组类型的键被保留，对象类型的属性键被丢弃，并嵌套拍平。
+
+```ts
+// 对象
+let obj = {
+  a: 1,
+  b: [2],
+  c: {
+    d: 1,
+    f: 2,
+  },
+  h: {
+    g: 1,
+  }
+}
+
+// 拍平后的对象
+let flattened = {
+  a: 1,
+  b: [2],
+  d: 1,
+  f: 2,
+  g: 1,
+}
+```
+
+目标是实现一个泛型类型`Flatten`使得`typeof flattened = Flatten<typeof obj>`成立。
+
+首先获取所有属性值不是对象类型的键的集合类型，这里只考虑了数组类型不被拍平，更多的对象类型`Map`、`Set`需要支持的话可以添加。
+
+```ts
+// 使用辅助类型实现，NonObjectPropKeysHelper第二个类型参数接受的是T的键联合类型
+type NonObjectPropKeys<T> = NonObjectPropKeysHelper<T, keyof T>
+
+// 通过条件类型将数组类型和其他不是object的类型对应的键取出来
+type NonObjectPropKeysHelper<T, K extends keyof T> = K extends any
+  ? (T[K] extends any[] ? K : T[K] extends object ? never : K)
+  : never
+
+// "a" | "b"
+type nonObjectPropKeys = NonObjectPropKeys<typeof obj>
+```
+
+也可以使用映射类型和索引类型实现，
+
+```ts
+type NonObjectPropKeysWithMappedType<T> = {
+  [K in keyof T]: T[K] extends any[] ? K : T[K] extends object ? never : K
+}[keyof T]
+
+// "a" | "b"
+type nonObjectKeysWithMappedType = NonObjectPropKeysWithMappedType<typeof obj>
+```
+
+对应的可以实现获得对象类型的键值集合类型。
+
+```ts
+type ObjectPropKeys<T> = ObjectPropKeysHelper<T, keyof T>
+type ObjectPropKeysHelper<T, K extends keyof T> = K extends any
+  ? (T[K] extends any[] ? never : T[K] extends object ? K : never)
+  : never
+```
+
+获取了键值集合类型后，可以获取对应的值集合。
+
+```ts
+type NonObjectPicks<T> = Pick<T, NonObjectPropKeys<T>>
+type nonObjectPicks = NonObjectPicks<typeof obj>
+// {
+//   a: 1,
+//   b: [2],
+// }
+
+type ObjectPicks<T> = Pick<T, ObjectPropKeys<T>>
+type objectPicks = ObjectPicks<typeof obj>
+// {
+//   c: {
+//     d: 1,
+//     f: 2,
+//   },
+//   h: {
+//     g: 1,
+//   }
+// }
+```
+
+从`ObjectPicks`可以继续得到对象值的联合类型，去掉键。
+
+```ts
+type ObjectValues<T> = ObjectPicks<T>[keyof ObjectPicks<T>]
+```
+
+注意`objectPicks`类型中可能有多个属性值是对象类型，将基本类型和对象类型组合成最后的拍平类型。
+
+```ts
+type N = { a: number, b: [number] }
+type O1 = {
+  d: 1,
+  f: 2,
+}
+type O2 = {
+  g: 1
+}
+
+type Flattened = H1 & UnionToIntersection<O1 | O2>
+ = H1 & O1 & O2
+```
+
+实现大致如下，注意其中`ObjectPicks<T>`可能是对象联合类型，其中每个对象类型又需要拍平，所以递归调用`Flatten`。
+
+```ts
+type Flatten<T> = NonObjectPicks<T> & UnionToIntersection<Flatten<ObjectPicks<T>>>
+```
+
+但是这种形式的递归类型TS不直接支持，需要借助映射类型的语法进行递归定义。
+
+```ts
+type Flatten<T> = {
+  "default": T extends object
+    ? NonObjectPicks<T> & UnionToIntersection<Flatten<ObjectValues<T>>>
+    : never
+}[T extends any ? "default" : "default"]
+```
+
+注意索引类型中的条件类型表达式无论真假结都是`"default"`，这种形式仅为了让编译能够通过。修改为固定的`“default”`的话TS能够推断出映射类型是多余的，又会报递归类型的错误。
+
+注意其中条件类型`T extends object`的使用是为了让分配条件类型生效。
+
+#### 递归类型
+
+https://github.com/microsoft/TypeScript/pull/33050
+https://github.com/microsoft/TypeScript/issues/9998
+
 
 #### 索引类型
 
@@ -1343,3 +1730,13 @@ TODO:
 
 https://github.com/Microsoft/TypeScript/issues/14833
 https://mariusschulz.com/blog/series/typescript-evolution
+
+https://www.coursera.org/learn/programming-languages
+
+
+https://en.wikipedia.org/wiki/Covariance_and_contravariance_%28computer_science%29#Covariant_arrays_in_Java_and_C.23
+
+https://github.com/Microsoft/TypeScript/wiki/FAQ#faqs
+
+1. this https://zhuanlan.zhihu.com/p/104565681?utm_source=wechat_session&utm_medium=social&utm_oi=32148677459968
+1. https://zhuanlan.zhihu.com/p/38555715
