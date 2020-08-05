@@ -62,7 +62,7 @@ function lowerBound(arr, predicate) {
 1. 循环开始时`[0, low)`和`[high, arr.length)`都是空区间，可以认为条件成立。
 1. 进行一次循环
     1. 当中间值`predicate(arr[mid])`条件为真时，`high = mid`将待定的区间`[low, high)`收缩到`[low, mid)`，左侧区间`[0, low)`不变，右侧区间扩大为`[high, arr.length - 1)`，不变量同样成立
-    1. 反之当`predicate(arr[mid])`为假时，`low = mid + 1`，将左边界扩大到`[0, mid + 1)`，有边界不变，不变量同样成立。
+    1. 反之当`predicate(arr[mid])`为假时，`low = mid + 1`，将左边界扩大到`[0, mid + 1)`，右边界不变，不变量同样成立。
 1. 当循环结束的时候`low == high`，根据前面的推理此时不变量同样成立，因此`[0, low)`映射到`false`，`[high, arr.length)`映射到`true`，所以`low`、`high`的值就是条件`f(x)`的对应的`true`值的下边界。
 
 这种解法下`low`是条件`f(x)`对应的`true`值的下边界，同时`low - 1`就是`false`值的上边界。

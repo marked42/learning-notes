@@ -110,7 +110,6 @@ class BinaryTree {
 
 ```java
 public List<Integer> isValidBst(TreeNode root) {
-    List<Integer> result = new ArrayList<>();
     Stack<TreeNode> stack = new Stack<>();
     TreeNode next = root;
     double prevNodeValue = - Double.MAX_VALUE;
@@ -122,7 +121,6 @@ public List<Integer> isValidBst(TreeNode root) {
         }
 
         TreeNode top = stack.pop();
-        result.add(top.val);
 
         // 如果中序遍历中后面的元素小于等前面的元素，二叉树非法
         if (top.value <= prevNodeValue) {
@@ -133,7 +131,7 @@ public List<Integer> isValidBst(TreeNode root) {
         next = top.right;
     }
 
-    return result;
+    return true;
 }
 ```
 
@@ -279,17 +277,17 @@ class BinaryTree {
     private static void postOrderTraversal(Node node) {
         if (node == null) { return; }
 
-        System.out.println(node);
         postOrderTraversal(node.left);
         postOrderTraversal(node.right);
+        System.out.println(node);
     }
 
     private static void reversePostOrderTraversal(Node node) {
         if (node == null) { return; }
 
+        System.out.println(node);
         postOrderTraversal(node.right);
         postOrderTraversal(node.left);
-        System.out.println(node);
     }
 }
 ```
@@ -378,7 +376,7 @@ public List<Integer> inorderTraversalIteratively(TreeNode root) {
 }
 ```
 
-根节点在最后的情况最复杂，以后序遍历为例。同样的也是要先将根节点不断入栈直到没有左子节点，不同的是后面要先处理右子节点。如果右子节点不存在，说明该处理当前栈顶元素了，将栈顶元素出栈而且`next`设为空，继续下一轮循环；如果右子节点存在，那么应该将`next`指向右子节点，开启下一轮循环从而将还没处理的右子节点加入栈中。但是这里有个需要注意的地方，右子节点不为空时对应栈在变大和变小两种情况，在变小的情况下该右子节点已经被处理过了，不能再次加入栈中，否则形成死循环。这种情况下右子节点在上一轮循环中被加入结果队列，是队列中的最后一个元素，也可以用一个变量`last`来记录上一个刚刚被处理的元素，以此区分两种情况。
+根节点在最后的情况最复杂，以后序遍历为例。同样的也是要先将根节点不断入栈直到没有左子节点，不同的是后面要先处理右子节点。如果右子节点不存在，说明该处理当前栈顶元素了，将栈顶元素出栈而且`next`设为空，继续下一轮循环；如果右子节点存在，那么应该将`next`指向右子节点，开启下一轮循环从而将还没处理的右子节点加入栈中。但是这里有个需要注意的地方，右子节点不为空时出现在向下遍历和向上回溯两种情况中，在线上回溯的情况下该右子节点已经被处理过了，不能再次加入栈中，否则形成死循环。这种情况下右子节点在上一轮循环中被加入结果队列，是队列中的最后一个元素，也可以用一个变量`last`来记录上一个刚刚被处理的元素，以此区分两种情况。
 
 ![Binary Tree Post-Order Traversal Iteration](./binary-tree-post-order-traversal-iteration.jpg)
 
@@ -418,6 +416,30 @@ public static List<Integer> postOrderTraversalIteratively(TreeNode root) {
 空间复杂度是$O(H)$，$H$是栈的最大深度，对应树的高度，也等于根节点到叶节点最长路径的长度。在平衡二叉树中$H = O(\log N)$，在非平衡二叉树中，最坏情况下$H = N$。
 
 时间复杂度是$O(N)$，因为所有被遍历的元素都要经过入栈出栈的过程，而每个元素入栈出栈的操作是$O(1)$，所有元素合在一起是线性复杂度。
+
+另外一种思路是使用队列保存输出结果，和栈的遍历顺序反向来保证输出结果的顺序。
+
+```js
+var postorderTraversal = function(root) {
+    if (!root) { return [] }
+    const stack = [root]
+    const result = []
+
+    while (stack.length) {
+        const top = stack.pop()
+        result.unshift(top.val)
+
+        if (top.left) {
+            stack.push(top.left)
+        }
+        if (top.right) {
+            stack.push(top.right)
+        }
+    }
+
+    return result
+};
+```
 
 #### Morris Traversal（Threaded Binary Tree）
 
@@ -695,6 +717,23 @@ class Solution {
 }
 ```
 
+使用一个变量`sum`记录当前的和更简单
+
+```java
+class Solution {
+    int sum = 0;
+    public TreeNode bstToGst(TreeNode root) {
+        if (root != null){
+            bstToGst(root.right);
+            sum = sum + root.val;
+            root.val = sum;
+            bstToGst(root.left);
+        }
+        return root;
+    }
+}
+```
+
 #### 按层遍历（Level Order Traversal）
 
 前序、中序、后序属于深度优先搜索，二叉树从上到下按层进行遍历，同层的节点按照从左到右的顺序排列是广度优先搜索。跟图的广度优先搜索一样，需要借助一个队列来完成。起始状态是将根节点加入队列中，然后从队列中取出元素，将元素加入结果列表中，同时将所有子节点入队，循环执行直到队列为空，所有节点处理完成。
@@ -725,6 +764,7 @@ public static List<Integer> levelOrderTraversal(TreeNode root) {
 ```
 
 如果将每层的节点放一起（返回的结果是`List<List<Integer>>`类型），可以考虑用递归去做，递归函数加上一个代表节点所在层数的参数。更简单的方法是观察到每次元素出栈前，当前队列中的所有元素是同一层的，只要将这些元素放入新的`List<Integer>`即可。
+Leetcode 102
 
 ```java
 public static List<List<Integer>> levelOrderTraversalList(TreeNode root) {
@@ -872,8 +912,6 @@ public int maxDepth(TreeNode root) {
     return 1 + Math.max(left, right);
 }
 ```
-
-
 
 ### 查找操作
 
