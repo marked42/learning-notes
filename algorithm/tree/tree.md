@@ -947,7 +947,70 @@ public int maxDepth(TreeNode root) {
 
 ### 重建二叉树（BST Reconstruction）
 
-TODO:
+从中序序列和前序序列重构二叉树(Leetcode 105)，对于二叉树节点来说，中序遍历顺序是左子树、根节点、右子树，前序遍历的顺序是根节点、左子树、右子树。前序遍历的第一个节点是根节点，在中序遍历中找到该节点，其左侧元素组成左子树，右侧元素组成右子树。针对左子树部分和右子树部分递归的进行这样的处理，递归终止的条件是序列长度为零时返回空指针，序列长度为1时返回一个叶节点。
+
+```js
+var buildTree = function(preorder, inorder) {
+    function build(preStart, inStart, length) {
+        if (length <= 0) { return null }
+        const rootVal = preorder[preStart]
+        if (length === 1) { return new TreeNode(rootVal) }
+
+        const node = new TreeNode(rootVal)
+        let index
+        for (let i = inStart; i < inStart + length; i++) {
+            if (inorder[i] === rootVal) {
+                index = i
+                break
+            }
+        }
+        const left = index - inStart
+        const right = inStart + length - index - 1
+
+        node.left = build(preStart + 1, inStart, left)
+        node.right = build(preStart + 1 + left, index + 1, right)
+
+        return node
+    }
+
+    return build(0, 0, preorder.length)
+};
+```
+
+从中序遍历和后序遍历(Leetcode 106)可使用同样的方法重构二叉树，区别在于后续遍历序列中顺序是左子树、右子树、根节点，每次取最后的元素作为根节点拆分中序遍历序列。
+
+从前序遍历和后序遍历（Leetcode 889）重构二叉树，观察下图可知
+
+![reconstruct](./reconstruct-from-pre-post-order.jpg)
+
+```js
+var constructFromPrePost = function(pre, post) {
+    function build(preStart, postStart, len) {
+        if (len <= 0) { return null }
+        const node = new TreeNode(pre[preStart])
+        if (len === 1) { return node }
+
+        const leftChildRoot = pre[preStart + 1]
+        let leftChildRootIndex
+        for (let i = postStart; i < postStart + len; i++) {
+            if (post[i] === leftChildRoot)  {
+                leftChildRootIndex = i
+                break
+            }
+        }
+
+        const leftLength = leftChildRootIndex + 1 - postStart
+        const rightLength = len - leftLength - 1
+
+        node.left = build(preStart + 1, postStart, leftLength)
+        node.right = build(preStart + 1 + leftLength, leftChildRootIndex + 1, rightLength)
+
+        return node
+    }
+
+    return build(0, 0, pre.length)
+};
+```
 
 1. BST reconstruction. Given the preorder traversal of a BST (not including null nodes), reconstruct the tree.
 1. Level-order traversal reconstruction of a BST. Given a sequence of keys, design a linear-time algorithm to determine whether it is the level-order traversal of some BST (and construct the BST itself).
