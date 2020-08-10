@@ -68,10 +68,14 @@ Knowledge Level
 1. [劫持与反劫持](https://juejin.im/post/593df628da2f60006728cff2)
 1. X-Frame-Options
 1. Content-Security-Policy
+https://www.keycdn.com/support/content-security-policy
 
 ## 性能优化
 
 1. [Preload & Prefetch](https://medium.com/reloading/preload-prefetch-and-priorities-in-chrome-776165961bbf)
+1. https://github.com/fi3ework/blog/issues/32
+1. https://juejin.im/post/6844903613790175240
+1. https://juejin.im/post/6844903728433070094#heading-69
 
 ## node
 

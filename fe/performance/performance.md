@@ -279,8 +279,39 @@ Chrome -> Rendering 标签下勾选**Paint Flashing**选项，界面渲染时触
 
 将频繁重复Paint的元素提升到单独的层中，减小Paint发生的区域。
 
-TODO:
+# 首屏时间优化
 
+## 请求资源
+
+1. 构建页面请求
+1. 查找缓存 https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Caching_FAQ
+1. DNS解析，DNS也有缓存策略
+1. 等待TCP队列， 同一个域名最多有6个TCP连接
+1. 建立TCP链接
+1. 发送HTTP请求
+
+
+## 避免重定向
+
+`http`重定向到`https`, 301, 302, 303
+
+```bash
+curl -I http://time.geekbang.org/
+```
+
+## DSN prefetch
+
+## 骨架屏
+
+## 网络层
+
+## 图片压缩
+
+## html压缩
+
+## js压缩
+
+## css压缩
 
 1. https://zhuanlan.zhihu.com/p/67134654
 1. https://juejin.im/post/5c4418006fb9a049c043545e
@@ -302,3 +333,7 @@ https://www.youtube.com/watch?v=thNyy5eYfbc
 1. side navigation bar https://www.youtube.com/watch?v=Mhnj3PiPnZw
 1. swipeable cards https://www.youtube.com/watch?v=e5CXg1sjTqQ
 1. expande collapse FLIP
+
+### 解析渲染过程
+
+css不阻塞js的加载，但阻塞js的执行
