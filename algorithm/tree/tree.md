@@ -1018,6 +1018,80 @@ var constructFromPrePost = function(pre, post) {
 1. https://www.geeksforgeeks.org/construct-a-binary-search-tree-from-given-postorder/
 1. https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/
 
+### 序列化与凡序列化
+
+https://www.youtube.com/watch?v=JL4OjKV_pGE
+
+Leetcode使用的二叉树的序列化格式如下`[1,2,3,null,null,4,5]`
+
+```js
+function TreeNode(val) {
+      this.val = val;
+      this.left = this.right = null;
+ }
+
+
+/**
+ * Encodes a tree to a single string.
+ *
+ * @param {TreeNode} root
+ * @return {string}
+ */
+var serialize = function(root) {
+    const queue = [root]
+    const result = []
+    while (queue.length > 0 && queue.some(node => !!node)) {
+        const size = queue.length
+        for (let i = 0; i < size; i++) {
+            const node = queue.shift()
+            if (node === null) {
+                result.push(null)
+                queue.push(null)
+                queue.push(null)
+            } else {
+                result.push(node.val)
+                queue.push(node.left || null)
+                queue.push(node.right || null)
+            }
+        }
+    }
+
+    return `[${result.map(val => val === null ? 'null' : val)}]`
+};
+
+/**
+ * Decodes your encoded data to tree.
+ *
+ * @param {string} data
+ * @return {TreeNode}
+ */
+var deserialize = function(data) {
+    const nodeValues = JSON.parse(data)
+    if (nodeValues.length === 0) { return null }
+
+    const nodes = nodeValues.map(val => val === null ? null : new TreeNode(val))
+    for (let i = 0; 2 * i + 1 <= nodes.length - 1; i++) {
+        if (nodes[i] !== null) {
+            const left = 2 * i + 1
+            const right = 2 * i + 2
+            nodes[i].left = nodes[left] || null
+            nodes[i].right = nodes[right] || null
+        }
+    }
+
+    return nodes[0]
+};
+
+/**
+ * Your functions will be called as such:
+ * deserialize(serialize(root));
+ */
+
+const serialized = "[1,2,3,null,null,4,5]"
+const nodes = deserialize(serialized)
+console.log(serialize(nodes))
+```
+
 ## 多叉树
 
 前、中、后序遍历

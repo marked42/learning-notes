@@ -249,7 +249,9 @@ leetcode 373
 
 另外注意寻找$N$最大的$K$个等价于寻找最小的$N-K$个，解决$(K, N-K)$中较小规模的问题即可。
 
-leetcode top k frequent words 692 trie
+leetcode top k frequent words 692 trie 需要事先统计所有单词的词频，使用一个大小为K的最小堆，时间复杂度 NlogK
+
+如果处理流式输入，无法事先统计所有单词词频，需要使用带索引的最大堆，每遇到一个新的单词，增加其词频，堆的大小等于不同单词的数目W，流输入处理完成后取出最大堆的堆顶元素K次，时间复杂度是N (N + K)LogW，其中（K <= W)
 
 ### Kth Largest/Smallest
 
