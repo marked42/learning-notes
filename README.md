@@ -41,22 +41,42 @@ Knowledge Level
 
 ## 工程化
 
-1. webpack
-    1. webpack 打包形成的模块结果分析
-    1. style-loader,css-loader,less-loader,url-loader
-    1. 样式文件、图片文字文件处理
-    1. Tree Shaking
-    1. https://medium.com/webpack/webpack-and-rollup-the-same-but-different-a41ad427058c
-    1. https://juejin.im/post/59cb6307f265da064e1f65b9#heading-5
-    1. 异步组件
-    1. code splitting
-    1. tree shaking
-    1. tapable https://segmentfault.com/a/1190000008060440
-    1. webpack 使用tapable的定制流程 webpack/compiler/compilation
-2. babel
-  1. https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/user-handbook.md
-3. [开发部署系统](https://www.zhihu.com/question/20790576)
-4. [搭建一个自动化集成测试CI/CD的工作流程](https://juejin.im/post/5ad1980e6fb9a028c42ea1be)
+### babel
+
+1. 编译 babel https://github.com/jamiebuilds/the-super-tiny-compiler
+1. 配置文件与配置合并策略 include/exclude/test/only/overrides/env, 插件plugin/preset name normalization
+1. 编译阶段 语法插件 syntax plugin, 转换阶段 transform plugin
+1. ast类型定义 @babel/types @babel/template，ast转换 @babel/traverse 遍历机制dfs
+1. babel项目之间的依赖关系
+    1. @babel/core @babel/parser @babel/traverse @babel/cli @babel-node @babel plugins @babel presets
+1. https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/user-handbook.md
+1. https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md
+
+## JS
+
+1. JS regenerator runtime
+1. gensync
+
+### webpack
+
+1. https://juejin.im/post/6854573217336541192?utm_source=gold_browser_extension
+1. https://time.geekbang.org/course/detail/190-120792
+1. webpack 打包形成的模块结果分析
+1. style-loader,css-loader,less-loader,url-loader
+1. 样式文件、图片文字文件处理
+1. Tree Shaking
+1. https://medium.com/webpack/webpack-and-rollup-the-same-but-different-a41ad427058c
+1. https://juejin.im/post/59cb6307f265da064e1f65b9#heading-5
+1. 异步组件
+1. code splitting
+1. tree shaking
+1. tapable https://segmentfault.com/a/1190000008060440
+1. webpack 使用tapable的定制流程 webpack/compiler/compilation
+
+### CI/CD
+
+1. [开发部署系统](https://www.zhihu.com/question/20790576)
+1. [搭建一个自动化集成测试CI/CD的工作流程](https://juejin.im/post/5ad1980e6fb9a028c42ea1be)
 
 ## 安全
 
@@ -80,10 +100,6 @@ https://www.keycdn.com/support/content-security-policy
 ## node
 
 1. [ElemeFE/node-interview](https://github.com/ElemeFE/node-interview/tree/master/sections/zh-cn)
-
-## UI UX
-
-1. figma
 
 ## JS & TS
 
@@ -158,6 +174,8 @@ https://www.keycdn.com/support/content-security-policy
 
 ## Vue
 
+1. https://juejin.im/post/6844904169954869262
+1. https://zhuanlan.zhihu.com/p/130995492
 1. https://juejin.im/post/5e778c71518825491d3240fd?utm_source=gold_browser_extension
 
 ## 经典题目
