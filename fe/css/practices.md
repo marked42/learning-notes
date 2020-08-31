@@ -49,7 +49,23 @@ span {
 
 或者使用flex布局，父元素嵌套子元素，子元素中包含文字，竖直方向居中对齐。
 
-### 多行文字截断
+### 文字截断
+
+#### 单行
+
+```css
+div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+   /* 不能使用flex */
+  /* display: flex; */
+}
+```
+
+注意如果添加`display: flex`那么`text-overflow: ellipsis`效果不生效。
+
+#### 多行
 
 https://zhuanlan.zhihu.com/p/48566402
 
