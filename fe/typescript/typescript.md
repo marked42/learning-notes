@@ -229,13 +229,93 @@ Typescript中每个声明会在命名空间、类型、值三个范围内创建�
 
 | Declaration Type | Namespace | Type  | Value |
 | ---------------- | :-------: | :---: | :---: |
-| Namespace        |     x     |       |   x   |
+| Namespace        |     x     |       |   x?  |
 | Class            |           |   x   |   x   |
 | Enum             |           |   x   |   x   |
 | Interface        |           |   x   |       |
 | Type Alias       |           |   x   |       |
 | Function         |           |       |   x   |
 | Variable         |           |       |   x   |
+| Import |           | x? |   x? |
+
+1. 命名空间(namespace)或者模块（module）声明中包含值（value）的时候，命名空间和模块本身也会创建同名的值。
+1. 引入语句（import）根据倒入的标识符的含义对应的在当前模块声明类型或者值。
+
+```ts
+// A中只包含类型声明，所以标识符A只声明了命名空间A
+namespace A {
+  interface B {}
+}
+
+// A中包含值B，所以标识符A同时声明了命名空间A和值A。
+namespace A {
+  const B = 1;
+}
+```
+
+一个标识符同时有命名空间、类型、值中不止一个含义时称之为组合(combination)。
+
+```ts
+// 同时声明了一个类型`C`描述类实例的类型和值C。
+class C {}
+
+// Bar既是一个值又是一个类型
+export var Bar: { a: Bar };
+export interface Bar {
+  count: number;
+}
+```
+
+组合的情况只要不出现冲突就是合法的代码，判断冲突的几个条件。
+
+1. 同名的值（value）会产生冲突，除非都是声明为命名空间。
+    ```ts
+    // A产生冲突，一个是变量声明值，一个是命名空间声明值
+    let A = 1;
+    namespace A {
+        let B = 1;
+    }
+
+    // A不冲突，因为命名空间A内部只有类型B，没有引入值A，全局只有一个变量声明引入的值A
+    let A = 1;
+    namespace A {
+      interface B {}
+    }
+
+    // A不冲突，两个都是命名空间A声明的值
+    namespace A {
+        let B = 1;
+    }
+    namespace A {
+        let C = 1;
+    }
+    ```
+1. 类型声明有同名的类型别名（type alias）时冲突。
+    ```ts
+    // 冲突，Enum declarations can only merge with namespace or other enum declarations.ts(2567)
+    type A = string;
+    interface A {}
+
+    // 不冲突
+    enum A {}
+    enum A {}
+    namespace A {}
+
+    // 不冲突
+    class A {}
+    interface A {}
+
+    // 冲突
+    class A {}
+    class A {}
+
+    // 不冲突
+    interface A {}
+    interface A {}
+    ```
+1. 同名命名空间不会冲突
+
+复杂例子参考 https://www.typescriptlang.org/docs/handbook/declaration-files/deep-dive.html#adding-using-a-namespace
 
 ### 接口合并
 
@@ -658,12 +738,55 @@ npm install @types/jquery --save-dev
 
        // 要引入的类型定义库名称，此字段不存在时目录下所有库都会被引入
        // 需要精确控制库类型定义时使用此字段明确要引入的库类型定义，其他库不会引入，使用空数组完全禁用库类型自动引入
-       "types" : ["node", "lodash", "express"]
+       "types" : ["node", "lodash", "express"],
+
+      "lib": [
+        "esnext",
+        "dom",
+        "dom.iterable",
+        "scripthost"
+      ],
+
+      "includes": [
+        "src/**/*.ts",
+      ],
    }
 }
 ```
 
 一个类型定义库目录可能是包含一个`index.d.ts`文件或者一个`package.json`文件其中`types`字段指定了类型定义文件名。
+
+package.json中types和typings字段含义相同，指定包对应的类型文件文件位置。
+
+```json
+{
+  "types": "./lib/main.d.ts",
+}
+```
+
+`d.ts`全局范围有效，
+
+同样要注意的是如果主声明文件名是index.d.ts并且位置在包的根目录里（与index.js并列），你就不需要使用"types"属性指定了。
+
+类型依赖使用 `/// <reference types="..." />` 而不是 `/// <reference path="..." />`
+
+包类型定义的几种情况。
+
+1. 包没有类型定义
+1. 包内置类型定义 package.json中typeRoots, types字段
+1. 包有对应的@types项目的类型定义
+1. ES、浏览器、node等内置库的类型定义，使用 --lib或者 package.json中lib选项。
+
+module.d.ts
+
+1. named export
+1. default export
+    1. export =
+    1. https://www.typescriptlang.org/docs/handbook/declaration-files/templates/module-d-ts.html#default-exports
+    1. https://www.typescriptlang.org/tsconfig#esModuleInterop
+    1. https://www.typescriptlang.org/tsconfig#importHelpers
+    1. https://www.typescriptlang.org/tsconfig#allowSyntheticDefaultImports
+1. ts
 
 ### 类型
 
