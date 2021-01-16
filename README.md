@@ -33,17 +33,6 @@ Knowledge Level
 
 ## 工程化
 
-### babel
-
-1. 编译 babel https://github.com/jamiebuilds/the-super-tiny-compiler
-1. 配置文件与配置合并策略 include/exclude/test/only/overrides/env, 插件 plugin/preset name normalization
-1. 编译阶段 语法插件 syntax plugin, 转换阶段 transform plugin
-1. ast 类型定义 @babel/types @babel/template，ast 转换 @babel/traverse 遍历机制 dfs
-1. babel 项目之间的依赖关系
-   1. @babel/core @babel/parser @babel/traverse @babel/cli @babel-node @babel plugins @babel presets
-1. https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/user-handbook.md
-1. https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md
-
 ## JS
 
 1. JS regenerator runtime
@@ -195,18 +184,18 @@ Knowledge Level
 ## TODO:
 
 1. vue class component provide constant values
-1. 高阶vue组件，传递属性和事件
-1. chrome中搜索运行的文件
+1. 高阶 vue 组件，传递属性和事件
+1. chrome 中搜索运行的文件
 1. javascript
-    ```
-        class TestThis {
-            test() {
-                const bindThis = () => {
-                    this.
-                }
-            }
-        }
-    ```
+   ```
+       class TestThis {
+           test() {
+               const bindThis = () => {
+                   this.
+               }
+           }
+       }
+   ```
 1. @keyup.shift.enter @keyup.enter
 1. eslint rules detect unused components
 1. npm scripts hooks https://docs.npmjs.com/cli/v6/using-npm/scripts#prepare-and-prepublish

