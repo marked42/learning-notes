@@ -302,6 +302,35 @@ css modules 的本地类名导出（注意不在`locals`字段下了，且不包
 
 用在`less/sass/stylus`等 loader 之后，`css-loader`之前，用来对 css 做后处理。
 
+## file-loader
+
+读取资源文件，将其转换为 JS 模块，导出的内容是一个代表文件资源的 URL。
+
+```ts
+interface FileLoaderOptions {
+  // [contenthash].[ext]
+  name: string | ((resourcePath: string, resourceQuery: string) => string)
+  // 资源文件打包时本地输出路径
+  outputPath?:
+    | string
+    | ((url: string, resourcePath: string, context: string) => string)
+  // 资源文件部署时的路径
+  publicPath?:
+    | string
+    | ((url: string, resourcePath: string, context: string) => string)
+  // 利用__webpack_public__path 支持运行时确定资源URL
+  // () => ___webpack_public_path__ + path
+  postTransformPublicPath?: (path: string) => string
+  context?: string
+  // 打包时不输出资源文件，服务端渲染使用
+  emitFile?: boolean
+  // 正则匹配的字符串为name选项提供占位符[N]，N表示正则的第N个匹配结果
+  regExp?: RegExp
+  // default: true，输出JS模块使用ES模块语法
+  esModule?: boolean
+}
+```
+
 ## px -> rem
 
 移动端适配
@@ -311,6 +340,7 @@ https://www.w3cplus.com/mobile/lib-flexible-for-html5-layout.html
 ## 资源内联
 
 初始化脚本、上报打点代码、css 内联避免闪动，减少请求
+https://zhuanlan.zhihu.com/p/85280422
 
 1. js 在 ejs 模板中使用 raw-loader 加载 js 模块（可以是任意模块），将其源码插入到指定位置。
 1. style-loader/ html-inline-css-webpack-plugin 依赖 mini-css-extract-plugin 提取 css 文件内容。
