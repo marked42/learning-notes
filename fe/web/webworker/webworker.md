@@ -92,7 +92,7 @@ Web Worker 在独立的环境中执行，因此不受所在文档的内容安全
 
 ## 跨域
 
-Web Worker 只接受同源脚本(same-origin)或者`blob:`和`data:URL`的方法，对于非同源的脚本，可以使用`blob:`或者`data:`引入，这个脚本资源本身需要支持跨域资源访问（CORS），否则会被同源策略拦截。
+Web Worker 只接受同源脚本(same-origin)或者`blob:`和`data:`的方法，对于非同源的脚本，可以使用`blob:`或者`data:`引入，这个脚本资源本身需要支持跨域资源访问（CORS），否则会被同源策略拦截。
 
 ```js
 function getWorkerUrl(url) {
@@ -248,6 +248,10 @@ new URL('//localhost/test.com', 'data://test.com')
   </body>
 </html>
 ```
+
+## 本地 Web Worker
+
+Chrome 浏览器默认限制从本地文件`file:`创建 worker，可以使用`--allow-file-access-from-files`开启，其他浏览器暂无此限制。
 
 ## Shared Worker
 
