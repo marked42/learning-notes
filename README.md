@@ -201,3 +201,93 @@ Knowledge Level
 1. npm scripts hooks https://docs.npmjs.com/cli/v6/using-npm/scripts#prepare-and-prepublish
 1. webpack dev server proxy config
    1. micromatch glob
+
+# TODO
+
+1. webpack config of vue-cli project, vue.config.js entry multiple pages
+
+   1. browser-list cache-loader babel-plugin-transform-block-scoping
+   1. tapable/enhanced-resolve
+   1. webpack module format
+      1. package.json#main -> commonjs,
+      1. package.json#module -> esm
+      1. package.json#browser
+      1. webpack.config.json#resolve 字段
+   1. target web(default), node, ....
+   1. how webpack pack modules
+      1. entry
+      1. output path,filename,publicPath,libraryName,libraryTarget,umdNamedDefine,
+      1. externals: object allowed for libraryTarget: "umd"
+      1. commonjs, node commonjs, amd, umd, esm
+      1. chunks, dynamic loading,
+         1. https://webpack.js.org/plugins/split-chunks-plugin/
+         1. https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
+         1. https://github.com/webpack/webpack/blob/master/examples/many-pages/README.md
+   1. PreloadPlugin
+
+1. babel-plugin-component implementation
+
+1. 工作流 自动打 tag
+   1. formula publish major/minor/patch
+   1. conventional change log
+1. npm scripts https://docs.npmjs.com/cli/v6/using-npm/scripts
+
+1. 组件库的 webpack 配置
+
+   1. entry
+   1. output
+   1. loaders
+      1. vue
+      1. js/jsx
+      1. ts/tsx
+      1. css
+         1. less
+         1. sass/scss
+         1. stylus
+         1. postcss
+      1. assets url-loader,file-loader
+         1. image
+         1. video
+         1. font
+      1. wasm
+   1. plugins
+      1. DefinePlugin
+      1. VueLoaderPlugin
+      1. optimization/minify/uglify
+
+1. 组件库 component lib
+
+   1. 跑马灯组件，滚动数字组件，carousel 组件，message 组件，landing 页顶栏 sticky 效果，参考知乎的的低栏效果。
+   1. packages 文件夹中每个子文件夹对应一个组件，
+   1. 方便按需加载 babel-plugin-component(element-ui)/babel-plugin-import(antd)
+   1. example 对应对应每个组件的例子项目
+   1. 每个组件定义一个对应的 plugin，注册为全局组件
+   1. 使用 vue-cli 构建目标是库
+   1. 发布配置 .npmignore package.json files 字段？
+   1. 动态位置的组件 element-ui Message/Popover/Tooltip/Drawer/Portal append-body ?
+
+1. typescript
+
+   1. vue/vuex/vue-router types definition
+   1. element-ui ts types
+   1. https://juejin.cn/post/6844903929633849357
+   1. ts declaration fils https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html
+   1. https://ts.xcatliu.com/basics/declaration-files.html#declare-module
+   1. ts module resolution https://www.tslang.cn/docs/handbook/module-resolution.html
+
+1. canvas api/webgl
+
+1. eslint
+   1. 配置文件，
+      1. 位置格式
+      1. 选项 parser, extends, rules
+      1. 插件
+      1. 注释
+      1. 全局对象，环境 env, rules /_ global _/
+      1. typescript https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin
+      1. npm i -D eslint typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser
+      1. eslint-ignore node_modules, .eslintignore
+
+TODO:
+
+1. script 的加载与运行 Realm，environment settings object。
