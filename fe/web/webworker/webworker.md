@@ -78,6 +78,13 @@ importScripts(
 ) /* You can import scripts from other origins */
 ```
 
+从模块脚本（module script）创建的`WorkerGlobalScope`全局环境中使用`importScripts`会直接报错，因为`importScripts`是用来引入脚本直接修改全局对象的，`module script`类型不支持这种操作。
+
+````js
+new Worker('./worker.js', { type: 'module' })
+new SharedWorker('./worker.js', { type: 'module' })
+``
+
 ## 内容安全策略（Content security policy）
 
 Web Worker 在独立的环境中执行，因此不受所在文档的内容安全策略的限制。Worker 自身的内容安全策略由其脚本文件的 HTTP 返回头决定。
@@ -105,7 +112,7 @@ function getWorkerUrl(url) {
 
 const url = 'http://other.example.com/worker.js'
 const worker = new Worker(getWorkerUrl(url))
-```
+````
 
 注意使用这种方式时`importScripts(url)`中的 URL 不能是相对 URL，否则会报错。
 
@@ -288,6 +295,83 @@ onconnect = function (e) {
 ## ServiceWorker
 
 ServiceWorkerGlobalScope
+
+## WorkerGlobalScope
+
+scope 有关联的
+
+```ts
+// https://w3c.github.io/webappsec-referrer-policy/#referrer-policy
+type ReferrerPolicy =
+|  '',
+|  'no-referrer',
+|  'no-referrer-when-downgrade',
+|  'same-origin',
+|  'origin',
+|  'strict-origin',
+|  'origin-when-cross-origin',
+|  'strict-origin-when-cross-origin',
+|  'unsafe-url',
+
+
+// https://html.spec.whatwg.org/multipage/origin.html#embedder-policy-value
+type EmbedderPolicyValue = 'unsafe-none' | 'require-corp'
+
+interface EmbedderPolicy {
+  value: EmbedderPolicyValue,
+  reportingEndpoint: string,
+  reportOnlyValue: EmbedderPolicyValue,
+  reportOnlyReportingEndpoint: string,
+}
+
+interface Related {
+  // 一个SharedWorker可以有多个owner，所以是set类型
+  owner: Set<WorkerGlobalScope | Document>
+  worker: Set<WorkerGlobalScope>
+  type: 'classic' | 'module'
+  // 通过名称可以获取同一个SharedWorker， ServiceWorker不支持此属性
+  name: string
+  url: URL
+  referrerPolicy: ReferrerPolicy
+  embedderPolicy: EmbedderPolicy
+  cspList: CspList
+  // 记录加载脚本的状态 ModuleScript (成功加载) null (失败) fetching加载中
+  moduleMap: Map<URL, ModuleScript | null | 'fetching'>
+  crossOriginIsolated: boolean,
+}
+```
+
+```ts
+// https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-objects
+interface EnvironmentSettings {
+  realmExecutionContext
+  moduleMap
+  responsibleDocument
+  urlCharacterEncoding
+  baseUrl
+  referrerPolicy
+  embedderPolicy
+  crossOriginIsolatedCapability: boolean
+}
+```
+
+## Lifetime
+
+https://html.spec.whatwg.org/multipage/workers.html#the-worker's-lifetime
+
+active needed worker [fully active document](https://html.spec.whatwg.org/multipage/browsers.html#fully-active) traceable
+permissible worker
+protected worker
+suspendable worker
+
+## Processing Model
+
+## Libs
+
+webpack worker-loader
+https://github.com/nolanlawson/promise-worker
+https://github.com/dumbmatter/promise-worker-bi
+monaco-editor 的 worker 封装
 
 ## 参考资料
 
