@@ -63,7 +63,7 @@ Worker 脚本运行出错出错时会触发`error`事件，使用`worker.onerror
 
 Web Worker 中可以创建新的 Web Worker（subworker），但是 subworker 的 URL 需要和所在文档同源，而且相对 URL 是对于所在 web worker 而不是所在文档进行解析的。
 
-可以将 CPU 密集型任务拆分到多个 Worker 中分开执行，减少运行时间。
+可以将 CPU 密集型任务拆分到多个 Worker 中分开执行，减少运行时间，例子 subworker-delegation
 
 ### 引入全局脚本
 
@@ -80,10 +80,10 @@ importScripts(
 
 从模块脚本（module script）创建的`WorkerGlobalScope`全局环境中使用`importScripts`会直接报错，因为`importScripts`是用来引入脚本直接修改全局对象的，`module script`类型不支持这种操作。
 
-````js
+```js
 new Worker('./worker.js', { type: 'module' })
 new SharedWorker('./worker.js', { type: 'module' })
-``
+```
 
 ## 内容安全策略（Content security policy）
 
@@ -112,7 +112,7 @@ function getWorkerUrl(url) {
 
 const url = 'http://other.example.com/worker.js'
 const worker = new Worker(getWorkerUrl(url))
-````
+```
 
 注意使用这种方式时`importScripts(url)`中的 URL 不能是相对 URL，否则会报错。
 
@@ -268,7 +268,16 @@ Chrome 浏览器默认限制从本地文件`file:`创建 worker，可以使用`-
 // 构造函数不同，在多个页面中分别创建
 const worker = new SharedWorker('worker.js')
 
+// 监听事件
+myWorker.port.addEventListener('message', function (e) {
+  result2.textContent = e.data
+  console.log('Error message received from worker')
+})
+// 开启与port的连接
+myWorker.port.start()
+
 // 在main.js中使用worker的port处理监听消息
+// onmessage自动调用port.start() 开启连接
 myWorker.port.onmessage = function (e) {
   result2.textContent = e.data
   console.log('Message received from worker')
@@ -281,6 +290,7 @@ myWorker.port.onmessageerror = function (e) {
 
 // 在worker.js 中使用onconnect监听连接，并使用onmessage监听消息
 onconnect = function (e) {
+  // https://html.spec.whatwg.org/multipage/comms.html#dom-messageevent-ports
   var port = e.ports[0]
 
   port.onmessage = function (e) {
@@ -372,6 +382,11 @@ webpack worker-loader
 https://github.com/nolanlawson/promise-worker
 https://github.com/dumbmatter/promise-worker-bi
 monaco-editor 的 worker 封装
+
+## Examples
+
+1. https://html.spec.whatwg.org/multipage/workers.html#providing-libraries
+1. https://html.spec.whatwg.org/multipage/workers.html#shared-state-using-a-shared-worker
 
 ## 参考资料
 

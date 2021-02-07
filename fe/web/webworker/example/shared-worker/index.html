@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p id="log">Log:</p>
+    <script>
+      const worker = new SharedWorker('test.js')
+      const log = document.getElementById('log')
+      worker.port.onmessage = (e) => {
+        log.textContent += '\n' + e.data
+      }
+    </script>
+  </body>
+</html>
