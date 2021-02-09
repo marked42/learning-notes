@@ -49,16 +49,16 @@ JSX 语法可能对应原生（intrinsic elements）和自定义组件两种情�
 
 ### 原生元素
 
-原生元素标签`<foo/>`对应`JSX.IntrinsicElements`接口中的属性`foo`，`<bar/>`没有对应
+原生元素标签`<foo/>`对应`JSX.IntrinsicElements`接口中的属性`foo`，`<bar/>`没有对应没有对应属性会报错。
 
 ```tsx
 declare namespace JSX {
   interface IntrinsicElements {
-    foo: any
+    foo: { bar?: boolean };
   }
 }
 
-<foo /> // ok
+<foo bar /> // ok
 <bar /> // error
 ```
 
@@ -116,7 +116,7 @@ function NotAValidFactoryFunction() {
 <NotAValidFactoryFunction /> // error
 ```
 
-属性检查
+### 属性检查
 
 `JSX.ElementAttributesProperty`
 
@@ -124,7 +124,13 @@ function NotAValidFactoryFunction() {
 
 `JSX.IntrinsicClassAttributes<T>`
 
-子节点类型检查
+JSX 标签上的属性值类型检查需要满足几个层次的约束。
+
+1. 原生元素的属性满足`JSX.IntrinsicElements.prop`类型约束
+1. 所有 JSX 标签都需要的属性类型（例如`key`）定义在接口中
+   `JSX.IntrinsicAttributes` 。
+
+### 子节点类型检查
 
 `JSX.ElementChildrenAttribute`
 
