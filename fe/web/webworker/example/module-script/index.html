@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>worker example: image decoding</title>
+    <style>
+      /* canvas {
+        border: 1px solid black;
+      } */
+    </style>
+  </head>
+  <body>
+    <p>
+      <label for=""
+        >type an image url to decode
+        <input type="url" id="image-url" list="image-list" />
+        <datalist id="image-list">
+          <!-- <option
+            value="https://mdn.mozillademos.org/files/5397/rhino.jpg"
+          ></option> -->
+          <option value="./image.png"></option>
+          <option
+            value="https://html.spec.whatwg.org/images/drawImage.png"
+          ></option>
+          <option
+            value="https://html.spec.whatwg.org/images/robots.jpeg"
+          ></option>
+          <option
+            value="https://html.spec.whatwg.org/images/arcTo2.png"
+          ></option>
+        </datalist>
+      </label>
+    </p>
+    <img id="image" src="" />
+    <p>
+      <label>
+        Choose a filter to apply
+        <select id="filter">
+          <option value="none">none</option>
+          <option value="grayscale">grayscale</option>
+          <option value="brighten">brighten by 20%</option>
+          <option value="brighten1">brighten by 20%</option>
+        </select>
+      </label>
+    </p>
+
+    <div id="output"></div>
+    <script type="module">
+      const worker = new Worker('worker.js', { type: 'module' })
+
+      const url = document.getElementById('image-url')
+      const filter = document.getElementById('filter')
+      const output = document.getElementById('output')
+
+      url.oninput = updateImage
+      filter.oninput = sendToWorker
+
+      worker.onmessage = receiveFromWorker
+
+      let imageData, context
+      function updateImage() {
+        const image = new Image()
+        // use-credentials 报错
+        image.crossOrigin = 'anonymous'
+        image.src = url.value
+
+        image.onload = () => {
+          output.innerHTML = ''
+
+          const canvas = document.createElement('canvas')
+          canvas.height = image.height
+          canvas.width = image.width
+
+          context = canvas.getContext('2d')
+          context.drawImage(image, 0, 0)
+
+          imageData = context.getImageData(0, 0, canvas.width, canvas.height)
+
+          sendToWorker()
+
+          output.appendChild(canvas)
+        }
+      }
+
+      function sendToWorker() {
+        // send image data by copy, so imageData is not changed
+        worker.postMessage({ imageData, filter: filter.value })
+      }
+
+      function receiveFromWorker(e) {
+        context.putImageData(e.data, 0, 0)
+      }
+
+      // 1. context.drawImage不显示，需要等image加载完成后onload使用imageData。
+      // 2. 图片跨域 drawImage 报错，canvas数据被污染，需要设置image.crossorigin属性 The canvas has been tainted by cross-origin data
+      // 3. canvas嵌套canvas not allowed
+    </script>
+  </body>
+</html>

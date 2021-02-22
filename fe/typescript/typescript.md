@@ -12,39 +12,39 @@ Interface `SquareConfig` specifies `color` property as optional, so object liter
 
 ```ts
 interface SquareConfig {
-    color?: string;
-    width?: number;
+  color?: string
+  width?: number
 }
 
 function createSquare(config: SquareConfig): { color: string; area: number } {
-    // ...
+  // ...
 }
 
-let mySquare = createSquare({ colour: "red", width: 100 });
+let mySquare = createSquare({ colour: 'red', width: 100 })
 
 // to fix this use a variable instead of object literal
-var object = { colour: "red", width: 100 }
+var object = { colour: 'red', width: 100 }
 let mySquare = createSquare(object)
 
 // or type casting
-let mySquare = createSquare({ colour: 'red', width: 100} as SquareConfig)
+let mySquare = createSquare({ colour: 'red', width: 100 } as SquareConfig)
 ```
 
 Function Type, Property Type and Indexable Types
 
 ```ts
 interface Test {
-  (name: string): string; // function type as normal function call
-  new (gender: boolean): string;  // function type as constructor call
+  (name: string): string // function type as normal function call
+  new (gender: boolean): string // function type as constructor call
 
-  readonly name?: string; // property declaration
+  readonly name?: string // property declaration
 
   // 1. indexable type that describes required type of all object properties
   // 2. single property declaration must be compatible with indexable property
   // 3. indexable property of number type must be compatible with indexable property of string type,
   //    because javascript treats number property as internally.
-  [prop: number]: string;
-  [prop: string]: string;
+  [prop: number]: string
+  [prop: string]: string
 }
 ```
 
@@ -57,31 +57,35 @@ Class extending interface will only checks **instance side** of class **public p
 
 ```ts
 interface ClockConstructor {
-    new (hour: number, minute: number): ClockInterface;
+  new (hour: number, minute: number): ClockInterface
 }
 interface ClockInterface {
-    tick();
+  tick()
 }
 
-function createClock(ctor: ClockConstructor, hour: number, minute: number): ClockInterface {
-    return new ctor(hour, minute);
+function createClock(
+  ctor: ClockConstructor,
+  hour: number,
+  minute: number
+): ClockInterface {
+  return new ctor(hour, minute)
 }
 
 class DigitalClock implements ClockInterface {
-    constructor(h: number, m: number) { }
-    tick() {
-        console.log("beep beep");
-    }
+  constructor(h: number, m: number) {}
+  tick() {
+    console.log('beep beep')
+  }
 }
 class AnalogClock implements ClockInterface {
-    constructor(h: number, m: number) { }
-    tick() {
-        console.log("tick tock");
-    }
+  constructor(h: number, m: number) {}
+  tick() {
+    console.log('tick tock')
+  }
 }
 
-let digital = createClock(DigitalClock, 12, 17);
-let analog = createClock(AnalogClock, 7, 32);
+let digital = createClock(DigitalClock, 12, 17)
+let analog = createClock(AnalogClock, 7, 32)
 ```
 
 ## Class
@@ -90,11 +94,11 @@ A common pattern that constructor receives a parameter and use it to initialize 
 
 ```ts
 class Octopus {
-  name: string;
-  readonly numberOfLegs: number = 8;
+  name: string
+  readonly numberOfLegs: number = 8
 
   constructor(theName: string) {
-    this.name = theName;
+    this.name = theName
   }
 }
 ```
@@ -103,9 +107,8 @@ Parameter property is shorthand syntax for this common pattern, constructor para
 
 ```ts
 class Octopus {
-    readonly numberOfLegs: number = 8;
-    constructor(readonly name: string) {
-    }
+  readonly numberOfLegs: number = 8
+  constructor(readonly name: string) {}
 }
 ```
 
@@ -146,37 +149,37 @@ function create(c: new() => string): string
 ## Generic
 
 ```ts
-function create<T>(c: {new(): T; }): T {
-    return new c();
+function create<T>(c: { new (): T }): T {
+  return new c()
 }
 ```
 
 ## 接口
 
-一个普通的Javascript对象是一组键值对（Object）的实例，为了描述对象可能的情况，Typescript中的接口被设计用来描述对象的形状（Shape），即对象可能含有哪些键（key），这些键是否只读（readonly）、键对应的的值类型是什么。符合接口描述对象形状的对象自动视作接口类型，而不必显式实现接口，称为鸭子类型（duck typing）或者结构化类型（structural typing）。
+一个普通的 Javascript 对象是一组键值对（Object）的实例，为了描述对象可能的情况，Typescript 中的接口被设计用来描述对象的形状（Shape），即对象可能含有哪些键（key），这些键是否只读（readonly）、键对应的的值类型是什么。符合接口描述对象形状的对象自动视作接口类型，而不必显式实现接口，称为鸭子类型（duck typing）或者结构化类型（structural typing）。
 
 在函数参数返回值等需要接口类型的地方可以直接使用字面量对象定义类型信息。
 
 ```js
 function printLabel(labeledObj: { label: string }) {
-    console.log(labeledObj.label);
+  console.log(labeledObj.label)
 }
 
-let myObj = {size: 10, label: "Size 10 Object"};
-printLabel(myObj);
+let myObj = { size: 10, label: 'Size 10 Object' }
+printLabel(myObj)
 ```
 
 接口属性可以是只读`readonly`和可选的`optional`。
 
 ```ts
 interface SquareConfig {
-    color?: string;
-    width?: number;
+  color?: string
+  width?: number
 }
 
 interface Point {
-    readonly x: number;
-    readonly y: number;
+  readonly x: number
+  readonly y: number
 }
 ```
 
@@ -184,26 +187,26 @@ interface Point {
 
 ```ts
 interface SquareConfig {
-    color?: string;
-    width?: number;
+  color?: string
+  width?: number
 }
 
 function createSquare(config: SquareConfig): { color: string; area: number } {
-    // ...
+  // ...
 }
 
 // 注意此处拼写不一致 colour -> color
-let mySquare = createSquare({ colour: "red", width: 100 });
+let mySquare = createSquare({ colour: 'red', width: 100 })
 ```
 
 当然最好是对一个对象的所有可能键值类型都进行定义。
 
 ```ts
 interface SquareConfig {
-    color?: string;
-    width?: number;
-    // color, width之外的string类型key其值可以是任意类
-    [propName: string]: any;
+  color?: string
+  width?: number
+  // color, width之外的string类型key其值可以是任意类
+  [propName: string]: any
 }
 ```
 
@@ -225,18 +228,18 @@ interface NumberDictionary {
 
 ## 声明合并
 
-Typescript中每个声明会在命名空间、类型、值三个范围内创建实体。
+Typescript 中每个声明会在命名空间、类型、值三个范围内创建实体。
 
-| Declaration Type | Namespace | Type  | Value |
-| ---------------- | :-------: | :---: | :---: |
-| Namespace        |     x     |       |   x?  |
-| Class            |           |   x   |   x   |
-| Enum             |           |   x   |   x   |
-| Interface        |           |   x   |       |
-| Type Alias       |           |   x   |       |
-| Function         |           |       |   x   |
-| Variable         |           |       |   x   |
-| Import |           | x? |   x? |
+| Declaration Type | Namespace | Type | Value |
+| ---------------- | :-------: | :--: | :---: |
+| Namespace        |     x     |      |  x?   |
+| Class            |           |  x   |   x   |
+| Enum             |           |  x   |   x   |
+| Interface        |           |  x   |       |
+| Type Alias       |           |  x   |       |
+| Function         |           |      |   x   |
+| Variable         |           |      |   x   |
+| Import           |           |  x?  |  x?   |
 
 1. 命名空间(namespace)或者模块（module）声明中包含值（value）的时候，命名空间和模块本身也会创建同名的值。
 1. 引入语句（import）根据倒入的标识符的含义对应的在当前模块声明类型或者值。
@@ -249,7 +252,7 @@ namespace A {
 
 // A中包含值B，所以标识符A同时声明了命名空间A和值A。
 namespace A {
-  const B = 1;
+  const B = 1
 }
 ```
 
@@ -260,59 +263,63 @@ namespace A {
 class C {}
 
 // Bar既是一个值又是一个类型
-export var Bar: { a: Bar };
+export var Bar: { a: Bar }
 export interface Bar {
-  count: number;
+  count: number
 }
 ```
 
 组合的情况只要不出现冲突就是合法的代码，判断冲突的几个条件。
 
 1. 同名的值（value）会产生冲突，除非都是声明为命名空间。
-    ```ts
-    // A产生冲突，一个是变量声明值，一个是命名空间声明值
-    let A = 1;
-    namespace A {
-        let B = 1;
-    }
 
-    // A不冲突，因为命名空间A内部只有类型B，没有引入值A，全局只有一个变量声明引入的值A
-    let A = 1;
-    namespace A {
-      interface B {}
-    }
+   ```ts
+   // A产生冲突，一个是变量声明值，一个是命名空间声明值
+   let A = 1
+   namespace A {
+     let B = 1
+   }
 
-    // A不冲突，两个都是命名空间A声明的值
-    namespace A {
-        let B = 1;
-    }
-    namespace A {
-        let C = 1;
-    }
-    ```
+   // A不冲突，因为命名空间A内部只有类型B，没有引入值A，全局只有一个变量声明引入的值A
+   let A = 1
+   namespace A {
+     interface B {}
+   }
+
+   // A不冲突，两个都是命名空间A声明的值
+   namespace A {
+     let B = 1
+   }
+   namespace A {
+     let C = 1
+   }
+   ```
+
 1. 类型声明有同名的类型别名（type alias）时冲突。
-    ```ts
-    // 冲突，Enum declarations can only merge with namespace or other enum declarations.ts(2567)
-    type A = string;
-    interface A {}
 
-    // 不冲突
-    enum A {}
-    enum A {}
-    namespace A {}
+   ```ts
+   // 冲突，Enum declarations can only merge with namespace or other enum declarations.ts(2567)
+   type A = string
+   interface A {}
 
-    // 不冲突
-    class A {}
-    interface A {}
+   // 不冲突
+   enum A {}
+   enum A {}
+   namespace A {}
 
-    // 冲突
-    class A {}
-    class A {}
+   // 不冲突
+   class A {}
+   interface A {}
 
-    // 不冲突
-    interface A {}
-    interface A {}
-    ```
+   // 冲突
+   class A {}
+   class A {}
+
+   // 不冲突
+   interface A {}
+   interface A {}
+   ```
+
 1. 同名命名空间不会冲突
 
 复杂例子参考 https://www.typescriptlang.org/docs/handbook/declaration-files/deep-dive.html#adding-using-a-namespace
@@ -327,7 +334,7 @@ export interface Bar {
 
 ### 命名空间与类、函数、枚举合并
 
-命名空间和类、函数、枚举都声明了一个值，编译到JS对应一个普通的对象，所以命名空间可以和同名类、函数、枚举合并。但是命名空间不能与普通变量合并，因为编译出的结果不兼容。命名空间编译成一个普通对象会被添加声明的属性，但是如果同时作为一个变量则可以随意赋值，破坏了命名空间包含的属性。同理类、函数、枚举也不能合并，因为一个普通变量只能是其中一种类型而不可能同时成立。
+命名空间和类、函数、枚举都声明了一个值，编译到 JS 对应一个普通的对象，所以命名空间可以和同名类、函数、枚举合并。但是命名空间不能与普通变量合并，因为编译出的结果不兼容。命名空间编译成一个普通对象会被添加声明的属性，但是如果同时作为一个变量则可以随意赋值，破坏了命名空间包含的属性。同理类、函数、枚举也不能合并，因为一个普通变量只能是其中一种类型而不可能同时成立。
 
 ## 枚举
 
@@ -339,7 +346,7 @@ export interface Bar {
 
 数字枚举和字符串枚举运行时行为稍有差异，数字枚举编译时有反向映射，即从枚举值（数字）到枚举名称（字符串）的映射，字符串枚举值没有反向映射。手动指定枚举值的话可能出现多个枚举的值相同的情况，编译器对此不做限制，但是使用时避免出现这种情况。多对一的正向映射其反向映射只有最后一个枚举值生效，这种不一致的情况可能造成误判。
 
-枚举类型同时也可以作为命名空间使用，在同名的命名空间上声明枚举类型的静态函数，编译到js时枚举类型和命名空间都只是个普通的变量。
+枚举类型同时也可以作为命名空间使用，在同名的命名空间上声明枚举类型的静态函数，编译到 js 时枚举类型和命名空间都只是个普通的变量。
 
 ```ts
 enum Direction {
@@ -355,80 +362,85 @@ enum Direction {
 
 namespace Direction {
   export function isUp(direction: Direction): boolean {
-    return direction === Direction.Up;
+    return direction === Direction.Up
   }
 }
 
 // false
-Direction[Direction.Down] === "Down";
+Direction[Direction.Down] === 'Down'
 // true
-Direction[Direction.Down] === "Right";
+Direction[Direction.Down] === 'Right'
 // true
-Direction[Direction.Right] === "Right";
+Direction[Direction.Right] === 'Right'
 
 // 编译的js
-var Direction;
-(function (Direction) {
-    // 初始化为0
-    Direction[Direction["Up"] = 0] = "Up";
-    // 递增初始化为1
-    Direction[Direction["Down"] = 1] = "Down";
-    Direction[Direction["Left"] = 2] = "Left";
-    // 手动指定为1，允许重复的枚举值，编译器对次不做检查
-    Direction[Direction["Right"] = 1] = "Right";
-})(Direction || (Direction = {}));
-(function (Direction) {
-    function isUp(direction) {
-        return direction === Direction.Up;
-    }
-    Direction.isUp = isUp;
-})(Direction || (Direction = {}));
+var Direction
+;(function (Direction) {
+  // 初始化为0
+  Direction[(Direction['Up'] = 0)] = 'Up'
+  // 递增初始化为1
+  Direction[(Direction['Down'] = 1)] = 'Down'
+  Direction[(Direction['Left'] = 2)] = 'Left'
+  // 手动指定为1，允许重复的枚举值，编译器对次不做检查
+  Direction[(Direction['Right'] = 1)] = 'Right'
+})(Direction || (Direction = {}))
+;(function (Direction) {
+  function isUp(direction) {
+    return direction === Direction.Up
+  }
+  Direction.isUp = isUp
+})(Direction || (Direction = {}))
 ```
 
 ### 常量枚举
 
-使用`const enum`语法声明常量枚举，常量枚举默认情况下不会编译生成对应的Javascript对象，所用使用到枚举值的地方被内联替换为常量值。使用命令行参数`--preserveConstEnums`可以指定为常量枚举编译生成对应的Javascript对象。
+使用`const enum`语法声明常量枚举，常量枚举默认情况下不会编译生成对应的 Javascript 对象，所用使用到枚举值的地方被内联替换为常量值。使用命令行参数`--preserveConstEnums`可以指定为常量枚举编译生成对应的 Javascript 对象。
 
 ```ts
 const enum Directions {
-    Up,
-    Down,
-    Left,
-    Right
+  Up,
+  Down,
+  Left,
+  Right,
 }
 
-let directions = [Directions.Up, Directions.Down, Directions.Left, Directions.Right]
+let directions = [
+  Directions.Up,
+  Directions.Down,
+  Directions.Left,
+  Directions.Right,
+]
 ```
 
 ### 开放式枚举
 
-一个模块中同一个枚举可以多处定义，只要这些定义不重复，同时多处定义只允许有最多有一个定义的第一个枚举值没初始化。和命名空间处理方法相同，为每处定义生成对应的Javascript代码，将所有枚举值聚合到一个普通Javascript对象上。通常在多个脚本文件（都属于全局模块）中使用开放式枚举，一个模块文件中也可如此使用，但是通常来说没有必要。
+一个模块中同一个枚举可以多处定义，只要这些定义不重复，同时多处定义只允许有最多有一个定义的第一个枚举值没初始化。和命名空间处理方法相同，为每处定义生成对应的 Javascript 代码，将所有枚举值聚合到一个普通 Javascript 对象上。通常在多个脚本文件（都属于全局模块）中使用开放式枚举，一个模块文件中也可如此使用，但是通常来说没有必要。
 
 ```ts
 enum Color {
   Red,
   Green,
-  Blue
+  Blue,
 }
 
 enum Color {
   DarkRed = 3,
   DarkGreen,
-  DarkBlue
+  DarkBlue,
 }
 
 // 对应js
-var Color;
-(function (Color) {
-    Color[Color["Red"] = 0] = "Red";
-    Color[Color["Green"] = 1] = "Green";
-    Color[Color["Blue"] = 2] = "Blue";
-})(Color || (Color = {}));
-(function (Color) {
-    Color[Color["DarkRed"] = 3] = "DarkRed";
-    Color[Color["DarkGreen"] = 4] = "DarkGreen";
-    Color[Color["DarkBlue"] = 5] = "DarkBlue";
-})(Color || (Color = {}));
+var Color
+;(function (Color) {
+  Color[(Color['Red'] = 0)] = 'Red'
+  Color[(Color['Green'] = 1)] = 'Green'
+  Color[(Color['Blue'] = 2)] = 'Blue'
+})(Color || (Color = {}))
+;(function (Color) {
+  Color[(Color['DarkRed'] = 3)] = 'DarkRed'
+  Color[(Color['DarkGreen'] = 4)] = 'DarkGreen'
+  Color[(Color['DarkBlue'] = 5)] = 'DarkBlue'
+})(Color || (Color = {}))
 //# sourceMappingURL=enum.js.map
 ```
 
@@ -438,56 +450,59 @@ var Color;
 
 ```ts
 enum ShapeKind {
-    Circle,
-    Square,
+  Circle,
+  Square,
 }
 
 interface Circle {
-    kind: ShapeKind.Circle;
-    radius: number;
+  kind: ShapeKind.Circle
+  radius: number
 }
 
 interface Square {
-    kind: ShapeKind.Square;
-    sideLength: number;
+  kind: ShapeKind.Square
+  sideLength: number
 }
 
 let c: Circle = {
-    kind: ShapeKind.Square,
-    //    ~~~~~~~~~~~~~~~~ Error!
-    radius: 100,
+  kind: ShapeKind.Square,
+  //    ~~~~~~~~~~~~~~~~ Error!
+  radius: 100,
 }
 ```
 
-直接枚举名称作为类型时实际上使用的是普通的Javascript对象类型（数字或者字符串），使用`typeof`关键字来明确使用其对应的枚举类型信息。
+直接枚举名称作为类型时实际上使用的是普通的 Javascript 对象类型（数字或者字符串），使用`typeof`关键字来明确使用其对应的枚举类型信息。
 
 ```ts
 enum LogLevel {
-    ERROR, WARN, INFO, DEBUG
+  ERROR,
+  WARN,
+  INFO,
+  DEBUG,
 }
 
 /**
  * This is equivalent to:
  * type LogLevelStrings = 'ERROR' | 'WARN' | 'INFO' | 'DEBUG';
  */
-type LogLevelStrings = keyof typeof LogLevel;
+type LogLevelStrings = keyof typeof LogLevel
 
 function printImportant(key: LogLevelStrings, message: string) {
-    const num = LogLevel[key];
-    if (num <= LogLevel.WARN) {
-       console.log('Log level key is: ', key);
-       console.log('Log level value is: ', num);
-       console.log('Log level message is: ', message);
-    }
+  const num = LogLevel[key]
+  if (num <= LogLevel.WARN) {
+    console.log('Log level key is: ', key)
+    console.log('Log level value is: ', num)
+    console.log('Log level message is: ', message)
+  }
 }
-printImportant('ERROR', 'This is a message');
+printImportant('ERROR', 'This is a message')
 ```
 
 ## 模块和命名空间
 
 ### 术语变化
 
-模块（Module)和命名空间（namespace）在Typescript1.5之前叫做外部模块（External Module）和内部模块（Internal Module）。
+模块（Module)和命名空间（namespace）在 Typescript1.5 之前叫做外部模块（External Module）和内部模块（Internal Module）。
 
 ```ts
 // > ts 1.5
@@ -499,24 +514,24 @@ module X {}
 
 ### 模块
 
-[模块](https://www.typescriptlang.org/docs/handbook/modules.html)用来将一组变量、函数、类和接口等**聚合**且**封闭**在一个作用域内，从而不与其他模块冲突。ts将一个具有顶层`import`/`export`语句的代码文件认为是一个模块，否则该文件被认为是存在全局范围（global），文件内的所有对象可以在任何地方被引用。
+[模块](https://www.typescriptlang.org/docs/handbook/modules.html)用来将一组变量、函数、类和接口等**聚合**且**封闭**在一个作用域内，从而不与其他模块冲突。ts 将一个具有顶层`import`/`export`语句的代码文件认为是一个模块，否则该文件被认为是存在全局范围（global），文件内的所有对象可以在任何地方被引用。
 
 模块内部使用`export`语句导出变量、函数、类、接口等定义，供其他模块使用。
 
 ```ts
 // export declaration 声明语句前直接使用`export`导出：
 export interface StringValidator {
-    isAcceptable(s: string): boolean;
+  isAcceptable(s: string): boolean
 }
 
 // export statements 单独的导出语句，可以重命名
 export { Random }
-export { Random as rand}
+export { Random as rand }
 
 // reexport 对导入的模块中内容重新导出
 export { Random } from './math'
 export { Random as rand } from './math'
-export * from './math'  // 一次性导出所有内容
+export * from './math' // 一次性导出所有内容
 
 // 默认导出，在模块只需要导出一个对象时使用
 export default Math
@@ -541,71 +556,71 @@ import './math'
 
 #### import/export assignment
 
-Common JS和AMD中使用`exports`对象进行导出，使用`exports = something`和`module.exports = something`对导出对象整体进行设置，效果和ES Module中的默认导出一致，但是这两种语法不相互兼容。ts提供了`export =`和`import = required()`语法来对应到Common JS和AMD的默认导出。
+Common JS 和 AMD 中使用`exports`对象进行导出，使用`exports = something`和`module.exports = something`对导出对象整体进行设置，效果和 ES Module 中的默认导出一致，但是这两种语法不相互兼容。ts 提供了`export =`和`import = required()`语法来对应到 Common JS 和 AMD 的默认导出。
 
 在编译选项`module`是`es6`时不能使用`export =`和`import = required()`语句，会报语法错误。
 
 #### optional module loading
 
-从模块中导入对象只在类型声明中使用的话，ts只使用了对象的类型信息，这时模块不会被真的导入，也不会生成对应的导入语句。
+从模块中导入对象只在类型声明中使用的话，ts 只使用了对象的类型信息，这时模块不会被真的导入，也不会生成对应的导入语句。
 
 #### Ambient Module
 
-为了给使用js编写的库提供类型信息，可以用`declare module`语法声明模块中对象的类型信息，每个模块的类型定义信息通常定义于`.d.ts`文件。使用`/// <reference path="node.d.ts"/>`（Triple Slash）引用`.d.ts`文件即可在当前文件中引入该模块的类型定义信息。
+为了给使用 js 编写的库提供类型信息，可以用`declare module`语法声明模块中对象的类型信息，每个模块的类型定义信息通常定义于`.d.ts`文件。使用`/// <reference path="node.d.ts"/>`（Triple Slash）引用`.d.ts`文件即可在当前文件中引入该模块的类型定义信息。
 
 只声明模块而不包含任何类型声明时，从该模块引入的任何对象类型都是`any`。
 
 ```ts
 // Shorthand Ambient modules
-declare module "hot-new-module";
+declare module 'hot-new-module'
 ```
 
 模块名称可以包含**通配符**，用来对一类（前缀或者后缀限定）的文件提供类型声明。例如`.jpg`文件被导入时，是一个有`src`属性的对象。
 
 ```ts
 declare module '*.jpg' {
-  const src: string;
-  export default src;
+  const src: string
+  export default src
 }
 ```
 
-UMD模块既可以当成全局使用，也可以作为模块使用，但二者能同时成立。模块定义如下：
+UMD 模块既可以当成全局使用，也可以作为模块使用，但二者能同时成立。模块定义如下：
 
 ```ts
-export function isPrime(x: number): boolean;
-export as namespace mathLib;
+export function isPrime(x: number): boolean
+export as namespace mathLib
 ```
 
 在另一个模块文件中使用
 
 ```ts
-import { isPrime } from "math-lib";
-isPrime(2);
+import { isPrime } from 'math-lib'
+isPrime(2)
 
 // 错误：模块内不能使用全局定义
-mathLib.isPrime(2);
+mathLib.isPrime(2)
 ```
 
-在全局环境（不包含`import`/`export`的js文件）只能使用全局定义。
+在全局环境（不包含`import`/`export`的 js 文件）只能使用全局定义。
 
 ```js
-mathLib.isPrime(2);
+mathLib.isPrime(2)
 ```
 
 ### 模块解析
 
 相对路径模块
 
-1. `/`、`./`、`../`开头的模块名称，不会解析成ambient module declaration
-1. 绝对路径模块会已`baseUrl`或者路径映射（path mapping）的方式解析，可以解析成ambient module declaration
+1. `/`、`./`、`../`开头的模块名称，不会解析成 ambient module declaration
+1. 绝对路径模块会已`baseUrl`或者路径映射（path mapping）的方式解析，可以解析成 ambient module declaration
 
-Typescript模块解析和Node.js保持一致，区别在于
+Typescript 模块解析和 Node.js 保持一致，区别在于
 
 1. 搜索文件.ts/.tsx/.d.ts，
 1. 在`package.json`文件中由`types`字段指定模块主文件位置。
-1. 另外增加node_modules文件夹下的@types文件夹搜索
+1. 另外增加 node_modules 文件夹下的@types 文件夹搜索
 1. baseUrl: 命令行参数或者`tsconfig.json`文件指定的一个相对或者绝对路径
-1. path mapping配置
+1. path mapping 配置
 
 ```json
 {
@@ -618,15 +633,15 @@ Typescript模块解析和Node.js保持一致，区别在于
 }
 ```
 
-使用--traceResolution参数显示模块解析过程。
+使用--traceResolution 参数显示模块解析过程。
 
 ### 命名空间
 
 [命名空间](https://www.typescriptlang.org/docs/handbook/namespaces.html)用来将逻辑上相关的一组变量、类、接口等聚合在一起，放到同一个命名空间下。命名空间内的变量通常只在该命名空间下可见，在外部使用同样要用`export`进行导出。
 
-命名空间通常在**全局模块**下使用，可以位于同一个源文件也可以分散在多个源文件中，文件之间的依赖关系使用Triple Slash引用表示。默认情况下ts会为属于同一个命名空间的多个.ts文件生成对应一一对应的.js文件，由于.ts文件之间存在依赖关系，所以在.html文件中引入多个.js文件时需要将被依赖的文件放在前面。通过`--outFile`参数可以指定将结果输出到一个js文件中。
+命名空间通常在**全局模块**下使用，可以位于同一个源文件也可以分散在多个源文件中，文件之间的依赖关系使用 Triple Slash 引用表示。默认情况下 ts 会为属于同一个命名空间的多个.ts 文件生成对应一一对应的.js 文件，由于.ts 文件之间存在依赖关系，所以在.html 文件中引入多个.js 文件时需要将被依赖的文件放在前面。通过`--outFile`参数可以指定将结果输出到一个 js 文件中。
 
-命名空间被编译成一个普通的js对象，该对象上的属性对应了命名空间中导出的类、变量、函数。命名空间实际上就是一个普通的Javascript全局对象。
+命名空间被编译成一个普通的 js 对象，该对象上的属性对应了命名空间中导出的类、变量、函数。命名空间实际上就是一个普通的 Javascript 全局对象。
 
 在一个模块文件中使用的命名空间不会突破模块的范围，因此跨多个模块的同名命名空间是独立的，不会被自动合并在一起。但是在一个模块文件内多个位置使用相同的命名空间，这些不同的定义是会被合并在一起的。因为模块本身有命名空间所具有的封装的作用，所以模块内部通常不使用命名空间。在模块功能较多需要隔离的时候更倾向拆分为多个模块而不是使用命名空间。
 
@@ -642,28 +657,28 @@ export namespace Foo {}
 export namespace Foo {}
 ```
 
-命名空间可以方便的为一些暴露**全局对象**的三方库添加类型定义，例如D3。
+命名空间可以方便的为一些暴露**全局对象**的三方库添加类型定义，例如 D3。
 
 ```ts
 declare namespace D3 {
-    export interface Selectors {
-        select: {
-            (selector: string): Selection;
-            (element: EventTarget): Selection;
-        };
+  export interface Selectors {
+    select: {
+      (selector: string): Selection
+      (element: EventTarget): Selection
     }
+  }
 
-    export interface Event {
-        x: number;
-        y: number;
-    }
+  export interface Event {
+    x: number
+    y: number
+  }
 
-    export interface Base extends Selectors {
-        event: Event;
-    }
+  export interface Base extends Selectors {
+    event: Event
+  }
 }
 
-declare var d3: D3.Base;
+declare var d3: D3.Base
 ```
 
 ### 别名
@@ -674,7 +689,7 @@ declare var d3: D3.Base;
 
 ### 默认全局环境
 
-Typescript编译环境默认都带有一个`lib.d.ts`文件，其中定了常见的浏览器宿主环境和Javascript规定的API的类型定义，默认使用这个定义文件为全局环境提供常见的定义信息。如果想要细粒度控制全局环境中的类型信息可以使用`--noLib`命令行参数或者在tsconfig.json的`lib: false`配置来禁用`lib.d.ts`文件。使用`--lib`参数或者配置文件编译选项`lib: string[]`来指定具体使用的全局API定义，Typescript中默认包含了很多预先定义好的类型定义文件。
+Typescript 编译环境默认都带有一个`lib.d.ts`文件，其中定了常见的浏览器宿主环境和 Javascript 规定的 API 的类型定义，默认使用这个定义文件为全局环境提供常见的定义信息。如果想要细粒度控制全局环境中的类型信息可以使用`--noLib`命令行参数或者在 tsconfig.json 的`lib: false`配置来禁用`lib.d.ts`文件。使用`--lib`参数或者配置文件编译选项`lib: string[]`来指定具体使用的全局 API 定义，Typescript 中默认包含了很多预先定义好的类型定义文件。
 
 ```bash
 tsc --target es5 --lib dom,es6
@@ -691,141 +706,134 @@ tsc --target es5 --lib dom,es6
 可用的类型定义文件大致如下：
 
 1. JavaScript 功能
-    - es5
-    - es6
-    - es2015
-    - es7
-    - es2016
-    - es2017
-    - esnext
+   - es5
+   - es6
+   - es2015
+   - es7
+   - es2016
+   - es2017
+   - esnext
 1. 运行环境
-    - dom
-    - dom.iterable
-    - webworker
-    - scripthost
+   - dom
+   - dom.iterable
+   - webworker
+   - scripthost
 1. ESNext 功能选项
-    - es2015.core
-    - es2015.collection
-    - es2015.generator
-    - es2015.iterable
-    - es2015.promise
-    - es2015.proxy
-    - es2015.reflect
-    - es2015.symbol
-    - es2015.symbol.wellknown
-    - es2016.array.include
-    - es2017.object
-    - es2017.sharedmemory
-    - esnext.asynciterable
+   - es2015.core
+   - es2015.collection
+   - es2015.generator
+   - es2015.iterable
+   - es2015.promise
+   - es2015.proxy
+   - es2015.reflect
+   - es2015.symbol
+   - es2015.symbol.wellknown
+   - es2016.array.include
+   - es2017.object
+   - es2017.sharedmemory
+   - esnext.asynciterable
 
-注意使用较新的API时Typescript只提供了类型定义信息，相关Polyfill要另外引入，否则无法使用。
+注意使用较新的 API 时 Typescript 只提供了类型定义信息，相关 Polyfill 要另外引入，否则无法使用。
 
 ### 三方库全局环境
 
-寻找一个[三方库全局环境的类型定义](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html#types-typeroots-and-types)时首先会去库本身的目录`./node_modules/lib-name`下去查找自带的类型定义文件，即`.ts`、`.tsx`、`d.ts`或者`package.json`的`types`字段指定的文件。对于Javascript实现的不带有类型定义文件的库，社区项目Definitely Typed为大多数库提供了定义文件，这些文件位于`./node_modules/@types`文件夹下。使用如下命令为JQuery安装类型定义文件：
+寻找一个[三方库全局环境的类型定义](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html#types-typeroots-and-types)时首先会去库本身的目录`./node_modules/lib-name`下去查找自带的类型定义文件，即`.ts`、`.tsx`、`d.ts`或者`package.json`的`types`字段指定的文件。对于 Javascript 实现的不带有类型定义文件的库，社区项目 Definitely Typed 为大多数库提供了定义文件，这些文件位于`./node_modules/@types`文件夹下。使用如下命令为 JQuery 安装类型定义文件：
 
 ```bash
 npm install @types/jquery --save-dev
 ```
 
-库类型文件查找的过程是从当前目录向上直到项目根目录，在每个目录下查找`./node_modules/@types/lib-name`目录对应库`lib-name`的类型定义。其中项目所在目录名称@types可用typeRoots选项配置，要引入的库`lib-name`由`types`选项配置。
+库类型文件查找的过程是从当前目录向上直到项目根目录，在每个目录下查找`./node_modules/@types/lib-name`目录对应库`lib-name`的类型定义。其中项目所在目录名称@types 可用 typeRoots 选项配置，要引入的库`lib-name`由`types`选项配置。
 
 ```json
 {
-   "compilerOptions": {
-       // 类型定义库目标目录名，可以有多个，此字段不存在时默认使用 '@types'
-       "typeRoots" : ["./typings"],
+  "compilerOptions": {
+    // 类型定义库目标目录名，可以有多个，此字段不存在时默认使用 '@types'
+    "typeRoots": ["./typings"],
 
-       // 要引入的类型定义库名称，此字段不存在时目录下所有库都会被引入
-       // 需要精确控制库类型定义时使用此字段明确要引入的库类型定义，其他库不会引入，使用空数组完全禁用库类型自动引入
-       "types" : ["node", "lodash", "express"],
+    // 要引入的类型定义库名称，此字段不存在时目录下所有库都会被引入
+    // 需要精确控制库类型定义时使用此字段明确要引入的库类型定义，其他库不会引入，使用空数组完全禁用库类型自动引入
+    "types": ["node", "lodash", "express"],
 
-      "lib": [
-        "esnext",
-        "dom",
-        "dom.iterable",
-        "scripthost"
-      ],
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
 
-      "includes": [
-        "src/**/*.ts",
-      ],
-   }
+    "includes": ["src/**/*.ts"]
+  }
 }
 ```
 
 一个类型定义库目录可能是包含一个`index.d.ts`文件或者一个`package.json`文件其中`types`字段指定了类型定义文件名。
 
-package.json中types和typings字段含义相同，指定包对应的类型文件文件位置。
+package.json 中 types 和 typings 字段含义相同，指定包对应的类型文件文件位置。
 
 ```json
 {
-  "types": "./lib/main.d.ts",
+  "types": "./lib/main.d.ts"
 }
 ```
 
 `d.ts`全局范围有效，
 
-同样要注意的是如果主声明文件名是index.d.ts并且位置在包的根目录里（与index.js并列），你就不需要使用"types"属性指定了。
+同样要注意的是如果主声明文件名是 index.d.ts 并且位置在包的根目录里（与 index.js 并列），你就不需要使用"types"属性指定了。
 
 类型依赖使用 `/// <reference types="..." />` 而不是 `/// <reference path="..." />`
 
 包类型定义的几种情况。
 
 1. 包没有类型定义
-1. 包内置类型定义 package.json中typeRoots, types字段
-1. 包有对应的@types项目的类型定义
-1. ES、浏览器、node等内置库的类型定义，使用 --lib或者 package.json中lib选项。
+1. 包内置类型定义 package.json 中 typeRoots, types 字段
+1. 包有对应的@types 项目的类型定义
+1. ES、浏览器、node 等内置库的类型定义，使用 --lib 或者 package.json 中 lib 选项。
 
 module.d.ts
 
 1. named export
 1. default export
-    1. export =
-    1. https://www.typescriptlang.org/docs/handbook/declaration-files/templates/module-d-ts.html#default-exports
-    1. https://www.typescriptlang.org/tsconfig#esModuleInterop
-    1. https://www.typescriptlang.org/tsconfig#importHelpers
-    1. https://www.typescriptlang.org/tsconfig#allowSyntheticDefaultImports
+   1. export =
+   1. https://www.typescriptlang.org/docs/handbook/declaration-files/templates/module-d-ts.html#default-exports
+   1. https://www.typescriptlang.org/tsconfig#esModuleInterop
+   1. https://www.typescriptlang.org/tsconfig#importHelpers
+   1. https://www.typescriptlang.org/tsconfig#allowSyntheticDefaultImports
 1. ts
 
 ### 类型
 
 #### 类型体系
 
-TS有两个顶层类型（Top Type ）`any`和[unknown](https://github.com/Microsoft/TypeScript/pull/24439)，任何其他类型都是这两个类型的子类型。有一个底层类型（Bottom Type）`never`是所有其他类型的子类型。
+TS 有两个顶层类型（Top Type ）`any`和[unknown](https://github.com/Microsoft/TypeScript/pull/24439)，任何其他类型都是这两个类型的子类型。有一个底层类型（Bottom Type）`never`是所有其他类型的子类型。
 
 ![Type graph](./typegraph.jpeg)
 
-使用`any`是说我不知道具体是什么类型，所以不管我做什么操作，都可能是正确的，所以不要提示错误。`any`提供了一个从JS到`TS`渐进迁移的方法，所有不确定类型或者暂时不想耗费精力去指定精确类型的地方都可以使用`any`，类型系统不再报错，但是程序运行时的正确性由程序员自己保证。
+使用`any`是说我不知道具体是什么类型，所以不管我做什么操作，都可能是正确的，所以不要提示错误。`any`提供了一个从 JS 到`TS`渐进迁移的方法，所有不确定类型或者暂时不想耗费精力去指定精确类型的地方都可以使用`any`，类型系统不再报错，但是程序运行时的正确性由程序员自己保证。
 
 使用`unknown`类型是说我不知道具体是什么类型，所以进行任何操作之前请提醒我进行类型检查。在`any`类型的基础上，想要更准确的类型检查就将`any`修改为`unknown`或者准确的类型上。
 
 ```ts
 // unknown类型可以直接赋值给any或者unknown
-let value1: unknown = value;   // OK
-let value2: any = value;       // OK
+let value1: unknown = value // OK
+let value2: any = value // OK
 
 // 赋值给任何其他类型都会报错，使用前必须进行类型检查，收缩unknown到具体类型
-let value3: boolean = value;   // Error
-let value4: number = value;    // Error
-let value5: string = value;    // Error
-let value6: object = value;    // Error
-let value7: any[] = value;     // Error
-let value8: Function = value;  // Error
+let value3: boolean = value // Error
+let value4: number = value // Error
+let value5: string = value // Error
+let value6: object = value // Error
+let value7: any[] = value // Error
+let value8: Function = value // Error
 
 // union unknown
-type UnionType1 = unknown | null;       // unknown
-type UnionType2 = unknown | undefined;  // unknown
-type UnionType3 = unknown | string;     // unknown
-type UnionType4 = unknown | number[];   // unknown
-type UnionType5 = unknown | any;  // any
+type UnionType1 = unknown | null // unknown
+type UnionType2 = unknown | undefined // unknown
+type UnionType3 = unknown | string // unknown
+type UnionType4 = unknown | number[] // unknown
+type UnionType5 = unknown | any // any
 
 // intersection
-type IntersectionType1 = unknown & null;       // null
-type IntersectionType2 = unknown & undefined;  // undefined
-type IntersectionType3 = unknown & string;     // string
-type IntersectionType4 = unknown & number[];   // number[]
-type IntersectionType5 = unknown & any;        // any
+type IntersectionType1 = unknown & null // null
+type IntersectionType2 = unknown & undefined // undefined
+type IntersectionType3 = unknown & string // string
+type IntersectionType4 = unknown & number[] // number[]
+type IntersectionType5 = unknown & any // any
 ```
 
 大部分运算符对于`unknown`类型没有意义，能够直接使用的只有这几个`===`、`==`、`!==`、`!=`。
@@ -840,25 +848,25 @@ type IntersectionType5 = unknown & any;        // any
 
 ```ts
 interface Bird {
-    fly();
-    layEggs();
+  fly()
+  layEggs()
 }
 
 interface Fish {
-    swim();
-    layEggs();
+  swim()
+  layEggs()
 }
 
 function isFish(pet: Fish | Bird): pet is Fish {
-    return (pet as Fish).swim !== undefined
+  return (pet as Fish).swim !== undefined
 }
 
 if (isFish(pet)) {
-    // isFish返回真时pet是Fish成立
-    pet.swim()
+  // isFish返回真时pet是Fish成立
+  pet.swim()
 } else {
-    // pet是Fish不成立，pet只能是Bird
-    pet.fly()
+  // pet是Fish不成立，pet只能是Bird
+  pet.fly()
 }
 ```
 
@@ -868,12 +876,12 @@ if (isFish(pet)) {
 
 ```ts
 function move(pet: Fish | Bird) {
-    if ("swim" in pet) {
-        // 收缩到联合类型中具有可选的或者必须的"swim"字段的类型
-        return pet.swim();
-    }
-    // 收缩到联合类型中具有可选的"swim"字段或者没有“swim”字段的类型
-    return pet.fly();
+  if ('swim' in pet) {
+    // 收缩到联合类型中具有可选的或者必须的"swim"字段的类型
+    return pet.swim()
+  }
+  // 收缩到联合类型中具有可选的"swim"字段或者没有“swim”字段的类型
+  return pet.fly()
 }
 ```
 
@@ -884,15 +892,15 @@ function move(pet: Fish | Bird) {
 ```ts
 function f(sn: string | null): string {
   if (sn == null) {
-    return "default";
+    return 'default'
   } else {
-    return sn;
+    return sn
   }
 }
 
 // 或者更简洁的形式
 function f(sn: string | null): string {
-  return sn || "default";
+  return sn || 'default'
 }
 ```
 
@@ -902,86 +910,86 @@ function f(sn: string | null): string {
 function broken(name: string | null): string {
   function postfix(epithet: string) {
     // error, 'name' is possibly null
-    return name.charAt(0) + ".  the " + epithet;
+    return name.charAt(0) + '.  the ' + epithet
   }
-  name = name || "Bob";
-  return postfix("great");
+  name = name || 'Bob'
+  return postfix('great')
 }
 
 function fixed(name: string | null): string {
   function postfix(epithet: string) {
     // 不再提示错误
-    return name![0] + ".  the " + epithet;
+    return name![0] + '.  the ' + epithet
   }
-  name = name || "Bob";
-  return postfix("great");
+  name = name || 'Bob'
+  return postfix('great')
 }
 ```
 
 `obj instanceof ConstructorName`中右侧必须是构造函数，在条件成立时对象`obj`会被收窄类型，函数原型存在的话收窄到`ConstructorName.prototype`的类型，收窄到所有重载的构造函数返回类型的联合类型。
 
-断言函数（assertion function）是Javascript中用来确保断言条件成立的函数，在失败的情况下抛出异常。[断言签名](https://github.com/microsoft/TypeScript/pull/32695)用来指示如果断言函数正常执行，没有抛出异常，那么后续流程中断言成立（可能是type guard）或者断言的参数类型为真。
+断言函数（assertion function）是 Javascript 中用来确保断言条件成立的函数，在失败的情况下抛出异常。[断言签名](https://github.com/microsoft/TypeScript/pull/32695)用来指示如果断言函数正常执行，没有抛出异常，那么后续流程中断言成立（可能是 type guard）或者断言的参数类型为真。
 
 ```ts
 // 断言条件成立
 function assert(condition: any, msg?: string): asserts condition {
-    if (!condition) {
-        throw new AssertionError(msg)
-    }
+  if (!condition) {
+    throw new AssertionError(msg)
+  }
 }
 
 function yell(str) {
-    assert(typeof str === "string");
+  assert(typeof str === 'string')
 
-    // error: Property 'toUppercase' does not exist on type 'string'.
-    return str.toUppercase();
+  // error: Property 'toUppercase' does not exist on type 'string'.
+  return str.toUppercase()
 }
 
 // 断言参数类型
 function assertIsString(val: any): asserts val is string {
-    if (typeof val !== "string") {
-        throw new AssertionError("Not a string!");
-    }
+  if (typeof val !== 'string') {
+    throw new AssertionError('Not a string!')
+  }
 }
 
 // 使用
 function yell(str: any) {
-    assertIsString(str);
+  assertIsString(str)
 
-    // error: Property 'toUppercase' does not exist on type 'string'.
-    return str.toUppercase();
+  // error: Property 'toUppercase' does not exist on type 'string'.
+  return str.toUppercase()
 }
 ```
 
 `keyof T`（index type query operator）返回类型`T`的所有`public`属性名称字符串的联合类型，可以用在泛型表达式中。
 `T[K]`（the indexed access operator）返回类型`T`的所有键值`K`对应的属性值类型的联合类型。
 
-索引类型和索引签名，具有`string`类型索引签名的类型`T`，对应的`keyof T`是`number | string`，因为Javascript中`number`下标的访问被自动转换成字符串。具有`number`索引类型签名的类型`T`，对应的`keyof T`是`number`。
+索引类型和索引签名，具有`string`类型索引签名的类型`T`，对应的`keyof T`是`number | string`，因为 Javascript 中`number`下标的访问被自动转换成字符串。具有`number`索引类型签名的类型`T`，对应的`keyof T`是`number`。
 
 ```ts
 interface Dictionary<T> {
-  [key: string]: T;
+  [key: string]: T
 }
-let keys: keyof Dictionary<number>; // string | number
-let value: Dictionary<number>["foo"]; // number
+let keys: keyof Dictionary<number> // string | number
+let value: Dictionary<number>['foo'] // number
 
 interface Dictionary<T> {
-  [key: number]: T;
+  [key: number]: T
 }
-let keys: keyof Dictionary<number>; // number
-let value: Dictionary<number>["foo"]; // Error, Property 'foo' does not exist on type 'Dictionary<number>'.
-let value: Dictionary<number>[42]; // number
+let keys: keyof Dictionary<number> // number
+let value: Dictionary<number>['foo'] // Error, Property 'foo' does not exist on type 'Dictionary<number>'.
+let value: Dictionary<number>[42] // number
 ```
 
 映射类型从现有的对象类型基础上，创建出新的对象类型，`[P in keyof T]`表达式中`keyof T`表示现有类型`T`的所有键类型，`T[P]`是每个键的对应值类型。
 
 ```ts
 type Readonly<T> = {
-  readonly [P in keyof T]: T[P];
-};
+  readonly [P in keyof T]: T[P]
+}
 type Partial<T> = {
-  [P in keyof T]?: T[P];
-};
+  [P in keyof T]?: T[P]
+}
 ```
 
 上面是[一一映射](https://en.wikipedia.org/wiki/Homomorphism)，只改变每个键值对的类型信息，增加或者减少成员的话不能使用这种形式。
@@ -998,10 +1006,10 @@ type PartialWithNewMember<T> = {
 
 ```ts
 type AddNewMember<T, Name extends string, U> = {
-  [K in (keyof T | Name)]: K extends keyof T ? T[K] : U;
+  [K in keyof T | Name]: K extends keyof T ? T[K] : U
 }
 
-type AddNameCar = AddNewMember<Car, "fuck", number>
+type AddNameCar = AddNewMember<Car, 'fuck', number>
 ```
 
 或者使用交集类型
@@ -1009,7 +1017,7 @@ type AddNameCar = AddNewMember<Car, "fuck", number>
 ```ts
 // Use this:
 type PartialWithNewMember<T> = {
-  [P in keyof T]?: T[P];
+  [P in keyof T]?: T[P]
 } & { newMember: boolean }
 ```
 
@@ -1037,29 +1045,29 @@ type PartialWithNewMember<T> = {
 //   TRACE: string;
 // }
 const HTTPRequestMethod = {
-  CONNECT: "CONNECT",
-  DELETE: "DELETE",
-  GET: "GET",
-  HEAD: "HEAD",
-  OPTIONS: "OPTIONS",
-  PATCH: "PATCH",
-  POST: "POST",
-  PUT: "PUT",
-  TRACE: "TRACE"
-};
+  CONNECT: 'CONNECT',
+  DELETE: 'DELETE',
+  GET: 'GET',
+  HEAD: 'HEAD',
+  OPTIONS: 'OPTIONS',
+  PATCH: 'PATCH',
+  POST: 'POST',
+  PUT: 'PUT',
+  TRACE: 'TRACE',
+}
 
 // 可以显式指定为字面值类型
 const HTTPRequestMethod = {
-  CONNECT: "CONNECT" as "CONNECT",
-  DELETE: "DELETE" as "DELETE",
-  GET: "GET" as "GET",
-  HEAD: "HEAD" as "HEAD",
-  OPTIONS: "OPTIONS" as "OPTIONS",
-  PATCH: "PATCH" as "PATCH",
-  POST: "POST" as "POST",
-  PUT: "PUT" as "PUT",
-  TRACE: "TRACE" as "TRACE"
-};
+  CONNECT: 'CONNECT' as 'CONNECT',
+  DELETE: 'DELETE' as 'DELETE',
+  GET: 'GET' as 'GET',
+  HEAD: 'HEAD' as 'HEAD',
+  OPTIONS: 'OPTIONS' as 'OPTIONS',
+  PATCH: 'PATCH' as 'PATCH',
+  POST: 'POST' as 'POST',
+  PUT: 'PUT' as 'PUT',
+  TRACE: 'TRACE' as 'TRACE',
+}
 ```
 
 或者使用常量声明（`as const`），有三个方面的效果。
@@ -1098,7 +1106,6 @@ function
 constructor
 tuple
 
-
 // intersection type of function ?
 f12('hello', 'world')
 f12(1, 3)
@@ -1107,24 +1114,23 @@ f12(1, 'test')
 lookup type
 
 ```ts
-type E7 = (string[])[number]
+type E7 = string[][number]
 
-type E8 = (string[])[1]
-type E9 = (string[])[number]
+type E8 = string[][1]
+type E9 = string[][number]
 // error
 // type E9 = (string[])[string]
-type E91 = (string[])[never]
-type E92 = (string[])[any]
+type E91 = string[][never]
+type E92 = string[][any]
 // type E93 = (string[])[void]
 
-type E10 = ([string, number])[0]
-type E11 = ([string, number])[1]
-type E12 = ([string, number])[0 | 1]
-type E13 = ([string, number])[number]
-type E14 = ([string, number])[never]
-type E15 = ([string, number])[any]
+type E10 = [string, number][0]
+type E11 = [string, number][1]
+type E12 = [string, number][0 | 1]
+type E13 = [string, number][number]
+type E14 = [string, number][never]
+type E15 = [string, number][any]
 // type E14 = ([string, number])[string]
-
 ```
 
 #### 交集与并集（intersection & union）
@@ -1136,10 +1142,12 @@ type E15 = ([string, number])[any]
 两个函数的交集函数类型如下：
 
 ```ts
-type F1 = (a: string, b: string) => string | number;
-type F2 = (a: number, b: number) => number | boolean;
+type F1 = (a: string, b: string) => string | number
+type F2 = (a: number, b: number) => number | boolean
 
-let fNumber: F1 & F2 = (a: string | number, b: string | number): number => { return 1 }
+let fNumber: F1 & F2 = (a: string | number, b: string | number): number => {
+  return 1
+}
 // 返回类型错误
 // let fString: F1 & F2 = (a: string | number, b: string | number): string => { return '1' }
 // let fBoolean: F1 & F2 = (a: string | number, b: string | number): boolean => { return true }
@@ -1161,13 +1169,20 @@ fNumber(1, 3)
 根据上述概念可以实现交集函数操作的泛型类`IntersectionFun<T>`
 
 ```ts
-type IntersectionFun<F1 extends (a: any, b: any) => any, F2 extends (a: any, b: any) => any>
-  = (
-      a: Parameters<F1>[0] | Parameters<F2>[0],
-      b: Parameters<F1>[1] | Parameters<F2>[1],
-    ) => ReturnType<F1> & ReturnType<F2>
+type IntersectionFun<
+  F1 extends (a: any, b: any) => any,
+  F2 extends (a: any, b: any) => any
+> = (
+  a: Parameters<F1>[0] | Parameters<F2>[0],
+  b: Parameters<F1>[1] | Parameters<F2>[1]
+) => ReturnType<F1> & ReturnType<F2>
 
-let fNumber: IntersectionFun<F1, F2> = (a: string | number, b: string | number): number => { return 1 }
+let fNumber: IntersectionFun<F1, F2> = (
+  a: string | number,
+  b: string | number
+): number => {
+  return 1
+}
 
 fNumber('hello', 'world')
 fNumber(1, 3)
@@ -1177,21 +1192,21 @@ fNumber(1, 'test')
 
 `IntersectionFun<T>`相比于交集类型操作符有两点不同：
 
-1. 只能准确得到固定个数的函数参数类型，这里是2个。
+1. 只能准确得到固定个数的函数参数类型，这里是 2 个。
 1. 第三个混合类型的调用类型正确。
 
 `F1 & F2`类似于函数重载的效果
 
 ```ts
 // F1
-declare function fNumber(a: number, b: number): string | number;
+declare function fNumber(a: number, b: number): string | number
 // F2
-declare function fNumber(a: string, b: string): number | boolean;
+declare function fNumber(a: string, b: string): number | boolean
 // F1 & F2  参数类型错误
 fNumber(1, 'test')
 
 // IntersectionFun<F1, F2>
-declare function fNumber(a: string | number, b: string | number): number;
+declare function fNumber(a: string | number, b: string | number): number
 ```
 
 两个函数类型的并集函数类型，`fUnion: F1 | F2`赋值语句中进行类型推导的过程是从并集`F1 | F2`中依次检查目标类型例如`(a: string, b: string): number`，去除掉不符合的类型`F2`，最终收缩到符合类型的并集上`F1`。
@@ -1200,12 +1215,12 @@ declare function fNumber(a: string | number, b: string | number): number;
 
 ```ts
 namespace FnUnion {
-  type F1 = (a: string, b: string) => string | number;
-  type F2 = (a: number, b: number) => number | boolean;
+  type F1 = (a: string, b: string) => string | number
+  type F2 = (a: number, b: number) => number | boolean
 
   namespace E1 {
     // F1符合 (a: string, b: string) => string | number
-    let fUnion: F1 | F2 = (a: string , b: string): number => {
+    let fUnion: F1 | F2 = (a: string, b: string): number => {
       return 1
     }
     fUnion('hello', 'world')
@@ -1243,24 +1258,25 @@ namespace FnUnion {
 
 ```ts
 type Readonly<T> = {
-  readonly [K in keyof T]: T[K];
+  readonly [K in keyof T]: T[K]
 }
 ```
+
 同构映射类型有[两条处理规则](https://github.com/Microsoft/TypeScript/pull/12447)：
 
 1. 当类型`T`是联合类型例如`A | B`时，映射类型会在`T`上发生分配，即`Readonly<A | B> = Readonly<A> | Readonly<B>`
 1. 当类型`T`是基本类型时，同构映射类型的结果就是该类型本身。
 
 ```ts
-type A = { a: string };
-type B = { b: string };
-type C = { c: string };
+type A = { a: string }
+type B = { b: string }
+type C = { c: string }
 
-type T1 = Partial<A | B | C>;  // Partial<A> | Partial<B> | Partial<C>
-type T2 = Readonly<A | B | null | undefined>;  // Readonly<A> | Readonly<B> | null | undefined
-type T3 = Readonly<A | B[] | string>;  // Readonly<A> | Readonly<B[]> | string
-type T4 = Readonly<string>;  // string
-type T5 = Readonly<string | number | boolean>;  // string | number | boolean
+type T1 = Partial<A | B | C> // Partial<A> | Partial<B> | Partial<C>
+type T2 = Readonly<A | B | null | undefined> // Readonly<A> | Readonly<B> | null | undefined
+type T3 = Readonly<A | B[] | string> // Readonly<A> | Readonly<B[]> | string
+type T4 = Readonly<string> // string
+type T5 = Readonly<string | number | boolean> // string | number | boolean
 ```
 
 注意非泛型类型参数的同构映射类型常规处理，先求键的集合再做映射处理，不会保留基本类型本身。
@@ -1268,7 +1284,7 @@ type T5 = Readonly<string | number | boolean>;  // string | number | boolean
 ```ts
 // M = {}   keyof (null | undefined) 是空集
 type M = {
-  [K in keyof (null | undefined)]: string;
+  [K in keyof (null | undefined)]: string
 }
 ```
 
@@ -1276,7 +1292,7 @@ type M = {
 
 ```ts
 type NestedReadonly<T> = {
-  readonly [K in keyof T]: NestedReadonly<T[K]>;
+  readonly [K in keyof T]: NestedReadonly<T[K]>
 }
 
 let a = {
@@ -1285,16 +1301,16 @@ let a = {
     c: 2,
     d: {
       e: 3,
-    }
-  }
+    },
+  },
 }
 
 type ExpectedType = {
-  readonly a: number;
+  readonly a: number
   readonly b: {
-    readonly c: number;
+    readonly c: number
     readonly d: {
-      readonly e: number;
+      readonly e: number
     }
   }
 }
@@ -1359,23 +1375,23 @@ type same1 = NestedReadonly<typeof a> extends ExpectedType ? true : false
 
 ```ts
 type NestedReadonlyV2<T> = {
-  readonly [K in keyof T]: T[K] extends object ? NestedReadonlyV2<T[K]> : T[K];
+  readonly [K in keyof T]: T[K] extends object ? NestedReadonlyV2<T[K]> : T[K]
 }
 ```
 
 一个奇怪的例子
 
 ```ts
-type k1  = keyof (string)
-type k2  = keyof (number)
-type k3  = keyof (boolean)
+type k1 = keyof string
+type k2 = keyof number
+type k3 = keyof boolean
 // "valueOf"
-type k4  = keyof (Boolean)
+type k4 = keyof Boolean
 
 // TODO:
 // keyof (string | number | boolean) 直接求值，共同的键值只有一个”valueOf"
 // k = "valueOf"
-type k  = keyof (string | number | boolean)
+type k = keyof (string | number | boolean)
 
 // 在映射类型中变成了三个 "toString" | "toLocaleString" | "valueOf"
 // M = {
@@ -1384,16 +1400,16 @@ type k  = keyof (string | number | boolean)
 //   valueOf: "valueOf",
 // }
 type M = {
-  [K in keyof (string | number | boolean)]: K;
+  [K in keyof (string | number | boolean)]: K
 }
 type M1 = {
-  [K in keyof string]: K;
+  [K in keyof string]: K
 }
 type M2 = {
-  [K in keyof number]: K;
+  [K in keyof number]: K
 }
 type M3 = {
-  [K in keyof boolean]: K;
+  [K in keyof boolean]: K
 }
 ```
 
@@ -1411,7 +1427,12 @@ export type Head<T extends any[]> = T extends [any, ...any[]] ? T[0] : never
 
 ```ts
 // 返回一个元祖类型里的除第一个类型, Tail<[1, 2, 3]> => [2, 3]
-export type Tail<T extends any[]> = ((...args: T) => any) extends ((arg1: any, ...tail: infer A) => any) ? A : []
+export type Tail<T extends any[]> = ((...args: T) => any) extends (
+  arg1: any,
+  ...tail: infer A
+) => any
+  ? A
+  : []
 ```
 
 注意下面的实现不同，其中类型`...(infer R)[]`指定剩余参数类型为数组类型`R[]`，所以最终被推导为剩余元素类型的联合类型。
@@ -1424,32 +1445,31 @@ type Tail<T extends any[]> = T extends [infer R, ...(infer U)[]] ? U : []
 
 ```ts
 // 判断一个元祖类型元素数量是否 >= 1
-export type HasTail<T extends any[]> = T extends ([] | [any]) ? false : true
+export type HasTail<T extends any[]> = T extends [] | [any] ? false : true
 ```
 
 通过嵌套的调用`Tail`可以不断的去除元组的第一个类型，从而得到最后一个元素的类型
 
 ```ts
 export type Last<T extends any[]> = {
-  0: Last<Tail<T>>,
-  1: Head<T>,
+  0: Last<Tail<T>>
+  1: Head<T>
 }[HasTail<T> extends true ? 0 : 1]
 ```
 
 获取元组类型的长度。
 
 ```ts
-type Length<T extends any[]> = T["length"]
+type Length<T extends any[]> = T['length']
 ```
 
 比较两个元组类型的长度
 
 ```ts
-type CompareLength<T1 extends any[], T2 extends any[]> = keyof T1 extends keyof T2
-  ? keyof T2 extends keyof T1
-    ?  0
-    : -1
-  : 1
+type CompareLength<
+  T1 extends any[],
+  T2 extends any[]
+> = keyof T1 extends keyof T2 ? (keyof T2 extends keyof T1 ? 0 : -1) : 1
 
 type shorter = CompareLength<[string, number], [null, undefined, number]>
 type equal = CompareLength<[string, number], [null, undefined]>
@@ -1459,8 +1479,11 @@ type longer = CompareLength<[string, number], [null]>
 同样利用函数参数类型推导将元组拼接组成更长的元组。
 
 ```ts
-type concat<T, U extends any[]> = ((arg: T, ...args: U) => void) extends ((...args: infer R) => void)
-  ? R : never
+type concat<T, U extends any[]> = ((arg: T, ...args: U) => void) extends (
+  ...args: infer R
+) => void
+  ? R
+  : never
 type a1 = concat<number, [string, boolean]>
 ```
 
@@ -1469,7 +1492,7 @@ type a1 = concat<number, [string, boolean]>
 条件类型的形式`T extends U ? X : Y`，如果`T`是`U`的子类型，结果类型是`X`，否则是`Y`。还可能在类型信息不足以判断`T extends U`结果时延迟类型决定，这个时候条件类型的值可以赋值给类型`X | Y`，因为不论结果如何，最终类型不是`X`就是`Y`。
 
 ```ts
-declare function f<T extends boolean>(x: T): T extends true ? string : number;
+declare function f<T extends boolean>(x: T): T extends true ? string : number
 let x = f(Math.random() < 0.5)
 
 let x: string | number = f(Math.random() < 0.5)
@@ -1489,7 +1512,7 @@ type Distributive<T, U> = T extends U ? T[] : never
 // 使用联合类型实例化条件类型表达式，结果符合分配律
 type DistributedABC = Distributive<A | B | C, number | boolean>
 type ExpandedDistributedABC =
-    (A extends number | boolean ? A[] : never)
+  | (A extends number | boolean ? A[] : never)
   | (B extends number | boolean ? B[] : never)
   | (C extends number | boolean ? C[] : never)
 
@@ -1499,7 +1522,9 @@ type NotDistributiveCauseNonNakedType<T, U> = T[] extends U[] ? T[] : never
 type N1 = NotDistributiveCauseNonNakedType<A | B | C, number | boolean>
 
 // string[]不是单纯的类型参数，不发生分配
-type NotDistributiveCauseNotTypeParameter<T> = string[] extends any[] ? T[] : never
+type NotDistributiveCauseNotTypeParameter<T> = string[] extends any[]
+  ? T[]
+  : never
 ```
 
 当分配不发生时可以采用嵌套的语法强制实现分配，参考下例。
@@ -1507,9 +1532,9 @@ type NotDistributiveCauseNotTypeParameter<T> = string[] extends any[] ? T[] : ne
 ```ts
 namespace Conditional {
   interface Student {
-    name: string;
-    friends: string[];
-    teachers: string[];
+    name: string
+    friends: string[]
+    teachers: string[]
   }
 
   // 实现一个FilterArrayKeys<T>，返回T中所有值是数组类型的键的集合
@@ -1519,7 +1544,9 @@ namespace Conditional {
 
   namespace NonDistributive {
     // T[K]是值的类型，但是这种形式不发生分配
-    type FilterArrayKeys<T, K extends keyof T = keyof T> = T[K] extends any[] ? K : never;
+    type FilterArrayKeys<T, K extends keyof T = keyof T> = T[K] extends any[]
+      ? K
+      : never
 
     // ArrayKeys = never
     type ArrayKeys = FilterArrayKeys<Student, keyof Student>
@@ -1528,57 +1555,63 @@ namespace Conditional {
   namespace Distributive {
     // 为了发生分配，使用K嵌套一层即可
     type FilterArrayKeys<T, K extends keyof T = keyof T> = K extends any
-      ? T[K] extends any[] ? K : never
+      ? T[K] extends any[]
+        ? K
+        : never
       : never
 
     // ArrayKeys = "friends" | "teachers"
     type ArrayKeys = FilterArrayKeys<Student>
   }
 }
-
 ```
 
-注意分配的条件类型是typescript提供的一个工具对联合类型中某些类型做过滤，并不是一个类型系统的定律。下面两种情况并不等价
+注意分配的条件类型是 typescript 提供的一个工具对联合类型中某些类型做过滤，并不是一个类型系统的定律。下面两种情况并不等价
 
 ```ts
 // A = never
-type A = (number | string) extends string ? true : never
+type A = number | string extends string ? true : never
 // B = true
-type B =
-    | number extends string ? true : never
-    | string extends string ? true : never
+type B = number extends string
+  ? true
+  : never | string extends string
+  ? true
+  : never
 ```
 
 条件类型和映射类型联合使用，
 
 ```ts
 // 注意索引类型,never类型，映射类型、条件类型的组合使
-type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
-type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
+type FunctionPropertyNames<T> = {
+  [K in keyof T]: T[K] extends Function ? K : never
+}[keyof T]
+type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>
 
-type NonFunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? never : K }[keyof T];
-type NonFunctionProperties<T> = Pick<T, NonFunctionPropertyNames<T>>;
+type NonFunctionPropertyNames<T> = {
+  [K in keyof T]: T[K] extends Function ? never : K
+}[keyof T]
+type NonFunctionProperties<T> = Pick<T, NonFunctionPropertyNames<T>>
 
 interface Part {
-    id: number;
-    name: string;
-    subparts: Part[];
-    updatePart(newName: string): void;
+  id: number
+  name: string
+  subparts: Part[]
+  updatePart(newName: string): void
 }
 
-type T40 = FunctionPropertyNames<Part>;  // "updatePart"
-type T41 = NonFunctionPropertyNames<Part>;  // "id" | "name" | "subparts"
-type T42 = FunctionProperties<Part>;  // { updatePart(newName: string): void }
-type T43 = NonFunctionProperties<Part>;  // { id: number, name: string, subparts: Part[] }
+type T40 = FunctionPropertyNames<Part> // "updatePart"
+type T41 = NonFunctionPropertyNames<Part> // "id" | "name" | "subparts"
+type T42 = FunctionProperties<Part> // { updatePart(newName: string): void }
+type T43 = NonFunctionProperties<Part> // { id: number, name: string, subparts: Part[] }
 ```
 
-映射类型也可以实现在类型键值上的分配效果，再配合lookup type的语法获得所有值类型的并集类型。
-
+映射类型也可以实现在类型键值上的分配效果，再配合 lookup type 的语法获得所有值类型的并集类型。
 
 条件类型**不能嵌套使用**
 
 ```ts
-type ElementType<T> = T extends any[] ? ElementType<T[number]> : T;  // Error
+type ElementType<T> = T extends any[] ? ElementType<T[number]> : T // Error
 ```
 
 条件类型表达式可以嵌套
@@ -1592,7 +1625,7 @@ type V = true extends true ? (string extends number ? 1 : 2) : 3
 在条件类型表达式中可以使用`infer`关键字引入一个被推导出值的类型标志，类型标志通常作为复合类型的一部分使用，推导出的类型标志后续在条件类型为**真**的分支中使用。
 
 ```ts
-type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
+type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any
 ```
 
 可以使用**多个相同或者不同**的类型关键字，
@@ -1600,29 +1633,31 @@ type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
 一个类型有多个约束时在协变的情况下推导为所有可能类型的并集类型（union），在逆变的情况下推导为所有类型的交集类型(intersection）。
 
 ```ts
-type Foo<T> = T extends { a: infer U, b: infer U } ? U : never;
-type T10 = Foo<{ a: string, b: string }>;  // string
+type Foo<T> = T extends { a: infer U; b: infer U } ? U : never
+type T10 = Foo<{ a: string; b: string }> // string
 // 协变
-type T11 = Foo<{ a: string, b: number }>;  // string | number
+type T11 = Foo<{ a: string; b: number }> // string | number
 
-type Bar<T> = T extends { a: (x: infer U) => void, b: (x: infer U) => void } ? U : never;
-type T20 = Bar<{ a: (x: string) => void, b: (x: string) => void }>;  // string
+type Bar<T> = T extends { a: (x: infer U) => void; b: (x: infer U) => void }
+  ? U
+  : never
+type T20 = Bar<{ a: (x: string) => void; b: (x: string) => void }> // string
 // 逆变
-type T21 = Bar<{ a: (x: string) => void, b: (x: number) => void }>;  // string & number
+type T21 = Bar<{ a: (x: string) => void; b: (x: number) => void }> // string & number
 ```
 
 被推导的类型有多种签名类型（函数重载）时，使用最后一种。
 
 ```ts
-declare function foo(x: string): number;
-declare function foo(x: number): string;
-declare function foo(x: string | number): string | number;
-type T30 = ReturnType<typeof foo>;  // string | number
+declare function foo(x: string): number
+declare function foo(x: number): string
+declare function foo(x: string | number): string | number
+type T30 = ReturnType<typeof foo> // string | number
 ```
 
-#### 例子1
+#### 例子 1
 
-1. 参考例子condtional-exer1.ts，https://artsy.github.io/blog/2018/11/21/conditional-types-in-typescript/
+1. 参考例子 condtional-exer1.ts，https://artsy.github.io/blog/2018/11/21/conditional-types-in-typescript/
 
 #### UnionToIntersection
 
@@ -1658,7 +1693,7 @@ let obj = {
   },
   h: {
     g: 1,
-  }
+  },
 }
 
 // 拍平后的对象
@@ -1681,7 +1716,11 @@ type NonObjectPropKeys<T> = NonObjectPropKeysHelper<T, keyof T>
 
 // 通过条件类型将数组类型和其他不是object的类型对应的键取出来
 type NonObjectPropKeysHelper<T, K extends keyof T> = K extends any
-  ? (T[K] extends any[] ? K : T[K] extends object ? never : K)
+  ? T[K] extends any[]
+    ? K
+    : T[K] extends object
+    ? never
+    : K
   : never
 
 // "a" | "b"
@@ -1704,7 +1743,11 @@ type nonObjectKeysWithMappedType = NonObjectPropKeysWithMappedType<typeof obj>
 ```ts
 type ObjectPropKeys<T> = ObjectPropKeysHelper<T, keyof T>
 type ObjectPropKeysHelper<T, K extends keyof T> = K extends any
-  ? (T[K] extends any[] ? never : T[K] extends object ? K : never)
+  ? T[K] extends any[]
+    ? never
+    : T[K] extends object
+    ? K
+    : never
   : never
 ```
 
@@ -1756,20 +1799,21 @@ type Flattened = H1 & UnionToIntersection<O1 | O2>
 实现大致如下，注意其中`ObjectPicks<T>`可能是对象联合类型，其中每个对象类型又需要拍平，所以递归调用`Flatten`。
 
 ```ts
-type Flatten<T> = NonObjectPicks<T> & UnionToIntersection<Flatten<ObjectPicks<T>>>
+type Flatten<T> = NonObjectPicks<T> &
+  UnionToIntersection<Flatten<ObjectPicks<T>>>
 ```
 
-但是这种形式的递归类型TS不直接支持，需要借助映射类型的语法进行递归定义。
+但是这种形式的递归类型 TS 不直接支持，需要借助映射类型的语法进行递归定义。
 
 ```ts
 type Flatten<T> = {
-  "default": T extends object
+  default: T extends object
     ? NonObjectPicks<T> & UnionToIntersection<Flatten<ObjectValues<T>>>
     : never
-}[T extends any ? "default" : "default"]
+}[T extends any ? 'default' : 'default']
 ```
 
-注意索引类型中的条件类型表达式无论真假结都是`"default"`，这种形式仅为了让编译能够通过。修改为固定的`“default”`的话TS能够推断出映射类型是多余的，又会报递归类型的错误。
+注意索引类型中的条件类型表达式无论真假结都是`"default"`，这种形式仅为了让编译能够通过。修改为固定的`“default”`的话 TS 能够推断出映射类型是多余的，又会报递归类型的错误。
 
 注意其中条件类型`T extends object`的使用是为了让分配条件类型生效。
 
@@ -1778,7 +1822,6 @@ type Flatten<T> = {
 https://github.com/microsoft/TypeScript/pull/33050
 https://github.com/microsoft/TypeScript/issues/9998
 
-
 #### 索引类型
 
 注意类型表达式
@@ -1786,16 +1829,16 @@ https://github.com/microsoft/TypeScript/issues/9998
 
 ```ts
 interface Person {
-    name: string;
-    age: number;
-    sex: boolean;
+  name: string
+  age: number
+  sex: boolean
 }
 
 // string | number
 type P = Person['name' | 'age']
 
 // 去除数组类型
-type E = (string[])[number]
+type E = string[][number]
 ```
 
 #### Types
@@ -1815,39 +1858,62 @@ TODO:
 1. ConstructorParameters
 1. ReturnType
 1. InstanceType
-1. Unpack 剥离数组，函数，Promise等复合类型的基础类型
+1. Unpack 剥离数组，函数，Promise 等复合类型的基础类型
 1. 映射类型
-    1. 改变值的类型
-    1. 根据key名称过滤一部分
-    1. 根据值类型过滤一部分
-    1. 添加新的键值对类型 从类型`Person`构建一个新类型，新类型只包括`Person`中值是函数的键值对。 为类型`Person`添加新的类型
-        ```ts
-        interface A {
-            name: string;
-        }
 
-        interface B {
-            age: string;
-        }
+   1. 改变值的类型
+   1. 根据 key 名称过滤一部分
+   1. 根据值类型过滤一部分
+   1. 添加新的键值对类型 从类型`Person`构建一个新类型，新类型只包括`Person`中值是函数的键值对。 为类型`Person`添加新的类型
 
-        interface C {
-            name: string;
-            age: string;
-        }
-        type C1 = A | B
-        ```
+      ```ts
+      interface A {
+        name: string
+      }
+
+      interface B {
+        age: string
+      }
+
+      interface C {
+        name: string
+        age: string
+      }
+      type C1 = A | B
+      ```
+
 1. conditional types
-    ```ts
-    function process(text: string | null): string | null {
-        return text && text.replace(/f/g, "p")
-    }
 
-    function process<T extends string | null>(text: T):
-        T extends null ? null : string
-    {
-        return text && text.replace(/f/g, "p")
-    }
-    ```
+   ```ts
+   function process(text: string | null): string | null {
+     return text && text.replace(/f/g, 'p')
+   }
+
+   function process<T extends string | null>(
+     text: T
+   ): T extends null ? null : string {
+     return text && text.replace(/f/g, 'p')
+   }
+   ```
+
+typescript 文件分为脚本（script）和模块两类（module）
+
+包含顶层`import/export`语句的文件是模块，否则是脚本。
+
+脚本中的所有变量、类型都在全局环境中，模块中的所有变量、类型声明别约束在当前模块。
+
+在模块中对全局环境做类型增强声明，使用`declare global`，`declare global`语句只能在模块或者
+
+```ts
+declare global {
+  interface Window {
+    name: string
+  }
+}
+
+// module script
+export {}
+```
 
 #### 图灵完备
 
@@ -1855,7 +1921,6 @@ https://github.com/Microsoft/TypeScript/issues/14833
 https://mariusschulz.com/blog/series/typescript-evolution
 
 https://www.coursera.org/learn/programming-languages
-
 
 https://en.wikipedia.org/wiki/Covariance_and_contravariance_%28computer_science%29#Covariant_arrays_in_Java_and_C.23
 

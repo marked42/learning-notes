@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p id="log">Log:</p>
+    <script>
+      const worker = new SharedWorker('test.js')
+      const log = document.getElementById('log')
+      worker.port.addEventListener('message', (e) => {
+        log.textContent += '\n' + e.data
+      })
+
+      worker.port.start()
+      worker.port.postMessage('ping')
+    </script>
+  </body>
+</html>

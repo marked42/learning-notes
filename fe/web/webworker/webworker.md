@@ -63,7 +63,7 @@ Worker 脚本运行出错出错时会触发`error`事件，使用`worker.onerror
 
 Web Worker 中可以创建新的 Web Worker（subworker），但是 subworker 的 URL 需要和所在文档同源，而且相对 URL 是对于所在 web worker 而不是所在文档进行解析的。
 
-可以将 CPU 密集型任务拆分到多个 Worker 中分开执行，减少运行时间。
+可以将 CPU 密集型任务拆分到多个 Worker 中分开执行，减少运行时间，例子 subworker-delegation
 
 ### 引入全局脚本
 
@@ -76,6 +76,13 @@ importScripts('foo.js', 'bar.js') /* imports two scripts */
 importScripts(
   '//example.com/hello.js'
 ) /* You can import scripts from other origins */
+```
+
+从模块脚本（module script）创建的`WorkerGlobalScope`全局环境中使用`importScripts`会直接报错，因为`importScripts`是用来引入脚本直接修改全局对象的，`module script`类型不支持这种操作。
+
+```js
+new Worker('./worker.js', { type: 'module' })
+new SharedWorker('./worker.js', { type: 'module' })
 ```
 
 ## 内容安全策略（Content security policy）
@@ -261,7 +268,16 @@ Chrome 浏览器默认限制从本地文件`file:`创建 worker，可以使用`-
 // 构造函数不同，在多个页面中分别创建
 const worker = new SharedWorker('worker.js')
 
+// 监听事件
+myWorker.port.addEventListener('message', function (e) {
+  result2.textContent = e.data
+  console.log('Error message received from worker')
+})
+// 开启与port的连接
+myWorker.port.start()
+
 // 在main.js中使用worker的port处理监听消息
+// onmessage自动调用port.start() 开启连接
 myWorker.port.onmessage = function (e) {
   result2.textContent = e.data
   console.log('Message received from worker')
@@ -274,6 +290,7 @@ myWorker.port.onmessageerror = function (e) {
 
 // 在worker.js 中使用onconnect监听连接，并使用onmessage监听消息
 onconnect = function (e) {
+  // https://html.spec.whatwg.org/multipage/comms.html#dom-messageevent-ports
   var port = e.ports[0]
 
   port.onmessage = function (e) {
@@ -288,6 +305,88 @@ onconnect = function (e) {
 ## ServiceWorker
 
 ServiceWorkerGlobalScope
+
+## WorkerGlobalScope
+
+scope 有关联的
+
+```ts
+// https://w3c.github.io/webappsec-referrer-policy/#referrer-policy
+type ReferrerPolicy =
+|  '',
+|  'no-referrer',
+|  'no-referrer-when-downgrade',
+|  'same-origin',
+|  'origin',
+|  'strict-origin',
+|  'origin-when-cross-origin',
+|  'strict-origin-when-cross-origin',
+|  'unsafe-url',
+
+
+// https://html.spec.whatwg.org/multipage/origin.html#embedder-policy-value
+type EmbedderPolicyValue = 'unsafe-none' | 'require-corp'
+
+interface EmbedderPolicy {
+  value: EmbedderPolicyValue,
+  reportingEndpoint: string,
+  reportOnlyValue: EmbedderPolicyValue,
+  reportOnlyReportingEndpoint: string,
+}
+
+interface Related {
+  // 一个SharedWorker可以有多个owner，所以是set类型
+  owner: Set<WorkerGlobalScope | Document>
+  worker: Set<WorkerGlobalScope>
+  type: 'classic' | 'module'
+  // 通过名称可以获取同一个SharedWorker， ServiceWorker不支持此属性
+  name: string
+  url: URL
+  referrerPolicy: ReferrerPolicy
+  embedderPolicy: EmbedderPolicy
+  cspList: CspList
+  // 记录加载脚本的状态 ModuleScript (成功加载) null (失败) fetching加载中
+  moduleMap: Map<URL, ModuleScript | null | 'fetching'>
+  crossOriginIsolated: boolean,
+}
+```
+
+```ts
+// https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-objects
+interface EnvironmentSettings {
+  realmExecutionContext
+  moduleMap
+  responsibleDocument
+  urlCharacterEncoding
+  baseUrl
+  referrerPolicy
+  embedderPolicy
+  crossOriginIsolatedCapability: boolean
+}
+```
+
+## Lifetime
+
+https://html.spec.whatwg.org/multipage/workers.html#the-worker's-lifetime
+
+active needed worker [fully active document](https://html.spec.whatwg.org/multipage/browsers.html#fully-active) traceable
+permissible worker
+protected worker
+suspendable worker
+
+## Processing Model
+
+## Libs
+
+webpack worker-loader
+https://github.com/nolanlawson/promise-worker
+https://github.com/dumbmatter/promise-worker-bi
+monaco-editor 的 worker 封装
+
+## Examples
+
+1. https://html.spec.whatwg.org/multipage/workers.html#providing-libraries
+1. https://html.spec.whatwg.org/multipage/workers.html#shared-state-using-a-shared-worker
 
 ## 参考资料
 

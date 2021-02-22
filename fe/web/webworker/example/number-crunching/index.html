@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>The discovered prime number list:</p>
+    <ul id="number-list"></ul>
+    <script>
+      const list = document.getElementById('number-list')
+
+      const worker = new Worker('./worker.js')
+      worker.onmessage = (e) => {
+        const li = document.createElement('li')
+        li.textContent = e.data
+        list.appendChild(li)
+      }
+    </script>
+  </body>
+</html>
