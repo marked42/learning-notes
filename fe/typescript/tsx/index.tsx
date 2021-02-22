@@ -1,39 +1,55 @@
-// declare namespace JSX {
-//   interface IntrinsicElements {
-//     foo: { name: string, children: number, key: number; };
-//     // [elemName: string]: any
+// import React from 'react'
+
+// declare global {
+//   namespace JSX {
+//     interface Element { }
+
+//     interface ElementAttributesProperty {
+//       props: {};
+//       // test1: number;
+//     }
+
+//     interface ElementChildrenAttribute {
+//       children: {}
+//     }
+
+//     interface IntrinsicElements {
+//       [key: string]: any;
+//     }
 //   }
-
-//   // interface Element {
-//   //   name: number;
-//   // }
-//   // interface ElementClass { }
-
-//   // interface IntrinsicAttributes {
-//   //   key?: number | string;
-//   // }
-
-//   // interface ElementAttributesProperty { props: {}; }
-//   // interface ElementChildrenAttribute { children: {}; }
-
-//   // interface IntrinsicClassAttributes<T> {
-
-//   // }
 // }
 
-// const value = <foo name={'1'} key={1}>{1}</foo>
 
-declare namespace global {
+// interface PropsType {
+//   children: JSX.Element
+//   name: string
+// }
 
-  namespace JSX {
-    interface IntrinsicElements {
-      foo: { name: string, children: number | string, key: number; };
-      // [elemName: string]: any
-    }
-  }
-}
+// class Component extends React.Component<PropsType, {}> {
+//   render() {
+//     return (
+//       <h2>
+//         {this.props.children}
+//       </h2>
+//     )
+//   }
+// }
+// // OK
+// let a =
+//   <Component name="foo">
+//     <h1>Hello World</h1>
+//   </Component>;
 
-export const value = <foo name={'1'} key={1}>{1}</foo>
-const value1 = () => {
-  return <foo name={"tom"} key={1}>test</foo >
-}
+// // Error: children is of type JSX.Element not array of JSX.Element
+// let b = <Component name="bar">
+//   <h1>Hello World</h1>
+//   <h2>Hello World</h2>
+// </Component>
+
+// // Error: children is of type JSX.Element not array of JSX.Element or string.
+// let c = <Component name="baz">
+//   <h1>Hello</h1>
+//   World
+// </Component>
+
+// export { }

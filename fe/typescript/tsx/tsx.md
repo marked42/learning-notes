@@ -42,29 +42,137 @@ function App() {
 
 ## 类型检查
 
-JSX 语法可能对应原生（intrinsic elements）和自定义组件两种情况，分别对应不同的类型。
+JSX 语法可能对应原生（intrinsic elements）和自定义组件[两种情况](https://reactjs.org/docs/jsx-in-depth.html#html-tags-vs.-react-components)，分别对应不同的类型。
 
 1. 小写字母开头的 JSX 标签对应原生元素，被编译成`React.createElement("div")`，对应 HTML 原生的标签。
 1. 大写字母开头的 JSX 标签对应自定义组件，被编译成`React.createElement(Component)`，对应自定义的组件（函数或者类）
 
 ### 原生元素
 
-原生元素标签`<foo/>`对应`JSX.IntrinsicElements`接口中的属性`foo`，`<bar/>`没有对应没有对应属性会报错。
+原生元素标签`<foo/>`对应`JSX.IntrinsicElements`接口进行类型检查
+
+#### 标签是否存在
+
+在`JSX.IntrinsicElements`接口中没有对应属性名的标签会报错，`<bar/>`没有对应没有对应属性会报错。
 
 ```tsx
 declare namespace JSX {
   interface IntrinsicElements {
-    foo: { bar?: boolean };
+    foo: any;
   }
 }
 
-<foo bar /> // ok
-<bar /> // error
+// 正确
+<foo bar/>
+// 错误
+<bar />
 ```
+
+#### 属性类型
+
+原生元素标签的属性必须与`JSX.IntrinsicElements`接口中对应属性类型一致。
+
+```tsx
+declare namespace JSX {
+  interface IntrinsicElements {
+    foo: { exist: boolean, name: string };
+
+    bar: { exist?: boolean, name: string };
+  }
+}
+
+// 正确
+<foo name={"tom"} exist/>
+<foo name={"tom"} exist={true}/>
+<foo name={"tom"} exist={false}/>
+// exist不能省略
+<foo name={"tom"} />
+
+// 属性名必须是合法的标识符
+<foo some-unknown-prop />; // ok, because 'some-unknown-prop' is not a valid identifier
+
+// exist是可选属性时可以省略，此时exist: boolean | undefined
+<bar name={"tom"} />
+```
+
+#### 子节点类型
+
+子节点类型使用标签声明的属性类型中一个特殊名称的属性的类型， `JSX.ElementChildrenAttribute`接口只能声明一个属性，这个属性的名称就是子类型的名称。
+
+```ts
+declare global {
+  namespace JSX {
+    interface Element {
+      test: any
+    }
+
+    interface ElementChildrenAttribute {
+      children: any
+    }
+
+    interface IntrinsicElements {
+      div: {
+        children: Element | number | string | Array<string | number | Element>
+      }
+    }
+  }
+}
+
+// 子类型 字符串
+let a1 = <div>1</div>
+// 子类型 数字
+let a2 = <div>{1}</div>
+// 子类型 Element
+let a3 = (
+  <div>
+    <div>1</div>
+  </div>
+)
+// 允许多个子类型 对应 children: Array<string | number | Element>
+let a4 = (
+  <div>
+    {1}1<div>1</div>
+  </div>
+)
+
+export {}
+```
+
+### JSX 标签类型
+
+如果不存在接口`JSX.Element`声明时，JSX 标签的类型被推导为`any`。
+
+```tsx
+declare namespace JSX {
+  interface IntrinsicElements {
+    foo: any
+  }
+}
+
+// any
+let v = <foo bar />
+```
+
+如果存在`JSX.Element`接口声明，所有 JSX 标签类型被推导为`JSX.Element`，`JSX.Element`只作为一个站位类型使用，其本身声明的具体内容并不重要，通常声明为空接口即可。
+
+```tsx
+declare namespace JSX {
+  interface Element {}
+  interface IntrinsicElements {
+    foo: any
+  }
+}
+
+let v: JSX.Element = <foo bar />
+```
+
+`JSX.Element`声明为泛型接口没有意义，而且原生元素标签、函数组件标签、类标签的类型都是`JSX.Element`，并且无法相互区分。
 
 ### 自定义组件
 
 自定义组件可能对应一个函数或者类，这两种情况无法区分所以 TS 会首先使用同名函数进行解析，不成功再使用同名类进行解析，两种情况都没有的话报错。
+
+### 函数组件
 
 函数组件被定义为返回类型必须是`JSX.Element`的子类型。函数组件定义就是普通的函数，因此重载等所有函数的功能都适用。
 
@@ -88,7 +196,40 @@ function MainButton(prop: SideProps): JSX.Element
 function MainButton(prop: ClickableProps): JSX.Element {}
 ```
 
-类组件要求类的实例类型（instance type）必须是`JSX.ElementClass`的子类型。
+#### 属性类型
+
+函数组件的属性类型由函数第一个参数的类型决定
+
+```ts
+declare global {
+  namespace JSX {
+    interface Element {}
+
+    interface IntrinsicElements {
+      div: any
+    }
+  }
+}
+
+function MyFactoryFunction(props: { foo: number; bar: string }) {
+  return <div />
+}
+
+// 错误，bar是string类型，传入类数字类型
+let a = <MyFactoryFunction foo={1} bar={1} />
+
+export {}
+```
+
+#### 子类型
+
+### 类组件
+
+类的定义有两个相关的类型，类实例类型（element instance type）和类静态类型（element class type）。
+
+类实例类型是类所有构造函数返回类型的联合类型（union type）。
+
+类组件要求类实例类型（element instance type）必须是`JSX.ElementClass`的子类型，`JSX.ElementClass`默认是`{}`，但是可以用来对类实例类型加强约束，例如要求所有类实例必须有`render`函数。
 
 ```tsx
 declare namespace JSX {
@@ -113,30 +254,128 @@ function NotAValidFactoryFunction() {
 }
 
 <NotAValidComponent /> // error
+// TODO: 这里并没有报错，ElementClass没有约束到函数组件
 <NotAValidFactoryFunction /> // error
 ```
 
-### 属性检查
+#### 属性检查
 
-`JSX.ElementAttributesProperty`
+类组件标签属性类型取决于类定义时某个属性的类型， `JSX.ElementAttributesProperty`接口有且只能有一个属性`props`，类定义的同名属性的类型就是类组件的属性类型。
 
-`JSX.IntrinsicAttributes`
+```ts
+declare namespace JSX {
+  interface ElementAttributesProperty {
+    props // specify the property name to use
+  }
+}
+class MyComponent {
+  // specify the property on the element instance type
+  props: {
+    foo?: string
+  }
+}
 
+// element attributes type for 'MyComponent' is '{foo?: string}'
+;<MyComponent foo="bar" />
+```
+
+// TODO:
 `JSX.IntrinsicClassAttributes<T>`
 
-JSX 标签上的属性值类型检查需要满足几个层次的约束。
+#### 子节点类型检查
 
-1. 原生元素的属性满足`JSX.IntrinsicElements.prop`类型约束
-1. 所有 JSX 标签都需要的属性类型（例如`key`）定义在接口中
-   `JSX.IntrinsicAttributes` 。
+子节点类型使用标签声明的属性类型中一个特殊名称的属性的类型， `JSX.ElementChildrenAttribute`接口只能声明一个属性，这个属性的名称就是子类型的名称。
 
-### 子节点类型检查
+```ts
+import React from 'react'
 
-`JSX.ElementChildrenAttribute`
+declare global {
+  namespace JSX {
+    interface Element {}
 
-## React
+    interface ElementAttributesProperty {
+      props: {}
+      // test1: number;
+    }
 
-```tsx
-FunctionComponent<P>
+    interface ElementChildrenAttribute {
+      children: {}
+    }
 
+    interface IntrinsicElements {
+      [key: string]: any
+    }
+  }
+}
+
+interface PropsType {
+  children: JSX.Element
+  name: string
+}
+
+class Component extends React.Component<PropsType, {}> {
+  render() {
+    return <h2>{this.props.children}</h2>
+  }
+}
+// OK
+let a = (
+  <Component name="foo">
+    <h1>Hello World</h1>
+  </Component>
+)
+
+// Error: children is of type JSX.Element not array of JSX.Element
+let b = (
+  <Component name="bar">
+    <h1>Hello World</h1>
+    <h2>Hello World</h2>
+  </Component>
+)
+
+// Error: children is of type JSX.Element not array of JSX.Element or string.
+let c = (
+  <Component name="baz">
+    <h1>Hello</h1>
+    World
+  </Component>
+)
+
+export {}
 ```
+
+### 通用属性
+
+对于原生元素标签、函数组件标签、类组件标签通用的属性类型，例如`key`字段，使用接口声明`JSX.IntrinsicAttributes`，通常这个接口中的属性被声明为可选。
+
+TODO: `IntrinsicAttributes`对原生元素不生效？
+
+```ts
+declare global {
+  namespace JSX {
+    interface Element {}
+
+    interface IntrinsicAttributes {
+      key: number
+    }
+
+    interface IntrinsicElements {
+      div: { name?: string }
+    }
+  }
+}
+
+function MyFactoryFunction(props: { foo: number; bar?: string }) {
+  return <div />
+}
+
+let a = <MyFactoryFunction foo={1} key={1} />
+// error
+
+let a1 = <div key={'1'}></div>
+let a2 = <div key={1}></div>
+
+export {}
+```
+
+## 配置 JSX
