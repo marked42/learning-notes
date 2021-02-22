@@ -379,3 +379,77 @@ export {}
 ```
 
 ## 配置 JSX
+
+### jsxFactory
+
+使用命令行或者配置文件中`jsxFactory`字段配置创建组件的函数，默认是`React.createElement`。或者使用文件级别的配置指令。
+
+```ts
+/** @jsx h */
+```
+
+源码如下
+
+```ts
+import { h } from 'preact'
+const HelloWorld = () => <div>Hello</div>
+```
+
+会被转换为
+
+```ts
+'use strict'
+Object.defineProperty(exports, '__esModule', { value: true })
+const preact_1 = require('preact')
+const HelloWorld = () => preact_1.h('div', null, 'Hello')
+```
+
+### jsxFragmentFactory
+
+配置 Fragment 标签使用的名称
+
+```ts
+/** @jsx h */
+/** @jsxFrag Fragment */
+import { h, Fragment } from 'preact'
+const HelloWorld = () => (
+  <>
+    <div>Hello</div>
+  </>
+)
+```
+
+转换为
+
+```ts
+'use strict'
+Object.defineProperty(exports, '__esModule', { value: true })
+const preact_1 = require('preact')
+const HelloWorld = () =>
+  preact_1.h(preact_1.Fragment, null, preact_1.h('div', null, 'Hello'))
+```
+
+### jsxImportSource
+
+`jsx`选项使用`react-jsx`和`react-jsxdev`情况下，`jsxImportSource`配置运行时变量`jsx`和`jsxdev`导入的包名称。
+
+```ts
+/** @jsxImportSource preact */
+function App() {
+  return <h1>Hello World</h1>
+}
+```
+
+转换为
+
+```ts
+'use strict'
+Object.defineProperty(exports, '__esModule', { value: true })
+exports.App = void 0
+// 指定preact为导入包名
+const jsx_runtime_1 = require('preact/jsx-runtime')
+function App() {
+  return jsx_runtime_1.jsx('h1', { children: 'Hello World' }, void 0)
+}
+exports.App = App
+```
