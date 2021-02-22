@@ -264,8 +264,9 @@ function NotAValidFactoryFunction() {
 
 ```ts
 declare namespace JSX {
+  // 只对类组件生效
   interface ElementAttributesProperty {
-    props // specify the property name to use
+    props: {} // specify the property name to use
   }
 }
 class MyComponent {
@@ -279,7 +280,7 @@ class MyComponent {
 ;<MyComponent foo="bar" />
 ```
 
-// TODO:
+// TODO: 对函数组件和类组件有效，对原生元素无效
 `JSX.IntrinsicClassAttributes<T>`
 
 #### 子节点类型检查
@@ -298,6 +299,7 @@ declare global {
       // test1: number;
     }
 
+    // 对原生元素无效，只对函数组件和类组件有效
     interface ElementChildrenAttribute {
       children: {}
     }
@@ -348,6 +350,7 @@ export {}
 
 对于原生元素标签、函数组件标签、类组件标签通用的属性类型，例如`key`字段，使用接口声明`JSX.IntrinsicAttributes`，通常这个接口中的属性被声明为可选。
 
+// 对函数组件和类组件有效，对原生元素无效
 TODO: `IntrinsicAttributes`对原生元素不生效？
 
 ```ts
