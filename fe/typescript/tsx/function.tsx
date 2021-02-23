@@ -1,28 +1,35 @@
-declare global {
-    namespace JSX {
-        interface Element {
+// declare global {
+//     namespace JSX {
+//         interface Element {
 
-        }
+//         }
 
-        interface IntrinsicAttributes {
-            key: number;
-        }
+//         interface IntrinsicAttributes {
+//             key?: number;
+//         }
 
-        interface IntrinsicElements {
-            div: { name?: string };
-        }
-    }
-}
+//         interface IntrinsicElements {
+//             div: { name?: string, key: number };
+//         }
+//     }
+// }
 
+// class MyComponent {
+//     render() {
 
-function MyFactoryFunction(props: { foo: number, bar?: string }) {
-    return <div />
-}
+//     }
+// }
 
-let a = <MyFactoryFunction foo={1} key={1} />
-// error
+// let b = <MyComponent key={1} />
 
-let a1 = <div key={'1'}></div>
-let a2 = <div key={1}></div>
+// function MyFactoryFunction(props: { foo: number, bar?: string }) {
+//     return 1
+// }
 
-export { }
+// let a = <MyFactoryFunction foo={1} />
+// // error
+
+// let a1 = <div key={'1'}></div>
+// let a2 = <div key={1}></div>
+
+// export { }

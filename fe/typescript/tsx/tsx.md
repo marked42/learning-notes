@@ -95,49 +95,6 @@ declare namespace JSX {
 <bar name={"tom"} />
 ```
 
-#### 子节点类型
-
-子节点类型使用标签声明的属性类型中一个特殊名称的属性的类型， `JSX.ElementChildrenAttribute`接口只能声明一个属性，这个属性的名称就是子类型的名称。
-
-```ts
-declare global {
-  namespace JSX {
-    interface Element {
-      test: any
-    }
-
-    interface ElementChildrenAttribute {
-      children: any
-    }
-
-    interface IntrinsicElements {
-      div: {
-        children: Element | number | string | Array<string | number | Element>
-      }
-    }
-  }
-}
-
-// 子类型 字符串
-let a1 = <div>1</div>
-// 子类型 数字
-let a2 = <div>{1}</div>
-// 子类型 Element
-let a3 = (
-  <div>
-    <div>1</div>
-  </div>
-)
-// 允许多个子类型 对应 children: Array<string | number | Element>
-let a4 = (
-  <div>
-    {1}1<div>1</div>
-  </div>
-)
-
-export {}
-```
-
 ### JSX 标签类型
 
 如果不存在接口`JSX.Element`声明时，JSX 标签的类型被推导为`any`。
@@ -198,12 +155,19 @@ function MainButton(prop: ClickableProps): JSX.Element {}
 
 #### 属性类型
 
-函数组件的属性类型由函数第一个参数的类型决定
+函数组件的属性类型是两个类型的联合类型。
+
+1. 函数第一个参数的类型
+1. `JSX.IntrinsicAttributes`接口。
 
 ```ts
 declare global {
   namespace JSX {
     interface Element {}
+
+    interface IntrinsicAttributes {
+      key?: number
+    }
 
     interface IntrinsicElements {
       div: any
@@ -215,13 +179,18 @@ function MyFactoryFunction(props: { foo: number; bar: string }) {
   return <div />
 }
 
-// 错误，bar是string类型，传入类数字类型
-let a = <MyFactoryFunction foo={1} bar={1} />
+// 正确
+let a1 = <MyFactoryFunction foo={1} bar={'1'} key={1} />
+// 正确 key可选
+let a2 = <MyFactoryFunction foo={1} bar={'1'} />
+
+// 错误 bar是string类型，传入类数字类型
+let a2 = <MyFactoryFunction foo={1} bar={1} key={1} />
+// 错误 foo属性缺失
+let a2 = <MyFactoryFunction bar="1" key={1} />
 
 export {}
 ```
-
-#### 子类型
 
 ### 类组件
 
@@ -258,34 +227,90 @@ function NotAValidFactoryFunction() {
 <NotAValidFactoryFunction /> // error
 ```
 
-#### 属性检查
+#### 属性类型
 
-类组件标签属性类型取决于类定义时某个属性的类型， `JSX.ElementAttributesProperty`接口有且只能有一个属性`props`，类定义的同名属性的类型就是类组件的属性类型。
+类组件的属性由是三个类型的联合类型。
+
+1. 类定义时某个属性的类型， `JSX.ElementAttributesProperty`接口有且只能有一个属性`props`（可以是其他任何名称），类定义时的同名属性`props`的类型就是 JSX 标签属性类型。
+1. `JSX.IntrinsicAttributes`
+1. `JSX.IntrinsicClassAttributes<T>`，泛型参数`T`是类类型，在 React 中用来定义泛型属性`ref: Ref<T>`。
 
 ```ts
-declare namespace JSX {
-  // 只对类组件生效
-  interface ElementAttributesProperty {
-    props: {} // specify the property name to use
-  }
-}
-class MyComponent {
-  // specify the property on the element instance type
-  props: {
-    foo?: string
+declare global {
+  namespace JSX {
+    interface ElementAttributesProperty {
+      props: {}
+    }
+
+    // 函数组件和类组件共同
+    interface IntrinsicAttributes {
+      key: number
+    }
+
+    // 类组件独有
+    interface IntrinsicClassAttributes<T> {
+      ref: T
+    }
   }
 }
 
-// element attributes type for 'MyComponent' is '{foo?: string}'
-;<MyComponent foo="bar" />
+class MyComponent {
+  props!: {
+    name: string
+  }
+}
+
+let a = <MyComponent name={'test'} key={1} ref={new MyComponent()} />
+
+export {}
 ```
 
-// TODO: 对函数组件和类组件有效，对原生元素无效
-`JSX.IntrinsicClassAttributes<T>`
+对于函数组件标签、类组件标签通用的属性类型，例如`key`字段，使用接口声明`JSX.IntrinsicAttributes`，通常这个接口中的属性被声明为可选。`IntrinsicAttributes`只针对函数组件和类组件，对原生元素不生效。
 
-#### 子节点类型检查
+### 子节点类型
 
-子节点类型使用标签声明的属性类型中一个特殊名称的属性的类型， `JSX.ElementChildrenAttribute`接口只能声明一个属性，这个属性的名称就是子类型的名称。
+对于原生元素、函数组件、类组件来说，允许的子节点类型检查方式相同。`JSX.ElementChildrenAttribute`接口能且只能声明一个属性，标签属性类型中这个预定义属性的类型就是子节点需要满足的类型约束。
+
+原生元素的例子
+
+```ts
+declare global {
+  namespace JSX {
+    interface Element {}
+
+    interface ElementChildrenAttribute {
+      children: any
+    }
+
+    interface IntrinsicElements {
+      div: {
+        children: Element | number | string | Array<string | number | Element>
+      }
+    }
+  }
+}
+
+// 子类型 字符串
+let a1 = <div>1</div>
+// 子类型 数字
+let a2 = <div>{1}</div>
+// 子类型 Element
+let a3 = (
+  <div>
+    <div>1</div>
+  </div>
+)
+// 允许多个子类型 对应 children: Array<string | number | Element>
+let a4 = (
+  <div>
+    {1}1<div>1</div>
+  </div>
+)
+
+export {}
+```
+
+类组件的例子
 
 ```ts
 import React from 'react'
@@ -296,7 +321,6 @@ declare global {
 
     interface ElementAttributesProperty {
       props: {}
-      // test1: number;
     }
 
     // 对原生元素无效，只对函数组件和类组件有效
@@ -346,41 +370,6 @@ let c = (
 export {}
 ```
 
-### 通用属性
-
-对于原生元素标签、函数组件标签、类组件标签通用的属性类型，例如`key`字段，使用接口声明`JSX.IntrinsicAttributes`，通常这个接口中的属性被声明为可选。
-
-// 对函数组件和类组件有效，对原生元素无效
-TODO: `IntrinsicAttributes`对原生元素不生效？
-
-```ts
-declare global {
-  namespace JSX {
-    interface Element {}
-
-    interface IntrinsicAttributes {
-      key: number
-    }
-
-    interface IntrinsicElements {
-      div: { name?: string }
-    }
-  }
-}
-
-function MyFactoryFunction(props: { foo: number; bar?: string }) {
-  return <div />
-}
-
-let a = <MyFactoryFunction foo={1} key={1} />
-// error
-
-let a1 = <div key={'1'}></div>
-let a2 = <div key={1}></div>
-
-export {}
-```
-
 ## 配置 JSX
 
 ### jsxFactory
@@ -406,6 +395,8 @@ Object.defineProperty(exports, '__esModule', { value: true })
 const preact_1 = require('preact')
 const HelloWorld = () => preact_1.h('div', null, 'Hello')
 ```
+
+注意配置`jsxFactory: Name`之后，TS 使用`Name.JSX`命名空间下接口进行 JSX 类型检查，不再使用默认的命名空间`JSX`。
 
 ### jsxFragmentFactory
 
@@ -456,3 +447,36 @@ function App() {
 }
 exports.App = App
 ```
+
+## React
+
+[React Typings](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/react/index.d.ts)
+
+## Vue
+
+### JSX 语法支持
+
+@babel/plugin-syntax-jsx 识别 JSX 语法
+
+1. vuejs/babel-plugin-transform-vue-jsx 转换
+1. 辅助函数 @vue/babel-helper-vue-jsx-merge-props
+
+Vue2.0 JSX 使用@vue/babel-preset-jsx，与 Babel7.x 兼容。其中包含若干个插件，将 JSX 转换成合适的语法。
+
+1. `functional` 函数转换成 Vue 组件
+1. `injectH` 包含 JSX 标签的类方法自动注入`h`作为第一个参数
+1. `vModel` 双向绑定语法转换
+1. `vOn` 事件监听语法转换
+1. `compositionAPI`
+
+https://github.com/vuejs/jsx/tree/dev/packages/babel-preset-jsx
+
+### TSX 类型支持
+
+使用库`vue-tsx-support`为 Vue 提供 TSX 类型支持，安装`npm i -D vue-tsx-support`后需要进行配置。
+
+1. 在`tsconfig.json`中配置`jsx`为`preserve`，TS 只做类型检查。
+1. `jsxFactory`为`VueTsxSupport`，使用`VueTsxSupport.JSX`中接口进行类型检查。
+1. 引入包含`VueTsxSupport.JSX`的类型声明文件`node_modules/vue-tsx-support/enable-check.d.ts`，在`files`字段添加这个文件，或者在源码的入口文件引入此文件。注意不要用`include`字段引入此文件，否则会被`exclude`字段排除。`exclude`默认排除`node_modules`文件夹下的文件，`files`引入的文件不会被`exclude`排除。
+
+具体用法参考[文档](https://github.com/wonderful-panda/vue-tsx-support#writing-component-by-class-style-api-vue-class-component-andor-vue-property-decorator)。
