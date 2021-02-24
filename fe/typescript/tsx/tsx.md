@@ -460,7 +460,9 @@ Babel 使用插件[@babel/plugin-syntax-jsx](https://babeljs.io/docs/en/babel-pl
 
 ### JSX 语法支持
 
-Vue2.0 JSX 在 Babel7.x 以前的版本使用 [babel-plugin-transform-vue-jsx](https://github.com/vuejs/babel-plugin-transform-vue-jsx/blob/master/package.json)。Vue2.0 JSX 在 Babel7.x 的版本开始使用[@vue/babel-preset-jsx](https://github.com/vuejs/jsx)，该预设（preset）使用插件[@vue/babel-plugin-transform-vue-jsx](https://github.com/vuejs/jsx/tree/dev/packages/babel-plugin-transform-vue-jsx) 识别 JSX 语法并将其转换为 vue 的`h`函数，另外有若干个插件分别支持特定的语法糖转换，由以下选项配控制。
+Vue2.0 JSX 在 Babel7.x 以前的版本使用 [babel-plugin-transform-vue-jsx](https://github.com/vuejs/babel-plugin-transform-vue-jsx/blob/master/package.json)和[babel-helper-vue-jsx-merge-props](https://github.com/vuejs/babel-helper-vue-jsx-merge-props)。
+
+Vue2.0 JSX 在 Babel7.x 的版本开始使用[@vue/babel-preset-jsx](https://github.com/vuejs/jsx)，该预设（preset）使用插件[@vue/babel-plugin-transform-vue-jsx](https://github.com/vuejs/jsx/tree/dev/packages/babel-plugin-transform-vue-jsx) 识别 JSX 语法并将其转换为 vue 的`h`函数，另外有若干个插件分别支持特定的语法糖转换，由以下选项配控制。
 
 ```ts
 // babel.config.js
@@ -487,6 +489,22 @@ module.exports = {
 注意几个语法糖插件先进行转换，最后由插件`@vue/babel-plugin-transform-vue-jsx`进行 JSX 到普通 JS 的转换。
 
 另外 Vue JSX [属性合并](https://zhuanlan.zhihu.com/p/59434351)依赖库[@vue/babel-helper-vue-jsx-merge-props](https://github.com/vuejs/jsx/tree/dev/packages/babel-helper-vue-jsx-merge-props)，需要单独安装。
+
+1. attrs, props, domProps
+1. class, style, directives
+1. on, nativeOn 事件支持数组形式
+
+```html
+<button @click="increment" @click="f" hook="test">+</button>
+```
+
+1. hook TODO: ? 没有这个属性
+
+babel 插件顺序
+
+在 AST Node 层面按照配置文件中顺序执行，
+
+https://stackoverflow.com/questions/34618756/babel-plugins-run-order
 
 ### TSX 类型支持
 
