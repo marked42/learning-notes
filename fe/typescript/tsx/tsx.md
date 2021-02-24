@@ -452,24 +452,41 @@ exports.App = App
 
 [React Typings](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/react/index.d.ts)
 
+## Babel
+
+Babel 使用插件[@babel/plugin-syntax-jsx](https://babeljs.io/docs/en/babel-plugin-syntax-jsx.html) 识别 JSX 语法，但是本身不做任何转换，JSX 语法转换到普通 JS 语法需要依靠其他插件实现。
+
 ## Vue
 
 ### JSX 语法支持
 
-@babel/plugin-syntax-jsx 识别 JSX 语法
+Vue2.0 JSX 在 Babel7.x 以前的版本使用 [babel-plugin-transform-vue-jsx](https://github.com/vuejs/babel-plugin-transform-vue-jsx/blob/master/package.json)。Vue2.0 JSX 在 Babel7.x 的版本开始使用[@vue/babel-preset-jsx](https://github.com/vuejs/jsx)，该预设（preset）使用插件[@vue/babel-plugin-transform-vue-jsx](https://github.com/vuejs/jsx/tree/dev/packages/babel-plugin-transform-vue-jsx) 识别 JSX 语法并将其转换为 vue 的`h`函数，另外有若干个插件分别支持特定的语法糖转换，由以下选项配控制。
 
-1. vuejs/babel-plugin-transform-vue-jsx 转换
-1. 辅助函数 @vue/babel-helper-vue-jsx-merge-props
+```ts
+// babel.config.js
+module.exports = {
+  presets: [
+    [
+      '@vue/babel-preset-jsx',
+      {
+        // 双向绑定语法转换
+        vModel: false,
+        // 事件监听语法转换
+        vOn: false,
+        // 包含 JSX 标签的对象或类方法自动注入 const h = this.$createElement
+        injectH: false,
+        // 函数转换成 Vue函数组件
+        functional: false,
+        compositionAPI: false,
+      },
+    ],
+  ],
+}
+```
 
-Vue2.0 JSX 使用@vue/babel-preset-jsx，与 Babel7.x 兼容。其中包含若干个插件，将 JSX 转换成合适的语法。
+注意几个语法糖插件先进行转换，最后由插件`@vue/babel-plugin-transform-vue-jsx`进行 JSX 到普通 JS 的转换。
 
-1. `functional` 函数转换成 Vue 组件
-1. `injectH` 包含 JSX 标签的类方法自动注入`h`作为第一个参数
-1. `vModel` 双向绑定语法转换
-1. `vOn` 事件监听语法转换
-1. `compositionAPI`
-
-https://github.com/vuejs/jsx/tree/dev/packages/babel-preset-jsx
+另外 Vue JSX [属性合并](https://zhuanlan.zhihu.com/p/59434351)依赖库[@vue/babel-helper-vue-jsx-merge-props](https://github.com/vuejs/jsx/tree/dev/packages/babel-helper-vue-jsx-merge-props)，需要单独安装。
 
 ### TSX 类型支持
 
