@@ -143,7 +143,7 @@ export default class Child extends Vue {
 原因在于下面这行代码
 
 <!-- ![cannot redefine property](./provide-reactive-cannot-redefine-property.png) -->
-![cannot redefine property](https://km.sankuai.com/api/file/cdn/544106078/544268324?contentType=1&isNewContent=true)
+![cannot redefine property](./cannot-redefine-property.png)
 
 在9.0.2版本之前，`ProvideReactive`提供的兑现直接使用了`this[reactiveInjectKey]`对象，在这个对象上定义提供的属性。但是因为这个变量实际上指向了`vm.constructor.options.inject`对象，`vm.constructor`是组件类，多个组件实例都属于这个类。所以在第一个组件实例化后组件类上已经被定义过属性名`name`类，第二个组件实例初始化时就会出现重复定义的问题。
 修改后代码每次`Provide`的对象都是一个新对象，互相独立，所以避免类这个问题。
