@@ -63,9 +63,7 @@ program
         .slice(process.argv.indexOf('create'))
         .concat([
           '--preset',
-          'direct:ssh://git@git.sankuai.com/search-nlp-fe/vue-cli-preset-flow.git',
           '--clone',
-          '--registry=http://r.npm.sankuai.com',
         ]),
       { stdio: 'inherit' }
     )
@@ -94,7 +92,6 @@ program
     exec(gg
       `ls -al`,
       // `vue -h`,
-      // `vue create ${name} --registry=http://r.npm.sankuai.com`,
       (error, stdout, stderr) => {
         if (error) {
           console.log(`error: ${error.message}`)
