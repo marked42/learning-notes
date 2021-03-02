@@ -8,44 +8,44 @@ TODO:
 ## Contents
 
 1. Fundamentals [2, 3, 5]
-    1. Modules
-    1. Standard IO, console and command-line
-    1. Timers
-    1. Buffer
-    1. Events
-    1. Streams
-    1. FileSystem
-    1. NetWorking
-        1. TCP/IP
-        1. HTTP
-        1. HTTPS
-    1. Process
-    1. Debugging
-    1. NPM
+   1. Modules
+   1. Standard IO, console and command-line
+   1. Timers
+   1. Buffer
+   1. Events
+   1. Streams
+   1. FileSystem
+   1. NetWorking
+      1. TCP/IP
+      1. HTTP
+      1. HTTPS
+   1. Process
+   1. Debugging
+   1. NPM
 1. Socket.IO
 1. Connect and middlewares
 1. Restful API
 1. Express [1,2, 4]
-    1. express generator
-    1. View and Template Engine
-    1. Routing
-    1. Form
-    1. Logging
-    1. Real-time Communication
-    1. Security
-    1. Caching and Scaling
-    1. Minification
-    1. Compression
+   1. express generator
+   1. View and Template Engine
+   1. Routing
+   1. Form
+   1. Logging
+   1. Real-time Communication
+   1. Security
+   1. Caching and Scaling
+   1. Minification
+   1. Compression
 1. Database
-    1. MySQL
-    1. PostgreSQL
-    1. Redis
-    1. MongoDB and Mongoose
+   1. MySQL
+   1. PostgreSQL
+   1. Redis
+   1. MongoDB and Mongoose
 1. Test Node
 1. Production
-    1. Deployment
+   1. Deployment
 1. Mobile
-    1. Ionic
+   1. Ionic
 
 ## CommonJS
 
@@ -68,7 +68,6 @@ Notice that `exports` is just a reference to `module.exports`, so don't set `exp
    1. If there is a file `package.json`, it must contains an element `main` that specifies entry file.
    1. Other wise entry file is `index.js`
 1. module is a file `module.js`
-
 
 ## connect
 
@@ -129,35 +128,138 @@ const app = express()
 
 app.set('view engine', 'jade')
 
-app.get('/', () => res.render('index'))         // 'jade': default
+app.get('/', () => res.render('index')) // 'jade': default
 
-app.get('/feed', () => res.render('rss.ejs'))   // 'ejs': infer from suffix
+app.get('/feed', () => res.render('rss.ejs')) // 'ejs': infer from suffix
 ```
 
 View template references some variables to generate dynamic content. Referenced variables can be passed by several methods.
 
 1. `app.locals` can expose its properties to views in application level. By default, `settings` is the only variable Express exposes to view. `app.locals` is a function for conveniences, users can use it to expose needed variables.
-    ```javascript
-    app.locals.settings = app.settings
 
-    // expose variables with app.locals
-    const i18n = { prev: 'Prev', next: 'Next', save: 'Save' }
-    app.locals(i18n)
-    ```
+   ```javascript
+   app.locals.settings = app.settings
+
+   // expose variables with app.locals
+   const i18n = { prev: 'Prev', next: 'Next', save: 'Save' }
+   app.locals(i18n)
+   ```
+
 1. `res.locals` can expose its properties to views in resquest level.
 1. When using `res.render()` and `app.render()` like below, properties of second object paramter of `render()` method can be accessed directly in view specified by first paramter.
-    ```javascript
-    const title = 'Photos'
-    const photos = ['photo1', 'photo2']
-    const app = express()
 
-    res.render('photos', { title, photos })
-    app.render('photos', { title, photos })
-    ```
+   ```javascript
+   const title = 'Photos'
+   const photos = ['photo1', 'photo2']
+   const app = express()
+
+   res.render('photos', { title, photos })
+   app.render('photos', { title, photos })
+   ```
 
 ![EJS Template Variable Resolution](./ejs_template_variable_resolution.png)
 
 These three kinds of EJS template variable injection mechanism are listed in ascending order, which means `res.render()` and `app.render()` has the highest priority. Variables of higher priority are first searched thus shadowing variables of same name in lower priority.
+
+## 多进程
+
+### 进程创建
+
+默认异步方式创建子进程
+
+1. `spawn` 创建子进程
+1. `exec` 衍生 shell，在 shell 中执行命令
+1. `execFile` 直接衍生命令，由于没有衍生 shell，因此不支持 I/O 重定向和文件通配等行为。
+1. `fork` 衍生 Node 子进程，自动建立 IPC 通道
+
+同步版本
+
+1.  `spawnSync`
+1.  `execSync`
+1.  `execFileSync`
+
+#### IO 处理
+
+#### 环境变量
+
+#### shell
+
+#### ChildProcess
+
+#### 消息序列化
+
+### 进程间通信
+
+父进程首先创建并监听 IPC 通道，然后创建子进程，通过环境变量 NODE_CHANNEL_FD 告诉子进程 IPC 通道的文件标识符，子进程创建时监听这个 IPC 通道，从而实现父子进程通信。
+
+IPC 通道在不同操作系统下具体实现不同，被抽象为 Stream 对象。
+
+只有创建的子进程时 Node 子进程时，子进程才会根据环境变量链接 IPC 通道，其他类型进程如果遵循相同的约定也可以实现 Node 父进程通信。
+
+```js
+const child = child
+process.on('message', function (m) {})
+```
+
+### 发送句柄（handle）
+
+http://nodejs.cn/api/child_process.html#child_process_subprocess_send_message_sendhandle_options_callback`
+
+```js
+const child_process = require('child_process')
+const http = require('http')
+const child = child_process.fork('./child.js')
+
+const server = http.createServer()
+
+process.send('msg', server)
+
+process.on('message', function (msg, server) {})
+```
+
+句柄类型
+
+1. `net.Socket`
+1. `net.Server`
+1. `net.Native`
+1. `dgram.Socket`
+1. `dgram.Native`
+
+句柄类型消息发送到 IPC 通道被封装成消息
+
+```js
+{
+   handle: FD,
+   message: {
+      cmd: 'NODE_HANDLE',
+      type: 'net.Server',
+      msg: message
+   },
+}
+```
+
+消息类型`NODE_`开头，触发内部事件`internalMessage`，子进程用相同的文件句柄（FD）和消息类型`net.Server`构建新的`net.Server`实例，并监听文件句柄。
+
+### 集群稳定性
+
+进程事件
+
+1. error 无法被复制、杀死、发送消息
+1. exit 正常或者异常退出
+1. close 输入输出流
+1. disconnect IPC 通道关闭
+
+稳定性
+
+1. 子进程异常处理 自杀信号、断开连接超时限制
+1. 子进程自动重启 限量重启
+1. 日志
+
+### cluster
+
+封装了 child_process 和 net 模块功能
+
+## 数据流 Stream
 
 ## Books
 
