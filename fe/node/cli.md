@@ -197,12 +197,22 @@ parse('--no-test')
 1. [chalk-animation](https://github.com/bokub/chalk-animation) 终端文字动画
 1. [terminal-link](https://github.com/sindresorhus/terminal-link) 终端文字链接
 1. boxen - 文字边框
-1. ora - 进行中状态
-1. 进度
+1. [ora](https://github.com/sindresorhus/ora) - 进行中状态
+1. [progress](https://github.com/visionmedia/node-progress) - 进度条
+1. [listr](https://github.com/SamVerschueren/listr) - 任务列表
+1. [svg-term-cli](https://github.com/marionebl/svg-term-cli) svg转换成终端文字动画
 
 ## 终端交互
 
 inquirer
+
+## get-port
+
+[get-port](https://github.com/sindresorhus/get-port)在端口被占用时获取一个新端口。
+
+## fs-extra
+
+[fs-extra](https://github.com/jprichardson/node-fs-extra)
 
 ## exec
 
