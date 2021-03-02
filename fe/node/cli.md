@@ -199,10 +199,62 @@ parse('--no-test')
 1. boxen - 文字边框
 1. ora - 进行中状态
 1. 进度
+1. clearConsole
 
 ## 终端交互
 
-inquirer
+[inquirer](https://www.npmjs.com/package/inquirer)提供了在终端与用户进行问答式交互的方法，支持 list、rawlist、expand、checkbox、confirm、input、number、editor 的方式。
+
+使用`inquirer.prompt()`提出问题。
+
+```js
+const { action } = await inquirer.prompt([
+  {
+    // 该问题答案存储的字段名
+    name: 'action',
+    // 列表问题
+    type: 'list',
+    // 当前问题是否展示给用户，函数参数接受当前的回答数据（answer）作为第一个参数，并且返回boolean
+    // boolean | (answers: {}) => boolean | Promise<boolean>
+    when: true,
+    // 判断用户输入input是否合法
+    // (input, answers) => boolean | Promise<boolean>
+    validate: (input, answers) => true,
+    // 对用户输入做转换，转换的值保存到answer中
+    filter: (input, answers) => input,
+    // 返回结果展示用户，不影响answer的数据
+    transformer: (input, answers, options) => input,
+    // 问题内容
+    message: `Target directory ${chalk.cyan(
+      targetDir
+    )} already exists. Pick an action:`,
+    // 可选列表
+    choices: [
+      { name: 'Overwrite', value: 'overwrite' },
+      { name: 'Merge', value: 'merge' },
+      // 分隔符
+      new inquirer.Separator(),
+      { name: 'Cancel', value: false },
+    ],
+    // 列表数据
+    pageSize: 3,
+    // 默认值，列表循环展示
+    loop: true,
+
+    // 默认值
+    default: false,
+
+    prefix: '',
+    suffix: '',
+    // 答案中已经有的问题强制再次回答
+    askAnswered: true,
+  },
+])
+```
+
+使用`inquirer.registerPrompt(name, prompt)`可以注册新的问题类型（会覆盖已有类型），`name`参数对应问题的`type`字段。
+
+问题类型新增或者修改后会影响当前`prompt`模块后续所有`prompt()`调用，可以使用`inquirer.createPromptModule() -> prompt function`创建一个独立的`prompt`函数模块，对应的问题类型与`inquirer.prompt`和其他模块互不影响。
 
 ## exec
 
