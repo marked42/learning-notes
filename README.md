@@ -33,27 +33,6 @@ Knowledge Level
 
 ## 工程化
 
-## JS
-
-1. JS regenerator runtime
-1. gensync
-
-### webpack
-
-1. https://juejin.im/post/6854573217336541192?utm_source=gold_browser_extension
-1. https://time.geekbang.org/course/detail/190-120792
-1. webpack 打包形成的模块结果分析
-1. style-loader,css-loader,less-loader,url-loader
-1. 样式文件、图片文字文件处理
-1. Tree Shaking
-1. https://medium.com/webpack/webpack-and-rollup-the-same-but-different-a41ad427058c
-1. https://juejin.im/post/59cb6307f265da064e1f65b9#heading-5
-1. 异步组件
-1. code splitting
-1. tree shaking
-1. tapable https://segmentfault.com/a/1190000008060440
-1. webpack 使用 tapable 的定制流程 webpack/compiler/compilation
-
 ### CI/CD
 
 1. [开发部署系统](https://www.zhihu.com/question/20790576)
@@ -153,12 +132,6 @@ Knowledge Level
    ```
 1. [常见算法问题](https://juejin.im/post/5958bac35188250d892f5c91#heading-27)
 
-## Vue
-
-1. https://juejin.im/post/6844904169954869262
-1. https://zhuanlan.zhihu.com/p/130995492
-1. https://juejin.im/post/5e778c71518825491d3240fd?utm_source=gold_browser_extension
-
 ## 经典题目
 
 1. [从输入 URL 到页面加载的过程？如何由一道题完善自己的前端知识体系！](https://zhuanlan.zhihu.com/p/34453198?group_id=957277540147056640)
@@ -167,7 +140,6 @@ Knowledge Level
 
 1. https://zhuanlan.zhihu.com/p/47407398
 1. [从浏览器多进程到 JS 单线程，JS 运行机制最全面的一次梳理](https://juejin.im/post/5a6547d0f265da3e283a1df7)
-1. 浏览器渲染机制
 1. https://time.geekbang.org/column/intro/216
 
 ## Books
@@ -183,111 +155,8 @@ Knowledge Level
 
 ## TODO:
 
-1. vue class component provide constant values
-1. 高阶 vue 组件，传递属性和事件
-1. chrome 中搜索运行的文件
-1. javascript
-   ```
-       class TestThis {
-           test() {
-               const bindThis = () => {
-                   this.
-               }
-           }
-       }
-   ```
-1. @keyup.shift.enter @keyup.enter
-1. eslint rules detect unused components
-1. npm scripts hooks https://docs.npmjs.com/cli/v6/using-npm/scripts#prepare-and-prepublish
-1. webpack dev server proxy config
-   1. micromatch glob
-
-# TODO
-
-1. webpack config of vue-cli project, vue.config.js entry multiple pages
-
-   1. browser-list cache-loader babel-plugin-transform-block-scoping
-   1. tapable/enhanced-resolve
-   1. webpack module format
-      1. package.json#main -> commonjs,
-      1. package.json#module -> esm
-      1. package.json#browser
-      1. webpack.config.json#resolve 字段
-   1. target web(default), node, ....
-   1. how webpack pack modules
-      1. entry
-      1. output path,filename,publicPath,libraryName,libraryTarget,umdNamedDefine,
-      1. externals: object allowed for libraryTarget: "umd"
-      1. commonjs, node commonjs, amd, umd, esm
-      1. chunks, dynamic loading,
-         1. https://webpack.js.org/plugins/split-chunks-plugin/
-         1. https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
-         1. https://github.com/webpack/webpack/blob/master/examples/many-pages/README.md
-   1. PreloadPlugin
-
-1. babel-plugin-component implementation
-
-1. 工作流 自动打 tag
-   1. formula publish major/minor/patch
-   1. conventional change log
-1. npm scripts https://docs.npmjs.com/cli/v6/using-npm/scripts
-
-1. 组件库的 webpack 配置
-
-   1. entry
-   1. output
-   1. loaders
-      1. vue
-      1. js/jsx
-      1. ts/tsx
-      1. css
-         1. less
-         1. sass/scss
-         1. stylus
-         1. postcss
-      1. assets url-loader,file-loader
-         1. image
-         1. video
-         1. font
-      1. wasm
-   1. plugins
-      1. DefinePlugin
-      1. VueLoaderPlugin
-      1. optimization/minify/uglify
-
 1. 组件库 component lib
-
+   1. 高阶 vue 组件，传递属性和事件
+   1. chrome 中搜索运行的文件
    1. 跑马灯组件，滚动数字组件，carousel 组件，message 组件，landing 页顶栏 sticky 效果，参考知乎的的低栏效果。
-   1. packages 文件夹中每个子文件夹对应一个组件，
-   1. 方便按需加载 babel-plugin-component(element-ui)/babel-plugin-import(antd)
-   1. example 对应对应每个组件的例子项目
-   1. 每个组件定义一个对应的 plugin，注册为全局组件
-   1. 使用 vue-cli 构建目标是库
-   1. 发布配置 .npmignore package.json files 字段？
    1. 动态位置的组件 element-ui Message/Popover/Tooltip/Drawer/Portal append-body ?
-
-1. typescript
-
-   1. vue/vuex/vue-router types definition
-   1. element-ui ts types
-   1. https://juejin.cn/post/6844903929633849357
-   1. ts declaration fils https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html
-   1. https://ts.xcatliu.com/basics/declaration-files.html#declare-module
-   1. ts module resolution https://www.tslang.cn/docs/handbook/module-resolution.html
-
-1. canvas api/webgl
-
-1. eslint
-   1. 配置文件，
-      1. 位置格式
-      1. 选项 parser, extends, rules
-      1. 插件
-      1. 注释
-      1. 全局对象，环境 env, rules /_ global _/
-      1. typescript https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin
-      1. npm i -D eslint typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser
-      1. eslint-ignore node_modules, .eslintignore
-
-TODO:
-
-1. script 的加载与运行 Realm，environment settings object。
