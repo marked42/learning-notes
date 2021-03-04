@@ -253,9 +253,7 @@ const { action } = await inquirer.prompt([
 ])
 ```
 
-使用`inquirer.registerPrompt(name, prompt)`可以注册新的问题类型（会覆盖已有类型），`name`参数对应问题的`type`字段。
-
-问题类型新增或者修改后会影响当前`prompt`模块后续所有`prompt()`调用，可以使用`inquirer.createPromptModule() -> prompt function`创建一个独立的`prompt`函数模块，对应的问题类型与`inquirer.prompt`和其他模块互不影响。
+使用`inquirer.registerPrompt(name, prompt)`可以注册新的问题类型（会覆盖已有类型），`name`参数对应问题的`type`字段。问题类型新增或者修改后会影响当前`prompt`模块后续所有`prompt()`调用，可以使用`inquirer.createPromptModule() -> prompt function`创建一个独立的`prompt`函数模块，对应的问题类型与`inquirer.prompt`和其他模块互不影响。
 
 ## get-port
 

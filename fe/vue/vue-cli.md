@@ -169,7 +169,67 @@ preset 中的指定的 plugin 使用指定的版本，否则官方的 plugin 自
 
 1. invoking generators 下面的步骤等同于 vue invoke
 1. 执行 package.json 中的 plugins
-1. package.json 可能新增以来，进行安装。
+1. package.json 可能新增依赖，进行安装。
 1. 执行 generator 的 completion-hooks 回掉
+
+   1. 从原始的 preset.plugins 的列表，如果返回 plugins 的列表 { id, apply, options }
+   1. 获取 plugin 对应的 generator、 `require('module')`
+   1. plugins 的 prompts 模块， options
+      默认禁用插件的 prompts, plugin.prompts 选项为`true`的话开启。
+   1. new Generator(context, { pkg, plugins, afterInvokeCbs,
+      afterAnyInvokeCbs,}) 代表了插件调用的过程
+
+   1. 解析 rootOptions
+   1. 分析 package.json 得到所有的 plugins，（新增依赖可能导致比 preset.plugins 要多）注册所有的 hook 回掉
+      afterInvokeCbs 对应 preset.plugins, afterAnyInvokeCbs 对应 allPlugins
+      同步顺序执行所有 plugins 的 generator。
+      `apply(api, options, rootOptions, invoking)`
+      1. render templates，增加、删除、更新模板 yaml-front-matter
+      1. 扩展包 修改 package.json
+      1. dependencies, devDependencies 版本合并策略，首先版本必须合法，然后将 range 版本替换成合法版本后，使用较新的版本
+      1. object 对象递归合并
+      1. 数组元素去重合并
+      1. 修改主文件, injectImports, injectRootOptions
+      1. 增加文件后处理回掉有
+      1. exitLog
+      1. 从 package.json 中转换配置文件。
+         babel, postcss, eslintConfig, jest,browsers-list,lint-staged,
+         vue, babel 总是抽出单独的配置文件，
+         配置文件支持 json,js,yml,lines 类型。
+
 1. 生成 README.md
 1. git 提交首个 commit
+
+```js
+module.exports = (pkg, prompt) => {}
+
+module.exports = {
+  getPrompts: (pkg, prompt) => {},
+}
+```
+
+vue create --proxy --registry ?
+
+1.
+
+## vue invoke
+
+在 package.json 中找到指定插件，
+files 是当前 context 中所有 files，
+依赖可能发生变化所以重新安装依赖。
+
+## vue add
+
+相比于 vue invoke 多了一个安装插件的步骤。
+
+## vue serve
+
+等同与 vue-cli-service serve
+
+## vue build
+
+等同与 vue-cli-service build
+
+## vue config
+
+操作.vuerc 文件
