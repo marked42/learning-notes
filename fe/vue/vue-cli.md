@@ -208,9 +208,30 @@ module.exports = {
 }
 ```
 
-vue create --proxy --registry ?
+### 文件输出优化
 
-1.
+在 vue add/invoke 命令执行的时候，可能会对文件进行删除、新增、修改等操作，内容未发生变化的文件不应该再次输出到文件系统中，通过 Proxy 实现发生改变的文件进行记录。
+
+```ts
+function watchFile(files, set = new Set()) {
+  return new Proxy(files, {
+    set(target, key, value, receiver) {
+      set.add(key)
+      Reflect.set(target, key, value, receiver)
+    },
+    deleteProperty(target, key, value, receiver) {
+      set.delete(key)
+      Reflect.deleteProperty(target, key)
+    },
+  })
+}
+```
+
+`set`中保存这发生了变化的文件，`initialFiles`表示最初的文件，`files`表示变化后的文件。在`initialFiles`中但是不在`files`中的文件需要从文件系统中删除。在`files`中但是不在`set`中的文件没有变动，在`files`中而且在`set`中的是新增或者内容发生变化的文件。
+
+```js
+
+```
 
 ## vue invoke
 
@@ -222,13 +243,9 @@ files 是当前 context 中所有 files，
 
 相比于 vue invoke 多了一个安装插件的步骤。
 
-## vue serve
+## @vue/cli-service
 
-等同与 vue-cli-service serve
-
-## vue build
-
-等同与 vue-cli-service build
+`vue serve/build/inspect`
 
 ## vue config
 
