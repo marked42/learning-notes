@@ -183,6 +183,8 @@ parse('--no-test')
 
 完整的命令行工具库
 
+1. 参数值
+
 ## 终端文字效果
 
 1. [chalk](https://github.com/chalk/chalk#modifiers) 终端文字效果包括颜色、背景色、下划线、粗体、斜体等效果和 256 真彩色支持。可以适用多种方式指定颜色，参考[文档](https://github.com/chalk/chalk#styles)
@@ -200,7 +202,7 @@ parse('--no-test')
 1. [ora](https://github.com/sindresorhus/ora) - 进行中状态
 1. [progress](https://github.com/visionmedia/node-progress) - 进度条
 1. [listr](https://github.com/SamVerschueren/listr) - 任务列表
-1. [svg-term-cli](https://github.com/marionebl/svg-term-cli) svg转换成终端文字动画
+1. [svg-term-cli](https://github.com/marionebl/svg-term-cli) svg 转换成终端文字动画
 
 ## 终端交互
 
@@ -281,4 +283,17 @@ execa(
     .concat(['--preset', '--clone']),
   { stdio: 'inherit' }
 )
+```
+
+rootOptions
+
+```js
+{
+  projectName: string,
+  vueVersion: '2' | '3',
+  router: true,
+  vuex: true,
+  cssPreprocessor: 'sass' | 'node-sass' | 'less' | 'stylus',
+  plugins: {}
+}
 ```
