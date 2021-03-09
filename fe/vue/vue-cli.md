@@ -229,9 +229,7 @@ Array<{
 
 ## 插件机制
 
-### 项目结构
-
-插件项目的结构如下
+插件项目的结构如下，包括文件渲染（generator）、交互式问答（prompts）和 UI 插件部分。
 
 ```bash
 .
@@ -243,12 +241,9 @@ Array<{
 └── ui.js         # Vue UI 集成（可选）
 ```
 
-`generator`提供了生成模板文件和配置`package.json`的功能，`prompts`提供了用户交互提问的功能，用来辅助`generator`模块。
-`ui`模块对应了使用 Web 界面指定配置的功能。
+### generator 模块
 
-#### generator
-
-一个`generator`模块就是一个函数，通过使用提供的插件`api`来实现所有的插件功能。
+`generator`模块导出一个函数，通过使用`api`参数实现模板来实现具体的功能。
 
 ```js
 module.exports = (api, options, rootOptions) => {
@@ -261,29 +256,43 @@ module.exports = (api, options, rootOptions) => {
   })
 
   api.injectImports(api.entryFile, `import router from './router'`)
-
   api.injectRootOptions(api.entryFile, `router`)
 }
 
-module.exports.hooks = () => {}
+module.exports.hooks = (api) => {
+  api.afterInvoke(() => {})
+  api.afterAnyInvoke(() => {})
+}
 ```
-
-`api.render(source, additionalData, ejsOptions)` 接受一个目录或者文件路径用来[生成脚手架项目的文件](https://cli.vuejs.org/zh/dev-guide/plugin-dev.html#%E5%88%9B%E5%BB%BA%E6%96%B0%E7%9A%84%E6%A8%A1%E6%9D%BF)，内部使用 EJS 渲染模板文件。
-
-`api.extendPackage`用来[扩展](https://cli.vuejs.org/zh/dev-guide/plugin-dev.html#%E6%89%A9%E5%B1%95%E5%8C%85)`package.json`文件的内容，包括添加依赖项、`scripts`脚本命令。因为 babel、postcss、eslintConfig、jest、browsers-list、lint-staged、vue、babel 等工具配置项可以使用`package.json`文件的对应字段，所以`api.extendPackage`也可以用来设置这些工具的配置。预设参数`useConfigFiles`为`true` 时可以将这些工具配置从`package.json`中提取出来，放到各自的配置的文件中。其中`vue`的配置文件`vue.config.js`和`babel`的配置文件`babel.config.js`总是会单独抽取出来，因为`vue.config.js`可以让用户自己进行更多自定义配置，`babel.config.js`是因为 Babel 7 开始只有这种方式是对整个项目有效的 Babel 配置。
-
-`api.injectImports`用来在文件入口文件添加模块导入语句，`api.injectRootOptions`在入口文件`new Vue()` 中添加选项。
-
-`api.hasPlugin`检查当前项目中某个插件是否存在
 
 ### 模板渲染
 
-1. render templates，增加、删除、更新模板 yaml-front-matter
-1. 增加文件后处理回掉有 postProcessFile
+`api.render(source, additionalData, ejsOptions)` 接受一个目录或者文件路径用来[渲染生成脚手架项目的文件](https://cli.vuejs.org/zh/dev-guide/plugin-dev.html#%E5%88%9B%E5%BB%BA%E6%96%B0%E7%9A%84%E6%A8%A1%E6%9D%BF)，内部使用 EJS 渲染模板文件。
+
+`api.render`的`source`参数可以是三种类型：
+
+1. `string` 某个目录的相对路径，目录下的**所有文件**都会被作为 EJS 模板进行渲染
+1. `object: { sourceTemplate: targetFile }` 属性名`sourceTemplate`代表模板文件路径，属性值`targetFile`代表模板对应的目标文件路径。
+1. `(files) => void` 自定义渲染函数，接受的参数`files`是一个对象，属性名代表了生成文件的路径，值代表了生成文件的内容。
+
+渲染函数是模板渲染的核心机制，`string`和`object`的参数也是被转换为等价逻辑的渲染函数进行处理。模板渲染对应的类`Generator`中保存了所有注册的渲染函数中间件（middleware）列表，插件的执行过程`api.render()`将所有渲染函数进行注册，完成后统一执行，最终的得到一个`files`对象代表了所有要输出的文件。
+
+使用`api.postProcessFiles((files) => void)`可以注册后处理函数，在插件执行完成后进行额外处理。
+
+```js
+module.exports = (api) => {
+  api.postProcessFiles((files) => {
+    // 对模板进行新增、删除、修改的操作
+    delete files['main.ts']
+  })
+}
+```
+
+`vue-cli`使用 EJS 引擎渲染模板，并对其进行了扩展，支持对已存在模板内容进行[更新](https://cli.vuejs.org/zh/dev-guide/plugin-dev.html#%E7%BC%96%E8%BE%91%E5%B7%B2%E7%BB%8F%E5%AD%98%E5%9C%A8%E7%9A%84%E6%A8%A1%E6%9D%BF)的功能。
 
 ### 文件输出优化
 
-在 vue add/invoke 命令执行的时候，可能会对文件进行删除、新增、修改等操作，内容未发生变化的文件不应该再次输出到文件系统中，通过 Proxy 实现发生改变的文件进行记录。
+模板渲染完成得到`files`文件后使用`writeFileTree`函数将模板统一写入到文件系统中。在`vue create`命令执行创建新项目的情况下，所有输出的文件都是新文件，但是`vue add/invoke`针对现有项目执行时最终需要的文件之前可能是新增、需要删除、更新、不变几种情况。对于不变的这部分文件不需要重新写入到操作系统，`vue-cli`使用了代理机制对文件前后变化进行记录，避免不需要的文件写入操作。
 
 ```ts
 function watchFile(files, set = new Set()) {
@@ -300,50 +309,112 @@ function watchFile(files, set = new Set()) {
 }
 ```
 
-`set`中保存这发生了变化的文件，`initialFiles`表示最初的文件，`files`表示变化后的文件。在`initialFiles`中但是不在`files`中的文件需要从文件系统中删除。在`files`中但是不在`set`中的文件没有变动，在`files`中而且在`set`中的是新增或者内容发生变化的文件。
+代理对象拦截了对于`files`对象的访问，`set`中保存了新增和内容有更新的文件。写入文件系统时调用`writeFileTree`，将删除、新增、更新文件的操作同步到文件系统。
 
 ```js
-
+module.exports = async function writeFileTree(dir, files, previousFiles) {
+  if (process.env.VUE_CLI_SKIP_WRITE) {
+    return
+  }
+  if (previousFiles) {
+    await deleteRemovedFiles(dir, files, previousFiles)
+  }
+  Object.keys(files).forEach((name) => {
+    const filePath = path.join(dir, name)
+    fs.ensureDirSync(path.dirname(filePath))
+    fs.writeFileSync(filePath, files[name])
+  })
+}
 ```
-
-环境检测 lru-cache https://www.npmjs.com/package/lru-cache
 
 ### 配置文件提取
 
-1. addConfigTransform
-1. 从 package.json 中转换配置文件。
-   babel, postcss, eslintConfig, jest,browsers-list,lint-staged,
-   vue, babel 总是抽出单独的配置文件，
-   配置文件支持 json,js,yml,lines 类型。
+预设中`useConfigFiles: true`参数支持将各种工具的配置从`package.json`中提取出来，放到单独的配置文件中。工具的配置文件支持一种或者多种格式（js/json/yaml/lines），每种格式有一个或多个可能的配置文件名称，默认的配置如下。
 
-### extendPackages
+```js
+const defaultConfigTransforms = {
+  babel: new ConfigTransform({
+    file: {
+      js: ['babel.config.js'],
+    },
+  }),
+  postcss: new ConfigTransform({
+    file: {
+      js: ['postcss.config.js'],
+      json: ['.postcssrc.json', '.postcssrc'],
+      yaml: ['.postcssrc.yaml', '.postcssrc.yml'],
+    },
+  }),
+  eslintConfig: new ConfigTransform({
+    file: {
+      js: ['.eslintrc.js'],
+      json: ['.eslintrc', '.eslintrc.json'],
+      yaml: ['.eslintrc.yaml', '.eslintrc.yml'],
+    },
+  }),
+  jest: new ConfigTransform({
+    file: {
+      js: ['jest.config.js'],
+    },
+  }),
+  browserslist: new ConfigTransform({
+    file: {
+      lines: ['.browserslistrc'],
+    },
+  }),
+}
+```
 
-1. 修改现有配置文件，例如 .eslintrc.js
-1. 扩展包 修改 package.json
+使用`api.addConfigTransform(key, options)`可以对更多的工具添加提取文件的转码支持。
+
+如果配置文件已经存在，配置提取时会和新的配置进行合并，然后再输出到配置文件中。每种类型的配置文件合并策略可以参考`configTransform.js`文件。
+
+由于工具配置数据默认保存在`package.json`文件中，所以需要通过修改`package.json`文件对应字段来修改这些工具的配置，或者使用`api.postProcessFile`在文件输出前进行后处理修改。
+
+### 扩展`package.json`
+
+`package.json`文件也是在`writeFileTree`函数执行过程中写入到文件系统，但是这个文件内容是单独处理的，使用`api.extendPackage`[更新](https://cli.vuejs.org/zh/dev-guide/plugin-dev.html#%E6%89%A9%E5%B1%95%E5%8C%85)`package.json`文件，`api.render`函数对它没有作用。
+
+```js
+module.exports = (api, options, rootOptions) => {
+  api.extendPackage({
+    dependencies: {
+      'vue-router-layout': '^0.1.2',
+    },
+
+    scripts: {
+      dev: 'npm run serve',
+    },
+  })
+}
+```
+
+可以添加依赖项、`scripts`脚本以及其他任意字段的更新。在`package.json`文件当前存在的情况下，新增的选项需要与已有选项进行合并，包括这些关键策略。
+
 1. dependencies, devDependencies 版本合并策略，首先版本必须合法，然后将 range 版本替换成合法版本后，使用较新的版本
 1. object 对象递归合并
 1. 数组元素去重合并
 
-1. 修改主文件, injectImports, injectRootOptions
+### 入口文件修改
+
+入口文件可以新增导入语句和`new Vue()`入口函数调用的选项。
+
+```js
+module.exports = (api, options, rootOptions) => {
+  // 添加模块导入语句
+  api.injectImports(api.entryFile, `import router from './router'`)
+  // `new Vue({ router })` 中添加选项
+  api.injectRootOptions(api.entryFile, `router`)
+}
+```
+
+### 插件相互依赖
+
+插件之间可能存在依赖关系，可以使用`api.hasPlugin`检查当前项目中某个插件是否存在，进行相应处理。
 
 ### 交互式问答
 
-1. 交互式问答提醒用户输入参数。
-
-四种类型 prompt
-
-```js
-const prompts = [
-  this.presetPrompt,
-  // 手动模式开启，feature是checkbox类型
-  this.featurePrompt,
-  ...this.injectedPrompts,
-  ...this.outroPrompts,
-]
-```
-
-1.  生成 README.md
-1.  git 提交首个 commit
+插件使用`prompts`模块跟用户进行命令行交互，确定插件选项等数据。`prompts`模块导出一个函数或者对象上`getPrompts`属性，函数返回一组`inquirer`包需要的问题配置。
 
 ```js
 module.exports = (pkg, prompt) => {}
@@ -353,14 +424,50 @@ module.exports = {
 }
 ```
 
+整个`vue-cli`工具创建项目的过程中包括四种类型的交互式提问。
+
+```js
+const prompts = [
+  // 预设选择
+  this.presetPrompt,
+  // 不适用预设，手动模式情况下进行特性(feature)选择
+  this.featurePrompt,
+  // 每种特性对应一个插件，有对应插件参数的选择
+  ...this.injectedPrompts,
+  // 交互完成后提醒是否将当前选择保存为预设
+  ...this.outroPrompts,
+]
+```
+
+### completion hooks
+
+### registry 选项解析
+
 ## @vue/cli-service
 
-`vue serve/build/inspect`
+核心插件`@vue/cli-service`提供了开发用的核心命令。
+
+### 查看 webpack 配置
+
+使用`vue inspect`命令查看当前项目的`webpack`配置。
+
+### 开发与打包
+
+当前项目的开发与打包命令
+
+1. vue serve/vue-cli-service serve
+1. vue build/vue-cli-service build
 
 ## vue config
 
-操作.vuerc 文件
+对当前用户 HOME 目录中的`.vuerc`文件进行操作
 
-## completion hooks
-
-## registry 选项解析
+```
+Options:
+  -g, --get <path>          get value from option
+  -s, --set <path> <value>  set option value
+  -d, --delete <path>       delete option from config
+  -e, --edit                open config with default editor
+  --json                    outputs JSON result only
+  -h, --help                output usage information
+```
