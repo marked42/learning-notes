@@ -1,165 +1,15 @@
 # Node
 
-TODO:
+TOC
 
-1. https://zhuanlan.zhihu.com/p/38187460
-1. https://zhuanlan.zhihu.com/p/38095069
-
-## Contents
-
-1. Fundamentals [2, 3, 5]
-   1. Modules
-   1. Standard IO, console and command-line
-   1. Timers
-   1. Buffer
-   1. Events
-   1. Streams
-   1. FileSystem
-   1. NetWorking
-      1. TCP/IP
-      1. HTTP
-      1. HTTPS
-   1. Process
-   1. Debugging
-   1. NPM
-1. Socket.IO
-1. Connect and middlewares
-1. Restful API
-1. Express [1,2, 4]
-   1. express generator
-   1. View and Template Engine
-   1. Routing
-   1. Form
-   1. Logging
-   1. Real-time Communication
-   1. Security
-   1. Caching and Scaling
-   1. Minification
-   1. Compression
-1. Database
-   1. MySQL
-   1. PostgreSQL
-   1. Redis
-   1. MongoDB and Mongoose
-1. Test Node
-1. Production
-   1. Deployment
-1. Mobile
-   1. Ionic
-
-## CommonJS
-
-1. Import module with `require()` function like `var math = require('math')`.
-1. A module is a javascript file, variable `module` represent current module.
-1. Use `module.exports` or `export` to export variables.
-
-Notice that `exports` is just a reference to `module.exports`, so don't set `exports` variable to anything else, it breaks reference of `exports` to `module.exports`.
-
-![Module Resolution](./module_resolution.png)
-
-1. core module
-1. is relative path or absolute path,
-1. find module in sibling folder `node_modules`, if not found repeat this process in parent folder recursively until root path.
-1. find module in folder specified by environment variable `NODE_MODULES`, throw exception is not found.
-
-![Module Resolution](./module_entry_file.png)
-
-1. If module is a directory
-   1. If there is a file `package.json`, it must contains an element `main` that specifies entry file.
-   1. Other wise entry file is `index.js`
-1. module is a file `module.js`
-
-## connect
-
-`connect` uses middlewares to process request, generate responses and handle errors. A middleware is a function that can be mounted to a certain route path using `connect().use(path, middleware)`. Inside middle `req.url` is relative to mounted route path, so that middlewares can be conviniently remouted to another route path.
-
-1. `req.url = '/'`, actual route path is `path/`
-1. `req.url = '/users/3'`, actual route path is `path/users/3`
-
-Middlewares usually has two forms of signature.
-
-| middleware               | signature                 |
-| ------------------------ | ------------------------- |
-| Normal Middleware        | `(req, res, next)`        |
-| Error Handler Middleware | `(error, req, res, next)` |
-
-A middleware maybe synchronous or asynchronous, so function argument `next` is used indicate its end of execution.
-
-1. When called with zero arguments `next()`, it means current middleware is successfully done and next normal middleware should be executed.
-1. When called with one error argument `next(new Error('opps'))`, it means error happens and following normal middlewares are ignored and next error handler middleware is to be executed.
-
-First argument `error` in error handler middleware receives previously raised error.
-
-Applicatoin should be brokedown to multiple tiny, modular and reusable middlewares as much as possible. So that they are easy to write, test and maitain.
-
-### Built-in Middlewares
-
-#### Cookie Parser
-
-Initially it is `connect.cookieParser`, now it's separte package `cookie-parser`. It supports three types of cookies.
-
-Regular Cookie.
-
-`"Cookie: foo=bar; bar=baz"` is processed and stored in `req.cookies = { foo: 'bar', bar: 'baz'}`
-
-Signed Cookies.
-
-`Cookie: name='luna.PQLM0wNvqOQEObZXUkWbS5m6Wlg'`, signature of cookie will be checked on each reqeust. If check is passed, it's store under `req.signedCookies.name = 'luna'`, otherwise it's under `req.cookies.name = 'luna.PQLM0wNvqOQEObZXUkWbS5m6Wlg'`
-
-JSON Cookies.
-
-`Cookie: cart=j:{\"items\":[1]}.sD5p6xFFBO/4ketA1OP43bcjS3Y`, JSON cookies are prefixed with `j:` and can also be signed.
-
-#### Body Parser
-
-1. JSON Data, `'Content-Type: application/json'`
-1. Regular form data, `'Content-Type: x-www-form-urlencoded'`
-1. multipart form data, `'Content-Type: multipart/form-data'`
-
-## Express
-
-1. View cache setting is disabled by default in development environment. View template is read from disk on every request. This allows you to make changes to a template without restarting the application.
-1. View cache setting is enbled by default in production environment. View template is read from disk on first request, and it's cached then for later access. This reduces uneccessary disk I/O.
-
-![View Resolution Process](./express-view-resolution.png)
-
-```javascript
-const app = express()
-
-app.set('view engine', 'jade')
-
-app.get('/', () => res.render('index')) // 'jade': default
-
-app.get('/feed', () => res.render('rss.ejs')) // 'ejs': infer from suffix
-```
-
-View template references some variables to generate dynamic content. Referenced variables can be passed by several methods.
-
-1. `app.locals` can expose its properties to views in application level. By default, `settings` is the only variable Express exposes to view. `app.locals` is a function for conveniences, users can use it to expose needed variables.
-
-   ```javascript
-   app.locals.settings = app.settings
-
-   // expose variables with app.locals
-   const i18n = { prev: 'Prev', next: 'Next', save: 'Save' }
-   app.locals(i18n)
-   ```
-
-1. `res.locals` can expose its properties to views in resquest level.
-1. When using `res.render()` and `app.render()` like below, properties of second object paramter of `render()` method can be accessed directly in view specified by first paramter.
-
-   ```javascript
-   const title = 'Photos'
-   const photos = ['photo1', 'photo2']
-   const app = express()
-
-   res.render('photos', { title, photos })
-   app.render('photos', { title, photos })
-   ```
-
-![EJS Template Variable Resolution](./ejs_template_variable_resolution.png)
-
-These three kinds of EJS template variable injection mechanism are listed in ascending order, which means `res.render()` and `app.render()` has the highest priority. Variables of higher priority are first searched thus shadowing variables of same name in lower priority.
+1. Node 模块
+   1. Node.js：来一打 C++ 扩展
+1. Buffer
+1. Events
+1. Stream
+1. Child Process
+1. Networking TCP/HTTP
+1. File System fs/path
 
 ## 多进程
 
@@ -169,8 +19,45 @@ These three kinds of EJS template variable injection mechanism are listed in asc
 
 1. `spawn` 创建子进程
 1. `exec` 衍生 shell，在 shell 中执行命令
-1. `execFile` 直接衍生命令，由于没有衍生 shell，因此不支持 I/O 重定向和文件通配等行为。
 1. `fork` 衍生 Node 子进程，自动建立 IPC 通道
+
+命令的定位
+
+绝对路径、相对路径和名称，使用 PATH 环境变量列出的目录中寻找命令。
+
+1. ENOENT 命令不存在
+1. EACCES, EPERM 没有执行权限
+
+#### spawn
+
+输出类型 Buffer 缓存后提供数据多的话占用大量内存，或者使用 Stream（大量数据），数据产生后立马消费，响应更及时。
+
+```js
+var cp = require('child_process')
+var child = cp.spawn('echo', ['hello', 'world'])
+child.on('error', console.error)
+child.stdout.pipe(process.stdout)
+child.stderr.pipe(process.stderr)
+```
+
+#### execFile
+
+`execFile` 直接衍生命令，由于没有衍生 shell，因此不支持 I/O 重定向和文件通配等行为，异步回掉参数中 stdout, stderr 是字符串类型。
+
+默认 shell: false，不使用 shell。
+
+#### exec
+
+超时机制 timeout、缓存机制 maxBuffer，异步回掉函数参数
+
+shell 参数默认是`/bin/sh`(unix) 或者`process.env.ComSpec` (Windows)
+
+command 参数指定的命令在 shell 中执行，所以特殊字符需要转义，shell 的重定向文件通配符等所有功能都支持。
+pipes, redirects, file blobs
+
+```js
+exec('echo "The \\$HOME variable is $HOME"')
+```
 
 同步版本
 
@@ -178,15 +65,44 @@ These three kinds of EJS template variable injection mechanism are listed in asc
 1.  `execSync`
 1.  `execFileSync`
 
+#### detach
+
+`detached: true `子进程与父进程脱离，父进程结束时子进程还可以独立运行。主进程仍然保留有子进程的引用，所以不会自动结束，需要
+
+1. 需要手动结束 process.exit()
+1. 等待子进程结束后自动结束
+1. 使用`child.unref()`使的子进程从父进程的引用中删除，父进程不用等待子进程可以直接结束。
+
+```js
+var fs = require('fs')
+var cp = require('child_process')
+var outFd = fs.openSync('./longrun.out', 'a')
+var errFd = fs.openSync('./longrun.err', 'a')
+var child = cp.spawn('./longrun', [], {
+  detached: true,
+  stdio: ['ignore', outFd, errFd],
+})
+child.unref()
+```
+
 #### IO 处理
+
+https://nodejs.org/api/child_process.html#child_process_options_stdio
 
 #### 环境变量
 
 #### shell
 
-#### ChildProcess
+#### 事件
 
-#### 消息序列化
+1. spawn 子进程初始化成功
+1. message 子进程调用 process.send()时
+1. error 子进程无法被复制、杀死、发送消息
+1. exit 正常或者异常退出
+1. close 输入输出流
+1. disconnect IPC 通道关闭 主进程中调用`subprocess.disconnect()`或者子进程中调用`process.disconnect()`。
+
+#### ChildProcess
 
 ### 进程间通信
 
@@ -201,7 +117,9 @@ const child = child
 process.on('message', function (m) {})
 ```
 
-### 发送句柄（handle）
+#### 消息序列化
+
+#### 发送句柄（handle）
 
 http://nodejs.cn/api/child_process.html#child_process_subprocess_send_message_sendhandle_options_callback`
 
@@ -242,31 +160,25 @@ process.on('message', function (msg, server) {})
 
 ### 集群稳定性
 
-进程事件
-
-1. error 无法被复制、杀死、发送消息
-1. exit 正常或者异常退出
-1. close 输入输出流
-1. disconnect IPC 通道关闭
-
 稳定性
 
+1. message, exit, error 事件处理，error 后主动结束子进程
 1. 子进程异常处理 自杀信号、断开连接超时限制
 1. 子进程自动重启 限量重启
+1. 进程池
+1. 负载均衡，平均分配计算任务 Round-Robin
 1. 日志
 
-### cluster
+### cluster 模块
 
 封装了 child_process 和 net 模块功能
 
-## 数据流 Stream
-
 ## Books
 
+1. [Process](https://nodejs.org/api/process.html)
+1. [Child Process](https://nodejs.org/api/child_process.html#child_process_class_childprocess)
 1. _Node.js In Action_
 1. _Node.js In Practice_
 1. _Node.js 开发指南_
 1. _Web Development with Node and Express_
-1. _Learning Node 2e_
-1. _Learning Node.js for Mobile Appliacation Development_
 1. _Node.js Design Patterns_
