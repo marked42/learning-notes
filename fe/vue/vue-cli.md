@@ -2,9 +2,9 @@
 
 ## 介绍
 
-`vue-cli` 3.0 是`vue`官方提供的命令行工具，内部使用`webpack`作为开发打包工具，提供前端项目教授架的集成解决方案。
+`vue-cli` 3.0 是`vue`官方提供的命令行工具，内部使用`webpack`作为开发打包工具，提供前端项目脚手架的集成解决方案。
 
-React 的工具`create-react-app`使用`eject`方式存在一个比较大的问题，一旦项目`eject`后，项目配置就跟`create-react-app`完全没关系了，需要用户手动维护所有配置，后续`create-react-app`模板的更新不能方便的应用到`eject`后的项目。
+React 的工具`create-react-app`使用`eject`方式存在一个比较大的问题，一旦项目`eject`后，项目配置就跟`create-react-app`完全没关系了，需要用户手动维护所有配置，后续`create-react-app`模板的更新不能方便的应用到项目上。
 
 `vue-cli`使用插件来提供脚手架项目的所有功能，`webpack`配置和模板内置在插件中，所以通过插件升级可以方便的使用新的配置与功能。
 
@@ -13,12 +13,12 @@ React 的工具`create-react-app`使用`eject`方式存在一个比较大的问�
 1. `vue create project` - 创建新脚手架项目
 1. `vue add <plugin>` - 在当前项目安装并调用插件
 1. `vue invoke <plugin>` - 在当前项目调用插件
-1. `vue serve [entry]` - 零配置开发模式启动某个`.js`或者`.vue`为入口的项目，内部使用`vue-cli-service serve`实现。
-1. `vue build [entry]` - 零配置打包项目
+1. `vue serve [entry]` - 零配置开发模式快速启动`[entry]`为入口的项目
+1. `vue build [entry]` - 零配置快速打包`[entry]`为入口的项目项目
 1. `vue inspect` - 输出当前项目最终生效的`webpack`配置
 1. `vue config` - 设置当前用户`.vuerc`配置
 
-这些命令中`vue create/add/invoke`关联紧密，`invoke`是在当前项目中调用指定名称的插件，作用是执行插件的`generator`模块，重新生成脚手架文件；`add`命令相比于`invoke`多了一步安装插件库的操作，先安装后调用；`create`命令使用现有或者用户输入的预设（preset），确定要安装的插件列表和对应插件选项，初始化项目`package.json`并且安装和调用所有插件。
+这些命令中`vue create/add/invoke`关联紧密，`invoke`是在当前项目中调用指定名称的插件，作用是执行插件的`generator`模块，重新生成脚手架文件；`add`命令相比于`invoke`多了一步安装插件的操作，先安装后调用；`create`命令使用现有或者用户输入的预设（preset），确定要使用的插件列表及其选项，初始化项目`package.json`并且安装和调用所有插件。
 
 `vue-cli`包含的库分类如下：
 
@@ -90,7 +90,7 @@ React 的工具`create-react-app`使用`eject`方式存在一个比较大的问�
 
 ## `vue create`
 
-`vue create`命令是`vue-cli`创建项目的主要命令，它的流程包括了`vue add`和`vue invoke`命令的执行流程，所以主要对其进行分析。
+`vue create`命令是`vue-cli`创建项目的命令，它的流程包括了`vue add`和`vue invoke`命令的执行流程，所以主要对其进行分析。
 
 `vue create`命令支持的参数列表如下供参考。
 
@@ -114,7 +114,7 @@ Options:
 
 ### 1. 准备工作
 
-检查创建项目指定的目录名称是否合法，目录名称只能小写字母、'-'、'@'、'/'且不能太长，具体规则参考[文档](https://github.com/npm/validate-npm-package-name#naming-rules)，
+检查创建项目指定的目录名称是否合法，目录名称只能包含字母、'-'、'@'、'/'且不能太长，具体规则参考[文档](https://github.com/npm/validate-npm-package-name#naming-rules)，
 
 ```js
 const validatePackageName = require('validate-npm-package-name')
@@ -146,7 +146,7 @@ const expectedResult = {
 1. 默认预设 `vue create --default`
 1. 命令行指定选项 `vue create --preset preset-name` 可以指定[远程](https://cli.vuejs.org/zh/guide/plugins-and-presets.html#%E8%BF%9C%E7%A8%8B-preset)或者本地的预设。
 1. 行内预设 `vue create --inlinePreset {}` 直接使用 JSON 对象指定预设
-1. 交互式选择 命令行参数中未指定预设时会提示用户选择默认、之前保存的预设（.vuerc 文件中保存）或者手动选择。手动选择的过程是选择了若干个功能，引入相应的插件，并确定插件的选项，手动选择的结果可以保存到.vuerc 中再次使用。
+1. 交互式选择 命令行参数中未指定预设时会提示用户选择默认、之前保存的预设（.vuerc 文件中保存）或者手动选择。手动选择的过程是选择了若干个功能，每个功能对应一个插件，手动选择的结果可以保存到`.vuerc` 中再次使用。
 
 预设解析完成后需要做一些额外处理。
 
@@ -182,7 +182,7 @@ const expectedResult = {
 
 解析插件时如果`prompts: true`，会再次提醒用户手动输入对应插件的选项。
 
-解析插件完成后进行回调函数注册，回调注册时在插件的`generator`模块到处的`hooks`函数属性中进行。回调函数分为两类：
+解析插件完成后进行回调函数注册，回调注册时在插件的`generator`模块导出的`hooks`函数属性中进行。回调函数分为两类：
 
 1. 通过`afterInvoke`注册的`invokeCbs`列表，对应命令行参数直接（`vue add/invoke`的插件名参数）或者预设（间接）中指定的插件列表。
 1. 通过`afterAnyInvoke`注册的`anyInvokeCbs`，对应`package.json`中包含的所有插件列表。
@@ -197,7 +197,7 @@ module.exports.hooks = (api, options, rootOptions, pluginIds) => {
 }
 ```
 
-就是说如果想要插件的回调只在`vue create/add/invoke`命令行指定的情况下才执行，使用`afterInvoke`；如果想要插件回调任何时候任何情况下都执行使用`afterAnyInvoke`。
+就是说如果想要插件的回调只在`vue create/add/invoke`令行指定（通过 preset 或者 plugin 参数）的情况下才执行，使用`afterInvoke`；如果想要插件回调任何时候任何情况下都执行使用`afterAnyInvoke`。
 
 #### 插件运行
 
@@ -243,14 +243,27 @@ Array<{
 └── ui.js         # Vue UI 集成（可选）
 ```
 
-`generator`提供了生成模板文件和配置`package.json`的功能，`prompts`提供了用户交互提问的功能，用来辅助`generator`模块。
+`generator`提供了生成模板文件和配置`package.json`的功能； `prompts`提供了用户交互提问的功能，用来辅助`generator`模块；
 `ui`模块对应了使用 Web 界面指定配置的功能。
 
 #### generator
 
 一个`generator`模块就是一个函数，通过使用提供的插件`api`来实现所有的插件功能。
 
-```js
+```ts
+/**
+ * options 是通过命令行或者preset指定的插件的参数
+ * rootOptions 是多个插件共用，包含了项目基础信息。
+ * */
+interface RootOptions {
+  projectName: string
+  vueVersion: '2' | '3'
+  router: boolean
+  vuex: boolean
+  cssPreprocessor: boolean
+  plugins: any[]
+}
+
 module.exports = (api, options, rootOptions) => {
   api.render('./template')
 
