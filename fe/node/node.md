@@ -7,9 +7,31 @@ TOC
 1. Buffer
 1. Events
 1. Stream
+1. File System fs/path
 1. Child Process
 1. Networking TCP/HTTP
-1. File System fs/path
+
+## Stream
+
+相比于 Buffer 空间更节省，时间上更快，可组合（composable）
+
+```js
+// non-flowing mode
+process.stdin
+  .on('readable', () => {
+    process.stdin.read()
+
+    // 内部buffer没有更多可读取的数据时返回null
+    while ((chunk = process.stdin.read()) !== null) {
+      console.log(`Chunk Read: length ${chunk.length}, ${chunk.toString()}`)
+    }
+  })
+  // EOF  Ctrl+D on linux, Ctrl+Z on windows
+  .on('end', () => {})
+
+// flowing mode
+process.stdin.on('data', (buffer) => {})
+```
 
 ## 多进程
 
