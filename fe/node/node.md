@@ -7,9 +7,83 @@ TOC
 1. Buffer
 1. Events
 1. Stream
+1. File System fs/path
 1. Child Process
 1. Networking TCP/HTTP
-1. File System fs/path
+
+## Stream
+
+相比于 Buffer 空间更节省，时间上更快，可组合（composable）
+
+```js
+// non-flowing mode
+process.stdin
+  .on('readable', () => {
+    process.stdin.read()
+
+    // 内部buffer没有更多可读取的数据时返回null
+    while ((chunk = process.stdin.read()) !== null) {
+      console.log(`Chunk Read: length ${chunk.length}, ${chunk.toString()}`)
+    }
+  })
+  // EOF  Ctrl+D on linux, Ctrl+Z on windows
+  .on('end', () => {})
+
+// flowing mode
+process.stdin.on('data', (buffer) => {})
+```
+
+\_read()
+read()
+push()
+readable
+
+\_write()
+write()
+end
+
+duplex
+
+transform: transform flush 跨多个 chunk
+
+```js
+// callback是异步调用的结束回调
+_transform(chunk, encoding, callback)
+_flush(callback)
+```
+
+如何维持 chunk 的顺序
+
+stream.PassThrough
+
+readable.pipe(writable, [options])，
+
+1. stream1 的数据自动写入到 stream2，
+1. pipe 返回 stream2 本身，如果 stream2 同时又是 readable 的话可以形成链式调用。
+1. stream1 的错误不会传递给 stream2，error 事件回调只会处理 stream2 本身产生的错误
+1. 如果 stream2 本身出错，抛出 error 事件，pipe 会自动断开
+
+```js
+stream1.pipe(stream2).on('error', function () {})
+```
+
+1. from2-array
+1. through2
+1. readable-stream
+
+作为流程控制的手段
+
+1. sequential 多个文件顺序异步写入一个文件
+1. parallel 多个文件并行异步写入一个文件 类似于 `Promise.all()`
+1. limited parallel
+1. ordered parallel 多个文件并行异步写入一个文件，且保持文件原有顺序 through2-parallel
+
+控制流
+
+1. combined stream 包 `multipipe`/ `combine-stream`，所有错误提升出来，pipe 不处理错误
+1. forking stream
+1. merging stream create tarball from multiple directories
+1. multiplexing/multiplexer/mux demultiplexing/ demultiplexer/demux
 
 ## 多进程
 
