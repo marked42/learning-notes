@@ -2,14 +2,145 @@
 
 TOC
 
-1. Node 模块
+书籍
+
+1. 深入浅出 Nodejs
+1. Smashing NodeJs Javascript Everywhere
+1. NodeJs Design Patterns
+1. NodeJs High Performance
+1. NodeJs In Action
+1. NodeJs In Practice
+1. NodeJs 开发指南
+
+专题
+
+1. Node 模块机制
+   1. ch 1.2
    1. Node.js：来一打 C++ 扩展
-1. Buffer
-1. Events
-1. Stream
+   1. 2.4/2.15/3.1/3.5/3.6 sharing code with browser
+   1. 6.13
+   1. 7.3.1/7.3.3/7.4.1/7.6.1
 1. File System fs/path
-1. Child Process
+   [x]. ch 1.3
+   1. 2.3/2.5
+   1. 6.6
+   1. 7.4.4
+1. 异步编程
+   1. 1.4
+   1. 3.2
+   1. 5.3
+   1. 7.6.2
+1. v8 内存管理
+   1. 1.5
+   1. 4.3
+1. Buffer
+   1. 1.6
+   1. 6.3
+1. Events
+   1. 6.4
+   1. 7.4.3
+1. Stream
+   1. 3.3
+   1. 6.5
+1. 多进程 Child Process
+   1. 1.9
+   1. 6.8
 1. Networking TCP/HTTP
+   1. 1.7
+   1. 2.6/2.7/2.10/2.11
+   1. 5.13
+   1. 6.7
+1. web 服务
+   1. 1.8
+   1. 2.8/2.9
+   1. 5
+   1. 6.9
+   1. 7.5
+1. 性能
+   1. 3.7/3.8
+   1. 4
+1. 数据库
+   1. 2.12/2.13/2.14
+   1. 5.5
+1. 测试
+   1. 1.10
+   1. 2.16
+   1. 5.10
+   1. 6.10
+   1. 7.3.4
+1. 产品化
+   1. 1.11
+   1. 6.12
+   1. 7.6.3
+1. 设计模式
+   1. 3.4
+
+## 文件系统
+
+异步 IO 的机制
+
+轮询技术
+
+1. read
+1. select
+1. poll
+1. epoll
+1. kqueue
+
+线程池与阻塞 IO 模拟单个线程的异步 IO
+
+1. AIO
+1. libuv \*nix 自定义线程池 windows IOCP
+
+异步 IO 不仅仅指文件，硬件、套接字所有计算机资源都可以被抽象成文件。
+
+1. process.nextTick idle 观察者
+1. setTimeout/setInterval IO 观察者
+1. setImmediate check 观察者
+
+事件循环
+
+## Buffer
+
+二进制字节流
+
+Buffer  占用的内存不在 v8 的堆内存中，而是有 Node 的 C++层面实现内存申请与分配，采用 slab 分配机制，8KB 以下是小对象，以上是大对象。
+
+小对象分配时会首先共用一个 `Buffer.poolsize`(默认为 8KB) 大小的 Slab，如果 Slab 中还有剩余空间则直接分配，Buffer 记录对象 parent 记录了所在 slab, offset 和 length 记录位置和偏移。当前 slab 空间不够时会申请新的 slab。
+
+大对象直接分配指定大小的 slab。
+
+```js
+// 不使用pool，分配新内存，初始化fill
+Buffer.alloc(size[, fill[, encoding]])
+
+// 使用内置的pool,不初始化
+Buffer.allocUnsafe(size)
+
+// 不使用pool，不初始化
+Buffer.allocUnsafeSlow(size)
+```
+
+Buffer 创建或者写入字符串数据是必须指定编码，同一个 Buffer 不同的位置可以使用不同的编码。
+
+默认情况下新建的 Buffer 对应内存中不重置为 0，可以使用 `--zero-fill-buffers`参数启动 node，强制清空，但是性能影响较大。
+
+`Buffer.allocUnsafe()` `Buffer.allocUnsafeSlow`。
+
+内置支持的字符串编码，可以使用`Buffer.isEncoding(encoding)`判断是否支持编码，中文编码不支持，需要使用其他包`iconv`/`iconv-lite`实现。
+
+ASCII
+UTF-8
+UTF-16LE/UCS-2
+Base64
+Binary
+Hex
+
+对于存储多字节文本编码的两个 Buffer 进行拼接时，可能存在读取的字节长度刚好将一个字符的编码截断的情况，解码为字符串时就会出现乱码，对于 utf-8 编码可以`buffer.setEncoding('utf-8')`，内部解码器保证不会截断编码，而将剩余不能构成一个字符的数据保存下来和后面的数据连在一起。这种方式支持内置的多字节编码 utf-8,utf-16,ucs-2。
+
+也可以使用`Buffer.concat`将多个 Buffer 拼接后统一进行解码，这种方式支持任意类型的多字节编码。
+
+Blob, TypedArray, ArrayBuffer, DataView, Buffer
 
 ## Stream
 
@@ -83,7 +214,9 @@ stream1.pipe(stream2).on('error', function () {})
 1. combined stream 包 `multipipe`/ `combine-stream`，所有错误提升出来，pipe 不处理错误
 1. forking stream
 1. merging stream create tarball from multiple directories
-1. multiplexing/multiplexer/mux demultiplexing/ demultiplexer/demux
+1. multiplexing/multiplexer/mux demultiplexing/ demultiplexer/demux 实现一个 远程日志的多路复用案例，第一个字节代表 channelID，后四个代表长度，在后边是内容的 packet 格式，packet switching。
+
+https://www.freecodecamp.org/news/node-js-streams-everything-you-need-to-know-c9141306be93/
 
 ## 多进程
 
@@ -246,13 +379,3 @@ process.on('message', function (msg, server) {})
 ### cluster 模块
 
 封装了 child_process 和 net 模块功能
-
-## Books
-
-1. [Process](https://nodejs.org/api/process.html)
-1. [Child Process](https://nodejs.org/api/child_process.html#child_process_class_childprocess)
-1. _Node.js In Action_
-1. _Node.js In Practice_
-1. _Node.js 开发指南_
-1. _Web Development with Node and Express_
-1. _Node.js Design Patterns_
