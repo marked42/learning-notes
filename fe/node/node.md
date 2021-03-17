@@ -22,7 +22,7 @@ TOC
    1. 7.3.1/7.3.3/7.4.1/7.6.1
 1. File System fs/path
    [x]. ch 1.3
-   1. 2.3/2.5
+   [x]. 2.3/2.5
    1. 6.6
    1. 7.4.4
 1. 异步编程
@@ -97,6 +97,10 @@ TOC
 1. process.nextTick idle 观察者
 1. setTimeout/setInterval IO 观察者
 1. setImmediate check 观察者
+
+process.stdin 默认是 default 状态，无法读取数据，进程执行完会自动退出，使用`process.stdin.resume()`可以恢复 flowing mode 可以读取数据。
+
+watch file api
 
 事件循环
 
