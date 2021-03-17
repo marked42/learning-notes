@@ -77,7 +77,7 @@ TOC
 
 ## 文件系统
 
-异步 IO 的机制
+异步 IO 的机制 libuv
 
 轮询技术
 
@@ -88,6 +88,8 @@ TOC
 1. kqueue
 
 线程池与阻塞 IO 模拟单个线程的异步 IO
+
+https://nodejs.org/en/docs/guides/blocking-vs-non-blocking/
 
 1. AIO
 1. libuv \*nix 自定义线程池 windows IOCP
@@ -103,6 +105,37 @@ process.stdin 默认是 default 状态，无法读取数据，进程执行完会
 watch file api
 
 事件循环
+
+### 创建临时目录
+
+```js
+// 获取系统的临时目录路径 /var/folders/pt/_nynw_z11xx2fvyq8p8qs0fc0000gn/T
+const temp = os.tmpdir()
+
+// 路径前缀后边添加临时的6位字母数字组成
+fs.mkdtemp(temp + '-back', (err, directory) => {
+  if (err) {
+    throw err
+  }
+
+  // 成功创建临时目录 /var/folders/pt/_nynw_z11xx2fvyq8p8qs0fc0000gn/T-backVg7E4P
+  console.log('directory', directory)
+})
+```
+
+需要创建临时文件的话在临时目录继续创建即可。
+
+### API 的形式
+
+1. 参数是文件路径 stat
+1. 参数是文件路径 lstat 返回软链接文件本身的文件信息
+1. 参数是文件描述符 fstat 返回文件对应的文件，软链接文件被展开找到最终指向的文件
+
+同步
+
+1. 异步 `fs.stat(path[, options], callback)`
+1. 同步 `fs.statSync(path[, options])`
+1. Promise `fsPromises.stat(path[, options])`
 
 ## Buffer
 
@@ -383,3 +416,7 @@ process.on('message', function (msg, server) {})
 ### cluster 模块
 
 封装了 child_process 和 net 模块功能
+
+## HTTP
+
+llhttp https://github.com/nodejs/llhttp
