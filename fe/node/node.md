@@ -14,17 +14,6 @@ TOC
 
 专题
 
-1. Node 模块机制
-   1. ch 1.2
-   1. Node.js：来一打 C++ 扩展
-   1. 2.4/2.15/3.1/3.5/3.6 sharing code with browser
-   1. 6.13
-   1. 7.3.1/7.3.3/7.4.1/7.6.1
-1. File System fs/path
-   [x]. ch 1.3
-   [x]. 2.3/2.5
-   1. 6.6
-   1. 7.4.4
 1. 异步编程
    1. 1.4
    1. 3.2
@@ -75,9 +64,176 @@ TOC
 1. 设计模式
    1. 3.4
 
+## Node 模块机制
+
+1.  3.1/3.5/3.6 sharing code with browser
+1.  6.13
+1.  7.3.1/7.3.3/7.4.1/7.6.1
+1.  Node.js：来一打 C++ 扩展
+
+[CommonJS 模块机制 Wiki](https://zh.wikipedia.org/wiki/CommonJS#cite_note-7)
+[Official Spec](https://github.com/commonjs/commonjs)
+[Modules 1.1.1](http://wiki.commonjs.org/wiki/Modules/1.1.1)
+
+1. require
+   1. 使用`require(module-name)`函数导入模块
+   1. `require.main` 只读，等同于`module`
+   1. `require.paths`
+1. module context
+   1. 使用`exports`导出,`module`代表模块本身，`module.id`是模块的 id，`require(module.id)`返回同一个模块
+   1. module.id
+   1. module.uri
+1. module identifiers
+   1. 驼峰式，'.' '..'
+   1. 可以没有文件后缀`.js`
+   1. `/`分隔
+   1. 相对路径模块`.`,`..`开头，其他形式是顶层模块，相对模块相对于`require`所在的文件进行解析，顶层模块相对于项目根目录解析
+
+### Node 模块实现机制
+
+核心模块和文件模块，核心模块直接编译执行。
+
+1. 路径分析
+1. 文件定位
+1. 编译执行
+
+#### 路径分析与文件定位
+
+Node 有四种类型路径
+
+1. 核心模块
+1. `.`/`..`的相对路径文件模块
+1. `.`/`..`的绝对路径文件模块
+1. 非路径形式的文件模块，使用`module.paths`路径，从当前目录中`node_modules`子目录中查找，逐层向上
+
+对于不存在扩展名的情况依次尝试`.js`、`.json`、`.node`
+
+1. 可能找到一个文件
+1. 目录 -> 尝试查找 package.json 文件的 main 字段指定的入口文件，不存在的话依次使用`index.js`，`index.json`，`index.node`。
+   1. 使用本地 node_modules，逐层向上，
+   1. 使用 NODE_PATH 环境变量指定的全局 node_modules 目录
+1. 不存在的情况抛出错误
+
+[require](http://nodejs.cn/api/modules.html#modules_all_together)
+
+```js
+interface Require {
+  (id: string): any;
+  resolve: RequireResolve;
+  cache: Dict<NodeModule>;
+  /**
+   * @deprecated
+   */
+  extensions: RequireExtensions;
+  main: Module | undefined;
+}
+```
+
+#### 模块编译
+
+每个模块都是一个对象
+
+```js
+function Module(id, parent) {
+  this.id = id
+  this.exports = {}
+  this.parent = parent
+  if (parent && parent.children) {
+    parent.children.push(this)
+  }
+  this.filename = null
+  this.loaded = false
+  this.children = []
+}
+```
+
+如果想要整体导出，使用`module.exports = value`，因为`exports`是一个函数形参，无法改变外部的变量
+
+核心模块分为 JS 模块和 C/C++模块
+
+```js
+function NativeModule(id) {
+  this.filename = id + '.js'
+  this.id = id
+  this.exports = {}
+  this.loaded = false
+}
+NativeModule._source = process.binding('natives')
+NativeModule._cache = {}
+```
+
+#### 缓存与循环依赖
+
+模块加载第一次就会进行缓存，再次加载时从缓存中读取，因此允许循环依赖的情况出现。
+
+使用`require`的模块会被缓存，缓存使用模块被解析的文件名作为 key，所以使用不同的路径名，但是路径经过解析后相同的话，是同一个模块。
+
+```js
+// 同一个模块
+const mod1 = require('./test')
+const mod1 = require('./test.js')
+
+// 在不区分大小写的文件系统上，这两个模块指向同一个文件，但是使用的解析得到的路径名不同，所以同一个文件会被加载两次。
+const mod1 = require('./test')
+const mod1 = require('./TEST')
+```
+
+使用`new Module`创建模块可以使每个模块实例都是独立的
+
+`require.main` 入口模块
+
+#### 内建 C/C++模块
+
+编写
+
+### 其他模块
+
+AMD
+
+```js
+define(id?, dependencies?, factory);
+
+// 兼容commonjs的写法
+define(function (require, exports, module){
+  var someModule = require("someModule");
+  var anotherModule = require("anotherModule");
+
+  someModule.doTehAwesome();
+  anotherModule.doMoarAwesome();
+
+  exports.asplode = function (){
+    someModule.doTehAwesome();
+    anotherModule.doMoarAwesome();
+  };
+});
+```
+
+UMD
+
+```js
+;(function (name, definition) {
+  var hasDefine = typeof define === 'function'
+  var hasExports = typeof module !== 'undefined' && module.exports
+
+  // amd
+  if (hasDefine) {
+    define(name, definition)
+    // commonjs
+  } else if (hasExports) {
+    module.exports = definition()
+    // 全局
+  } else {
+    this[name] = definition()
+  }
+})('hello', function () {
+  var hello = function () {}
+  return hello
+})
+```
+
 ## 文件系统
 
-异步 IO 的机制
+### 异步 IO 的机制
 
 轮询技术
 
@@ -89,6 +245,12 @@ TOC
 
 线程池与阻塞 IO 模拟单个线程的异步 IO
 
+性能测试 ApacheBench
+
+```bash
+ab -n 1000 -c 100 'http://localhost:3000'
+```
+
 1. AIO
 1. libuv \*nix 自定义线程池 windows IOCP
 
@@ -98,11 +260,56 @@ TOC
 1. setTimeout/setInterval IO 观察者
 1. setImmediate check 观察者
 
+事件循环
+
 process.stdin 默认是 default 状态，无法读取数据，进程执行完会自动退出，使用`process.stdin.resume()`可以恢复 flowing mode 可以读取数据。
+
+argv, argv0, cwd, env, exit, on('signal'), ansi escape code
+
+### 监控文件变化
 
 watch file api
 
-事件循环
+fs.watch 性能高，使用操作系统提供的功能，但是存在兼容性问题
+fs.watchFile 使用`stat`方法轮询实现，性能低，兼容性好。
+
+### 递归的文件操作
+
+1. 递归创建目录或者文件
+1. 正则匹配目录下所有文件，递归形式的实现由于 Javascript 不支持尾递归在嵌套层次很深的情况下可能会爆栈
+
+### 文件锁
+
+[文件锁机制](https://www.perlmonks.org/?node_id=7058)，操作系统提供的[强制文件锁](https://www.kernel.org/doc/Documentation/filesystems/mandatory-locking.txt)或者协议机制的文件锁。`flock`三方模块`node-fe-ext`提供的机制。
+
+例如要对`config.json`文件加锁，协议机制有两种做法。
+
+1. 使用文件`config.lock`代表`config.json`被锁定。所有进程在读写`config.json`之前必须首先检测`config.lock`是否存在，已经存在的话代表文件`config.json`被锁定，不进行任何操作；如果不存在的话通过独占模式创建`config.lock`文件进行锁定。必须使用独占模式（O_EXCL）打开文件`config.lock`，保证此操作的原子性。
+
+   ```js
+   // x代表O_EXCL
+   fs.writeFile('config.lock', process.pid, { flags: 'wx' }, (err) => {
+     if (err) {
+       return console.error(err)
+     }
+   })
+   ```
+
+1. 锁文件存在于网络设备上的话存在兼容性问题，某些系统在网络设备上不支持`O_EXCL`标志，可以使用`mkdir`创建文件夹，这个操作是原子性的，且没有兼容性问题。
+   ```js
+   fs.mkdir('config.lock', (err) => {
+     if (err) {
+       return console.error(err)
+     }
+     fs.writeFile('config.lock/' + process.pid, (err) => {
+       if (err) {
+         return console.error(err)
+       }
+     })
+   })
+   ```
+
+对于文件操作完成后和进程退出时需要解除文件锁，删除掉对应的锁文件（夹）。
 
 ## Buffer
 
