@@ -14,9 +14,6 @@ TOC
 
 专题
 
-1. v8 内存管理
-   1. 1.5
-   1. 4.3
 1. Networking TCP/HTTP
    1. 1.7
    1. 2.6/2.7/2.10/2.11
@@ -213,6 +210,59 @@ UMD
   return hello
 })
 ```
+
+## V8 内存管理
+
+设置新生代老生代内存限制。
+
+```bash
+node --max-old-space-size=2048 --max-new-space-size=64
+```
+
+新生代 - Scavenge 算法，新生代内容空间划分为两个 semi-space 各占一半，一个是 from 空间，一个是 to 空间，from 空间大小不够分配新内存时触发 minor gc，将 from 空间的对象复制到 to 空间，然后 from 空间和 to 空间互换角色。
+
+老生代 - 对象生存时间比较久，内存占用比较大，使用标记清除算法（mark & sweep），将不在需要的对象内存释放，会存在较多内存碎片，可能存在剩余空间总的尺寸足够，但是不存在连续的内存可以分配；改进的使用标记整理算法（mark & compact），触发 full gc 的时候将所有存活的对象复制到空间的一边，剩余空间留在另一边，避免空间碎片。
+
+老生代 full gc 时 javascript 执行线程必须暂停(stop the world)，防止垃圾回收造成数据不一致。一次 full gc 可能造成秒级别的停顿，增量式标记(incremental marking)方法一次只对老生代部分进行标记，将一次较长停顿的 full gc 替换为若干次较短时间的 full gc。
+一次标记完成后，所有需要被清理的内存可以被确定，懒清理（lazy sweep）策略只根据需要清理部分内存，而不是清理全部。
+
+新生代对象到可能会被提升到老生代中
+
+1. 该对象已经被 scavenge 回收过一次
+1. to space 已分配的内存占了其 25%的大小，后续 to 空间分配内存可能会比较紧张，可以直接提升到老生代中。
+
+命令行输出 gc 日志。
+
+```bash
+node --trace_gc -e "var a = [];for (var i = 0; i < 1000000; i++) a.push(new Array(100));" > gc.log
+```
+
+查看内存使用情况。
+
+```js
+// 进程的内存占用情况
+//  process.memoryUsage()
+{
+   // resident set size 常驻内存
+   rss: 13852672,
+   // v8 总的堆内存
+   heapTotal: 6131200,
+   // v8 已使用的堆内存
+   heapUsed: 2757120
+}
+
+// 操作系统内存占用
+os.totalmem()
+os.freemem()
+```
+
+node 的常驻内存除了 v8 的堆内存，另外的部分称作堆外内存，不受 v8 的内存分配大小限制，例如 Buffer。
+
+`EventEmitter`的使用需要注意添加的监听函数（listener）在使用完成后需要主动移除，否则会导致`EventEmitter`本身不会被垃圾回收。
+
+使用内存作为缓存时需要注意过期机制，例如 LRU，限制缓存大小无限增长。
+
+内存泄漏查看工具 v8-profiler,chrome 的性能工具， node-heapdump, node-memwatch
 
 ## 文件系统
 
