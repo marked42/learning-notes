@@ -14,11 +14,6 @@ TOC
 
 专题
 
-1. Networking TCP/HTTP
-   1. 1.7
-   1. 2.6/2.7/2.10/2.11
-   1. 5.13
-   1. 6.7
 1. web 服务
    1. 1.8
    1. 2.8/2.9
@@ -28,9 +23,6 @@ TOC
 1. 性能
    1. 3.7/3.8
    1. 4
-1. 数据库
-   1. 2.12/2.13/2.14
-   1. 5.5
 1. 测试
    1. 1.10
    1. 2.16
@@ -41,8 +33,6 @@ TOC
    1. 1.11
    1. 6.12
    1. 7.6.3
-1. 设计模式
-   1. 3.4
 
 ## Node 模块机制
 
@@ -659,6 +649,159 @@ process.on('message', function (msg, server) {})
 
 封装了 child_process 和 net 模块功能
 
-## HTTP
+## Networking
+
+### TCP
+
+#### 数据帧格式
+
+传输二进制字节流，数据帧 packet， 固定 20 个字节的头部和数据部分
+
+1. 2 个字节 源端口 port ，2 \*\* 16，端口号范围 0 ~ 65535
+1. 2 个字节 目标端口
+1. 4 个字节 序号
+1. 4 个字节，确认号
+1. 2 个字节
+   1. 数据偏移 数据部分到数据帧起始处的偏移量，也就是报文头部的长度，20 个字节。
+   1. ACK 建立连接后的所有数据帧 ACK 都必须设置为 1
+   1. 同步 SYN， SYN=1,ACK=0 是请求建立连接保温，SYN=1,ACK=1 同意建立连接的响应报文。
+   1. FIN, FIN=1
+1. 2 个字节 窗口
+1. 2 个字节 校验和
+
+1. 面向连接 connection，保证数据的顺序
+1. 流量控制 flow control
+1. 拥塞控制 congestion control
+
+nagle's algorithm socket.setNoDelay(true)
+
+三次握手
+
+1. 客户端将 SYN 设置为 1，产生随机值 seq=J，将请求发送个服务器端，客户端进入 SYN_SENT 状态
+1. 服务器端收到请求 SYN 为 1 客户端希望建立连接，将 SYN,ACK 都设置为 1，ack=J+1，产生 seq=K 随机值，发给客户端，服务器进入 SYN_RCVD 状态
+1. 客户端收到数据，检查 ack 是否为 J+1，是的话讲 ACK 设置为 1，ack=K+1 发送给服务器，服务器确认 ack=K+1，完成三次握手，都进入 ESTABLISHED 状态。
+
+服务器在第三次握手后才确认与客户端建立连接，防止客户端在第一次请求滞留网络导致超时后自动发起第二次连接请求，这样会到造成服务器与客户端重复建立连接。
+
+四次挥手
+
+1. 第一次 客户端设置 seq 和 ACK，向服务器发送 FIN，客户端进入 FIN_WAIT_1
+1. 第二次 服务端收到 FIN，向客户端发送 ACK
+1. 第三次 服务端在剩余数据传输完成后向客户端发送 FIN，进入 LAST_ACK
+1. 第四次 客户端收到 FIN，向服务器端发送 ACK 进入 TIME_WAIT，服务端收到 ACK 后关闭连接。客户端等待 2MSL（数据帧在网中的最大存活时间）没有收到回复，表明服务端正常关闭，客户端关闭连接。
+
+收到代表数据流结束 FIN 数据帧会触发 `end`事件；如果 TCP 连接发生错误，触发`error`事件，两种情况都会触发`close`事件，代表连接被关闭。
+
+及其简单的聊天示例
+
+```js
+const net = require('net')
+const chalk = require('chalk')
+
+const users = {}
+
+net
+  .createServer((conn) => {
+    conn.setEncoding('utf-8')
+
+    console.log(chalk.green('new connection'))
+
+    conn.write(
+      [
+        `welcome to ${chalk.green('node-chat')}`,
+        `${Object.keys(users).length} other people are connected at this time.`,
+        'please write your name and press enter: ',
+      ]
+        .map((e) => `> ${e} \n`)
+        .join('')
+    )
+
+    conn.on('data', (data) => {
+      const nickname = data.replace('\r\n', '')
+      if (Object.keys(users).includes(nickname)) {
+        conn.write(`name ${chalk.yellow(nickname)} already in use.`)
+        return
+      } else {
+        users[nickname] = conn
+
+        console.log('users: ', Object.keys(users))
+        for (const user in users) {
+          users[user].write(`user ${chalk.green(nickname)} joined the room\n`)
+        }
+      }
+    })
+
+    conn.on('close', () => {
+      let leavingUser = ''
+      for (const user in users) {
+        if (users[user] === conn) {
+          leavingUser = user
+          delete users[user]
+          break
+        }
+      }
+
+      for (const user in users) {
+        users[user].write(`user ${chalk.yellow(leavingUser)} leaved chat room`)
+      }
+    })
+  })
+  .listen(3000, () => {
+    console.log('\033[96m   server listening on *:3000\033[39m')
+  })
+```
+
+socket = IP + Port
+
+1. Ethernet Packet Receiver Mac + Sender Mac + Data
+1. IP Packet Receiver Address + Sender Address + Data
+1. TCP Packet Receiver Port + Sender Port + Data
+
+### UDP
+
+datagram
+
+### HTTP
 
 llhttp https://github.com/nodejs/llhttp
+https://developer.mozilla.org/zh-CN/docs/Web/HTTP
+
+事件
+
+1. connection TCP 链接建立触发，多个 HTTP 请求可能通用一个 TCP 连接 Keep-Alive
+1. request 在服务器端 server 对象上触发
+1. close
+1. checkContinue
+1. connect
+1. upgrade
+1. clientError
+
+http.ClientRequest
+http.Server
+http.ServerResponse
+http.Agent
+http.IncomingMessage
+http.OutgoingMessage
+
+默认有一个全局的客户端代理对象 http.globalAgent 对所有发出请求进行管理，默认允许最多 5 个 TCP 连接。
+
+### DNS
+
+dns module
+
+### HTTP2
+
+### HTTPS
+
+### websocket
+
+Smashing NodeJs Javascript Everywhere Ch10, Ch10
+
+## 数据库
+
+1. Smashing NodeJs Javascript Everywhere 12/13/14
+1. NodeJs In Action 5
+
+## 设计模式
+
+NodeJs Design Patterns 4
