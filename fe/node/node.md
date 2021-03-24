@@ -659,6 +659,76 @@ process.on('message', function (msg, server) {})
 
 封装了 child_process 和 net 模块功能
 
-## HTTP
+## Networking
+
+### TCP
+
+1. 面向连接 connection，保证数据的顺序
+1. 传输二进制字节流
+1. 流量控制 flow control
+1. 拥塞控制 congestion control
+
+收到代表数据流结束 FIN 数据帧会触发 `end`事件；如果 TCP 连接发生错误，触发`error`事件，两种情况都会触发`close`事件，代表连接被关闭。
+
+及其简单的聊天示例
+
+```js
+const net = require('net')
+const chalk = require('chalk')
+
+const users = {}
+
+net
+  .createServer((conn) => {
+    conn.setEncoding('utf-8')
+
+    console.log(chalk.green('new connection'))
+
+    conn.write(
+      [
+        `welcome to ${chalk.green('node-chat')}`,
+        `${Object.keys(users).length} other people are connected at this time.`,
+        'please write your name and press enter: ',
+      ]
+        .map((e) => `> ${e} \n`)
+        .join('')
+    )
+
+    conn.on('data', (data) => {
+      const nickname = data.replace('\r\n', '')
+      if (Object.keys(users).includes(nickname)) {
+        conn.write(`name ${chalk.yellow(nickname)} already in use.`)
+        return
+      } else {
+        users[nickname] = conn
+
+        console.log('users: ', Object.keys(users))
+        for (const user in users) {
+          users[user].write(`user ${chalk.green(nickname)} joined the room\n`)
+        }
+      }
+    })
+
+    conn.on('close', () => {
+      let leavingUser = ''
+      for (const user in users) {
+        if (users[user] === conn) {
+          leavingUser = user
+          delete users[user]
+          break
+        }
+      }
+
+      for (const user in users) {
+        users[user].write(`user ${chalk.yellow(leavingUser)} leaved chat room`)
+      }
+    })
+  })
+  .listen(3000, () => {
+    console.log('\033[96m   server listening on *:3000\033[39m')
+  })
+```
+
+### HTTP
 
 llhttp https://github.com/nodejs/llhttp
