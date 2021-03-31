@@ -1,45 +1,6 @@
 # Node
 
-TOC
-
-书籍
-
-1. 深入浅出 Nodejs
-1. Smashing NodeJs Javascript Everywhere
-1. NodeJs Design Patterns
-1. NodeJs High Performance
-1. NodeJs In Action
-1. NodeJs In Practice
-1. NodeJs 开发指南
-
-专题
-
-1. web 服务
-   1. 1.8
-   1. 2.8/2.9
-   1. 5
-   1. 6.9
-   1. 7.5
-1. 性能
-   1. 3.7/3.8
-   1. 4
-1. 测试
-   1. 1.10
-   1. 2.16
-   1. 5.10
-   1. 6.10
-   1. 7.3.4
-1. 产品化
-   1. 1.11
-   1. 6.12
-   1. 7.6.3
-
 ## Node 模块机制
-
-1.  3.1/3.5/3.6 sharing code with browser
-1.  6.13
-1.  7.3.1/7.3.3/7.4.1/7.6.1
-1.  Node.js：来一打 C++ 扩展
 
 [CommonJS 模块机制 Wiki](https://zh.wikipedia.org/wiki/CommonJS#cite_note-7)
 [Official Spec](https://github.com/commonjs/commonjs)
@@ -154,7 +115,7 @@ const mod1 = require('./TEST')
 
 #### 内建 C/C++模块
 
-编写
+1.  Node.js：来一打 C++ 扩展
 
 ### 其他模块
 
@@ -253,6 +214,114 @@ node 的常驻内存除了 v8 的堆内存，另外的部分称作堆外内存�
 使用内存作为缓存时需要注意过期机制，例如 LRU，限制缓存大小无限增长。
 
 内存泄漏查看工具 v8-profiler,chrome 的性能工具， node-heapdump, node-memwatch
+
+## 事件循环
+
+Reactor 模式
+
+Hollywood Principle Don't call us, we will call you.
+
+1. 核心是一个事件循环(Event Queue)，任务来源（IO、用户交互）等产生事件 Event，每个任务有对应的事件和回调函数（handler），一个事件可以对应一个或者多个 handler。
+1. 产生的事件添加到事件队列中（event queue），这些异步任务的集合通过多路复用机制（Event Demultiplexer 操作系统提供）可以**同步**的等待直到任何任务完成后触发对应事件，这个过程在另外一个线程？。
+1. 事件触发后控制权转移回主线程，依次处理所有被触发的事件，执行事件对应的回调函数，直到事件队列被清空。这个过程中回调函数可能产生新的任务并向事件队列中添加对应事件。
+1. 事件队列清空后进入空闲状态（idle），结束一次事件循环的处理。
+
+不同的操作系统提供各自不同的多路复用机制，linux 提供`epoll`，macos 使用`kqueue`，windows 使用 IO Completion Port API (IOCP)，同一个操作系统上不同类型的资源 I/O 行为也可能不一致，例如 macos 不支持非阻塞式的文件操作，所以必须使用另外一个线程来模拟，libuv 提供了同一个的抽象，屏蔽痛不同操作系统的细节。
+
+1. https://zhuanlan.zhihu.com/p/93612337
+1. pattern oriented Software Architecture
+1. https://github.com/ppizarro/coursera/tree/master/POSA/Books/Pattern-Oriented%20Software%20Architecture
+1. http://www.laputan.org/pub/sag/reactor.pdf
+1. [A introduction to libuv](http://nikhilm.github.io/uvbook/)
+
+## 异步模式
+
+### callback
+
+1. callback 是最后一个参数
+1. callback 函数的第一个参数代表 error，如果没有错误发生，error 是 null。
+
+同步方式使用`throw`提升（propagating）错误到外层函数，异步的方式在回调函数中调用外层函数的回调函数`callback(err)`，直接抛出错误会导致错误提升到最外层，成为 UncaughtException。
+
+```js
+var fs = require('fs')
+function readJSON(filename, callback) {
+  fs.readFile(filename, 'utf8', function (err, data) {
+    var parsed
+    if (err)
+      //propagate the error and exit the current function
+      return callback(err)
+    try {
+      //parse the file contents
+      parsed = JSON.parse(data)
+    } catch (err) {
+      //catch parsing errors
+      return callback(err)
+    }
+    //no errors, propagate just the data
+    callback(null, parsed)
+  })
+}
+```
+
+可以使用
+
+```js
+process.on('uncaughtException', function (err) {
+  console.error(
+    'This will catch at last the ' + 'JSON parsing exception: ' + err.message
+  )
+  //without this, the application would continue
+  process.exit(1)
+})
+```
+
+### promise
+
+### EventEmitter
+
+### 不要混合使用同步与异步
+
+例如一个带有缓存的读取文件实现，有缓存时同步返回，无缓存时 callback 形式异步返回。使用者无法确定到底是同步还是异步，应该统一包装成异步的形式。
+
+参考 https://blog.izs.me/2013/08/designing-apis-for-asynchrony/
+
+```js
+var fs = require('fs')
+var cache = {}
+function inconsistentRead(filename, callback) {
+  if (cache[filename]) {
+    //invoked synchronously
+    callback(cache[filename])
+  } else {
+    //asynchronous function
+    fs.readFile(filename, 'utf8', function (err, data) {
+      cache[filename] = data
+      callback(data)
+    })
+  }
+}
+```
+
+统一成异步的形式
+
+```js
+var fs = require('fs')
+var cache = {}
+function consistentReadAsync(filename, callback) {
+  if (cache[filename]) {
+    process.nextTick(function () {
+      callback(cache[filename])
+    })
+  } else {
+    //asynchronous function
+    fs.readFile(filename, 'utf8', function (err, data) {
+      cache[filename] = data
+      callback(data)
+    })
+  }
+}
+```
 
 ## 文件系统
 
@@ -653,6 +722,8 @@ process.on('message', function (msg, server) {})
 
 ### TCP
 
+<<<<<<< HEAD
+
 #### 数据帧格式
 
 传输二进制字节流，数据帧 packet， 固定 20 个字节的头部和数据部分
@@ -690,7 +761,15 @@ nagle's algorithm socket.setNoDelay(true)
 1. 第三次 服务端在剩余数据传输完成后向客户端发送 FIN，进入 LAST_ACK
 1. 第四次 客户端收到 FIN，向服务器端发送 ACK 进入 TIME_WAIT，服务端收到 ACK 后关闭连接。客户端等待 2MSL（数据帧在网中的最大存活时间）没有收到回复，表明服务端正常关闭，客户端关闭连接。
 
-收到代表数据流结束 FIN 数据帧会触发 `end`事件；如果 TCP 连接发生错误，触发`error`事件，两种情况都会触发`close`事件，代表连接被关闭。
+=======
+
+1. 面向连接 connection，保证数据的顺序
+1. 传输二进制字节流
+1. 流量控制 flow control
+1. 拥塞控制 congestion control
+
+> > > > > > > b42f7104bde6fbd31546bed13d2ff91a92ddf5f0
+> > > > > > > 收到代表数据流结束 FIN 数据帧会触发 `end`事件；如果 TCP 连接发生错误，触发`error`事件，两种情况都会触发`close`事件，代表连接被关闭。
 
 及其简单的聊天示例
 
@@ -751,6 +830,7 @@ net
   })
 ```
 
+<<<<<<< HEAD
 socket = IP + Port
 
 1. Ethernet Packet Receiver Mac + Sender Mac + Data
@@ -804,4 +884,17 @@ Smashing NodeJs Javascript Everywhere Ch10, Ch10
 
 ## 设计模式
 
-NodeJs Design Patterns 4
+# NodeJs Design Patterns 4
+
+### HTTP
+
+llhttp https://github.com/nodejs/llhttp
+
+## Books
+
+1. 深入浅出 Nodejs
+1. NodeJs Design Patterns
+1. NodeJs High Performance
+1. NodeJs In Action
+1. NodeJs In Practice
+   > > > > > > > b42f7104bde6fbd31546bed13d2ff91a92ddf5f0
