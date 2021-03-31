@@ -843,8 +843,8 @@ datagram
 
 ### HTTP
 
-llhttp https://github.com/nodejs/llhttp
-https://developer.mozilla.org/zh-CN/docs/Web/HTTP
+1. llhttp https://github.com/nodejs/llhttp
+1. https://developer.mozilla.org/zh-CN/docs/Web/HTTP
 
 事件
 
@@ -864,6 +864,19 @@ http.IncomingMessage
 http.OutgoingMessage
 
 默认有一个全局的客户端代理对象 http.globalAgent 对所有发出请求进行管理，默认允许最多 5 个 TCP 连接。
+
+`CONNECT`方法由客户端发起，代理服务器接收后应当直接或者通过其他代理服务器间接将请求转发给目标服务器，如果客户端接收到成功的响应，则认为与服务器建立的隧道 tunnel，
+所有代理服务器进入隧道模式，将后续客户端与目标服务器之间的请求只进行转发，不做任何额外处理。
+
+如果服务器直接接收到`CONNECT`请求，则返回 2xx 响应表示隧道建立成功。
+
+```HTTP
+CONNECT server.example.com:80 HTTP/1.1
+Host: server.example.com:80
+Proxy-Authorization: basic aGVsbG86d29ybGQ=
+```
+
+隧道模式的意图是在客户端与服务器之间直接传递二进制数据，所以服务器的返回不应该含有 Transfer-Encoding 和 Content-Length 头，客户端接也应该忽视这两个头。
 
 ### DNS
 

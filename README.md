@@ -1,47 +1,41 @@
 # Learning Notes
 
-Notes on Web Knowledge
+## Practices
 
-1. https://github.com/qiu-deqing/FE-interview
-1. 深入 javascript https://juejin.im/post/59278e312f301e006c2e1510
-1. https://github.com/include-all/front-end-learning/issues/5
-1. https://github.com/Advanced-Frontend/Daily-Interview-Question
-1. https://github.com/YvetteLau/Blog
+1. 模块化机制，实现 require(commonjs), define(amd), umd
+1. bundler 包括依赖分析、异步组件，参考 webpack/rollup/parcel/vite
+1. 模板引擎 EJS
+1. 类似 vue template 解析
+1. semver
+1. observable
+1. 虚拟 DOM 算法
+1. vue-router 路由库
+1. vuex 状态管理库
+1. 组件库 component lib
 
-Knowledge Level
-
-1. 了解概念
-2. 懂得使用
-3. 实例
-4. 输出总结
-5. 亲自实现
+   1. 高阶 vue 组件，传递属性和事件
+   1. chrome 中搜索运行的文件
+   1. 跑马灯组件，滚动数字组件，carousel 组件，message 组件，landing 页顶栏 sticky 效果，参考知乎的的低栏效果。
+   1. 动态位置的组件 element-ui Message/Popover/Tooltip/Drawer/Portal append-body ?
 
 ## HTTP
 
-1. 缓存
-   1. https://www.cnblogs.com/lyzg/p/5125934.html
-1. https status code
-   1. 200 201 Created 206, 300 304 Not Mo, 400, 500
+1. 图解 HTTP
+1. HTTP 权威指南
+1. 缓存 https://www.cnblogs.com/lyzg/p/5125934.html
 1. [HTTP2.0](https://www.cnblogs.com/yingsmirk/p/5248506.html)
 1. HTTPS
+   1. [握手过程](https://developers.weixin.qq.com/community/develop/article/doc/000046a5fdc7802a15f7508b556413)
+   1. 中间人攻击
+   1. 证书验证方法
+1. https://segmentfault.com/a/1190000015316332
 1. network-path reference protocol-relative url https://tools.ietf.org/html/rfc3986#section-4.2
-
-## HTML
-
-1. DOM manipulation
-1. innerHtml,outerHtml,textContent,innerText,outerText, textNode.data
-
-## 工程化
-
-### CI/CD
-
-1. [开发部署系统](https://www.zhihu.com/question/20790576)
-1. [搭建一个自动化集成测试 CI/CD 的工作流程](https://juejin.im/post/5ad1980e6fb9a028c42ea1be)
 
 ## 安全
 
 1. XSS
    1. https://juejin.im/post/59dc2b7a6fb9a0451869ae3a
+   1. https://github.com/dwqs/blog/issues/68
 1. CRSF
 1. [SameSite cookies explained](https://web.dev/samesite-cookies-explained/)
 1. https://juejin.im/post/593df628da2f60006728cff2
@@ -63,6 +57,8 @@ Knowledge Level
 
 ## JS & TS
 
+1. 深入 javascript https://juejin.im/post/59278e312f301e006c2e1510
+1. 周爱民老师的 Javascript 课程
 1. https://www.zhihu.com/question/303073602
 1. https://www.npmjs.com/package/especially
 1. articles
@@ -132,12 +128,9 @@ Knowledge Level
    ```
 1. [常见算法问题](https://juejin.im/post/5958bac35188250d892f5c91#heading-27)
 
-## 经典题目
-
-1. [从输入 URL 到页面加载的过程？如何由一道题完善自己的前端知识体系！](https://zhuanlan.zhihu.com/p/34453198?group_id=957277540147056640)
-
 ## 浏览器
 
+1. [从输入 URL 到页面加载的过程？如何由一道题完善自己的前端知识体系！](https://zhuanlan.zhihu.com/p/34453198?group_id=957277540147056640)
 1. https://zhuanlan.zhihu.com/p/47407398
 1. [从浏览器多进程到 JS 单线程，JS 运行机制最全面的一次梳理](https://juejin.im/post/5a6547d0f265da3e283a1df7)
 1. https://time.geekbang.org/column/intro/216
@@ -152,11 +145,3 @@ Knowledge Level
 - [ ] Refactoring 2nd Edition
 - [ ] 高性能网站建设指南
 - [ ] [Algorithms In JS](https://github.com/trekhleb/javascript-algorithms?utm_source=gold_browser_extension)
-
-## TODO:
-
-1. 组件库 component lib
-   1. 高阶 vue 组件，传递属性和事件
-   1. chrome 中搜索运行的文件
-   1. 跑马灯组件，滚动数字组件，carousel 组件，message 组件，landing 页顶栏 sticky 效果，参考知乎的的低栏效果。
-   1. 动态位置的组件 element-ui Message/Popover/Tooltip/Drawer/Portal append-body ?
