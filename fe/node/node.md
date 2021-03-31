@@ -236,6 +236,60 @@ Hollywood Principle Don't call us, we will call you.
 
 ## 异步模式
 
+### 场景
+
+1. 异步顺序执行 callback/promise/event emitter
+   ```js
+   // 利用递归函数的办法控制异步任务顺序执行callback
+   function iterate(index) {
+     if (index === tasks.length) {
+       return finish()
+     }
+     var task = tasks[index]
+     task(function () {
+       iterate(index + 1)
+     })
+   }
+   function finish() {
+     //iteration completed
+   }
+   iterate(0)
+   ```
+1. 并行执行
+   ```js
+   var tasks = []
+   var completed = 0
+   tasks.forEach(function (task) {
+     task(function () {
+       if (++completed === tasks.length) {
+         finish()
+       }
+     })
+   })
+   function finish() {
+     //all the tasks completed
+   }
+   ```
+1. 带有数量限制的并行
+
+   ```js
+   // 同时使用EventEmitter和callback
+   class ParallelTasks {
+     constructor() {
+       super()
+     }
+
+     // 每个任务开始，成功，失败可以触发像相应事件
+   }
+   ```
+
+代表一个异步过程的几种形式
+
+1. callback
+1. promise
+1. generator co
+1. 相关的库 async, tapable
+
 ### callback
 
 1. callback 是最后一个参数
