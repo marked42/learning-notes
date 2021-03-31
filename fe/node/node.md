@@ -1,6 +1,21 @@
 # Node
 
-## Node 模块机制
+## Node 模块
+
+### 使用
+
+1. 全局对象 globals，打包引入的副作用 monkey patching 不推荐
+
+```js
+//file patcher.js
+// ./logger is another module require('./logger').customMessage = function() {
+console.log('This is a new functionality'); };
+```
+
+1. module.exports 和 exports 的区别
+1. 导出方式 命名导出、命名空间、默认导出（导出单个函数、类、类实例、值）
+
+### 机制
 
 [CommonJS 模块机制 Wiki](https://zh.wikipedia.org/wiki/CommonJS#cite_note-7)
 [Official Spec](https://github.com/commonjs/commonjs)
@@ -19,6 +34,38 @@
    1. 可以没有文件后缀`.js`
    1. `/`分隔
    1. 相对路径模块`.`,`..`开头，其他形式是顶层模块，相对模块相对于`require`所在的文件进行解析，顶层模块相对于项目根目录解析
+
+```js
+function loadModule(filename, module, require) {
+  var wrappedSrc =
+    '(function(module, exports, require) {' +
+    fs.readFileSync(filename, 'utf8') +
+    '})(module, module.exports, require);'
+  eval(wrappedSrc)
+}
+
+var require = function (moduleName) {
+  console.log('Require invoked for module: ' + moduleName)
+  var id = require.resolve(moduleName)
+  if (require.cache[id]) {
+    return require.cache[id].exports
+  }
+  //module metadata
+  var module = {
+    exports: {},
+    id: id,
+  }
+  require.cache[id] = module
+  //load the module
+  loadModule(id, module, require)
+  //return exported variables
+  return module.exports
+}
+require.cache = {}
+require.resolve = function (moduleName) {
+  /* resolve a full module id from the moduleName */
+}
+```
 
 ### Node 模块实现机制
 
@@ -97,7 +144,7 @@ NativeModule._cache = {}
 
 模块加载第一次就会进行缓存，再次加载时从缓存中读取，因此允许循环依赖的情况出现。
 
-使用`require`的模块会被缓存，缓存使用模块被解析的文件名作为 key，所以使用不同的路径名，但是路径经过解析后相同的话，是同一个模块。
+使用`require`的模块会被缓存，缓存使用模块被解析的**文件名**作为 key，所以使用不同的路径名，但是路径经过解析后相同的话，是同一个模块。
 
 ```js
 // 同一个模块
@@ -722,8 +769,6 @@ process.on('message', function (msg, server) {})
 
 ### TCP
 
-<<<<<<< HEAD
-
 #### 数据帧格式
 
 传输二进制字节流，数据帧 packet， 固定 20 个字节的头部和数据部分
@@ -761,15 +806,12 @@ nagle's algorithm socket.setNoDelay(true)
 1. 第三次 服务端在剩余数据传输完成后向客户端发送 FIN，进入 LAST_ACK
 1. 第四次 客户端收到 FIN，向服务器端发送 ACK 进入 TIME_WAIT，服务端收到 ACK 后关闭连接。客户端等待 2MSL（数据帧在网中的最大存活时间）没有收到回复，表明服务端正常关闭，客户端关闭连接。
 
-=======
-
 1. 面向连接 connection，保证数据的顺序
 1. 传输二进制字节流
 1. 流量控制 flow control
 1. 拥塞控制 congestion control
 
-> > > > > > > b42f7104bde6fbd31546bed13d2ff91a92ddf5f0
-> > > > > > > 收到代表数据流结束 FIN 数据帧会触发 `end`事件；如果 TCP 连接发生错误，触发`error`事件，两种情况都会触发`close`事件，代表连接被关闭。
+收到代表数据流结束 FIN 数据帧会触发 `end`事件；如果 TCP 连接发生错误，触发`error`事件，两种情况都会触发`close`事件，代表连接被关闭。
 
 及其简单的聊天示例
 
@@ -830,7 +872,6 @@ net
   })
 ```
 
-<<<<<<< HEAD
 socket = IP + Port
 
 1. Ethernet Packet Receiver Mac + Sender Mac + Data
@@ -910,4 +951,3 @@ llhttp https://github.com/nodejs/llhttp
 1. NodeJs High Performance
 1. NodeJs In Action
 1. NodeJs In Practice
-   > > > > > > > b42f7104bde6fbd31546bed13d2ff91a92ddf5f0

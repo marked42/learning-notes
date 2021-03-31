@@ -3,6 +3,7 @@
 ## Practices
 
 1. 模块化机制，实现 require(commonjs), define(amd), umd
+1. EventEmitter
 1. bundler 包括依赖分析、异步组件，参考 webpack/rollup/parcel/vite
 1. 模板引擎 EJS
 1. 类似 vue template 解析
