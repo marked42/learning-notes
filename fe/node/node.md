@@ -241,6 +241,42 @@ UMD
    a.b = b
    ```
 
+越顶层的模块越具体而不可复用，越底层的模块越通用，顶层模块由底层模块逐层聚合而来，所以顶层模块对底层模块存在依赖关系，传统的写法是模块中手动引入底层依赖模块，这是一个自底向上的聚合过程。
+手动依赖注入的方式将所有的模块改造成函数工厂的形式，接受模块依赖作为参数，返回需要的模块。在最顶层模块中同样按照自底向下的顺序，先初始化最底层无依赖的模块，然后初始化依赖这些模块的模块，直到最顶层完成就完成了手动注入依赖的过程。
+
+好处在于函数工厂模块通过参数指明了依赖的模块类型而不是具体模块，实现解耦，可以方便替换不同同一个模块类型的不同具体实现，可单独测试。
+
+所有依赖注入的过程被统一到最顶层模块中，这部分逻辑可能会非常复杂，可以考虑将其拆分为多个顶层模块，降低一个模块的复杂度。
+
+考虑使用依赖注入容器（Dependency Injection Container）。
+
+### service locator
+
+Service Locator 是依赖的一个注册中心，所有依赖初始化是注册到其中，具体的模块中使用到某个依赖时可以从 Service Locator 中获取。
+
+一个模块如果使用了 Service Locator 也是引入了对 Service Locator 的依赖，这个依赖本身同样可以使用手动注入、依赖注入容器、全局依赖的方式提供。
+
+Service Locator 和依赖注入容器都作为一个依赖注册中心，向使用方提供需要的依赖，区别在于使用 Service Locator 时，模块明确引入了对于 Service Locator 本身的依赖，通过 Service Locator **间接**获取所有需要的依赖。而依赖注入容器的方式模块是**直接**指明所有需要的依赖，由依赖注入容器提供依赖。
+
+1. 可复用性（reusability）多引入了一个 Service Locator 的依赖，相比于依赖注入容器复用性降低
+1. 可读性（readability）Service Locator 内置了所有模块的依赖关系，对于用户来说这部分逻辑理解成本较高。
+
+依赖注入容器（Dependency Injection Container）相比于 Service Locator 多了一个功能，就是在初始化模块的时候分析确定所有的依赖，并准备好依赖，然后正常初始化对象。
+
+依赖声明有几种方式：
+
+1. 通过函数的参数名`function (person, country)`，这种方法存在一个问题在于代码做混淆或者压缩后函数参数名会变化。`args-list`
+1. 使用函数的参数名注释`function (/* person */ p, /* counter */ c)`
+1. 使用模块导出注入依赖名
+
+```js
+module.exports = function (p, c) {}
+module.exports._inject = ['person', 'country']
+
+// 或者这样
+module.exports = ['person', 'country', function (p, c) {}]
+```
+
 ## V8 内存管理
 
 设置新生代老生代内存限制。
@@ -1029,6 +1065,106 @@ Smashing NodeJs Javascript Everywhere Ch10, Ch10
 ### HTTP
 
 llhttp https://github.com/nodejs/llhttp
+
+## Design Patterns
+
+设计模式
+
+A design pattern is a reusable solution to a recurring problem.
+
+### plugins
+
+插件设计机制 webpack/eslint/rollup/
+
+程序预留的可以扩展的功能点叫做 extension point，插件都是针对 extension point 进行扩展。
+
+### Factory
+
+工厂函数、封装隔离内部变量和具体实现，只通过参数确定结果，面向接口编程。一些库只导出一个工厂函数，内部实现类不导出，例如`http.createServer()`。
+
+### Proxy
+
+1. Data Validation
+1. Security
+1. Caching
+1. Lazy initialization
+1. Logging
+1. Remote Object
+1. Vue Reactive Object Proxy
+
+实现 Proxy 可以直接修改原有对象属性（object augmentation、monkey patching），也可以使用组合方式（composition）。这里的组合指面向对象编程中类 A 中成员 b 是类 B 的实例，A 以组合的方式使用 B，组合是相对于继承的方式而言的。JS 中可以使用组合，更直接的可以使用闭包将对象封装到函数作用中，直接使用对象。
+
+```js
+function Proxy(object) {
+  const proto = Object.getPrototypeOf(object)
+
+  const proxiedObject = Object.create(proto)
+
+  ;[
+    ...Object.getOwnPropertySymbols(object),
+    ...Object.getOwnPropertyNames(object),
+  ].forEach((key) => {
+    Object.defineProperty(proxiedObject, key, {
+      get() {
+        return object[key]
+      },
+      set(value) {
+        object[key] = value
+      },
+    })
+  })
+
+  return proxiedObject
+}
+```
+
+### Decorator
+
+Proxy 模式强调对于原有对象添加中间层，在中间层中做拦截、限制；修饰器强调对于对象做功能增强。[代理与修饰器模式区别](https://stackoverflow.com/questions/18618779/differences-between-proxy-and-decorator-pattern)
+
+> 1. Decorator informs and empowers its client.
+> 2. Proxy restricts and disempowers its client.
+
+这两种模式实现的手段是相同的，可以使用组合或者对象增强，强调的目的是不同的。
+
+### Adapter
+
+将对象包装成满足要求的接口实例
+
+level-filesystem 库将 leveldb 包装成 Node 的 fs 模块的接口，允许我们使用不同文件系统的 api，实际上使用 leveldb 存储数据。
+
+### Strategy
+
+针对同一个问题存在一系列不同解决策略，根据外在条件决定具体需要使用的策略，所有这些策略实现为相同接口的对象。
+
+### State
+
+与 Strategy 模式类似，区别在与策略根据内部状态确定后不能够再改变。
+
+### Template
+
+Template 定义了一个**固定的处理流程模板**，模板中存在某些步骤是可以有不同的实现，某个步骤可以采取 Strategy 模式实现不同的策略。
+
+例如 NodeJS 中的 Stream，暴露出`_write()/_reader()/_transform()/_flush()`等方法待实现，流本身的处理逻辑是一个固定的模板。
+
+### Middleware
+
+代表一个处理流程（pipeline）中的一个步骤 Middleware
+
+1. connect/express/koa 等 web 框架的请求处理流程
+1. zeromq 库的 middleware
+
+### Command
+
+命令模式
+
+1. 文本编辑器中、浏览器中实现粘贴、拷贝等动作
+
+## 数据库
+
+1. levelup leveldb
+1. mysql
+1. mongo
 
 ## Books
 
