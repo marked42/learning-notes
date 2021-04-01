@@ -209,6 +209,38 @@ UMD
 })
 ```
 
+## 模块 DI
+
+依赖注入，控制反转（vscode）
+
+1. 构造注入 Constructor Injection，必须所有依赖都满足条件才能成功进行依赖注入。
+1. 属性注入 Property Injection，单个属性依赖注入时，对象处于未完全初始化的中间状态，但是可以用来绕过相互依赖的问题。
+
+   ```js
+   function Afactory(b) {
+     return {
+       foo: function () {
+         b.say()
+       },
+       what: function () {
+         return 'Hello!'
+       },
+     }
+   }
+   function Bfactory(a) {
+     return {
+       a: a,
+       say: function () {
+         console.log('I say: ' + a.what)
+       },
+     }
+   }
+
+   var b = Bfactory(null)
+   var a = Afactory(b)
+   a.b = b
+   ```
+
 ## V8 内存管理
 
 设置新生代老生代内存限制。
@@ -282,6 +314,60 @@ Hollywood Principle Don't call us, we will call you.
 1. [A introduction to libuv](http://nikhilm.github.io/uvbook/)
 
 ## 异步模式
+
+### 场景
+
+1. 异步顺序执行 callback/promise/event emitter
+   ```js
+   // 利用递归函数的办法控制异步任务顺序执行callback
+   function iterate(index) {
+     if (index === tasks.length) {
+       return finish()
+     }
+     var task = tasks[index]
+     task(function () {
+       iterate(index + 1)
+     })
+   }
+   function finish() {
+     //iteration completed
+   }
+   iterate(0)
+   ```
+1. 并行执行
+   ```js
+   var tasks = []
+   var completed = 0
+   tasks.forEach(function (task) {
+     task(function () {
+       if (++completed === tasks.length) {
+         finish()
+       }
+     })
+   })
+   function finish() {
+     //all the tasks completed
+   }
+   ```
+1. 带有数量限制的并行
+
+   ```js
+   // 同时使用EventEmitter和callback
+   class ParallelTasks {
+     constructor() {
+       super()
+     }
+
+     // 每个任务开始，成功，失败可以触发像相应事件
+   }
+   ```
+
+代表一个异步过程的几种形式
+
+1. callback
+1. promise
+1. generator co
+1. 相关的库 async, tapable
 
 ### callback
 
