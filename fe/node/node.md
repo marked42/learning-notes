@@ -1211,3 +1211,9 @@ https://coolshell.cn/articles/17416.html
 
 1. The book, Enterprise Integration Patterns, by Gregor Hohpe and Bobby Woolf
 1. 《NodeJs Design Patterns》Chapter 8: Messaging and Integration Patterns
+
+## TTY
+
+1. https://www.howtogeek.com/428174/what-is-a-tty-on-linux-and-how-to-use-the-tty-command/
+1. [Terminal TTY Console Shell Difference](https://www.hanselman.com/blog/whats-the-difference-between-a-console-a-terminal-and-a-shell#:~:text=A%20shell%20is%20the%20program%20that%20the%20terminal,of%20Shells%3A%20bash%2C%20fish%2C%20zsh%2C%20ksh%2C%20sh%2C%20tsch)
+1. [Terminal Shell Kernel](https://www.geeksforgeeks.org/what-is-terminal-console-shell-and-kernel/)
