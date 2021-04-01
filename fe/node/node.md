@@ -1199,10 +1199,15 @@ https://coolshell.cn/articles/17416.html
 1. mysql
 1. mongo
 
-## Books
+## 高性能
 
-1. 深入浅出 Nodejs
-1. NodeJs Design Patterns
 1. NodeJs High Performance
-1. NodeJs In Action
-1. NodeJs In Practice
+
+## Scalability
+
+1. 《NodeJs Design Patterns》Chapter 7: Scalability and Architectural Patterns 321
+
+## Messaging System
+
+1. The book, Enterprise Integration Patterns, by Gregor Hohpe and Bobby Woolf
+1. 《NodeJs Design Patterns》Chapter 8: Messaging and Integration Patterns
