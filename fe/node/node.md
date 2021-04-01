@@ -209,6 +209,12 @@ UMD
 })
 ```
 
+### Cross Platform Code Sharing
+
+1. UMD 模块写法
+1. 运行时的环境判断
+1. 打包时环境判断，`package.json#browser`字段
+
 ## 模块 DI
 
 依赖注入，控制反转（vscode）
@@ -1131,7 +1137,8 @@ Proxy 模式强调对于原有对象添加中间层，在中间层中做拦截�
 
 将对象包装成满足要求的接口实例
 
-level-filesystem 库将 leveldb 包装成 Node 的 fs 模块的接口，允许我们使用不同文件系统的 api，实际上使用 leveldb 存储数据。
+1. level-filesystem 库将 leveldb 包装成 Node 的 fs 模块的接口，允许我们使用不同文件系统的 api，实际上使用 leveldb 存储数据。
+1. axios 库在浏览器上使用 XHR，在 Node 上使用 http 模块，包装成同样的接口。
 
 ### Strategy
 
@@ -1159,6 +1166,32 @@ Template 定义了一个**固定的处理流程模板**，模板中存在某些�
 命令模式
 
 1. 文本编辑器中、浏览器中实现粘贴、拷贝等动作
+
+### 异步模块加载
+
+通过一个队列记录回调函数，在异步操作完成后触发，使用方只需正常调用 API 即可，回调保证自动触发，不用关心异步操作何时完成。
+
+1. promise 的回调函数
+1. leveldb 数据的读写操作，需等待数据库连接建立，这是个异步过程。
+
+### Caching & Batching
+
+批处理（batching）将几个连续的相同请求合并为一个，完成后统一触发回调。缓存在请求完成对结果进行保存，对相同请求直接返回已有结果，不触发再次处理。Caching 需要配合批处理使用，因为可能在没有缓存的情况下，可能有多个相同请求并行存在，会造成缓存在多个请求完成后被多次设置。
+
+缓存策略
+
+1. Least Recently Used 确保常量大小的缓存
+1. 分布式缓存 Redis Memcached
+1. 缓存失效策略
+1. https://coolshell.cn/articles/20793.html
+
+https://coolshell.cn/articles/17416.html
+
+### CPU Bound Tasks
+
+1. 使用`setImmediate()`将运行时间很长的同步任务拆分成多个短任务，穿插（interleave）到 I/O 请求中。任务串行
+1. 使用子进程`child_process`或者`WebWorker`执行任务，任务可以并行，可以使用和 CPU 核心数相同的进程来最大程度利用 CPU 的并行能力。
+1. 使用子线程拆分任务`webworker_threads`
 
 ## 数据库
 
