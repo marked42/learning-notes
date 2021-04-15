@@ -1,23 +1,81 @@
-# Learning Notes
+# FE
 
-## Practices
+## 每周的计划
 
-1. 模块化机制，实现 require(commonjs), define(amd), umd
-1. EventEmitter
-1. bundler 包括依赖分析、异步组件，参考 webpack/rollup/parcel/vite
-1. 模板引擎 EJS
-1. 类似 vue template 解析
-1. semver
-1. observable
-1. 虚拟 DOM 算法
-1. vue-router 路由库
-1. vuex 状态管理库
-1. 组件库 component lib
+按照强度划分的任务
 
-   1. 高阶 vue 组件，传递属性和事件
-   1. chrome 中搜索运行的文件
-   1. 跑马灯组件，滚动数字组件，carousel 组件，message 组件，landing 页顶栏 sticky 效果，参考知乎的的低栏效果。
-   1. 动态位置的组件 element-ui Message/Popover/Tooltip/Drawer/Portal append-body ?
+1. 一两个小时内能够完成的小任务，基本功练习，提高计算机科学素养，贵在坚持。
+   1. 知乎博文一篇
+   1. 一个刻意小练习，例如常用工具函数
+   1. 算法题两道
+   1. 培养技术敏感性与开阔视野，领域前沿动态的视频一个，了解领域内别人在做些什么，有哪些我们可以借鉴，输出笔记
+1. 一到两周的时间能够完成的任务，有一定复杂度的业务或者技术问题，目标在于不断提高能力上限。
+
+   1. ast
+   1. [js 常见模式](https://www.cnblogs.com/tugenhua0707/p/5198407.html)
+      1. pub/sub
+      2. event emitter
+      3. observer 观察者
+      4. https://juejin.im/post/59eff1fb6fb9a044ff30a942
+   1. UI/UX 方向，使用 css 实现各种不同的炫酷效果
+   1. 模块化机制，实现 require(commonjs), define(amd), umd
+   1. bundler 包括依赖分析、异步组件，参考 webpack/rollup/parcel/vite
+   1. 模板引擎 EJS
+   1. 前端生态中很多库和工具使用的插件机制研究
+   1. semver
+   1. observable
+   1. 类似 vue template 解析
+   1. 虚拟 DOM 算法
+   1. LRU 缓存机制，vue 组件 keep-alive
+   1. 设计模式例子
+   1. vue-router 路由库
+   1. vuex 状态管理库
+   1. code diff editor
+
+1. 需要几个月或者数年完成的任务，目标在于磨炼解决大型项目、高难度问题的工程能力。
+   1. 使用 vue3 开发一套通用组件库
+      1. 参考 element-ui,antd,material,quaksa,整理问题。
+      1. 多主题/动态主题问题
+      1. 组件库的 i18n 解决方案
+      1. 布局方案 栅格系统、flex、
+      1. 组件库设计遵循的 UI/UX 设计原则，material design
+      1. 高阶 vue 组件，传递属性和事件
+      1. 跑马灯组件，滚动数字组件，carousel 组件，message 组件，landing 页顶栏 sticky 效果，参考知乎的的低栏效果。
+      1. 动态位置的组件 element-ui Message/Popover/Tooltip/Drawer/Portal append-body ?
+   1. 软素质
+      1. 沟通交流
+      1. 文档与写作
+      1. 项目管理能力
+      1. 排期能力，如何准确衡量自己的开发速度，对一个需求进行准确排期。寻找衡量开发速度的基准、统计平均每天的有效代码行数、页面数、业界成熟的方案。
+      1. 面试能力 整理面试指南与手册
+      1. 新人培训，整理输出各种课程与技术文档
+   1. vue3 的核心原理
+   1. 工程化方向
+   1. 可视化方向
+   1. HTTP
+   1. Web 安全相关
+   1. Web 页面性能优化相关
+   1. node 方向
+   1. JS/TS
+      - [ ] Secrets of the JavaScript Ninja, 2nd Edition
+      - [ ] You Don't Know Javascript
+      - [ ] Functional Programming in JavaScript by Luis Atencio (Manning, 2016),
+      - [ ] DOM Enlightenment
+   1. 浏览器原理
+
+按照强度划分任务主要是为了便于在每周内安排合适强度的学习计划，一个中高强度的任务可以拆分为多个低强度的项目来完成。
+
+每周开始之前提前安排本周任务，结束时进行回顾。
+
+1. 两三道算法题训练
+1. 一个中强度任务
+1. 一个高强度任务的部分问题
+
+## 填坑挖坑
+
+收藏了很多文章却从来没去学过，这个列表记录了挖的坑，需要持续填坑。
+
+1. [常见算法问题](https://juejin.im/post/5958bac35188250d892f5c91#heading-27)
 
 ## HTTP
 
@@ -96,38 +154,7 @@
    1. collections, Array, Map, set, WeakSet js ninja ch9
    1. RegExp js ninja ch10
 1. 跨浏览器 js ninja ch14
-1. [js 常见模式](https://www.cnblogs.com/tugenhua0707/p/5198407.html)
-   1. pub/sub
-   2. event emitter
-   3. observer 观察者
-   4. https://juejin.im/post/59eff1fb6fb9a044ff30a942
-1. es6 新特性
-   1. class 面向对象
-   1. 06*You_Don't \_Know_JS_ES6*&\_Beyond
-1. 自动插入分号 https://www.zhihu.com/question/20298345
-
-   ```js
-   function foo1() {
-     return {
-       bar: 'hello',
-     }
-   }
-
-   function foo2() {
-     return
-     {
-       bar: 'hello'
-     }
-   }
-   ```
-
-1. 表达式求值策略
-   ```js
-   var foo = { n: 1 }
-   var bar = foo
-   foo.x = foo = { n: 2 }
-   ```
-1. [常见算法问题](https://juejin.im/post/5958bac35188250d892f5c91#heading-27)
+1. 06*You_Don't \_Know_JS_ES6*&\_Beyond
 
 ## 浏览器
 
@@ -139,10 +166,6 @@
 ## Books
 
 - [ ] CSS 揭秘
-- [ ] Secrets of the JavaScript Ninja, 2nd Edition
-- [ ] You Don't Know Javascript
-- [ ] Functional Programming in JavaScript by Luis Atencio (Manning, 2016),
-- [ ] DOM Enlightenment
 - [ ] Refactoring 2nd Edition
 - [ ] 高性能网站建设指南
 - [ ] [Algorithms In JS](https://github.com/trekhleb/javascript-algorithms?utm_source=gold_browser_extension)
