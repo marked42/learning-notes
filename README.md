@@ -37,6 +37,7 @@
       1. 业界的标杆项目有哪些？B 站、知乎
    1. ast 可视化搭建方案、多端复用代码方案
       1. [给重构代码 Refactor 写代码](https://www.bilibili.com/video/BV13b4y1X7BD)
+      1. [帧动画](https://www.imooc.com/video/11812)
    1. 有重点的阅读一本技术书籍
    1. [js 常见模式](https://www.cnblogs.com/tugenhua0707/p/5198407.html)
       1. pub/sub
@@ -60,7 +61,7 @@
 
 1. 需要几个月或者数年完成的任务，目标在于磨炼解决大型项目、高难度问题的工程能力。
    1. 使用 vue3 开发一套通用组件库
-      1. 参考 element-ui,antd,material,quaksa,整理问题。
+      1. 参考 element-ui,antd,material,quaksa,整理问题。[libs](https://www.thosefree.com/web)
       1. 多主题/动态主题问题
       1. 组件库的 i18n 解决方案
       1. 布局方案 栅格系统、flex、
@@ -93,9 +94,10 @@
    1. Web 页面性能优化相关
    1. node 方向
    1. JS/TS
+      - [ ] [TS Type Challenge](https://github.com/type-challenges/type-challenges)
+      - [ ] [Winter 前端进阶课程](https://www.bilibili.com/video/BV1Hr4y1P7KE?p=41)
       - [ ] [深入 V8 引擎-第 01 课：上手开始看 V8 Ignition 解释器的字节码（Bytecodes）](https://www.bilibili.com/video/BV1FJ411E7Sf)
       - [ ] [JS 在引擎级别的执行过程@周爱民](https://www.bilibili.com/video/BV1Wy4y1b7PG)
-      - [ ] [Winter 前端进阶课程](https://www.bilibili.com/video/BV1Hr4y1P7KE?p=41)
       - [ ] Secrets of the JavaScript Ninja, 2nd Edition
       - [ ] You Don't Know Javascript
       - [ ] Functional Programming in JavaScript by Luis Atencio (Manning, 2016),
