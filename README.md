@@ -18,6 +18,7 @@
       1. B 站顶部背景动画跟随鼠标移动效果
       1. [CSS 特效](https://space.bilibili.com/451368848?from=search&seid=6524011749718512697)
       1. [知乎 顶栏跟随页面滚动切换效果](https://www.zhihu.com/follow)
+      1. [Refactoring UI](https://refactoringui.com/)
       1. [知乎转评赞底栏 sticky 效果](https://zhuanlan.zhihu.com/p/365497937)
       1. [Sketch](https://space.bilibili.com/389903587/channel/detail?cid=99688)
       1. [Figma 新手教学系列](https://space.bilibili.com/389903587/channel/detail?cid=99685)
@@ -58,10 +59,12 @@
    1. vuex 状态管理库
    1. code diff editor
    1. [函数式编程](https://www.bilibili.com/video/BV1Mh411Z7LC)
+   1. [dayjs](https://zhuanlan.zhihu.com/p/335951657)
 
 1. 需要几个月或者数年完成的任务，目标在于磨炼解决大型项目、高难度问题的工程能力。
    1. 使用 vue3 开发一套通用组件库
       1. 参考 element-ui,antd,material,quaksa,整理问题。[libs](https://www.thosefree.com/web)
+      1. [你能使用 typescript 写好一个最简单的 Button 组件吗？](https://zhuanlan.zhihu.com/p/291380673)
       1. 多主题/动态主题问题
       1. 组件库的 i18n 解决方案
       1. 布局方案 栅格系统、flex、
@@ -79,6 +82,8 @@
       1. 新人培训，整理输出各种课程与技术文档
    1. vue2/vue3 的核心原理
       1. [尤雨溪教你写 vue 高级 vue 教程 源码分析 中文字幕翻译完毕 ](https://www.bilibili.com/video/BV1d4411v7UX)
+      1. [使用 JSX/TSX 开发 Vue3 组件](https://zhuanlan.zhihu.com/p/153387704)
+      1. [Vue3 Compiler 优化细节，如何手写高性能渲染函数](https://zhuanlan.zhihu.com/p/150732926)
    1. 工程化方向
       1. [基于 Node.js 在 CLI 下工程化体系实践](https://www.bilibili.com/video/BV1H5411c7Ef)
       1. [https://www.bilibili.com/video/BV1kh411Q7WN](https://www.bilibili.com/video/BV1kh411Q7WN)
@@ -86,6 +91,9 @@
       1. [有赞前后端协作方式的演进](https://www.bilibili.com/medialist/play/watchlater/BV1KV411H7c4)
       1. [如何构建后现代前端工程化开发体系](https://www.bilibili.com/medialist/play/watchlater/BV1Sp4y18716)
       1. [蒋豪群：我在维护 VUE CLI 项目过程中学到了什么](https://www.bilibili.com/medialist/play/watchlater/BV1R54y1B7FB)
+      1. [如何写一个标准的前端脚手架](https://zhuanlan.zhihu.com/p/105846231)
+      1. [snowpack](https://zhuanlan.zhihu.com/p/149351900)
+      1. [vite](https://zhuanlan.zhihu.com/p/149033579)
    1. 可视化方向
    1. 智能化方向
       1. [前端智能化实践从需求文档生成代码@桑世龙（狼叔） @李帅（卓风](https://www.bilibili.com/video/BV13b4y1D7Bp)
@@ -97,6 +105,7 @@
       - [ ] [TS Type Challenge](https://github.com/type-challenges/type-challenges)
       - [ ] [Winter 前端进阶课程](https://www.bilibili.com/video/BV1Hr4y1P7KE?p=41)
       - [ ] [深入 V8 引擎-第 01 课：上手开始看 V8 Ignition 解释器的字节码（Bytecodes）](https://www.bilibili.com/video/BV1FJ411E7Sf)
+      - [ ] [理解 V8 的字节码「译」](https://zhuanlan.zhihu.com/p/28590489)
       - [ ] [JS 在引擎级别的执行过程@周爱民](https://www.bilibili.com/video/BV1Wy4y1b7PG)
       - [ ] Secrets of the JavaScript Ninja, 2nd Edition
       - [ ] You Don't Know Javascript
@@ -131,6 +140,10 @@
 1. https://segmentfault.com/a/1190000015316332
 1. network-path reference protocol-relative url https://tools.ietf.org/html/rfc3986#section-4.2
 
+## Webgl
+
+1. [雨滴特效](https://zhuanlan.zhihu.com/p/353616639)
+
 ## 安全
 
 1. XSS
@@ -159,6 +172,12 @@
 
 1. 深入 javascript https://juejin.im/post/59278e312f301e006c2e1510
 1. 周爱民老师的 Javascript 课程
+1. 异步模式
+   1. [microtask 队列与 async/await 源码分析](https://zhuanlan.zhihu.com/p/134647506)
+   1. [Promise V8 源码分析(一)](https://zhuanlan.zhihu.com/p/264944183)
+   1. [microtask 队列与 async/await 源码分析](https://zhuanlan.zhihu.com/p/134647506)
+   1. 异步 async/await/Promise 05*You_Don't \_Know_JS_Async*&\_Performance
+   1. https://css-tricks.com/understanding-async-await/
 1. https://www.zhihu.com/question/303073602
 1. https://www.npmjs.com/package/especially
 1. articles
@@ -182,11 +201,10 @@
    1. [Note 6. ES6: Default values of parameters](http://dmitrysoshnikov.com/ecmascript/es6-notes-default-values-of-parameters/)
    1. [JavaScript Array “Extras” in Detail](https://dev.opera.com/articles/javascript-array-extras-in-detail/)
    1. [Javascript Closures](http://jibbering.com/faq/notes/closures/)
-1. 异步 async/await/Promise 05*You_Don't \_Know_JS_Async*&\_Performance
-   1. https://css-tricks.com/understanding-async-await/
 1. https://juejin.im/post/5d6aa4f96fb9a06b112ad5b1 deep copy
 1. https://zhuanlan.zhihu.com/p/41203455
 1. 模块化 js ninja ch11
+1. [ES modules: A cartoon deep-dive](https://hacks.mozilla.org/2018/03/es-modules-a-cartoon-deep-dive/)
 1. object 相关
    1. 01*You_Don't \_Know_JS_Up*&\_Going
    1. 03*You_Don't \_Know_JS_this*&\_Object_Prototypes
@@ -203,6 +221,7 @@
 1. https://zhuanlan.zhihu.com/p/47407398
 1. [从浏览器多进程到 JS 单线程，JS 运行机制最全面的一次梳理](https://juejin.im/post/5a6547d0f265da3e283a1df7)
 1. https://time.geekbang.org/column/intro/216
+1. https://www.zhihu.com/question/266787740/answer/313995802
 
 ## 深入
 
