@@ -47,7 +47,7 @@
       4. https://juejin.im/post/59eff1fb6fb9a044ff30a942
    1. 模块化机制，实现 require(commonjs), define(amd), umd
    1. bundler 包括依赖分析、异步组件，参考 webpack/rollup/parcel/vite
-   1. 模板引擎 EJS
+   1. 模板引擎 EJS，字符串拼接的性能问题
    1. 前端生态中很多库和工具使用的插件机制研究
    1. semver
    1. observable
@@ -259,12 +259,18 @@
    <tbody>
    <tr>
       <td>2021.04.19~2021.04.25</td>
-      <td>收藏文章</td>
+      <td>
+         1. <a href="https://zhuanlan.zhihu.com/p/20832837"> 你真的知道怎么用javascript来写一个倒计时吗 ?</a>
+      </td>
+      <td></td>
+      <td>
+         1. leftpad
+      </td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>
+         <a href="https://juejin.cn/post/6951596501961277448">前端智能化在阿里云大数据研发平台中的实践</a>
+      </td>
       <td></td>
       <td></td>
       <td></td>
@@ -273,3 +279,6 @@
    </tr>
    </tbody>
 </table>
+
+https://block.sankuai.com/block-blog/react/react-component-style
+https://block.sankuai.com/block-blog/react/react-component-style
