@@ -184,9 +184,6 @@
    </tbody>
 </table>
 
-https://block.sankuai.com/block-blog/react/react-component-style
-https://block.sankuai.com/block-blog/react/react-component-style
-
 ## 填坑挖坑
 
 收藏了很多文章却从来没去学过，这个列表记录了挖的坑，需要持续填坑。
