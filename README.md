@@ -37,9 +37,13 @@
       1. 完整的用户使用数据统计、便于分析用户行为，为系统改进提供依据。
       1. 业界的标杆项目有哪些？B 站、知乎
    1. ast 可视化搭建方案、多端复用代码方案
+      1. [可视化搭建 1](https://github.com/woai3c/Front-end-articles/issues/19)
+      1. [可视化搭建 2](https://github.com/woai3c/Front-end-articles/issues/20)
+      1. [可视化搭建 3](https://github.com/woai3c/Front-end-articles/issues/21)
       1. [给重构代码 Refactor 写代码](https://www.bilibili.com/video/BV13b4y1X7BD)
       1. [帧动画](https://www.imooc.com/video/11812)
    1. 有重点的阅读一本技术书籍
+   1. https://developer.chrome.com/devtools
    1. [js 常见模式](https://www.cnblogs.com/tugenhua0707/p/5198407.html)
       1. pub/sub
       2. event emitter
@@ -47,6 +51,13 @@
       4. https://juejin.im/post/59eff1fb6fb9a044ff30a942
    1. 模块化机制，实现 require(commonjs), define(amd), umd
    1. bundler 包括依赖分析、异步组件，参考 webpack/rollup/parcel/vite
+      1. [https://github.com/woai3c/Front-end-articles/issues/22](https://github.com/woai3c/Front-end-articles/issues/22)
+      1. [webpack loader plugin](https://juejin.cn/post/6871239792558866440)
+      1. [深入了解 webpack 模块加载原理](https://juejin.cn/post/6872354325553741838)
+      1. [三十分钟掌握 Webpack 性能优化](https://juejin.cn/post/6844903651291447309)
+      1. [热更新](https://juejin.cn/post/6844903933157048333)
+      1. [rollup](https://juejin.cn/post/6898865993289105415)
+      1. [rollup](https://www.bilibili.com/video/BV1Ah411S7wJ)
    1. 模板引擎 EJS，字符串拼接的性能问题
    1. 前端生态中很多库和工具使用的插件机制研究
    1. semver
@@ -60,6 +71,7 @@
    1. code diff editor
    1. [函数式编程](https://www.bilibili.com/video/BV1Mh411Z7LC)
    1. [dayjs](https://zhuanlan.zhihu.com/p/335951657)
+   1. https://github.com/fouber/lottery
 
 1. 需要几个月或者数年完成的任务，目标在于磨炼解决大型项目、高难度问题的工程能力。
    1. 使用 vue3 开发一套通用组件库
@@ -85,12 +97,10 @@
       1. [使用 JSX/TSX 开发 Vue3 组件](https://zhuanlan.zhihu.com/p/153387704)
       1. [Vue3 Compiler 优化细节，如何手写高性能渲染函数](https://zhuanlan.zhihu.com/p/150732926)
    1. 工程化方向
-      1. [基于 Node.js 在 CLI 下工程化体系实践](https://www.bilibili.com/video/BV1H5411c7Ef)
-      1. [https://www.bilibili.com/video/BV1kh411Q7WN](https://www.bilibili.com/video/BV1kh411Q7WN)
-      1. [如何搭建工程化效能体系为研发加速](https://www.bilibili.com/medialist/play/watchlater/BV1bi4y1A7Gs)
-      1. [有赞前后端协作方式的演进](https://www.bilibili.com/medialist/play/watchlater/BV1KV411H7c4)
-      1. [如何构建后现代前端工程化开发体系](https://www.bilibili.com/medialist/play/watchlater/BV1Sp4y18716)
+      1. [活动作品前端工程中的编译时优化](https://www.bilibili.com/video/BV1764y1Q7FA/?spm_id_from=333.788.recommend_more_video.4)
+      1. [工程化专场](https://www.bilibili.com/video/BV1cU4y1h7qx)
       1. [蒋豪群：我在维护 VUE CLI 项目过程中学到了什么](https://www.bilibili.com/medialist/play/watchlater/BV1R54y1B7FB)
+      1. [vite](https://www.bilibili.com/video/BV1kh411Q7WN)
       1. [如何写一个标准的前端脚手架](https://zhuanlan.zhihu.com/p/105846231)
       1. [snowpack](https://zhuanlan.zhihu.com/p/149351900)
       1. [vite](https://zhuanlan.zhihu.com/p/149033579)
@@ -98,6 +108,7 @@
    1. 智能化方向
       1. [前端智能化实践从需求文档生成代码@桑世龙（狼叔） @李帅（卓风](https://www.bilibili.com/video/BV13b4y1D7Bp)
    1. HTTP
+   1. [Typescript 重构 Axios](https://www.bilibili.com/video/BV1f54y1L7PV)
    1. Web 安全相关
    1. Web 页面性能优化相关
    1. node 方向
@@ -120,6 +131,61 @@
 1. 两三道算法题训练
 1. 一个中强度任务
 1. 一个高强度任务的部分问题
+
+## 每周进度
+
+<table>
+   <thead>
+   <tr>
+      <th>日期</th>
+      <th>填坑</th>
+      <th>算法leetcode</th>
+      <th>小练习lodash</th>
+      <th>关注最新动态</th>
+      <th>CSS炫酷动效</th>
+      <th>可视化搭建、多端复用、AST</th>
+      <th>工程化</th>
+      <th>组件库</th>
+      <th>可视化</th>
+      <th>vue</th>
+      <th>软素质</th>
+1. 思考如何完成一个体验优秀的 B 端系统
+   </tr>
+   </thead>
+   <tbody>
+   <tr>
+      <td>2021.04.19~2021.04.25</td>
+      <td>
+         1. <a href="https://zhuanlan.zhihu.com/p/20832837"> 你真的知道怎么用javascript来写一个倒计时吗 ?</a>
+      </td>
+      <td></td>
+      <td>
+         1. leftpad
+      </td>
+      <td></td>
+      <td></td>
+      <td>
+         <a href="https://juejin.cn/post/6951596501961277448">前端智能化在阿里云大数据研发平台中的实践</a>
+      </td>
+      <td>
+         <ul>
+            <li><a href="https://www.bilibili.com/video/BV1H5411c7Ef">基于Node.js在CLI下工程化体系实践</a></li>
+            <li><a href="https://www.bilibili.com/medialist/play/watchlater/BV1KV411H7c4">有赞前后端协作方式的演进</a></li>
+            <li><a href="https://www.bilibili.com/medialist/play/watchlater/BV1bi4y1A7Gs">如何搭建工程化效能体系为研发加速</a></li>
+            <li><a href="https://www.bilibili.com/medialist/play/watchlater/BV1Sp4y18716">如何构建后现代前端工程化开发体系</a></li>
+         </ul>
+      </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+
+   </tr>
+   </tbody>
+</table>
+
+https://block.sankuai.com/block-blog/react/react-component-style
+https://block.sankuai.com/block-blog/react/react-component-style
 
 ## 填坑挖坑
 
@@ -229,56 +295,11 @@
 1. [【CS 公开课】计算机程序的构造和解释（SICP）【中英字幕】【FoOTOo&HITPT&Learning-SICP】](https://www.bilibili.com/video/BV1Xx41117tr)
 1. [CSAPP 深入理解计算机系统 课程视频含英文字幕（精校字幕视频见 av31289365！！！）](https://www.bilibili.com/video/BV1XW411A7fB)
 
-## Books
+## Books & Blogs
 
 - [ ] CSS 揭秘
 - [ ] Refactoring 2nd Edition
 - [ ] 高性能网站建设指南
 - [ ] [Algorithms In JS](https://github.com/trekhleb/javascript-algorithms?utm_source=gold_browser_extension)
-
-## 每周进度
-
-<table>
-   <thead>
-   <tr>
-      <th>日期</th>
-      <th>填坑</th>
-      <th>算法leetcode</th>
-      <th>小练习lodash</th>
-      <th>关注最新动态</th>
-      <th>CSS炫酷动效</th>
-      <th>可视化搭建、多端复用、AST</th>
-      <th>工程化</th>
-      <th>组件库</th>
-      <th>可视化</th>
-      <th>vue</th>
-      <th>软素质</th>
-1. 思考如何完成一个体验优秀的 B 端系统
-   </tr>
-   </thead>
-   <tbody>
-   <tr>
-      <td>2021.04.19~2021.04.25</td>
-      <td>
-         1. <a href="https://zhuanlan.zhihu.com/p/20832837"> 你真的知道怎么用javascript来写一个倒计时吗 ?</a>
-      </td>
-      <td></td>
-      <td>
-         1. leftpad
-      </td>
-      <td></td>
-      <td></td>
-      <td>
-         <a href="https://juejin.cn/post/6951596501961277448">前端智能化在阿里云大数据研发平台中的实践</a>
-      </td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-   </tr>
-   </tbody>
-</table>
-
-https://block.sankuai.com/block-blog/react/react-component-style
-https://block.sankuai.com/block-blog/react/react-component-style
+- [ ] [张云龙](https://github.com/fouber/blog)
+- [ ] [Chrome Dev Summit](https://space.bilibili.com/64169458/channel/detail?cid=157747)
