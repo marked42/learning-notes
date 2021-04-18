@@ -22,20 +22,21 @@
 
 ## JS
 
-1、如何定义 a 能使 console.log(a == 1 && a == 2 && a == 3) 输出 true
-var a = (function(){
-let i = 1;
-return {
+1. 如何定义 a 能使 console.log(a == 1 && a == 2 && a == 3) 输出 true
 
-        valueOf: function() {
-            return i++
-        }
-    }
-
+```js
+var a = (function () {
+  let i = 1
+  return {
+    valueOf: function () {
+      return i++
+    },
+  }
 })()
+```
 
-2、手写 async/await 实现
-说了大致的思路
+2. 手写 async/await 实现 说了大致的思路
+3. https://zhuanlan.zhihu.com/p/60822797
 
 ## 浏览器
 
@@ -49,12 +50,15 @@ opacity: 0、visibility: hidden、display: none 的区别
 
 ## HTTP
 
-缓存机制、浏览器缓存存储位置
+缓存机制、浏览器缓存存储位置 1. https://zhuanlan.zhihu.com/p/40733281
 禁用缓存 no-cache，no-store
+cookie https://zhuanlan.zhihu.com/p/58660326
 
 ## Vue
 
 Vue.$set
+
+1. vue jsx https://zhuanlan.zhihu.com/p/59434351
 
 ## 性能优化
 

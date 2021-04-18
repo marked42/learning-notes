@@ -1,5 +1,7 @@
 # 工程化
 
+参考书籍 前端工程化体系设计与实践
+
 ## 前端项目生命周期
 
 需求定义 -> 开发 -> 测试 -> 部署 -> 维护
@@ -91,29 +93,48 @@ nohost github
 
 自动化部署
 
+https://zhuanlan.zhihu.com/p/47492668
+enginx https://zhuanlan.zhihu.com/p/65393365
+
 ## 前端监控
 
 https://woai3c.gitee.io/introduction-to-front-end-engineering/07.html#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E7%9B%91%E6%8E%A7
 
 [7 天打造前端性能监控系统](https://fex.baidu.com/blog/2014/05/build-performance-monitor-in-7-days/)
-[sentry](https://docs.sentry.io/)
+[sentry](https://docs.sentry.io/) https://zhuanlan.zhihu.com/p/75577689
+[前端异常监控系统的落地](https://zhuanlan.zhihu.com/p/26085642)
 
 ### 数据采集
 
 性能数据 单页面应用的白屏时间，需要在路由切换时计算。
 错误数据
 埋点方案
+https://www.zhihu.com/question/290066361/answer/486336434
 
 ## 性能优化
+
+1. [Preload & Prefetch](https://medium.com/reloading/preload-prefetch-and-priorities-in-chrome-776165961bbf)
+1. https://zhuanlan.zhihu.com/p/30349982
+1. https://github.com/fi3ework/blog/issues/32
+1. https://juejin.im/post/6844903613790175240
+1. https://juejin.im/post/6844903728433070094#heading-69
+1. https://zhuanlan.zhihu.com/p/67134654
+1. 响应式图片 https://zhuanlan.zhihu.com/p/61291942
+1. 前端缓存最佳时间 https://zhuanlan.zhihu.com/p/52916788
+1. https://zhuanlan.zhihu.com/p/55431529
+1. https://zhuanlan.zhihu.com/p/25718817
 
 ### 加载时的优化
 
 1. 减少 HTTP 请求
 1. HTTP2 多路复用、头部压缩、高优先级、服务端推送、流量控制
 1. 服务端渲染
+1. CDN https://www.zhihu.com/question/320489602/answer/683562496
 
 ### 运行时的优化
 
+1. https://www.zhihu.com/question/24907805/answer/470550004
+1. https://zhuanlan.zhihu.com/p/56001951
 1. 减少重排重绘
 1. 事件委托
 1. 动画 requestAnimationFrame transform/opacity

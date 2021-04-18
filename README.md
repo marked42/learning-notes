@@ -12,13 +12,16 @@
 1. 一到两周的时间能够完成的任务，有一定复杂度的业务或者技术问题，目标在于不断提高能力上限。
 
    1. UI/UX 方向，使用 css 实现各种不同的炫酷效果
+      1. [干货满满!如何优雅简洁地实现时钟翻牌器(支持 JS/Vue/React)](https://zhuanlan.zhihu.com/p/93519427)
+      1. https://zhuanlan.zhihu.com/p/32098478
       1. tab 切换时标签背景跟随切换效果
       1. [活动作品 CSS3 实现超酷炫的充电加载特效你会了吗？](https://www.bilibili.com/video/BV1J5411N7EW)
       1. B 站顶部毛玻璃效果
       1. B 站顶部背景动画跟随鼠标移动效果
       1. [CSS 特效](https://space.bilibili.com/451368848?from=search&seid=6524011749718512697)
       1. [知乎 顶栏跟随页面滚动切换效果](https://www.zhihu.com/follow)
-      1. [Refactoring UI](https://refactoringui.com/)
+      1. [douyin logo effect](https://zhuanlan.zhihu.com/p/52383058)
+      1. [Refactoring UI](https://refactoringui.com/) [视频](https://www.bilibili.com/video/BV1uK4y1e79L?from=search&seid=1009945343189491710)
       1. [知乎转评赞底栏 sticky 效果](https://zhuanlan.zhihu.com/p/365497937)
       1. [Sketch](https://space.bilibili.com/389903587/channel/detail?cid=99688)
       1. [Figma 新手教学系列](https://space.bilibili.com/389903587/channel/detail?cid=99685)
@@ -29,14 +32,15 @@
       1. [草帽自荐的干货视频](https://space.bilibili.com/389903587/channel/detail?cid=153806)
       1. [颜色的知识色彩关系色彩理论【中文字幕】](https://www.bilibili.com/video/BV1nx411p7s1)
    1. 思考如何完成一个体验优秀的 B 端系统
-      1. UI 美观、重点突出、交互流畅，
+      1. UI 美观、重点突出、交互流畅， [配色](https://colors.eva.design/)
       1. 无障碍访问 表单、弹窗可以使用键盘提交确认、取消。
       1. 一个漂亮的宣传页面，一些有趣的交互或者动画
       1. 新手引导功能
       1. 新旧版切换功能
       1. 完善的权限管理
       1. 完整的用户使用数据统计、便于分析用户行为，为系统改进提供依据。
-      1. 业界的标杆项目有哪些？B 站、知乎
+      1. 业界的标杆项目有哪些？B 站、知乎 vue-element-admin
+      1. https://zhuanlan.zhihu.com/p/54595908
    1. ast 可视化搭建方案、多端复用代码方案
       1. [可视化搭建 1](https://github.com/woai3c/Front-end-articles/issues/19)
       1. [可视化搭建 2](https://github.com/woai3c/Front-end-articles/issues/20)
@@ -50,7 +54,8 @@
       2. event emitter
       3. observer 观察者
       4. https://juejin.im/post/59eff1fb6fb9a044ff30a942
-   1. 模块化机制，实现 require(commonjs), define(amd), umd
+   1. 模块化机制，实现 require(commonjs), define(amd), umd 模块的互操作性 https://www.zhihu.com/question/288322186/answer/460742151
+   1. export default https://zhuanlan.zhihu.com/p/40733281
    1. bundler 包括依赖分析、异步组件，参考 webpack/rollup/parcel/vite
       1. [https://github.com/woai3c/Front-end-articles/issues/22](https://github.com/woai3c/Front-end-articles/issues/22)
       1. [webpack loader plugin](https://juejin.cn/post/6871239792558866440)
@@ -73,6 +78,9 @@
    1. [函数式编程](https://www.bilibili.com/video/BV1Mh411Z7LC)
    1. [dayjs](https://zhuanlan.zhihu.com/p/335951657)
    1. https://github.com/fouber/lottery
+   1. event loop https://zhuanlan.zhihu.com/p/34182184 https://zhuanlan.zhihu.com/p/35039878
+   1. https://zhuanlan.zhihu.com/p/33058983
+   1. https://zhuanlan.zhihu.com/p/33087629
 
 1. 需要几个月或者数年完成的任务，目标在于磨炼解决大型项目、高难度问题的工程能力。
    1. 使用 vue3 开发一套通用组件库
@@ -97,6 +105,10 @@
       1. [尤雨溪教你写 vue 高级 vue 教程 源码分析 中文字幕翻译完毕 ](https://www.bilibili.com/video/BV1d4411v7UX)
       1. [使用 JSX/TSX 开发 Vue3 组件](https://zhuanlan.zhihu.com/p/153387704)
       1. [Vue3 Compiler 优化细节，如何手写高性能渲染函数](https://zhuanlan.zhihu.com/p/150732926)
+      1. 指针碰撞 vdom https://zhuanlan.zhihu.com/p/101176821
+      1. https://zhuanlan.zhihu.com/p/62411633
+      1. https://zhuanlan.zhihu.com/p/24435564
+      1. https://zhuanlan.zhihu.com/p/36500459
    1. 工程化方向
       1. [活动作品前端工程中的编译时优化](https://www.bilibili.com/video/BV1764y1Q7FA/?spm_id_from=333.788.recommend_more_video.4)
       1. [工程化专场](https://www.bilibili.com/video/BV1cU4y1h7qx)
@@ -116,9 +128,6 @@
    1. JS/TS
       - [ ] [TS Type Challenge](https://github.com/type-challenges/type-challenges)
       - [ ] [Winter 前端进阶课程](https://www.bilibili.com/video/BV1Hr4y1P7KE?p=41)
-      - [ ] [深入 V8 引擎-第 01 课：上手开始看 V8 Ignition 解释器的字节码（Bytecodes）](https://www.bilibili.com/video/BV1FJ411E7Sf)
-      - [ ] [理解 V8 的字节码「译」](https://zhuanlan.zhihu.com/p/28590489)
-      - [ ] [JS 在引擎级别的执行过程@周爱民](https://www.bilibili.com/video/BV1Wy4y1b7PG)
       - [ ] Secrets of the JavaScript Ninja, 2nd Edition
       - [ ] You Don't Know Javascript
       - [ ] Functional Programming in JavaScript by Luis Atencio (Manning, 2016),
@@ -150,7 +159,6 @@
       <th>可视化</th>
       <th>vue</th>
       <th>软素质</th>
-1. 思考如何完成一个体验优秀的 B 端系统
    </tr>
    </thead>
    <tbody>
@@ -208,7 +216,7 @@
 
 ## Webgl
 
-1. [雨滴特效](https://zhuanlan.zhihu.com/p/353616639)
+1. [雨滴特效](https://zhuanlan.zhihu.com/p/353616639) [CSS](https://zhuanlan.zhihu.com/p/80852343)
 
 ## 安全
 
@@ -223,13 +231,6 @@
 1. Content-Security-Policy
    https://www.keycdn.com/support/content-security-policy
 
-## 性能优化
-
-1. [Preload & Prefetch](https://medium.com/reloading/preload-prefetch-and-priorities-in-chrome-776165961bbf)
-1. https://github.com/fi3ework/blog/issues/32
-1. https://juejin.im/post/6844903613790175240
-1. https://juejin.im/post/6844903728433070094#heading-69
-
 ## node
 
 1. [ElemeFE/node-interview](https://github.com/ElemeFE/node-interview/tree/master/sections/zh-cn)
@@ -238,11 +239,14 @@
 
 1. 深入 javascript https://juejin.im/post/59278e312f301e006c2e1510
 1. 周爱民老师的 Javascript 课程
+1. https://mp.weixin.qq.com/s/foXbAj3ODqFKYGUP5K8MkQ
 1. 异步模式
    1. [microtask 队列与 async/await 源码分析](https://zhuanlan.zhihu.com/p/134647506)
    1. [Promise V8 源码分析(一)](https://zhuanlan.zhihu.com/p/264944183)
    1. [microtask 队列与 async/await 源码分析](https://zhuanlan.zhihu.com/p/134647506)
    1. 异步 async/await/Promise 05*You_Don't \_Know_JS_Async*&\_Performance
+   1. [探讨：当 Async/Await 的遇到了 EventLoop](https://zhuanlan.zhihu.com/p/86993504)
+   1. https://www.zhihu.com/question/65647171/answer/233495694
    1. https://css-tricks.com/understanding-async-await/
 1. https://www.zhihu.com/question/303073602
 1. https://www.npmjs.com/package/especially
@@ -280,6 +284,16 @@
    1. RegExp js ninja ch10
 1. 跨浏览器 js ninja ch14
 1. 06*You_Don't \_Know_JS_ES6*&\_Beyond
+1. [Proxy & Reflect](https://zhuanlan.zhihu.com/p/60126477)
+1. [JS 性能] https://www.zhihu.com/question/402807137/answer/1322391162
+1. [Maybe you don't need Rust and WASM to speed up your JS](https://mrale.ph/blog/2018/02/03/maybe-you-dont-need-rust-to-speed-up-your-js.html) https://mrale.ph/ https://www.zhihu.com/question/272156541/answer/367784539
+1. how javascript works 书籍
+1. this https://www.zhihu.com/collection/144350453?page=4
+1. vscode
+   1. [VSCode TextBuffer Implementation](https://code.visualstudio.com/blogs/2018/03/23/text-buffer-reimplementation)
+   1. vscode https://www.zhihu.com/question/374558844/answer/1051321547
+   1. go to definition https://zhuanlan.zhihu.com/p/100438617
+   1. [依赖注入](https://zhuanlan.zhihu.com/p/60228431)
 
 ## 浏览器
 
@@ -288,18 +302,53 @@
 1. [从浏览器多进程到 JS 单线程，JS 运行机制最全面的一次梳理](https://juejin.im/post/5a6547d0f265da3e283a1df7)
 1. https://time.geekbang.org/column/intro/216
 1. https://www.zhihu.com/question/266787740/answer/313995802
+1. [万字详文：深入理解浏览器原理](https://zhuanlan.zhihu.com/p/96986818)
+1. https://zhuanlan.zhihu.com/p/58518107
+1. how blink works https://zhuanlan.zhihu.com/p/52918538
+1. https://www.zhihu.com/question/266787740/answer/313995802
+1. layoutNG https://zhuanlan.zhihu.com/p/37847490
+1. Chrome HTTP2 https://zhuanlan.zhihu.com/p/34662800
+1. https://www.zhihu.com/question/271492607/answer/362737266
+1. DNS https://zhuanlan.zhihu.com/p/32531969
 
-## 深入
+## v8
 
-1. [【更新完毕】操作系统与系统编程 CS162 伯克利大学 英文字幕](https://www.bilibili.com/video/BV1SW411q7yp)
-1. [【CS 公开课】计算机程序的构造和解释（SICP）【中英字幕】【FoOTOo&HITPT&Learning-SICP】](https://www.bilibili.com/video/BV1Xx41117tr)
-1. [CSAPP 深入理解计算机系统 课程视频含英文字幕（精校字幕视频见 av31289365！！！）](https://www.bilibili.com/video/BV1XW411A7fB)
+- [ ] [深入 V8 引擎-第 01 课：上手开始看 V8 Ignition 解释器的字节码（Bytecodes）](https://www.bilibili.com/video/BV1FJ411E7Sf)
+- [ ] https://www.zhihu.com/question/62732293/answer/201723301
+- [ ] https://www.zhihu.com/question/59792274/answer/168987086
+- [ ] https://zhuanlan.zhihu.com/p/26388217
+- [ ] [lazy parsing](https://zhuanlan.zhihu.com/p/63326335)
+- [ ] [理解 V8 的字节码「译」](https://zhuanlan.zhihu.com/p/28590489)
+- [ ] [JS 在引擎级别的执行过程@周爱民](https://www.bilibili.com/video/BV1Wy4y1b7PG)
+- [ ] 新手上路学习 JavaScript 引擎实现——路线图 https://zhuanlan.zhihu.com/p/20505562
+
+## 移动端和 hybrid
+
+1. 0.5px https://zhuanlan.zhihu.com/p/34908005
+1. https://www.zhihu.com/question/35633784/answer/348473875
+1. https://www.zhihu.com/question/20269059/answer/60767669
+1. https://zhuanlan.zhihu.com/p/34646281
+1. https://zhuanlan.zhihu.com/p/32899522
+1. https://zhuanlan.zhihu.com/p/40135815
+
+## CSS
+
+1. layout https://zhuanlan.zhihu.com/p/104927765
+1. line-height vertical-align https://zhuanlan.zhihu.com/p/51189193
+1. svg https://zhuanlan.zhihu.com/p/54088196
 
 ## Books & Blogs
 
 - [ ] CSS 揭秘
+- [ ] CSS 世界
+- [ ] CSS-Tricks https://zhuanlan.zhihu.com/p/60917882
+- [ ] javascript 设计模式与开发实践
+- [ ] 《javascript 框架设计(第二版)》
 - [ ] Refactoring 2nd Edition
 - [ ] 高性能网站建设指南
-- [ ] [Algorithms In JS](https://github.com/trekhleb/javascript-algorithms?utm_source=gold_browser_extension)
+- [ ] https://github.com/phodal/booktree
 - [ ] [张云龙](https://github.com/fouber/blog)
 - [ ] [Chrome Dev Summit](https://space.bilibili.com/64169458/channel/detail?cid=157747)
+- [ ] [Dan Blogs](https://overreacted.io/)
+- [ ] [大漠](https://www.w3cplus.com/relearn-the-front-end-techniques.html)
+- [ ] [李银城](https://zhuanlan.zhihu.com/p/33846206)
