@@ -22,6 +22,7 @@
       1. [知乎转评赞底栏 sticky 效果](https://zhuanlan.zhihu.com/p/365497937)
       1. [Sketch](https://space.bilibili.com/389903587/channel/detail?cid=99688)
       1. [Figma 新手教学系列](https://space.bilibili.com/389903587/channel/detail?cid=99685)
+      1. https://juejin.cn/post/6951207758997913636
       1. [UX 原则](https://www.uxtoast.com/ux-laws/)
       1. [其他](https://space.bilibili.com/389903587/video)
       1. [蓝湖](https://www.bilibili.com/video/BV1XJ41177tw?p=4&spm_id_from=pageDriver)
@@ -142,7 +143,7 @@
       <th>算法leetcode</th>
       <th>小练习lodash</th>
       <th>关注最新动态</th>
-      <th>CSS炫酷动效</th>
+      <th>UI/CSS炫酷动效</th>
       <th>可视化搭建、多端复用、AST</th>
       <th>工程化</th>
       <th>组件库</th>
@@ -163,16 +164,18 @@
          1. leftpad
       </td>
       <td></td>
-      <td></td>
+      <td>
+         <a href="https://www.bilibili.com/video/BV1TK411M7tD">Figma新手教学系列</a>
+      </td>
       <td>
          <a href="https://juejin.cn/post/6951596501961277448">前端智能化在阿里云大数据研发平台中的实践</a>
       </td>
       <td>
          <ul>
             <li><a href="https://www.bilibili.com/video/BV1H5411c7Ef">基于Node.js在CLI下工程化体系实践</a></li>
-            <li><a href="https://www.bilibili.com/medialist/play/watchlater/BV1KV411H7c4">有赞前后端协作方式的演进</a></li>
-            <li><a href="https://www.bilibili.com/medialist/play/watchlater/BV1bi4y1A7Gs">如何搭建工程化效能体系为研发加速</a></li>
-            <li><a href="https://www.bilibili.com/medialist/play/watchlater/BV1Sp4y18716">如何构建后现代前端工程化开发体系</a></li>
+            <li><a href="https://www.bilibili.com/video/BV1KV411H7c4?from=search&seid=2791112690389061114">有赞前后端协作方式的演进</a></li>
+            <li><a href="https://www.bilibili.com/video/BV1bi4y1A7Gs?from=search&seid=7459594533958101933">如何搭建工程化效能体系为研发加速</a></li>
+            <li><a href="https://www.bilibili.com/video/BV1Sp4y18716?from=search&seid=7339213082970257490">如何构建后现代前端工程化开发体系</a></li>
          </ul>
       </td>
 <td></td>
