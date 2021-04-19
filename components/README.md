@@ -9,6 +9,7 @@ ElementUI, vuetify, iview, material design ,Quasar, vant
 https://zhuanlan.zhihu.com/p/46332833
 https://www.zhihu.com/question/22195970/answer/135676894
 https://www.zhihu.com/question/22195970/answer/204910302
+[开发更好用的 JavaScript 模块](https://zhuanlan.zhihu.com/p/31499310)
 
 ## 倒计时组件
 

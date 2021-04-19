@@ -705,3 +705,5 @@ Context makes parent properties easily accessible to descendant components, but 
 ```
 
 https://zhuanlan.zhihu.com/p/34237442
+
+1. [从setState promise化的探讨 体会React团队设计思想](https://zhuanlan.zhihu.com/p/28905707)

@@ -13,8 +13,11 @@
 
    1. UI/UX 方向，使用 css 实现各种不同的炫酷效果
       1. [干货满满!如何优雅简洁地实现时钟翻牌器(支持 JS/Vue/React)](https://zhuanlan.zhihu.com/p/93519427)
+      1. [翻牌](https://zhuanlan.zhihu.com/p/48499313)
+      1. 鼠标悬浮效果 https://zhuanlan.zhihu.com/p/34173506
       1. https://zhuanlan.zhihu.com/p/32098478
       1. tab 切换时标签背景跟随切换效果
+      1. [文字加背景效果](https://zhuanlan.zhihu.com/p/53974273)
       1. [活动作品 CSS3 实现超酷炫的充电加载特效你会了吗？](https://www.bilibili.com/video/BV1J5411N7EW)
       1. B 站顶部毛玻璃效果
       1. B 站顶部背景动画跟随鼠标移动效果
@@ -53,14 +56,22 @@
       1. pub/sub
       2. event emitter
       3. observer 观察者
+      1. js 常见模式 https://zhuanlan.zhihu.com/p/24980136
+      1. 防抖截流 https://zhuanlan.zhihu.com/p/62138440
       4. https://juejin.im/post/59eff1fb6fb9a044ff30a942
+      1. proxy
    1. 模块化机制，实现 require(commonjs), define(amd), umd 模块的互操作性 https://www.zhihu.com/question/288322186/answer/460742151
    1. export default https://zhuanlan.zhihu.com/p/40733281
    1. bundler 包括依赖分析、异步组件，参考 webpack/rollup/parcel/vite
       1. [https://github.com/woai3c/Front-end-articles/issues/22](https://github.com/woai3c/Front-end-articles/issues/22)
       1. [webpack loader plugin](https://juejin.cn/post/6871239792558866440)
+      1. [webpack code splitting](https://zhuanlan.zhihu.com/p/25534249)
       1. [深入了解 webpack 模块加载原理](https://juejin.cn/post/6872354325553741838)
+      1. [从构建进程间缓存设计 谈 Webpack5 优化和工作原理](https://zhuanlan.zhihu.com/p/110995118)
+      1. https://zhuanlan.zhihu.com/p/24717349
       1. [三十分钟掌握 Webpack 性能优化](https://juejin.cn/post/6844903651291447309)
+      1. webpack hmr https://zhuanlan.zhihu.com/p/30669007
+      1. webpack hash https://zhuanlan.zhihu.com/p/31456808
       1. [热更新](https://juejin.cn/post/6844903933157048333)
       1. [rollup](https://juejin.cn/post/6898865993289105415)
       1. [rollup](https://www.bilibili.com/video/BV1Ah411S7wJ)
@@ -75,12 +86,18 @@
    1. vue-router 路由库
    1. vuex 状态管理库
    1. code diff editor
+   1. 复杂场景数据设计
+      1. twitter https://zhuanlan.zhihu.com/p/29732224
+      1. https://www.zhihu.com/question/65624888/answer/236561676
+      1. [前端应用开发：从数据流到真实应用之间，隔了些什么东西？](https://zhuanlan.zhihu.com/p/61451331)
    1. [函数式编程](https://www.bilibili.com/video/BV1Mh411Z7LC)
    1. [dayjs](https://zhuanlan.zhihu.com/p/335951657)
    1. https://github.com/fouber/lottery
    1. event loop https://zhuanlan.zhihu.com/p/34182184 https://zhuanlan.zhihu.com/p/35039878
+   1. https://zhuanlan.zhihu.com/p/29116364
    1. https://zhuanlan.zhihu.com/p/33058983
    1. https://zhuanlan.zhihu.com/p/33087629
+   1. nodejs event loop https://zhuanlan.zhihu.com/p/27417770
 
 1. 需要几个月或者数年完成的任务，目标在于磨炼解决大型项目、高难度问题的工程能力。
    1. 使用 vue3 开发一套通用组件库
@@ -109,6 +126,7 @@
       1. https://zhuanlan.zhihu.com/p/62411633
       1. https://zhuanlan.zhihu.com/p/24435564
       1. https://zhuanlan.zhihu.com/p/36500459
+      1. nexTick https://zhuanlan.zhihu.com/p/36553258
    1. 工程化方向
       1. [活动作品前端工程中的编译时优化](https://www.bilibili.com/video/BV1764y1Q7FA/?spm_id_from=333.788.recommend_more_video.4)
       1. [工程化专场](https://www.bilibili.com/video/BV1cU4y1h7qx)
@@ -122,16 +140,18 @@
       1. [前端智能化实践从需求文档生成代码@桑世龙（狼叔） @李帅（卓风](https://www.bilibili.com/video/BV13b4y1D7Bp)
    1. HTTP
    1. [Typescript 重构 Axios](https://www.bilibili.com/video/BV1f54y1L7PV)
+   1. axios https://zhuanlan.zhihu.com/p/62657441
    1. Web 安全相关
    1. Web 页面性能优化相关
    1. node 方向
    1. JS/TS
       - [ ] [TS Type Challenge](https://github.com/type-challenges/type-challenges)
+      - [ ] [有趣也有用的现代类型系统](https://zhuanlan.zhihu.com/p/33882384)
       - [ ] [Winter 前端进阶课程](https://www.bilibili.com/video/BV1Hr4y1P7KE?p=41)
       - [ ] Secrets of the JavaScript Ninja, 2nd Edition
       - [ ] You Don't Know Javascript
       - [ ] Functional Programming in JavaScript by Luis Atencio (Manning, 2016),
-      - [ ] DOM Enlightenment
+      - [ ] DOM Enlightenment [关于JS更新input元素的value属性引发的狗血讨论](https://zhuanlan.zhihu.com/p/62753879)
    1. 浏览器原理
 
 按照强度划分任务主要是为了便于在每周内安排合适强度的学习计划，一个中高强度的任务可以拆分为多个低强度的项目来完成。
@@ -217,6 +237,7 @@
 ## Webgl
 
 1. [雨滴特效](https://zhuanlan.zhihu.com/p/353616639) [CSS](https://zhuanlan.zhihu.com/p/80852343)
+1. 卡通渲染 https://zhuanlan.zhihu.com/p/25595069
 
 ## 安全
 
@@ -234,6 +255,7 @@
 ## node
 
 1. [ElemeFE/node-interview](https://github.com/ElemeFE/node-interview/tree/master/sections/zh-cn)
+1. timer实现 https://zhuanlan.zhihu.com/p/26023420
 
 ## JS & TS
 
@@ -244,13 +266,19 @@
    1. [microtask 队列与 async/await 源码分析](https://zhuanlan.zhihu.com/p/134647506)
    1. [Promise V8 源码分析(一)](https://zhuanlan.zhihu.com/p/264944183)
    1. [microtask 队列与 async/await 源码分析](https://zhuanlan.zhihu.com/p/134647506)
+   1. [promise ](https://zhuanlan.zhihu.com/p/21834559)
    1. 异步 async/await/Promise 05*You_Don't \_Know_JS_Async*&\_Performance
    1. [探讨：当 Async/Await 的遇到了 EventLoop](https://zhuanlan.zhihu.com/p/86993504)
    1. https://www.zhihu.com/question/65647171/answer/233495694
    1. https://css-tricks.com/understanding-async-await/
+   1. [Promise: 给我一个承诺，我还你一个承诺](https://zhuanlan.zhihu.com/p/20209175)
+   1. rxjs https://www.zhihu.com/question/303073602/answer/542179409
+   1. [异步编程那些事（深入）](https://zhuanlan.zhihu.com/p/28315360)
 1. https://www.zhihu.com/question/303073602
 1. https://www.npmjs.com/package/especially
+1. [从一个 JSON.parse 错误深入研究 JavaScript 的转义字符](https://zhuanlan.zhihu.com/p/31030352)
 1. articles
+   1. [JavaScript 是如何工作的：JavaScript 的内存模型](https://zhuanlan.zhihu.com/p/62449359)
    1. [JavaScript. The Core: 2nd Edition](http://dmitrysoshnikov.com/ecmascript/javascript-the-core-2nd-edition/)
    1. [ECMA-262-5 in detail. Chapter 0. Introduction](http://dmitrysoshnikov.com/ecmascript/es5-chapter-0-introduction/)
    1. [ECMA-262-5 in detail. Chapter 1. Properties and Property Descriptors.](http://dmitrysoshnikov.com/ecmascript/es5-chapter-1-properties-and-property-descriptors/)
@@ -273,11 +301,16 @@
    1. [Javascript Closures](http://jibbering.com/faq/notes/closures/)
 1. https://juejin.im/post/5d6aa4f96fb9a06b112ad5b1 deep copy
 1. https://zhuanlan.zhihu.com/p/41203455
+1. 浮点数 https://zhuanlan.zhihu.com/p/30703042
+1. [浮点精度](https://zhuanlan.zhihu.com/p/28162086)
+1. [为什么(2.55).toFixed(1)等于2.5？](https://zhuanlan.zhihu.com/p/31202697)
+1. [浮点数精度之谜](https://zhuanlan.zhihu.com/p/28162086)
 1. 模块化 js ninja ch11
 1. [ES modules: A cartoon deep-dive](https://hacks.mozilla.org/2018/03/es-modules-a-cartoon-deep-dive/)
 1. object 相关
    1. 01*You_Don't \_Know_JS_Up*&\_Going
    1. 03*You_Don't \_Know_JS_this*&\_Object_Prototypes
+   1. 避免使用this https://zhuanlan.zhihu.com/p/27536677
    1. 基础 04*You_Don't \_Know_JS_Types*&\_Grammar
    1. javascript ninja ch7 ch8
    1. collections, Array, Map, set, WeakSet js ninja ch9
@@ -285,6 +318,7 @@
 1. 跨浏览器 js ninja ch14
 1. 06*You_Don't \_Know_JS_ES6*&\_Beyond
 1. [Proxy & Reflect](https://zhuanlan.zhihu.com/p/60126477)
+1. proxy https://zhuanlan.zhihu.com/p/35080324
 1. [JS 性能] https://www.zhihu.com/question/402807137/answer/1322391162
 1. [Maybe you don't need Rust and WASM to speed up your JS](https://mrale.ph/blog/2018/02/03/maybe-you-dont-need-rust-to-speed-up-your-js.html) https://mrale.ph/ https://www.zhihu.com/question/272156541/answer/367784539
 1. how javascript works 书籍
@@ -294,6 +328,7 @@
    1. vscode https://www.zhihu.com/question/374558844/answer/1051321547
    1. go to definition https://zhuanlan.zhihu.com/p/100438617
    1. [依赖注入](https://zhuanlan.zhihu.com/p/60228431)
+   1. https://zhuanlan.zhihu.com/p/337794496
 
 ## 浏览器
 
@@ -310,6 +345,24 @@
 1. Chrome HTTP2 https://zhuanlan.zhihu.com/p/34662800
 1. https://www.zhihu.com/question/271492607/answer/362737266
 1. DNS https://zhuanlan.zhihu.com/p/32531969
+1. Chrome https://www.zhihu.com/question/384181805/answer/1151800192kJk
+1. https://zhuanlan.zhihu.com/p/47407398
+1. life of a pixel https://zhuanlan.zhihu.com/p/44737615
+1. chrome websocket 从Chrome源码看WebSocket  https://zhuanlan.zhihu.com/p/37350346
+1. nodejs websocket https://www.zhihu.com/question/37647173/answer/1403359896
+1. [从“快稳省安全”看Chromium——Chromium学习系列](https://zhuanlan.zhihu.com/p/58518107)
+
+## 工程经验
+
+1. [干货好文：从达标到卓越 —— API 设计之道](https://zhuanlan.zhihu.com/p/31485216)
+1. [精读《API设计原则》](https://zhuanlan.zhihu.com/p/29216358)
+
+## 后端
+
+1. [不要用JWT替代session管理（上）：全面了解Token,JWT,OAuth,SAML,SSO](https://zhuanlan.zhihu.com/p/38942172)
+1. [单点登录](https://zhuanlan.zhihu.com/p/60376970)
+1. [前端应该知道的web登录](https://zhuanlan.zhihu.com/p/62336927)
+1. [现代IM系统中消息推送和存储架构的实现](https://zhuanlan.zhihu.com/p/31143916)
 
 ## v8
 
@@ -324,21 +377,33 @@
 
 ## 移动端和 hybrid
 
+1. [rem vs px](https://www.zhihu.com/question/313971223/answer/628236155)
 1. 0.5px https://zhuanlan.zhihu.com/p/34908005
 1. https://www.zhihu.com/question/35633784/answer/348473875
 1. https://www.zhihu.com/question/20269059/answer/60767669
 1. https://zhuanlan.zhihu.com/p/34646281
 1. https://zhuanlan.zhihu.com/p/32899522
 1. https://zhuanlan.zhihu.com/p/40135815
+1. 移动端真机调试 https://zhuanlan.zhihu.com/p/60555317
 
 ## CSS
 
+1. bfc https://zhuanlan.zhihu.com/p/52426569
+1. https://zhuanlan.zhihu.com/p/61632491
 1. layout https://zhuanlan.zhihu.com/p/104927765
 1. line-height vertical-align https://zhuanlan.zhihu.com/p/51189193
 1. svg https://zhuanlan.zhihu.com/p/54088196
+1. svg https://zhuanlan.zhihu.com/p/38187460
+1. 新长度单位fr https://zhuanlan.zhihu.com/p/27502596
+1. css animation vs web animation https://zhuanlan.zhihu.com/p/27903404
+
+## GIT
+
+1. [git的基本架构欣赏](https://zhuanlan.zhihu.com/p/38245039)
 
 ## Books & Blogs
 
+- [ ] 推荐书籍 https://www.zhihu.com/question/22591993/answer/89226190
 - [ ] CSS 揭秘
 - [ ] CSS 世界
 - [ ] CSS-Tricks https://zhuanlan.zhihu.com/p/60917882
@@ -352,3 +417,7 @@
 - [ ] [Dan Blogs](https://overreacted.io/)
 - [ ] [大漠](https://www.w3cplus.com/relearn-the-front-end-techniques.html)
 - [ ] [李银城](https://zhuanlan.zhihu.com/p/33846206)
+- [ ] [Medium大V](https://www.zhihu.com/question/53953267/answer/138367664)
+- [ ] [LucasHC 前端开发核心知识](https://gitbook.cn/gitchat/column/5c91c813968b1d64b1e08fde)
+- [ ] [余弦](https://www.zhihu.com/column/evilcos)
+- [ ] [陈天](https://www.zhihu.com/people/tchen)

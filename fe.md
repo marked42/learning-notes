@@ -37,6 +37,9 @@ var a = (function () {
 
 2. 手写 async/await 实现 说了大致的思路
 3. https://zhuanlan.zhihu.com/p/60822797
+4. base 64 编码
+5. url 编码解码
+1. 防抖截流
 
 ## 浏览器
 
@@ -46,7 +49,6 @@ setTimeout 的回调能否按时执行？OK
 
 ## CSS
 
-opacity: 0、visibility: hidden、display: none 的区别
 
 ## HTTP
 

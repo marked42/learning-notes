@@ -1,5 +1,7 @@
 # [事件循环（Event Loop）](https://html.spec.whatwg.org/multipage/webappapis.html#event-loops)
 
+1. TODO: [requestAnimationFrame回调时机](https://zhuanlan.zhihu.com/p/64917985)
+
 浏览器采用事件循环的机制调度不同来源的任务（Task）按照合理的顺序执行，有如下三种类型的[事件循环](https://html.spec.whatwg.org/multipage/webappapis.html#event-loop)。
 
 1. 窗口事件循环（Window event loop）- 最核心的事件循环，在多个具有相似源（similar origin）的窗口间共享，处理窗口相关事件，包括渲染功能。有几种情况多个window可以共享同一个event loop。

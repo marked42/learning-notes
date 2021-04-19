@@ -120,9 +120,12 @@ https://www.zhihu.com/question/290066361/answer/486336434
 1. https://juejin.im/post/6844903728433070094#heading-69
 1. https://zhuanlan.zhihu.com/p/67134654
 1. 响应式图片 https://zhuanlan.zhihu.com/p/61291942
-1. 前端缓存最佳时间 https://zhuanlan.zhihu.com/p/52916788
+1. 前端缓存最佳实践 https://zhuanlan.zhihu.com/p/52916788
+1. Web静态资源缓存及优化 https://zhuanlan.zhihu.com/p/30780216
 1. https://zhuanlan.zhihu.com/p/55431529
 1. https://zhuanlan.zhihu.com/p/25718817
+1. 性能指标 https://zhuanlan.zhihu.com/p/46132555
+1. 关键路径优化 https://zhuanlan.zhihu.com/p/38548289
 
 ### 加载时的优化
 
