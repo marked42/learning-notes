@@ -9,6 +9,7 @@
 1. for in/for of/ enumerable property/Object.hasOwnProperty
 1. 数组去重
 1. 版本号对比
+1. 深拷贝 https://yanhaijing.com/javascript/2018/10/10/clone-deep/
 
 ```js
 compareVersion('4.0.1.0', '=', '0.4.1.0') // false

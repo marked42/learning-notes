@@ -121,7 +121,8 @@ https://www.zhihu.com/question/290066361/answer/486336434
 1. https://zhuanlan.zhihu.com/p/67134654
 1. 响应式图片 https://zhuanlan.zhihu.com/p/61291942
 1. 前端缓存最佳实践 https://zhuanlan.zhihu.com/p/52916788
-1. Web静态资源缓存及优化 https://zhuanlan.zhihu.com/p/30780216
+1. Web 静态资源缓存及优化 https://zhuanlan.zhihu.com/p/30780216
+1. [设计一个无懈可击的浏览器缓存方案：关于思路，细节，ServiceWorker，以及 HTTP/2](https://zhuanlan.zhihu.com/p/28113197)
 1. https://zhuanlan.zhihu.com/p/55431529
 1. https://zhuanlan.zhihu.com/p/25718817
 1. 性能指标 https://zhuanlan.zhihu.com/p/46132555
@@ -133,6 +134,7 @@ https://www.zhihu.com/question/290066361/answer/486336434
 1. HTTP2 多路复用、头部压缩、高优先级、服务端推送、流量控制
 1. 服务端渲染
 1. CDN https://www.zhihu.com/question/320489602/answer/683562496
+1. css preload https://zhuanlan.zhihu.com/p/32561606
 
 ### 运行时的优化
 
