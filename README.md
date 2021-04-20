@@ -37,6 +37,7 @@
       1. [蓝湖](https://www.bilibili.com/video/BV1XJ41177tw?p=4&spm_id_from=pageDriver)
       1. [草帽自荐的干货视频](https://space.bilibili.com/389903587/channel/detail?cid=153806)
       1. [颜色的知识色彩关系色彩理论【中文字幕】](https://www.bilibili.com/video/BV1nx411p7s1)
+      1. [UI 资源](http://thestocks.im/#)
    1. 思考如何完成一个体验优秀的 B 端系统
       1. UI 美观、重点突出、交互流畅， [配色](https://colors.eva.design/)
       1. 无障碍访问 表单、弹窗可以使用键盘提交确认、取消。
@@ -266,6 +267,7 @@
 
 1. [ElemeFE/node-interview](https://github.com/ElemeFE/node-interview/tree/master/sections/zh-cn)
 1. timer 实现 https://zhuanlan.zhihu.com/p/26023420
+1. [为什么我说 C/C++程序员都要阅读 Redis 源码之：通过 Redis 学习事件驱动设计](https://github.com/guodongxiaren/Blog/issues/26)
 
 ## JS & TS
 
@@ -390,6 +392,7 @@
 - [ ] [理解 V8 的字节码「译」](https://zhuanlan.zhihu.com/p/28590489)
 - [ ] [JS 在引擎级别的执行过程@周爱民](https://www.bilibili.com/video/BV1Wy4y1b7PG)
 - [ ] 新手上路学习 JavaScript 引擎实现——路线图 https://zhuanlan.zhihu.com/p/20505562
+- [ ] [新手应该如何读 Google V8 引擎源代码？](https://www.zhihu.com/question/39014659)
 
 ## 移动端和 hybrid
 
@@ -427,6 +430,7 @@
 - [ ] CSS 揭秘
 - [ ] CSS 世界
 - [ ] CSS-Tricks https://zhuanlan.zhihu.com/p/60917882
+- [ ] Effective Javascript
 - [ ] javascript 设计模式与开发实践
 - [ ] 《javascript 框架设计(第二版)》
 - [ ] Refactoring 2nd Edition
