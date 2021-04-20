@@ -1,5 +1,9 @@
 # CS
 
+## Awesome
+
+https://github.com/sindresorhus/awesome
+
 ## 算法
 
 1. [leetcode](https://www.zhihu.com/question/280279208/answer/1118675237)
@@ -10,6 +14,7 @@
 
 1. ucore 清华大学课程
 1. [OS xv6 6.828](https://pdos.csail.mit.edu/6.828/2018/schedule.html) [videos](https://www.bilibili.com/video/BV1px411E7ST)
+1. [MIT6.828-神级 OS 课程-要是早遇到，我还会是这种 five 系列](https://zhuanlan.zhihu.com/p/74028717)
 1. Operating Systems: Three Easy Pieces
 1. 操作系统真象还原
 1. https://www.zhihu.com/question/265653828/answer/480126552
@@ -25,6 +30,9 @@
 
 1. [10676 怎样暴力读取二进制数据文件](https://zhuanlan.zhihu.com/p/27988983)
 1. [二进制文件格式设计](https://zhuanlan.zhihu.com/p/20693043)
+
+1. [在读 APUE 的过程中，可以做哪些小项目练手，帮助快速掌握书本上的知识？](https://www.zhihu.com/question/25303808)
+1. [实现一个 shell 解释器需要哪些编译原理方面的知识？](https://www.zhihu.com/question/28606292/answer/41478783)
 
 ## 正则
 
@@ -67,6 +75,15 @@ https://www.zhihu.com/question/28606292/answer/41478783
 
 https://github.com/ossu/computer-science
 
-## 类型
+## Language
+
+1. [[资料合集] RednaxelaFX 写的文章/回答的导航帖（work in progress） ](https://zhuanlan.zhihu.com/p/25042028)
+1. [新手上路学习 JavaScript 引擎实现——路线图](https://zhuanlan.zhihu.com/p/20505562)
+1. [Build Your Own Lisp](http://buildyourownlisp.com/)
+1. [C in 4 functions](https://github.com/rswier/c4)
+
+### 类型系统
 
 1. [类型系统简介](https://zhuanlan.zhihu.com/p/65626985)
+1. [你的类型，0：基本的合一](https://zhuanlan.zhihu.com/p/24181997)
+1. [简评: The Little Typer(可能是最容易理解的关于 Dependent Type 的书)](https://zhuanlan.zhihu.com/p/54532349)

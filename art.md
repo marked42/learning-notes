@@ -13,7 +13,7 @@
 ## Design
 
 1. [oooooohmygosh](https://space.bilibili.com/38053181)
-1. 排版
+1. [字体故事](https://www.zhihu.com/question/21239079/answer/17687456)
 
 ## Documentary
 
@@ -22,3 +22,7 @@
 ## Economy
 
 1. [【高瓴资本张磊】顶尖投资思路分享（共 6 集）](https://www.bilibili.com/video/BV1Wh41127kb)
+
+## History
+
+1. [经济、国际关系、历史、传记、管理以及科普等非小说类英文原版书，有哪些比较好的推荐？](https://www.zhihu.com/question/27397971/answer/37847608)
