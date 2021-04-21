@@ -55,7 +55,8 @@
       1. [给重构代码 Refactor 写代码](https://www.bilibili.com/video/BV13b4y1X7BD)
       1. [Babel 是如何读懂 JS 代码的](https://zhuanlan.zhihu.com/p/27289600)
       1. [帧动画](https://www.imooc.com/video/11812)
-      1. [jsx](https://jasonformat.com/wtf-is-jsx/)
+      1. https://github.com/jamiebuilds/the-super-tiny-compiler
+      1. https://github.com/estree/estree
    1. 有重点的阅读一本技术书籍
    1. https://developer.chrome.com/devtools
    1. [js 常见模式](https://www.cnblogs.com/tugenhua0707/p/5198407.html)
