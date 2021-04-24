@@ -52,12 +52,11 @@
       1. [可视化搭建 1](https://github.com/woai3c/Front-end-articles/issues/19)
       1. [可视化搭建 2](https://github.com/woai3c/Front-end-articles/issues/20)
       1. [可视化搭建 3](https://github.com/woai3c/Front-end-articles/issues/21)
-      1. [给重构代码 Refactor 写代码](https://www.bilibili.com/video/BV13b4y1X7BD)
       1. [Babel 是如何读懂 JS 代码的](https://zhuanlan.zhihu.com/p/27289600)
-      1. [帧动画](https://www.imooc.com/video/11812)
       1. https://github.com/jamiebuilds/the-super-tiny-compiler
       1. https://github.com/estree/estree
    1. 有重点的阅读一本技术书籍
+   1. [帧动画](https://www.imooc.com/video/11812)
    1. https://developer.chrome.com/devtools
    1. [js 常见模式](https://www.cnblogs.com/tugenhua0707/p/5198407.html)
       1. pub/sub
@@ -70,6 +69,7 @@
    1. 模块化机制，实现 require(commonjs), define(amd), umd 模块的互操作性 https://www.zhihu.com/question/288322186/answer/460742151
    1. export default https://zhuanlan.zhihu.com/p/40733281
    1. bundler 包括依赖分析、异步组件，参考 webpack/rollup/parcel/vite
+      1. webpack 打包使用 node 原生模块 path 的代码会报错，path 找不到，rollup 将其默认为外部模块？
       1. [https://github.com/woai3c/Front-end-articles/issues/22](https://github.com/woai3c/Front-end-articles/issues/22)
       1. [webpack loader plugin](https://juejin.cn/post/6871239792558866440)
       1. [webpack code splitting](https://zhuanlan.zhihu.com/p/25534249)
@@ -436,6 +436,7 @@
 - [ ] 《javascript 框架设计(第二版)》
 - [ ] Refactoring 2nd Edition
 - [ ] 高性能网站建设指南
+- [ ] 前端架构：从入门到微前端
 - [ ] https://github.com/phodal/booktree
 - [ ] [张云龙](https://github.com/fouber/blog)
 - [ ] [Chrome Dev Summit](https://space.bilibili.com/64169458/channel/detail?cid=157747)

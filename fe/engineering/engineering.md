@@ -135,6 +135,7 @@ https://www.zhihu.com/question/290066361/answer/486336434
 1. 服务端渲染
 1. CDN https://www.zhihu.com/question/320489602/answer/683562496
 1. css preload https://zhuanlan.zhihu.com/p/32561606
+1. https://www.bilibili.com/video/BV1AQ4y1Z7XP?t=65
 
 ### 运行时的优化
 
@@ -155,3 +156,5 @@ https://www.zhihu.com/question/290066361/answer/486336434
 
 [大公司里怎样开发和部署前端代码？](https://www.zhihu.com/question/20790576)
 [前端工程 FIS](https://github.com/fouber/blog)
+
+1. https://zhuanlan.zhihu.com/p/359734011

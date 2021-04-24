@@ -1,5 +1,7 @@
 # Typescript
 
+1. [来玩 TypeScript 啊，机都给你开好了！](https://zhuanlan.zhihu.com/c_206498766)
+
 ## terminology
 
 Ambient

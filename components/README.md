@@ -11,6 +11,7 @@ https://www.zhihu.com/question/22195970/answer/135676894
 https://www.zhihu.com/question/22195970/answer/204910302
 [开发更好用的 JavaScript 模块](https://zhuanlan.zhihu.com/p/31499310)
 [从零做一个开源项目](http://www.imooc.com/learn/1003)
+[Element 源码分析](https://space.bilibili.com/390120104/favlist?fid=333106404&ftype=create)
 
 ## 倒计时组件
 
