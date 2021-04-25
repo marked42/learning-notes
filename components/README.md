@@ -6,16 +6,21 @@ ElementUI, vuetify, iview, material design ,Quasar, vant
 
 如何做一个开源库
 
+https://zhuanlan.zhihu.com/p/252824872
+[Ant Design 组件设计经验](https://www.zhihu.com/people/smith-jiang/posts)
+https://www.zhihu.com/column/antdesign
 https://zhuanlan.zhihu.com/p/46332833
 https://www.zhihu.com/question/22195970/answer/135676894
 https://www.zhihu.com/question/22195970/answer/204910302
 [开发更好用的 JavaScript 模块](https://zhuanlan.zhihu.com/p/31499310)
 [从零做一个开源项目](http://www.imooc.com/learn/1003)
 [Element 源码分析](https://space.bilibili.com/390120104/favlist?fid=333106404&ftype=create)
+[Material Design & Ant Design](http://dwbbb.com/blog/MaterialDesignAntDesign/)
 
 ## 倒计时组件
 
 https://zhuanlan.zhihu.com/p/20832837
+https://www.bilibili.com/video/BV1PV411e7mX
 
 问题调研与技术方案设计
 

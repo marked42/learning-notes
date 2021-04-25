@@ -69,7 +69,7 @@ import 'regenerator-runtime/runtime'
 
 ## 包分类
 
-`babel`的仓库使用 Monorepo 的方式组织，所有包统一发布到`@babel`前缀下。
+`babel`的[仓库](https://github.com/babel/babel/tree/main/packages)使用 Monorepo 的方式组织，所有包统一发布到`@babel`前缀下。
 
 | 包                | 功能                                                     |
 | ----------------- | -------------------------------------------------------- |
@@ -196,6 +196,8 @@ TODO: babel 插件机制的设计
 ### 插件开发
 
 babel-plugin-macro
+https://github.com/ElementUI/babel-plugin-component
+member-expression-literals
 
 ```js
 export default function () {
@@ -409,3 +411,6 @@ https://zhuanlan.zhihu.com/p/333951676
 1. [Code Transformation and Linting with ASTs with Kent C Dodds](https://frontendmasters.com/courses/linting-asts/)
 
 1. [How to be a Mentor](https://kentcdodds.com/chats-with-kent-podcast/seasons/01/episodes/creating-successful-mentor-relationships-with-emma-bostian)
+
+1. [Babel 是如何读懂 JS 代码的](https://zhuanlan.zhihu.com/p/27289600)
+1. [babel plugin](https://space.bilibili.com/228173207?spm_id_from=333.788.b_765f7570696e666f.2)

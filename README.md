@@ -40,6 +40,9 @@
       1. [UI 资源](http://thestocks.im/#)
    1. 思考如何完成一个体验优秀的 B 端系统
       1. UI 美观、重点突出、交互流畅， [配色](https://colors.eva.design/)
+      1. https://zhuanlan.zhihu.com/p/266728471
+      1. https://zhuanlan.zhihu.com/p/266730093
+      1. https://zhuanlan.zhihu.com/p/109644406
       1. 无障碍访问 表单、弹窗可以使用键盘提交确认、取消。
       1. 一个漂亮的宣传页面，一些有趣的交互或者动画
       1. 新手引导功能
@@ -53,6 +56,7 @@
       1. [可视化搭建 2](https://github.com/woai3c/Front-end-articles/issues/20)
       1. [可视化搭建 3](https://github.com/woai3c/Front-end-articles/issues/21)
       1. [Babel 是如何读懂 JS 代码的](https://zhuanlan.zhihu.com/p/27289600)
+      1. https://zhuanlan.zhihu.com/p/103245540
       1. https://github.com/jamiebuilds/the-super-tiny-compiler
       1. https://github.com/estree/estree
    1. 有重点的阅读一本技术书籍
@@ -67,6 +71,8 @@
       6. https://juejin.im/post/59eff1fb6fb9a044ff30a942
       7. proxy
    1. 模块化机制，实现 require(commonjs), define(amd), umd 模块的互操作性 https://www.zhihu.com/question/288322186/answer/460742151
+   1. [Refactoring Guru]https://refactoringguru.cn/design-patterns/builder
+   1. Dive into design patterns
    1. export default https://zhuanlan.zhihu.com/p/40733281
    1. bundler 包括依赖分析、异步组件，参考 webpack/rollup/parcel/vite
       1. webpack 打包使用 node 原生模块 path 的代码会报错，path 找不到，rollup 将其默认为外部模块？
@@ -448,3 +454,4 @@
 - [ ] [余弦](https://www.zhihu.com/column/evilcos)
 - [ ] [陈天](https://www.zhihu.com/people/tchen)
 - [ ] [颜海镜](https://yanhaijing.com/)
+- [ ] [dwb](http://dwbbb.com/)
