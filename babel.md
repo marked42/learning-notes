@@ -4,6 +4,18 @@
 
 Babel 在前端生态中用来对 JS 进行语法转换、代码迁移、增加垫片（polyfill）等操作。
 
+## 配置
+
+配置文件
+
+1. 项目级别，对整个项目中的所有文件都生效
+   1. `babel.config.json`或者其他后缀（`.js`，`.cjs`，`.mjs`）
+1. 文件级别，对文件所在目录及所有子目录中文件生效
+   1. `.babelrc.json`或者其他后缀(.babelrc, .js, .cjs, .mjs)
+   1. `package.json`中的`babel`字段
+
+版本 6 7 的不同
+
 安装方法如下：
 
 ```bash
@@ -413,4 +425,28 @@ https://zhuanlan.zhihu.com/p/333951676
 1. [How to be a Mentor](https://kentcdodds.com/chats-with-kent-podcast/seasons/01/episodes/creating-successful-mentor-relationships-with-emma-bostian)
 
 1. [Babel 是如何读懂 JS 代码的](https://zhuanlan.zhihu.com/p/27289600)
-1. [babel plugin](https://space.bilibili.com/228173207?spm_id_from=333.788.b_765f7570696e666f.2)
+1. # [babel plugin](https://space.bilibili.com/228173207?spm_id_from=333.788.b_765f7570696e666f.2)
+1. https://www.bilibili.com/video/BV1GK4y1W7fi?from=search&seid=12773308433329510711
+1. https://www.bilibili.com/video/BV1N4411R7yP?from=search&seid=12773308433329510711
+1. https://www.bilibili.com/video/BV1Rf4y1S7RN?from=search&seid=12773308433329510711
+1. https://www.bilibili.com/video/BV1so4y1o7qr?from=search&seid=12773308433329510711
+
+1. https://github.com/babel/babel/pull/3561
+1. https://www.sitepoint.com/understanding-asts-building-babel-plugin/
+1. jscodeshift https://www.toptal.com/javascript/write-code-to-rewrite-your-code
+1. https://www.kenneth-truyers.net/2016/05/27/writing-custom-eslint-rules/
+
+## 其他
+
+1. 编译 babel https://github.com/jamiebuilds/the-super-tiny-compiler
+1. 配置文件与配置合并策略 include/exclude/test/only/overrides/env, 插件 plugin/preset name normalization
+1. 编译阶段 语法插件 syntax plugin, 转换阶段 transform plugin
+1. ast 类型定义 @babel/types @babel/template，ast 转换 @babel/traverse 遍历机制 dfs
+1. babel 项目之间的依赖关系
+   1. @babel/core @babel/parser @babel/traverse @babel/cli @babel-node @babel plugins @babel presets
+1. https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/user-handbook.md
+1. https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md
+
+## ESLint
+
+write your own rule/plugin/preset
