@@ -99,6 +99,16 @@ import 'regenerator-runtime/runtime'
 
 ### AST
 
+#### 节点类型
+
+babel 使用的 AST 节点规范参考[文档](https://github.com/babel/babel/blob/master/packages/babel-parser/ast/spec.md) 和[ESTree 规范](https://github.com/estree/estree)，其中 ESTree 规范可以看到每个版本的 Javascript 新增的节点规范。
+
+1. `undefined`为什么是 Identifier 不是 Literal
+
+"-" | "+" | "!" | "~" | "typeof" | "void" | "delete" | "throw"
+
+1. template literal/tagged template literal quasi ?
+
 #### 节点信息
 
 ast 的查询、validate、沿着树上下遍历
