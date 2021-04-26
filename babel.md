@@ -96,6 +96,9 @@ import 'regenerator-runtime/runtime'
 | @babel/runtime    | 运行时                                                   |
 | @babel/polyfill   | 功能垫片                                                 |
 | @babel/standalone | 运行在浏览器上的版本，不能使用文件操作等 Node 提供的功能 |
+| @babel/register   | 动态编译                                                 |
+
+TODO: 分析 babel/register 实现
 
 ### AST
 
@@ -114,6 +117,8 @@ babel 使用的 AST 节点规范参考[文档](https://github.com/babel/babel/bl
 ast 的查询、validate、沿着树上下遍历
 
 ast 和 @babel/types t.Program, t.File
+
+replaceWithSourceString
 
 手动构造 AST 节点树
 
