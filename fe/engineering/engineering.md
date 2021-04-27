@@ -35,6 +35,8 @@ eslint-config-alloy
 
 ### git 规范
 
+[规范参考](https://juejin.cn/post/6844903897610321934)
+
 方便 code review，开发历史清晰，降低理解成本，人员变动时其他人容易接手
 
 1. 分支规范 git flow,github flow, gitlab flow

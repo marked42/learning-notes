@@ -2,7 +2,7 @@
 
 ## 基本用法
 
-Babel 在前端生态中用来对 JS 进行语法转换、代码迁移、增加垫片（polyfill）等操作。
+Babel 在前端生态中用来对 JS 进行语法转换、代码迁移、增加垫片（polyfill）等操作。 [官方使用手册](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/user-handbook.md)
 
 ## 配置
 
@@ -13,6 +13,8 @@ Babel 在前端生态中用来对 JS 进行语法转换、代码迁移、增加�
 1. 文件级别，对文件所在目录及所有子目录中文件生效
    1. `.babelrc.json`或者其他后缀(.babelrc, .js, .cjs, .mjs)
    1. `package.json`中的`babel`字段
+
+配置文件与配置合并策略 include/exclude/test/only/overrides/env, 插件 plugin/preset name normalization
 
 版本 6 7 的不同
 
@@ -79,6 +81,8 @@ import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 ```
 
+[实践中问题总结](https://zhuanlan.zhihu.com/p/361874935)
+
 ## 包分类
 
 `babel`的[仓库](https://github.com/babel/babel/tree/main/packages)使用 Monorepo 的方式组织，所有包统一发布到`@babel`前缀下。
@@ -106,7 +110,11 @@ TODO: 分析 babel/register 实现
 
 babel 使用的 AST 节点规范参考[文档](https://github.com/babel/babel/blob/master/packages/babel-parser/ast/spec.md) 和[ESTree 规范](https://github.com/estree/estree)，其中 ESTree 规范可以看到每个版本的 Javascript 新增的节点规范。
 
+1. interpreter directive stage 1
+1. t.File 的作用
+1. leading comments/trailing comments/inner comments/CommentLine CommentBlock
 1. `undefined`为什么是 Identifier 不是 Literal
+1. IfStatement test consequent alternate 可以形成嵌套 If。
 
 "-" | "+" | "!" | "~" | "typeof" | "void" | "delete" | "throw"
 
@@ -114,13 +122,45 @@ babel 使用的 AST 节点规范参考[文档](https://github.com/babel/babel/bl
 
 #### 节点信息
 
-ast 的查询、validate、沿着树上下遍历
+Babel 使用的 AST 节点通用的信息有这些。
 
-ast 和 @babel/types t.Program, t.File
+```js
+{
+  // 节点类型
+  "type": "File",
+  // 字节流中的位置
+  "start": 0,
+  "end": 481,
+  // 文件中的行列位置
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 20,
+      "column": 0
+    },
+    "filename": undefined,
+    "identifierName": undefined
+  },
+  "range": undefined,
+  // 相关注释
+  "leadingComments": undefined,
+  "trailingComments": undefined,
+  "innerComments": undefined,
+  "extra": undefined,
+}
+```
 
-replaceWithSourceString
+每种 AST 节点有关联的功能点
 
-手动构造 AST 节点树
+1. builder 如何构造节点
+1. visitor 哪些子节点需要遍历
+1. aliases 节点别名
+1. 节点类型检测
+
+Babel 使用`defineType`来定义一个节点类型，自动生成相关构造函数、别名、类型检测函数 。
 
 ```js
 defineType('BinaryExpression', {
@@ -139,15 +179,22 @@ defineType('BinaryExpression', {
   visitor: ['left', 'right'],
   aliases: ['Binary', 'Expression'],
 })
+```
 
+一个 AST 节点类型对应的工具函数。
+
+```js
+// 构造
 t.binaryExpression()
+// 是否
 t.isBinaryExpression(maybeBinaryExpressionNode, { operator: '*' })
+// 保证节点类型
 t.assertBinaryExpression(maybeBinaryExpressionNode, { operator: '*' })
 ```
 
 #### 从模板构造 AST
 
-`@babel/template`
+手工构造复杂的 AST 节点树比较麻烦， `@babel/template`提供了从模板字符串自动生成对应 AST 树的方法。
 
 ```js
 import template from '@babel/template'
@@ -169,157 +216,15 @@ console.log(generate(ast).code)
 #### 节点遍历
 
 访问者模式 https://zhuanlan.zhihu.com/p/360664179
+Traversal 树的遍历
+Visitor 模式 https://en.wikipedia.org/wiki/Visitor_pattern
+讲述了来龙去脉 A Little Java, A Few Patterns
+packages/babel-traverse/src/path/context.js
+采用的是多叉树先序深度优先遍历
 
 1. parent findParent, find, getParentFunction, getParentStatement,
 1. sibling [api](https://github.com/babel/babili/blob/master/packages/babel-plugin-transform-merge-sibling-variables/src/index.js)
 1. path.skip()/path.stop()
-
-### 节点变换
-
-### scope
-
-1. @babel/helpers
-1. @babel/runtime
-1. @babel/code-frame
-
-### 增加`import`语句节点
-
-@babel/helper-module-imports
-
-## 在浏览器环境使用
-
-`@babel/standalone`库
-
-```js
-
-```
-
-## 预设和插件（Preset & Plugin）
-
-babel 插件分为转换插件（转换阶段）和语法插件（解析阶段），
-
-TODO: babel 插件机制的设计
-
-1. 统一的插件接口设计，
-1. 插件尽可能设计成纯函数式的，无副作用
-1. 是否需要全局环境 context 数据
-1. 插件的顺序问题？
-1. 插件的状态问题，一个插件多次运行，每次能够记录数据，根据数据每次运行的结果不同？
-1. 各种设计考虑问题有哪些具体的例子？
-1. 插件支持同步和异步的模式
-
-插件包括语法插件和转换插件，如果使用了转换插件，自动激活相应的语法插件，不需要再手动引入。
-
-### babel 现有的插件进行大致的分析和分类。
-
-官方的[插件列表](https://babeljs.io/docs/en/plugins-list)
-
-### 顺序
-
-1. Plugins run before Presets.
-1. Plugin ordering is first to last.
-1. Preset ordering is reversed (last to first).
-
-### 插件开发
-
-babel-plugin-macro
-https://github.com/ElementUI/babel-plugin-component
-member-expression-literals
-
-```js
-export default function () {
-  return {
-    visitor: {
-      Identifier(path) {
-        const name = path.node.name
-        // reverse the name: JavaScript -> tpircSavaJ
-        path.node.name = name.split('').reverse().join('')
-      },
-    },
-  }
-}
-
-// pre post plugin
-export default function ({ types: t }) {
-  return {
-    pre(state) {
-      this.cache = new Map()
-    },
-    visitor: {
-      StringLiteral(path) {
-        this.cache.set(path.node.value, 1)
-      },
-      Class(path) {
-        throw path.buildCodeFrameError('Error message here')
-      },
-    },
-    post(state) {
-      console.log(this.cache)
-    },
-    inherits: require('babel-plugin-syntax-jsx'),
-  }
-}
-```
-
-1. Merge visitors whenever possible
-1. Do not traverse when manual lookup will do
-1.
-
-使用测试用例保证插件质量，babel-plugin-tester https://github.com/babel-utils/babel-plugin-tester/blob/master/README.md
-
-```js
-import pluginTester from 'babel-plugin-tester'
-import identifierReversePlugin from '../identifier-reverse-plugin'
-
-pluginTester({
-  plugin: identifierReversePlugin,
-  fixtures: path.join(__dirname, '__fixtures__'),
-  tests: {
-    'does not change code with no identifiers': '"hello";',
-    'changes this code': {
-      code: 'var hello = "hi";',
-      output: 'var olleh = "hi";',
-    },
-    'using fixtures files': {
-      fixture: 'changed.js',
-      outputFixture: 'changed-output.js',
-    },
-    'using jest snapshots': {
-      code: `
-        function sayHi(person) {
-          return 'Hello ' + person + '!'
-        }
-      `,
-      snapshot: true,
-    },
-  },
-})
-```
-
-preset 倒序
-
-```js
-module.exports = () => ({
-  presets: [require('@babel/preset-env')],
-  plugins: [
-    [require('@babel/plugin-proposal-class-properties'), { loose: true }],
-    require('@babel/plugin-proposal-object-rest-spread'),
-  ],
-})
-```
-
-## Parse
-
-AST
-
-[ESTreeSpec](https://github.com/estree/estree)
-[Babel 是如何读懂 JS 代码的](https://zhuanlan.zhihu.com/p/27289600)
-
-## Traverse
-
-Traversal 树的遍历
-Visitor 模式 https://en.wikipedia.org/wiki/Visitor_pattern
-讲述了来龙去脉 A Little Java, A Few Patterns
 
 ```js
 const MyVisitor = {
@@ -390,21 +295,19 @@ Binding
 }
 ```
 
-## Transform
+https://zhuanlan.zhihu.com/p/333951676
+
+#### 节点变换
+
+ast 的查询、沿着树上下遍历
+
+replaceWithSourceString
 
 https://summerrouxin.github.io/archives/
 
 babel-plugin-syntax-jsx
 
-AST Manipulation
-
-jscodeshift, codemods
-
 插件分析 按需加载 babel-plugin/component/babel-plugin-import
-
-https://github.com/jamiebuilds/babel-handbook
-
-[Babel Plugin Handbook](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md#toc-manipulation)
 
 ```js
 export default function ({ types: t }) {
@@ -417,51 +320,178 @@ export default function ({ types: t }) {
 }
 ```
 
-https://zhuanlan.zhihu.com/p/333951676
+#### scope
 
-## Generator
+1. @babel/helpers
+1. @babel/runtime
+1. @babel/code-frame
+
+### 增加`import`语句节点
+
+@babel/helper-module-imports
+
+## 在浏览器环境使用
+
+`@babel/standalone`库
+
+```js
+
+```
+
+## 预设和插件（Preset & Plugin）
+
+babel 插件分为转换插件（转换阶段）和语法插件（解析阶段），
+
+TODO: babel 插件机制的设计
+
+1. 统一的插件接口设计，
+1. 插件尽可能设计成纯函数式的，无副作用
+1. 是否需要全局环境 context 数据
+1. 插件的顺序问题？
+1. 插件的状态问题，一个插件多次运行，每次能够记录数据，根据数据每次运行的结果不同？
+1. 各种设计考虑问题有哪些具体的例子？
+1. 插件支持同步和异步的模式
+
+插件包括语法插件和转换插件，如果使用了转换插件，自动激活相应的语法插件，不需要再手动引入。
+
+`transformFile`函数中插件的执行过程
+
+1. 遍历插件集合，执行插件的 pre 方法。
+1. 遍历插件集合，合并插件的 visitor 方法，输出是一个包含了所有插件逻辑的 visitor 方法。
+1. 执行第二步合成的 visitor 方法。
+1. 遍历插件集合，执行插件的 post 方法。
+
+### babel 现有的插件进行大致的分析和分类。
+
+官方的[插件列表](https://babeljs.io/docs/en/plugins-list)
+[官方插件实现分析](https://space.bilibili.com/228173207?spm_id_from=333.788.b_765f7570696e666f.2)
+
+### 顺序
+
+1. Plugins run before Presets.
+1. Plugin ordering is first to last.
+1. Preset ordering is reversed (last to first).
+
+### 插件开发
+
+参考[官方插件开发手册](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md)
+
+```js
+export default function () {
+  return {
+    visitor: {
+      Identifier(path) {
+        const name = path.node.name
+        // reverse the name: JavaScript -> tpircSavaJ
+        path.node.name = name.split('').reverse().join('')
+      },
+    },
+  }
+}
+
+// pre post plugin
+export default function ({ types: t }) {
+  return {
+    pre(state) {
+      this.cache = new Map()
+    },
+    visitor: {
+      StringLiteral(path) {
+        this.cache.set(path.node.value, 1)
+      },
+      Class(path) {
+        throw path.buildCodeFrameError('Error message here')
+      },
+    },
+    post(state) {
+      console.log(this.cache)
+    },
+    inherits: require('babel-plugin-syntax-jsx'),
+  }
+}
+```
+
+1. Merge visitors whenever possible
+1. Do not traverse when manual lookup will do
+1.
+
+### 插件测试
+
+使用测试用例保证插件质量，babel-plugin-tester https://github.com/babel-utils/babel-plugin-tester/blob/master/README.md
+
+```js
+import pluginTester from 'babel-plugin-tester'
+import identifierReversePlugin from '../identifier-reverse-plugin'
+
+pluginTester({
+  plugin: identifierReversePlugin,
+  fixtures: path.join(__dirname, '__fixtures__'),
+  tests: {
+    'does not change code with no identifiers': '"hello";',
+    'changes this code': {
+      code: 'var hello = "hi";',
+      output: 'var olleh = "hi";',
+    },
+    'using fixtures files': {
+      fixture: 'changed.js',
+      outputFixture: 'changed-output.js',
+    },
+    'using jest snapshots': {
+      code: `
+        function sayHi(person) {
+          return 'Hello ' + person + '!'
+        }
+      `,
+      snapshot: true,
+    },
+  },
+})
+```
+
+preset 倒序
+
+```js
+module.exports = () => ({
+  presets: [require('@babel/preset-env')],
+  plugins: [
+    [require('@babel/plugin-proposal-class-properties'), { loose: true }],
+    require('@babel/plugin-proposal-object-rest-spread'),
+  ],
+})
+```
+
+### 社区插件
+
+1. babel-plugin-lodash
+1. babel-plugin-preval
+1. babel-plugin-macro
+1. [awesome babel macro](https://github.com/jgierer12/awesome-babel-macros)
+1. https://github.com/ElementUI/babel-plugin-component
+   member-expression-literals
+
+## 解析
+
+1. [Babel 是如何读懂 JS 代码的](https://zhuanlan.zhihu.com/p/27289600)
+1. [The Super Tiny Compiler](https://github.com/jamiebuilds/the-super-tiny-compiler)
+1. [Creating custom JavaScript syntax with Babel
+   ](https://lihautan.com/creating-custom-javascript-syntax-with-babel/)
+
+## 代码生成
 
 1. [source-map](https://github.com/mozilla/source-map)
 1. 生成[source-map](https://zhuanlan.zhihu.com/p/308516099)
 
 [State of Babel](https://babeljs.io/blog/2016/12/07/the-state-of-babel)
 
+## 代码迁移
+
+1. [jscodeshift](https://www.toptal.com/javascript/write-code-to-rewrite-your-code)
+1. codemods
+
 ## babel-loader
 
-[Videos](https://www.babeljs.cn/videos)
+## 资料
 
-1. [vue 源码]https://www.bilibili.com/video/BV1GK4y1W7fi?from=search&seid=12773308433329510711
-1. [活动作品【全网首发:已完结】Vue 的模板编译『模板-AST 树-render-虚拟 DOM-真实 DOM』【面试必备】](https://www.bilibili.com/video/BV1Rf4y1S7RN?from=search&seid=12773308433329510711)
-
-1. [吃一堑长一智系列: 99% 开发者没弄明白的 babel 知识](https://zhuanlan.zhihu.com/p/361874935)
-
+1. [Babel 官网视频](https://www.babeljs.cn/videos)
 1. [Code Transformation and Linting with ASTs with Kent C Dodds](https://frontendmasters.com/courses/linting-asts/)
-
-1. [How to be a Mentor](https://kentcdodds.com/chats-with-kent-podcast/seasons/01/episodes/creating-successful-mentor-relationships-with-emma-bostian)
-
-1. [Babel 是如何读懂 JS 代码的](https://zhuanlan.zhihu.com/p/27289600)
-1. # [babel plugin](https://space.bilibili.com/228173207?spm_id_from=333.788.b_765f7570696e666f.2)
-1. https://www.bilibili.com/video/BV1GK4y1W7fi?from=search&seid=12773308433329510711
-1. https://www.bilibili.com/video/BV1N4411R7yP?from=search&seid=12773308433329510711
-1. https://www.bilibili.com/video/BV1Rf4y1S7RN?from=search&seid=12773308433329510711
-1. https://www.bilibili.com/video/BV1so4y1o7qr?from=search&seid=12773308433329510711
-
 1. https://github.com/babel/babel/pull/3561
-1. https://www.sitepoint.com/understanding-asts-building-babel-plugin/
-1. jscodeshift https://www.toptal.com/javascript/write-code-to-rewrite-your-code
-1. https://www.kenneth-truyers.net/2016/05/27/writing-custom-eslint-rules/
-
-## 其他
-
-1. 编译 babel https://github.com/jamiebuilds/the-super-tiny-compiler
-1. 配置文件与配置合并策略 include/exclude/test/only/overrides/env, 插件 plugin/preset name normalization
-1. 编译阶段 语法插件 syntax plugin, 转换阶段 transform plugin
-1. ast 类型定义 @babel/types @babel/template，ast 转换 @babel/traverse 遍历机制 dfs
-1. babel 项目之间的依赖关系
-   1. @babel/core @babel/parser @babel/traverse @babel/cli @babel-node @babel plugins @babel presets
-1. https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/user-handbook.md
-1. https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md
-
-## ESLint
-
-write your own rule/plugin/preset

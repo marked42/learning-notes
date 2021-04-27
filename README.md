@@ -64,12 +64,13 @@
    1. https://developer.chrome.com/devtools
    1. [js 常见模式](https://www.cnblogs.com/tugenhua0707/p/5198407.html)
       1. pub/sub
-      2. event emitter
-      3. observer 观察者
-      4. js 常见模式 https://zhuanlan.zhihu.com/p/24980136
-      5. 防抖截流 https://zhuanlan.zhihu.com/p/62138440
-      6. https://juejin.im/post/59eff1fb6fb9a044ff30a942
-      7. proxy
+      1. https://juejin.cn/post/6844903943068205064#heading-9
+      1. event emitter
+      1. observer 观察者
+      1. js 常见模式 https://zhuanlan.zhihu.com/p/24980136
+      1. 防抖截流 https://zhuanlan.zhihu.com/p/62138440
+      1. https://juejin.im/post/59eff1fb6fb9a044ff30a942
+      1. proxy
    1. 模块化机制，实现 require(commonjs), define(amd), umd 模块的互操作性 https://www.zhihu.com/question/288322186/answer/460742151
    1. [Refactoring Guru]https://refactoringguru.cn/design-patterns/builder
    1. Dive into design patterns
@@ -136,6 +137,8 @@
       1. 新人培训，整理输出各种课程与技术文档
    1. vue2/vue3 的核心原理
       1. [尤雨溪教你写 vue 高级 vue 教程 源码分析 中文字幕翻译完毕 ](https://www.bilibili.com/video/BV1d4411v7UX)
+      1. [vue 源码](https://www.bilibili.com/video/BV1GK4y1W7fi?from=search&seid=12773308433329510711)
+      1. [Vue 的模板编译](https://www.bilibili.com/video/BV1Rf4y1S7RN?from=search&seid=12773308433329510711)
       1. [使用 JSX/TSX 开发 Vue3 组件](https://zhuanlan.zhihu.com/p/153387704)
       1. [Vue3 Compiler 优化细节，如何手写高性能渲染函数](https://zhuanlan.zhihu.com/p/150732926)
       1. 指针碰撞 vdom https://zhuanlan.zhihu.com/p/101176821
@@ -455,3 +458,5 @@
 - [ ] [陈天](https://www.zhihu.com/people/tchen)
 - [ ] [颜海镜](https://yanhaijing.com/)
 - [ ] [dwb](http://dwbbb.com/)
+
+1. [How to be a Mentor](https://kentcdodds.com/chats-with-kent-podcast/seasons/01/episodes/creating-successful-mentor-relationships-with-emma-bostian)
