@@ -471,7 +471,6 @@ module.exports = () => ({
 
 ## 解析
 
-1. [Babel 是如何读懂 JS 代码的](https://zhuanlan.zhihu.com/p/27289600)
 1. [The Super Tiny Compiler](https://github.com/jamiebuilds/the-super-tiny-compiler)
 1. [Creating custom JavaScript syntax with Babel
    ](https://lihautan.com/creating-custom-javascript-syntax-with-babel/)
@@ -495,3 +494,4 @@ module.exports = () => ({
 1. [Babel 官网视频](https://www.babeljs.cn/videos)
 1. [Code Transformation and Linting with ASTs with Kent C Dodds](https://frontendmasters.com/courses/linting-asts/)
 1. https://github.com/babel/babel/pull/3561
+1. [AST In Modern Javascript](https://juejin.cn/post/6844903540024950791)

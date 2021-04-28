@@ -5,7 +5,6 @@
 按照强度划分的任务
 
 1. 一两个小时内能够完成的小任务，基本功练习，提高计算机科学素养，贵在坚持。
-   1. 知乎博文一到两篇
    1. 算法题两道 leetcode
    1. 一个刻意小练习，例如常用工具函数（lodash）？
    1. 培养技术敏感性与开阔视野，领域前沿动态的视频一个，了解领域内别人在做些什么，有哪些我们可以借鉴，输出笔记
@@ -55,7 +54,6 @@
       1. [可视化搭建 1](https://github.com/woai3c/Front-end-articles/issues/19)
       1. [可视化搭建 2](https://github.com/woai3c/Front-end-articles/issues/20)
       1. [可视化搭建 3](https://github.com/woai3c/Front-end-articles/issues/21)
-      1. [Babel 是如何读懂 JS 代码的](https://zhuanlan.zhihu.com/p/27289600)
       1. https://zhuanlan.zhihu.com/p/103245540
       1. https://github.com/jamiebuilds/the-super-tiny-compiler
       1. https://github.com/estree/estree
@@ -125,7 +123,6 @@
       1. 高阶 vue 组件，传递属性和事件
       1. 跑马灯组件，滚动数字组件，carousel 组件，message 组件，landing 页顶栏 sticky 效果，参考知乎的的低栏效果。
       1. 动态位置的组件 element-ui Message/Popover/Tooltip/Drawer/Portal append-body ?
-   1. [Build 30 things in 30 days with 30 tutorials](https://javascript30.com/)
    1. 软素质
       1. 沟通交流 《金字塔原理》
       1. 文档与写作
