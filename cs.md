@@ -81,11 +81,12 @@ https://github.com/ossu/computer-science
 1. [[资料合集] RednaxelaFX 写的文章/回答的导航帖（work in progress） ](https://zhuanlan.zhihu.com/p/25042028)
 1. [新手上路学习 JavaScript 引擎实现——路线图](https://zhuanlan.zhihu.com/p/20505562)
 1. [Build Your Own Lisp](http://buildyourownlisp.com/)
-1. [C in 4 functions](https://github.com/rswier/c4)
 1. [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
 1. https://www.bilibili.com/video/BV1BJ411p71e?p=2
 1. https://zhuanlan.zhihu.com/p/24035780
 1. the super tiny compiler
+1. [C in 4 functions](https://github.com/rswier/c4)
+1. [手把手教你做一个 C 语言编译器](https://wizardforcel.gitbooks.io/diy-c-compiler/content/2.html)
 
 ### 类型系统
 
