@@ -86,7 +86,23 @@ https://github.com/ossu/computer-science
 1. https://zhuanlan.zhihu.com/p/24035780
 1. the super tiny compiler
 1. [C in 4 functions](https://github.com/rswier/c4)
+1. [Build Your Own Language](https://github.com/danistefanovic/build-your-own-x#build-your-own-programming-language)
 1. [手把手教你做一个 C 语言编译器](https://wizardforcel.gitbooks.io/diy-c-compiler/content/2.html)
+1. https://github.com/lotabout/write-a-C-interpreter
+1. [Little Lisp Interpreter](https://maryrosecook.com/blog/post/little-lisp-interpreter)
+1. [The Super Tiny Interpreter](https://github.com/keyz/the-super-tiny-interpreter)
+1. [How to implement a programming language in JavaScript](http://lisperator.net/pltut/)
+1. JSON parser
+   1. https://github.com/cheery/json-algorithm
+1. HTML Parser
+1. CSS Parser
+1. regexp
+   1. [Build a Regex Engine in Less than 40 Lines of Code](https://nickdrane.com/build-your-own-regex/)
+   1. [HOW TO IMPLEMENT REGULAR EXPRESSIONS IN FUNCTIONAL JAVASCRIPT using Derivatives](http://dpk.io/dregs/toydregs)
+   1. [Implementing a Regular Expression Engine](https://deniskyashif.com/2019/02/17/implementing-a-regular-expression-engine/)
+1. [Build your own WebAssembly Compiler](https://blog.scottlogic.com/2019/05/17/webassembly-compiler.html)
+1. [Write a c compiler](https://norasandler.com/2017/11/29/Write-a-Compiler.html)
+1. [Kaleidoscope: Implementing a Language with LLVM](https://llvm.org/docs/tutorial/#kaleidoscope-implementing-a-language-with-llvm)
 
 ### 类型系统
 

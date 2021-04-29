@@ -10,3 +10,5 @@
 1. [Variance and NonNull in Rust](https://zhuanlan.zhihu.com/p/42756635)
 1. [Rust 源码分析：std::sync::Mutex](https://zhuanlan.zhihu.com/p/50006335)
 1. [如何评价斯坦福的新操作系统课程 CS140e？ ](https://www.zhihu.com/question/265653828/answer/477165288)
+
+1. [So You Want to Build a Language VM](https://blog.subnetzero.io/post/building-language-vm-part-00/)
