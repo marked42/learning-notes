@@ -8,11 +8,9 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "runtimeExecutable": "/Users/penghui/.nvm/versions/node/v14.0.0/bin/node",
-      "program": "${workspaceFolder}/interview/leftpad.js"
+      "skipFiles": ["<node_internals>/**"],
+      "runtimeExecutable": "/usr/local/bin/node",
+      "program": "${workspaceFolder}/the-super-tiny-compiler.js"
     }
   ]
 }

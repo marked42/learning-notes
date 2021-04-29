@@ -67,7 +67,7 @@ const input = '(add 2 (subtract 4 2))'
 // const input = '(add 2 4 2)'
 
 const tokens = tokenize(input)
-console.log(tokens)
+// console.log(tokens)
 
 // Expression -> Identifier
 // Expression -> NumberLiteral
@@ -172,8 +172,227 @@ function parse(tokens) {
     }
   }
 
-  return parseExpression()
+  return {
+    type: 'Program',
+    body: [parseExpression()],
+  }
 }
 
 const ast = parse(tokens)
 console.log(ast)
+
+function traverser(node, visitor) {
+  function traverseArray(array, parent) {
+    array.forEach((child) => {
+      traverseNode(child, parent)
+    })
+  }
+
+  function traverseNode(node, parent) {
+    const method = visitor[node.type]
+    if (typeof method === 'function') {
+      method(node, parent)
+    }
+
+    switch (node.type) {
+      case 'Program':
+        traverseArray(node.body, node)
+        break
+
+      case 'CallExpression':
+        traverseArray(node.params, node)
+        break
+
+      case 'NumberLiteral':
+        break
+
+      default:
+        throw new Error(node.type)
+    }
+  }
+
+  traverseNode(node, null)
+}
+
+// traverser(ast, {
+//   Program(node, parent) {
+//     console.log(node)
+//   },
+//   CallExpression(node, parent) {
+//     console.log(node)
+//   },
+//   NumberLiteral(node, parent) {
+//     console.log(node)
+//   },
+// })
+
+function transformer(ast) {
+  const newAst = {
+    type: 'Program',
+    body: [],
+  }
+  ast._context = newAst.body
+
+  traverser(ast, {
+    CallExpression(node, parent) {
+      let expression = {
+        type: 'CallExpression',
+        callee: {
+          type: 'Identifier',
+          name: node.name,
+        },
+        params: [],
+      }
+
+      node._context = expression.params
+
+      if (parent.type !== 'CallExpression') {
+        expression = {
+          type: 'ExpressionStatement',
+          expression,
+        }
+      }
+
+      parent._context.push(expression)
+    },
+    NumberLiteral(node, parent) {
+      parent._context.push({
+        type: 'NumberLiteral',
+        value: node.value,
+      })
+    },
+  })
+
+  return newAst
+}
+
+const newAst = transformer(ast, null)
+console.log(newAst)
+
+function codeGenerator(ast) {
+  switch (ast.type) {
+    case 'Program':
+      return ast.body.map(codeGenerator).join('\n')
+
+    case 'ExpressionStatement':
+      return codeGenerator(ast.expression) + ';'
+
+    case 'CallExpression':
+      return (
+        ast.callee.name + '(' + ast.params.map(codeGenerator).join(', ') + ')'
+      )
+
+    case 'Identifier':
+      return ast.name
+
+    case 'NumberLiteral':
+      return ast.value
+
+    default:
+      throw new Error('invalid')
+  }
+}
+
+const output = 'add(2, subtract(4, 2))'
+console.log(codeGenerator(newAst))
+
+class NodeSerializer {
+  constructor() {}
+
+  generate() {
+    throw new Error('unimplemented')
+  }
+}
+
+class Program extends NodeSerializer {
+  constructor(body) {
+    super()
+    this.body = body
+  }
+
+  generate() {
+    return this.body
+      .map((node) => node.generate())
+      .map((s) => s + '\n')
+      .join('')
+  }
+}
+
+class ExpressionStatement extends NodeSerializer {
+  constructor(expression) {
+    super()
+    this.expression = expression
+  }
+
+  generate() {
+    return this.expression.generate() + ';'
+  }
+}
+
+class CallExpression extends NodeSerializer {
+  constructor(callee, params) {
+    super()
+    this.callee = callee
+    this.params = params
+  }
+
+  generate() {
+    return (
+      this.callee.generate() +
+      '(' +
+      this.params.map((p) => p.generate()).join(',') +
+      ')'
+    )
+  }
+}
+
+class NumberLiteral extends NodeSerializer {
+  constructor(value) {
+    super()
+    this.value = value
+  }
+
+  generate() {
+    return this.value
+  }
+}
+
+class Identifier extends NodeSerializer {
+  constructor(name) {
+    super()
+    this.name = name
+  }
+
+  generate() {
+    return this.name
+  }
+}
+
+function transformerV2(ast) {
+  const newAst = new Program([])
+  ast._context = newAst.body
+
+  traverser(ast, {
+    CallExpression(node, parent) {
+      let expression = new CallExpression(new Identifier(node.name), [])
+
+      node._context = expression.params
+
+      if (parent.type !== 'CallExpression') {
+        expression = new ExpressionStatement(expression)
+      }
+
+      parent._context.push(expression)
+    },
+    NumberLiteral(node, parent) {
+      parent._context.push(new NumberLiteral(node.value))
+    },
+  })
+
+  return newAst
+}
+
+const newAstV2 = transformerV2(ast)
+console.log(newAstV2)
+const outputV2 = newAstV2.generate()
+console.log(outputV2)
