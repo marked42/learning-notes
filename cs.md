@@ -87,6 +87,61 @@ https://github.com/ossu/computer-science
 1. https://zhuanlan.zhihu.com/p/24035780
 1. the super tiny compiler
 
+### 词法分析
+
+Tokenizer 构造状态机进行分词，有两个问题：
+
+1. 存在关键词 int 和 identifier 模式冲突，为每个构造独立的状态
+1. = == === 这种 token 之间模式重合，首选尽可能长的 token，会存在失败回退的情况如何处理?
+
+正则文法不能处理嵌套
+上下文无关文法可以处理嵌套
+
+递归下降解析器，需要消除左递归，会造成运算符顺序改变，使用 Operator Precedence Parser
+
+语法 BNF 巴科斯范式
+
+add ::= mul | add + mul
+mul ::= pri | mul \* pri
+pri ::= Id | Num | (add)
+
+扩展巴科斯范式(EBNF)，使用类似正则表达式的写法
+
+add -> mul (+ mul)\*
+
+解析树 Parse Tree
+对应于产生式展开的每一步
+
+抽象语法树 Abstract Syntax Tree
+
+运算符优先级的问题，修改语法定义解决
+
+结合性问题，同样优先级的运算符是从左到右计算还是从右到左计算。
+
+对于左结合的运算符，递归项要放在左边；而右结合的运算符，递归项放在右边
+
+左递归文法
+add -> mul | add + mul
+消除左递归，
+add -> mul add'
+add' -> + mul add' | ε
+其中 add'是右递归的，但是加号+是左结合运算符，右递归文法使用递归下降解析会得到右结合的语法树，使用 EBNF
+add -> mul (+ mul)\*
+
+```js
+mul();
+while(next token is +){
+  mul()
+  createAddNode
+}
+```
+
+将递归转换为循环来处理，这样加号变成了左结合的，同时消除递归，跟尾递归调用优化是一个原理。
+
+Antlr
+
+https://www.npmjs.com/package/antlr4ts
+
 ### 类型系统
 
 1. [类型系统简介](https://zhuanlan.zhihu.com/p/65626985)

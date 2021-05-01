@@ -7,12 +7,12 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
+      "name": "Tokenizer",
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "runtimeExecutable": "/Users/penghui/.nvm/versions/node/v14.0.0/bin/node",
-      "program": "${workspaceFolder}/interview/leftpad.js"
+      "runtimeExecutable": "/Users/zhangpenghui/.nvm/versions/node/v12.20.1/bin/node",
+      "program": "${workspaceFolder}/compiler-course/tokenizer.js"
     }
   ]
 }
