@@ -4,12 +4,13 @@ import { TokenType, SimpleToken } from '../src/Token'
 describe('SimpleLexer', () => {
   it('should parse ', () => {
     const lexer = new SimpleLexer()
-    const tokens = lexer.tokenize('int age =  45;')
+    const tokens = lexer.tokenize('int age = 45;')
     expect(tokens).toEqual([
       new SimpleToken(TokenType.Keyword, 'int'),
       new SimpleToken(TokenType.Identifier, 'age'),
       new SimpleToken(TokenType.Operator, '='),
       new SimpleToken(TokenType.IntLiteral, '45'),
+      new SimpleToken(TokenType.SemiColon, ';'),
     ])
   })
 
@@ -20,6 +21,7 @@ describe('SimpleLexer', () => {
       new SimpleToken(TokenType.Identifier, 'age'),
       new SimpleToken(TokenType.Operator, '='),
       new SimpleToken(TokenType.IntLiteral, '45'),
+      new SimpleToken(TokenType.SemiColon, ';'),
     ])
   })
 
@@ -30,6 +32,7 @@ describe('SimpleLexer', () => {
       new SimpleToken(TokenType.Identifier, 'age'),
       new SimpleToken(TokenType.Operator, '='),
       new SimpleToken(TokenType.IntLiteral, '45'),
+      new SimpleToken(TokenType.SemiColon, ';'),
     ])
   })
 
@@ -39,6 +42,7 @@ describe('SimpleLexer', () => {
       new SimpleToken(TokenType.Identifier, 'age'),
       new SimpleToken(TokenType.Operator, '>='),
       new SimpleToken(TokenType.IntLiteral, '45'),
+      new SimpleToken(TokenType.SemiColon, ';'),
     ])
   })
 
@@ -48,6 +52,7 @@ describe('SimpleLexer', () => {
       new SimpleToken(TokenType.Identifier, 'age'),
       new SimpleToken(TokenType.Operator, '>'),
       new SimpleToken(TokenType.IntLiteral, '45'),
+      new SimpleToken(TokenType.SemiColon, ';'),
     ])
   })
 })

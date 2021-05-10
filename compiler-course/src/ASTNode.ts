@@ -1,10 +1,11 @@
-interface ASTNode {
+export interface ASTNode {
   type: ASTNodeType
-  parent: ASTNode
+  parent: ASTNode | null
   children: ASTNode[] | null
+  text: string
 }
 
-enum ASTNodeType {
+export enum ASTNodeType {
   Program,
   IntDeclaration,
   AssignmentStatement,
@@ -16,4 +17,13 @@ enum ASTNodeType {
 
   Identifier,
   IntLiteral,
+}
+
+export class SimpleASTNode implements ASTNode {
+  constructor(
+    public type: ASTNodeType,
+    public parent: ASTNode | null,
+    public children: ASTNode[] | null,
+    public text: string
+  ) {}
 }
