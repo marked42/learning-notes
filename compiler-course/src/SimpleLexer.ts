@@ -1,5 +1,6 @@
 import { SimpleToken, DfaState, TokenType, Token } from './Token'
 import { StringCharacterStream, CharacterStream } from './CharacterStream'
+import { TokenStream } from './TokenStream'
 
 export class SimpleLexer {
   state = DfaState.Initial
@@ -163,6 +164,6 @@ export class SimpleLexer {
       console.error(e)
     }
 
-    return tokens
+    return new TokenStream(tokens)
   }
 }
