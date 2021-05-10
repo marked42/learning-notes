@@ -86,6 +86,8 @@ https://github.com/ossu/computer-science
 1. https://www.bilibili.com/video/BV1BJ411p71e?p=2
 1. https://zhuanlan.zhihu.com/p/24035780
 1. the super tiny compiler
+1. [写一个 JSON、XML 或 YAML 的 Parser 的思路是什么？](https://www.zhihu.com/question/24640264)
+1. https://www.liaoxuefeng.com/article/994977272296736
 
 ### 词法分析
 
@@ -93,6 +95,9 @@ Tokenizer 构造状态机进行分词，有两个问题：
 
 1. 存在关键词 int 和 identifier 模式冲突，为每个构造独立的状态
 1. = == === 这种 token 之间模式重合，首选尽可能长的 token，会存在失败回退的情况如何处理?
+1. 空白字符被忽略，不产生对应的 token
+1. 处理 token 使用状态机转换识别字符串，在一个已经可接受的状态下，需要获取到下一个字符才能确认当前 token 已经结束 ，这里对应了 initToken 的操作，同时 initToken 中的最后一个 else 情况，保持 initial 状态不变，忽略所有未知的 token 模式，包括空白。
+1. 循环结束后需要处理之前遗留的最后一个 token，将其添加到 tokens 列表中。
 
 正则文法不能处理嵌套
 上下文无关文法可以处理嵌套
