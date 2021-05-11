@@ -1,6 +1,6 @@
 export interface ASTNode {
   type: ASTNodeType
-  parent: ASTNode
+  parent: ASTNode | null
   children: ASTNode[] | null
   text: string
 }

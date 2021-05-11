@@ -166,4 +166,10 @@ export class SimpleLexer {
 
     return new TokenStream(tokens)
   }
+
+  tokenStream(input: string | CharacterStream) {
+    const tokens = this.tokenize(input)
+
+    return new TokenStream(tokens)
+  }
 }
