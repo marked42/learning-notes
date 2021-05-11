@@ -44,7 +44,6 @@ export class SimpleParser {
     let resultNode
     while (true) {
       nextToken = tokens.peek()
-      console.log('nextToken: ', nextToken)
       if (
         !nextToken ||
         nextToken?.type !== TokenType.Operator ||
@@ -55,7 +54,6 @@ export class SimpleParser {
       tokens.read()
 
       const primaryNode = this.matchPrimaryExpression(tokens)
-      console.log('primary node: ', primaryNode)
       if (!primaryNode) {
         throw new Error('failed to match multiplicative expression')
       }

@@ -164,7 +164,7 @@ export class SimpleLexer {
       console.error(e)
     }
 
-    return new TokenStream(tokens)
+    return tokens
   }
 
   tokenStream(input: string | CharacterStream) {

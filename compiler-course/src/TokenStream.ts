@@ -20,7 +20,7 @@ export class TokenStream {
 
   peek() {
     if (this.position < this.tokens.length) {
-      return this.tokens[this.position + 1]
+      return this.tokens[this.position]
     }
 
     return null

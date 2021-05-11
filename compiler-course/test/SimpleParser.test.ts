@@ -24,7 +24,9 @@ describe('SimpleParser', () => {
       new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '223')
     )
   })
+})
 
+describe('multiplicative expression', () => {
   it('should parse multiplicative expression', () => {
     const code = '1 * 2 * 3'
     const parser = new SimpleParser()
@@ -50,5 +52,28 @@ describe('SimpleParser', () => {
         ''
       )
     )
+  })
+
+  it('should parse single primary expression', () => {
+    const code = '1'
+    const parser = new SimpleParser()
+    const lexer = new SimpleLexer()
+    const tokenStream = lexer.tokenStream(code)
+    const node = parser.matchMultiplicativeExpression(tokenStream)
+
+    expect(node).toEqual(
+      new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '1')
+    )
+  })
+
+  it('should throw', () => {
+    const code = '1 * '
+    const parser = new SimpleParser()
+    const lexer = new SimpleLexer()
+    const tokenStream = lexer.tokenStream(code)
+
+    expect(() =>
+      parser.matchMultiplicativeExpression(tokenStream)
+    ).toThrowError()
   })
 })
