@@ -77,3 +77,89 @@ describe('multiplicative expression', () => {
     ).toThrowError()
   })
 })
+
+describe('additive', () => {
+  it('should parse correctly', () => {
+    const code = '1 + 2 '
+    const parser = new SimpleParser()
+    const lexer = new SimpleLexer()
+    const tokenStream = lexer.tokenStream(code)
+    const node = parser.matchAdditiveExpression(tokenStream)
+
+    expect(node).toEqual(
+      new SimpleASTNode(
+        ASTNodeType.Additive,
+        null,
+        [
+          new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '1'),
+          new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '2'),
+        ],
+        ''
+      )
+    )
+  })
+
+  it('should parse correctly', () => {
+    const code = '1 * 2 + 3 '
+    const parser = new SimpleParser()
+    const lexer = new SimpleLexer()
+    const tokenStream = lexer.tokenStream(code)
+    const node = parser.matchAdditiveExpression(tokenStream)
+
+    expect(node).toEqual(
+      new SimpleASTNode(
+        ASTNodeType.Additive,
+        null,
+        [
+          new SimpleASTNode(
+            ASTNodeType.Multiplicative,
+            null,
+            [
+              new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '1'),
+              new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '2'),
+            ],
+            ''
+          ),
+          new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '3'),
+        ],
+        ''
+      )
+    )
+  })
+
+  it('should parse correctly', () => {
+    const code = '1 * 2 + (3 + 4) '
+    const parser = new SimpleParser()
+    const lexer = new SimpleLexer()
+    const tokenStream = lexer.tokenStream(code)
+    const node = parser.matchAdditiveExpression(tokenStream)
+
+    expect(node).toEqual(
+      new SimpleASTNode(
+        ASTNodeType.Additive,
+        null,
+        [
+          new SimpleASTNode(
+            ASTNodeType.Multiplicative,
+            null,
+            [
+              new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '1'),
+              new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '2'),
+            ],
+            ''
+          ),
+          new SimpleASTNode(
+            ASTNodeType.Additive,
+            null,
+            [
+              new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '3'),
+              new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '4'),
+            ],
+            ''
+          ),
+        ],
+        ''
+      )
+    )
+  })
+})

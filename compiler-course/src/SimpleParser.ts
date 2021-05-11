@@ -1,4 +1,4 @@
-import { SimpleASTNode, ASTNodeType } from './ASTNode'
+import { SimpleASTNode, ASTNodeType, ASTNode } from './ASTNode'
 import { SimpleLexer } from './SimpleLexer'
 import { Token, TokenType } from './Token'
 import { TokenStream } from './TokenStream'
@@ -29,11 +29,53 @@ export class SimpleParser {
 
   matchExpression() {}
 
-  matchAdditiveExpression(tokens: TokenStream) {
-    return null
+  matchAdditiveExpression(tokens: TokenStream): ASTNode | null {
+    const node = this.matchMultiplicativeExpression(tokens)
+    if (!node) {
+      return null
+    }
+
+    let nextToken
+    let resultNode
+
+    while (true) {
+      nextToken = tokens.peek()
+      if (
+        !nextToken ||
+        nextToken?.type !== TokenType.Operator ||
+        !['+', '-'].includes(nextToken?.text)
+      ) {
+        break
+      }
+
+      tokens.read()
+
+      const right = this.matchMultiplicativeExpression(tokens)
+      if (!right) {
+        throw new Error('expecting to match additive expression')
+      }
+
+      if (!resultNode) {
+        resultNode = new SimpleASTNode(
+          ASTNodeType.Additive,
+          null,
+          [node, right],
+          ''
+        )
+      } else {
+        resultNode = new SimpleASTNode(
+          ASTNodeType.Additive,
+          null,
+          [resultNode, right],
+          ''
+        )
+      }
+    }
+
+    return resultNode || node
   }
 
-  matchMultiplicativeExpression(tokens: TokenStream) {
+  matchMultiplicativeExpression(tokens: TokenStream): ASTNode | null {
     const node = this.matchPrimaryExpression(tokens)
 
     if (!node) {
@@ -78,7 +120,7 @@ export class SimpleParser {
     return resultNode || node
   }
 
-  matchPrimaryExpression(tokens: TokenStream) {
+  matchPrimaryExpression(tokens: TokenStream): ASTNode | null {
     const token = tokens.read()
 
     if (token?.type === TokenType.IntLiteral) {
