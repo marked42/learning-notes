@@ -6,17 +6,17 @@ export interface ASTNode {
 }
 
 export enum ASTNodeType {
-  Program,
-  IntDeclaration,
-  AssignmentStatement,
-  ExpressionStatement,
+  Program = 'Program',
+  IntDeclaration = 'IntDeclaration',
+  AssignmentStatement = 'AssignmentExpression',
+  ExpressionStatement = 'ExpressionStatement',
 
-  Primary,
-  Multiplicative,
-  Additive,
+  Primary = 'Primary',
+  Multiplicative = 'Multiplicative',
+  Additive = 'Additive',
 
-  Identifier,
-  IntLiteral,
+  Identifier = 'Identifier',
+  IntLiteral = 'IntLiteral',
 }
 
 export class SimpleASTNode implements ASTNode {

@@ -163,3 +163,211 @@ describe('additive', () => {
     )
   })
 })
+
+describe('IntDeclaration', () => {
+  it('should match IntDeclaration', () => {
+    const code = 'int a = 1;'
+    const parser = new SimpleParser()
+    const lexer = new SimpleLexer()
+    const tokenStream = lexer.tokenStream(code)
+    const node = parser.matchIntDeclaration(tokenStream)
+
+    expect(node).toEqual(
+      new SimpleASTNode(
+        ASTNodeType.IntDeclaration,
+        null,
+        [
+          new SimpleASTNode(ASTNodeType.Identifier, null, null, 'a'),
+          new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '1'),
+        ],
+        ''
+      )
+    )
+  })
+
+  it('should match IntDeclaration', () => {
+    const code = 'int a = 1 + 2;'
+    const parser = new SimpleParser()
+    const lexer = new SimpleLexer()
+    const tokenStream = lexer.tokenStream(code)
+    const node = parser.matchIntDeclaration(tokenStream)
+
+    expect(node).toEqual(
+      new SimpleASTNode(
+        ASTNodeType.IntDeclaration,
+        null,
+        [
+          new SimpleASTNode(ASTNodeType.Identifier, null, null, 'a'),
+          new SimpleASTNode(
+            ASTNodeType.Additive,
+            null,
+            [
+              new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '1'),
+              new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '2'),
+            ],
+            ''
+          ),
+        ],
+        ''
+      )
+    )
+  })
+
+  it('should match IntDeclaration', () => {
+    const code = 'int a = 1 * 2 + 3 * 4;'
+    const parser = new SimpleParser()
+    const lexer = new SimpleLexer()
+    const tokenStream = lexer.tokenStream(code)
+    const node = parser.matchIntDeclaration(tokenStream)
+
+    expect(node).toEqual(
+      new SimpleASTNode(
+        ASTNodeType.IntDeclaration,
+        null,
+        [
+          new SimpleASTNode(ASTNodeType.Identifier, null, null, 'a'),
+          new SimpleASTNode(
+            ASTNodeType.Additive,
+            null,
+            [
+              new SimpleASTNode(
+                ASTNodeType.Multiplicative,
+                null,
+                [
+                  new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '1'),
+                  new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '2'),
+                ],
+                ''
+              ),
+              new SimpleASTNode(
+                ASTNodeType.Multiplicative,
+                null,
+                [
+                  new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '3'),
+                  new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '4'),
+                ],
+                ''
+              ),
+            ],
+            ''
+          ),
+        ],
+        ''
+      )
+    )
+  })
+})
+
+describe('assignment expression', () => {
+  it('should match', () => {
+    const code = 'a = 1;'
+    const parser = new SimpleParser()
+    const lexer = new SimpleLexer()
+    const tokenStream = lexer.tokenStream(code)
+    const node = parser.matchAssignmentStatement(tokenStream)
+
+    expect(node).toEqual(
+      new SimpleASTNode(
+        ASTNodeType.AssignmentStatement,
+        null,
+        [
+          new SimpleASTNode(ASTNodeType.Identifier, null, null, 'a'),
+          new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '1'),
+        ],
+        ''
+      )
+    )
+  })
+
+  it('should match', () => {
+    const code = ''
+    const parser = new SimpleParser()
+    const lexer = new SimpleLexer()
+    const tokenStream = lexer.tokenStream(code)
+    const node = parser.matchAssignmentStatement(tokenStream)
+
+    expect(node).toEqual(null)
+  })
+
+  it('should match', () => {
+    const code = 'a'
+    const parser = new SimpleParser()
+    const lexer = new SimpleLexer()
+    const tokenStream = lexer.tokenStream(code)
+    const node = parser.matchAssignmentStatement(tokenStream)
+
+    expect(node).toEqual(null)
+  })
+
+  it('should match', () => {
+    const code = 'a = '
+    const parser = new SimpleParser()
+    const lexer = new SimpleLexer()
+    const tokenStream = lexer.tokenStream(code)
+
+    expect(() => parser.matchAssignmentStatement(tokenStream)).toThrowError()
+  })
+
+  it('should match', () => {
+    const code = 'a = 1'
+    const parser = new SimpleParser()
+    const lexer = new SimpleLexer()
+    const tokenStream = lexer.tokenStream(code)
+
+    expect(() => parser.matchAssignmentStatement(tokenStream)).toThrowError()
+  })
+})
+
+describe('expression statement', () => {
+  it('should match', () => {
+    const code = 'a;'
+    const parser = new SimpleParser()
+    const lexer = new SimpleLexer()
+    const tokenStream = lexer.tokenStream(code)
+    const node = parser.matchExpressionStatement(tokenStream)
+
+    expect(node).toEqual(
+      new SimpleASTNode(
+        ASTNodeType.ExpressionStatement,
+        null,
+        [new SimpleASTNode(ASTNodeType.Identifier, null, null, 'a')],
+        ''
+      )
+    )
+  })
+
+  it('should match', () => {
+    const code = 'a = '
+    const parser = new SimpleParser()
+    const lexer = new SimpleLexer()
+    const tokenStream = lexer.tokenStream(code)
+    const node = parser.matchExpressionStatement(tokenStream)
+
+    expect(node).toEqual(null)
+  })
+
+  it('should match', () => {
+    const code = ''
+    const parser = new SimpleParser()
+    const lexer = new SimpleLexer()
+    const tokenStream = lexer.tokenStream(code)
+    const node = parser.matchExpressionStatement(tokenStream)
+
+    expect(node).toEqual(null)
+  })
+})
+
+describe('parse', () => {
+  it.only('should parse correctly', () => {
+    const code = `
+      int a = 1;
+      1 + 2;
+      a = 1;
+    `
+
+    const parser = new SimpleParser()
+    const node = parser.parse(code)
+
+    console.log('node: ', JSON.stringify(node, null, 4))
+  })
+})
