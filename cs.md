@@ -88,6 +88,7 @@ https://github.com/ossu/computer-science
 1. the super tiny compiler
 1. [写一个 JSON、XML 或 YAML 的 Parser 的思路是什么？](https://www.zhihu.com/question/24640264)
 1. https://www.liaoxuefeng.com/article/994977272296736
+1. https://blog.harrisonxi.com/2019/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%85%A5%E9%97%A8%E8%AF%BE%EF%BC%9A%EF%BC%88%E5%89%8D%E8%A8%80%EF%BC%89%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%A7%A3%E6%9E%90%E8%AE%A1%E7%AE%97%E5%99%A8.html
 
 ### 词法分析
 
