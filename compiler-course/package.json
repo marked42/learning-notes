@@ -4,6 +4,7 @@
   "description": "",
   "main": "tokenizer.js",
   "scripts": {
+    "repl": "ts-node src/Repl.ts",
     "test": "jest",
     "test:watch": "jest --watch"
   },

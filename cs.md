@@ -81,14 +81,21 @@ https://github.com/ossu/computer-science
 1. [[资料合集] RednaxelaFX 写的文章/回答的导航帖（work in progress） ](https://zhuanlan.zhihu.com/p/25042028)
 1. [新手上路学习 JavaScript 引擎实现——路线图](https://zhuanlan.zhihu.com/p/20505562)
 1. [Build Your Own Lisp](http://buildyourownlisp.com/)
-1. [C in 4 functions](https://github.com/rswier/c4)
 1. [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
-1. https://www.bilibili.com/video/BV1BJ411p71e?p=2
-1. https://zhuanlan.zhihu.com/p/24035780
-1. the super tiny compiler
+1. [ReactJS 自制编译器](https://www.bilibili.com/video/BV1BJ411p71e?p=2)
+1. [the super tiny compiler](https://www.bilibili.com/video/BV1gp4y167Z4)
 1. [写一个 JSON、XML 或 YAML 的 Parser 的思路是什么？](https://www.zhihu.com/question/24640264)
-1. https://www.liaoxuefeng.com/article/994977272296736
-1. https://blog.harrisonxi.com/2019/07/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%85%A5%E9%97%A8%E8%AF%BE%EF%BC%9A%EF%BC%88%E5%89%8D%E8%A8%80%EF%BC%89%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%A7%A3%E6%9E%90%E8%AE%A1%E7%AE%97%E5%99%A8.html
+1. [如何编写一个 JSON 解析器](https://www.liaoxuefeng.com/article/994977272296736)
+1. [C in 4 functions](https://github.com/rswier/c4)
+1. [Write a C Interpreter](https://lotabout.me/2015/write-a-C-interpreter-0/)
+1. [Let's Build A Compiler](https://compilers.iecc.com/crenshaw/)
+1. [The Lemon Parser Generator](http://www.hwaci.com/sw/lemon/)
+1. [OTCC](https://bellard.org/otcc/otccn.c)
+1. [Tiny C Compiler](https://bellard.org/tcc/)
+1. [HTTP Parser](https://zhuanlan.zhihu.com/p/100660049)
+1. https://cp-algorithms.com/string/expression_parsing.html
+1. [调度场算法](https://zh.wikipedia.org/wiki/%E8%B0%83%E5%BA%A6%E5%9C%BA%E7%AE%97%E6%B3%95)
+1. HTML/CSS
 
 ### 词法分析
 
@@ -102,6 +109,8 @@ Tokenizer 构造状态机进行分词，有两个问题：
 
 正则文法不能处理嵌套
 上下文无关文法可以处理嵌套
+
+消除文法的二义性
 
 递归下降解析器问题
 

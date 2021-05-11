@@ -358,7 +358,7 @@ describe('expression statement', () => {
 })
 
 describe('parse', () => {
-  it.only('should parse correctly', () => {
+  it('should parse correctly', () => {
     const code = `
       int a = 1;
       1 + 2;
@@ -368,6 +368,48 @@ describe('parse', () => {
     const parser = new SimpleParser()
     const node = parser.parse(code)
 
-    console.log('node: ', JSON.stringify(node, null, 4))
+    expect(node).toEqual(
+      new SimpleASTNode(
+        ASTNodeType.Program,
+        null,
+        [
+          new SimpleASTNode(
+            ASTNodeType.IntDeclaration,
+            null,
+            [
+              new SimpleASTNode(ASTNodeType.Identifier, null, null, 'a'),
+              new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '1'),
+            ],
+            ''
+          ),
+          new SimpleASTNode(
+            ASTNodeType.ExpressionStatement,
+            null,
+            [
+              new SimpleASTNode(
+                ASTNodeType.Additive,
+                null,
+                [
+                  new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '1'),
+                  new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '2'),
+                ],
+                ''
+              ),
+            ],
+            ''
+          ),
+          new SimpleASTNode(
+            ASTNodeType.AssignmentStatement,
+            null,
+            [
+              new SimpleASTNode(ASTNodeType.Identifier, null, null, 'a'),
+              new SimpleASTNode(ASTNodeType.IntLiteral, null, null, '1'),
+            ],
+            ''
+          ),
+        ],
+        ''
+      )
+    )
   })
 })
