@@ -79,30 +79,114 @@ https://github.com/ossu/computer-science
 ## Language
 
 1. [[资料合集] RednaxelaFX 写的文章/回答的导航帖（work in progress） ](https://zhuanlan.zhihu.com/p/25042028)
-1. [新手上路学习 JavaScript 引擎实现——路线图](https://zhuanlan.zhihu.com/p/20505562)
-1. [Build Your Own Lisp](http://buildyourownlisp.com/)
-1. [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
-1. https://www.bilibili.com/video/BV1BJ411p71e?p=2
-1. https://zhuanlan.zhihu.com/p/24035780
-1. the super tiny compiler
-1. [C in 4 functions](https://github.com/rswier/c4)
 1. [Build Your Own Language](https://github.com/danistefanovic/build-your-own-x#build-your-own-programming-language)
-1. [手把手教你做一个 C 语言编译器](https://wizardforcel.gitbooks.io/diy-c-compiler/content/2.html)
-1. https://github.com/lotabout/write-a-C-interpreter
-1. [Little Lisp Interpreter](https://maryrosecook.com/blog/post/little-lisp-interpreter)
-1. [The Super Tiny Interpreter](https://github.com/keyz/the-super-tiny-interpreter)
-1. [How to implement a programming language in JavaScript](http://lisperator.net/pltut/)
+1. Lisp
+   1. [Little Lisp Interpreter](https://maryrosecook.com/blog/post/little-lisp-interpreter)
+   1. [Build Your Own Lisp](http://buildyourownlisp.com/)
+1. Javascript
+   1. [the super tiny compiler](https://www.bilibili.com/video/BV1gp4y167Z4)
+   1. [How to implement a programming language in JavaScript](http://lisperator.net/pltut/)
+   1. [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
+   1. [The Super Tiny Interpreter](https://github.com/keyz/the-super-tiny-interpreter)
+   1. [ReactJS 自制编译器](https://www.bilibili.com/video/BV1BJ411p71e?p=2)
+   1. [新手上路学习 JavaScript 引擎实现——路线图](https://zhuanlan.zhihu.com/p/20505562)
 1. JSON parser
    1. https://github.com/cheery/json-algorithm
+   1. [如何编写一个 JSON 解析器](https://www.liaoxuefeng.com/article/994977272296736)
+   1. [写一个 JSON、XML 或 YAML 的 Parser 的思路是什么？](https://www.zhihu.com/question/24640264)
 1. HTML Parser
 1. CSS Parser
+1. HTTP
+   1. [HTTP Parser](https://zhuanlan.zhihu.com/p/100660049)
+1. WebAssembly
+   1. [Build your own WebAssembly Compiler](https://blog.scottlogic.com/2019/05/17/webassembly-compiler.html)
+1. LLVM
+   1. [Kaleidoscope: Implementing a Language with LLVM](https://llvm.org/docs/tutorial/#kaleidoscope-implementing-a-language-with-llvm)
 1. regexp
    1. [Build a Regex Engine in Less than 40 Lines of Code](https://nickdrane.com/build-your-own-regex/)
    1. [HOW TO IMPLEMENT REGULAR EXPRESSIONS IN FUNCTIONAL JAVASCRIPT using Derivatives](http://dpk.io/dregs/toydregs)
    1. [Implementing a Regular Expression Engine](https://deniskyashif.com/2019/02/17/implementing-a-regular-expression-engine/)
-1. [Build your own WebAssembly Compiler](https://blog.scottlogic.com/2019/05/17/webassembly-compiler.html)
-1. [Write a c compiler](https://norasandler.com/2017/11/29/Write-a-Compiler.html)
-1. [Kaleidoscope: Implementing a Language with LLVM](https://llvm.org/docs/tutorial/#kaleidoscope-implementing-a-language-with-llvm)
+1. C
+   1. [C in 4 functions](https://github.com/rswier/c4)
+   1. [Write A C compiler](https://norasandler.com/2017/11/29/Write-a-Compiler.html)
+   1. [Write a C Interpreter](https://github.com/lotabout/write-a-C-interpreter)
+   1. [The Lemon Parser Generator](http://www.hwaci.com/sw/lemon/)
+   1. [OTCC](https://bellard.org/otcc/otccn.c)
+   1. [Tiny C Compiler](https://bellard.org/tcc/)
+1. https://cp-algorithms.com/string/expression_parsing.html
+1. [调度场算法](https://zh.wikipedia.org/wiki/%E8%B0%83%E5%BA%A6%E5%9C%BA%E7%AE%97%E6%B3%95)
+
+### 词法分析
+
+Tokenizer 构造状态机进行分词，有两个问题：
+
+1. 存在关键词 int 和 identifier 模式冲突，为每个构造独立的状态
+1. = == === 这种 token 之间模式重合，首选尽可能长的 token，会存在失败回退的情况如何处理?
+1. 空白字符被忽略，不产生对应的 token
+1. 处理 token 使用状态机转换识别字符串，在一个已经可接受的状态下，需要获取到下一个字符才能确认当前 token 已经结束 ，这里对应了 initToken 的操作，同时 initToken 中的最后一个 else 情况，保持 initial 状态不变，忽略所有未知的 token 模式，包括空白。
+1. 循环结束后需要处理之前遗留的最后一个 token，将其添加到 tokens 列表中。
+
+正则文法不能处理嵌套
+上下文无关文法可以处理嵌套
+
+消除文法的二义性
+
+递归下降解析器问题
+
+1. 根据文法情况分类书写对应函数，每个文法对应函数应该考虑失败的情况
+1. 语法错误直接抛出异常
+1. 语法正确，但是该产生式不合适需要返回 null 表示这种情况，然后在上层继续尝试其他的产生式
+1. 根据产生式匹配时，匹配上的 token 要在 token 流中取出，
+1. 注意 TokenStream 的位置处理，优先使用 peek 方法，只有在成功解析 AST 时才取出当前 token，在返回 null 的情况下应该将之前取出的 token 重新放入流中，恢复处理之前的位置。
+1. 使用循环处理操作符优先级问题，产生左结合的 AST
+1. AST 节点的类层级，以及每个子节点类的成员定义
+1. 只有一个子节点的 AST 节点可以省略掉，直接使用其子节点，这样是跟抽象语法树定义一致。
+1. 递归下降中的回溯？
+
+递归下降解析器，需要消除左递归，会造成运算符顺序改变，使用 Operator Precedence Parser
+
+语法 BNF 巴科斯范式
+
+add ::= mul | add + mul
+mul ::= pri | mul \* pri
+pri ::= Id | Num | (add)
+
+扩展巴科斯范式(EBNF)，使用类似正则表达式的写法
+
+add -> mul (+ mul)\*
+
+解析树 Parse Tree
+对应于产生式展开的每一步
+
+抽象语法树 Abstract Syntax Tree
+
+运算符优先级的问题，修改语法定义解决
+
+结合性问题，同样优先级的运算符是从左到右计算还是从右到左计算。
+
+对于左结合的运算符，递归项要放在左边；而右结合的运算符，递归项放在右边
+
+左递归文法
+add -> mul | add + mul
+消除左递归，
+add -> mul add'
+add' -> + mul add' | ε
+其中 add'是右递归的，但是加号+是左结合运算符，右递归文法使用递归下降解析会得到右结合的语法树，使用 EBNF
+add -> mul (+ mul)\*
+
+```js
+mul();
+while(next token is +){
+  mul()
+  createAddNode
+}
+```
+
+将递归转换为循环来处理，这样加号变成了左结合的，同时消除递归，跟尾递归调用优化是一个原理。
+
+Antlr
+
+https://www.npmjs.com/package/antlr4ts
 
 ### 类型系统
 

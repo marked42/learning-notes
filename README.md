@@ -370,6 +370,7 @@
    1. [Haskell](http://hrothen.github.io/posts/lets-build-a-browser-engine-in-haskell.html)
    1. [Swift](http://www.screaming.org/blog/2014/08/15/lets-build-a-browser-engine-in-swift/)
    1. [Build Your Own Browser](https://www.w3.org/blog/2008/09/build-your-own-browser/)
+   1. [Let's Build A Browser Engine](https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html)
 1. [从输入 URL 到页面加载的过程？如何由一道题完善自己的前端知识体系！](https://zhuanlan.zhihu.com/p/34453198?group_id=957277540147056640)
 1. https://zhuanlan.zhihu.com/p/47407398
 1. [从浏览器多进程到 JS 单线程，JS 运行机制最全面的一次梳理](https://juejin.im/post/5a6547d0f265da3e283a1df7)
