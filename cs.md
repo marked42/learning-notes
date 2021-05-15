@@ -82,6 +82,8 @@ https://github.com/ossu/computer-science
 1. [Build Your Own Language](https://github.com/danistefanovic/build-your-own-x#build-your-own-programming-language)
 1. Lisp
    1. [Little Lisp Interpreter](https://maryrosecook.com/blog/post/little-lisp-interpreter)
+   1. [Write Yourself a Scheme in 48 Hours](https://upload.wikimedia.org/wikipedia/commons/a/aa/Write_Yourself_a_Scheme_in_48_Hours.pdf)
+   1. [Write You A Scheme, Version 2.0](https://wespiser.com/writings/wyas/00_overview.html)
    1. [Build Your Own Lisp](http://buildyourownlisp.com/)
 1. Javascript
    1. [the super tiny compiler](https://www.bilibili.com/video/BV1gp4y167Z4)

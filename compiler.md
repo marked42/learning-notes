@@ -320,6 +320,7 @@ Clang 的编译器前端就是手写的递归下降解析，在`lib/Parse/ParseE
 
 1. http://www.yinwang.org/
 1. https://blog.csdn.net/ViVivan1992/article/details/101302986
+1. [The Little Javascripter](http://www.crockford.com/little.html)
 
 ## Bottom Up
 
