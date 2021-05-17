@@ -7,6 +7,25 @@ Bottom Up Parsing
 
 ## 递归下降解析 Recursive Descent Parsing
 
+### 分类
+
+1. 带回溯的递归下降解析 带回溯的的解析器相当于能够预看任意个符号，因此解析能力强于 LL(k)解析器，但是回溯的运算代价比较高。
+   为什么需要任意个预看符号，例如函数声明和定义的结构只在最右边有区别，而函数定义可以无限长，所以无法使用 LL(k)解析。缓冲区可以增长以
+   支持任意长度的预看符号。分成推演和实际匹配两个过程。
+
+```cpp
+// 函数定义
+void bar() {}
+// 函数声明
+void bar();
+```
+
+1. 记忆解析器 林鼠解析器 packrat parser
+1. 确定性解析 LL(1) LL(k)
+1. 谓词解析器
+
+### 带回溯的递归下降解析
+
 最基础的方法
 
 ```BNF
@@ -126,6 +145,16 @@ end;
 ```txt
 ∀ k < i, no production expanding Ak has Al in its rhs, for l < k.
 ```
+
+### packrat parser
+
+带记忆的递归下降解析器
+
+1. Bryan Ford Packrat parsing: simple, powerful, lazy, linear time, functional parser
+
+### 谓词解析器
+
+上下文相关文法，根据谓词来决定是否启用某个匹配
 
 ### Backtrack Free Parsing
 
@@ -334,6 +363,10 @@ Clang 的编译器前端就是手写的递归下降解析，在`lib/Parse/ParseE
 1. http://www.yinwang.org/
 1. https://blog.csdn.net/ViVivan1992/article/details/101302986
 1. [The Little Javascripter](http://www.crockford.com/little.html)
+
+### LL(k)递归下降解析
+
+不修改语法，构建 k 个预看 token 的环形缓冲区来支持。
 
 ## Bottom Up
 
