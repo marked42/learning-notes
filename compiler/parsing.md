@@ -1,12 +1,4 @@
-# 编译原理
-
-## 文法
-
-正则文法不能处理嵌套、上下文无关文法支持嵌套
-
-### 二义性
-
-消除文法的二义性
+# Parsing
 
 ## 解析方法分类
 
@@ -194,6 +186,8 @@ First Set
    1. 如果 B -> ε，First(C) 属于 First(A)
    1. A -> ε， ε 属于 First(A)
 
+采用不动点计算方法，直到所有的非终结符的 First(A)不再变化为止，参考 Engineering A Compiler Ch3 P.104。
+
 先要计算 A -> ε
 
 ![First Set](./first-set.png)
@@ -206,7 +200,23 @@ X -> A B
 1. 如果 B -> ε，First(X)属于 Follow(A)
 1. $ 属于 Follow(S)
 
+同样采用不动点计算，参考 Engineering A Compiler Ch3 P.106。
+
+对于每一条产生式 Follow Set 需要从后向前分析
+
 ![Follow Set](./follow-set.png)
+
+定义产生式 A -> B 的 First Set
+
+1. First(B) 如果 First(B)包含 ε
+1. First(B) & Follow(A) 如果 First(B)不包含 ε
+
+对于任何非终结符 A，如果其所有产生式的 First Set 不重叠，则可以通过预看下一个 token 来唯一选择要使用的产生式，实现无递归的分析。
+
+计算出 First Set/Follow Set 之后有两种方式实现无回溯递归下降分析
+
+1. 手写，非终结符 A 根据输入 token 和 First Set(P)来选择产生式 P 的逻辑转换为代码
+2. 表驱动方式，将所有非终结符、token 和 First(P)的关系组成表格数据，根据表格跳转调用。
 
 Parsing Table
 
