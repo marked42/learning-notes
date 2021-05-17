@@ -314,13 +314,16 @@ https://en.wikipedia.org/wiki/Operator-precedence_parser
 Clang 的编译器前端就是手写的递归下降解析，在`lib/Parse/ParseExpr.cpp`中使用了 Precedence Climbing 方法。
 
 1.  [Parsing Expressions by precedence climbing](https://eli.thegreenplace.net/2012/08/02/parsing-expressions-by-precedence-climbing)
-1.  [The top-down parsing of expressions](https://www.antlr.org/papers/Clarke-expr-parsing-1986.pdf)
+1.  [The top-down parsing of expressions Keith Clarke](https://www.antlr.org/papers/Clarke-expr-parsing-1986.pdf)
 1.  [Pratt Parsing and Precedence Climbing Are the Same Algorithm](http://www.oilshell.org/blog/2016/11/01.html)
 1.  [Top Down Operator Precedence Vaughan R. Pratt](https://dl.acm.org/doi/10.1145/512927.512931)
+1.  [Top Down Operator Precedence Parsing](https://eli.thegreenplace.net/2010/01/02/top-down-operator-precedence-parsing)
 1.  [Top Down Operator Precedence Douglas Crockford](https://www.crockford.com/javascript/tdop/tdop.html)
 1.  Beautiful Code Chapter 9 Top Down Operator Precedence Douglas Crockford
 
 ### Shunting Yard
+
+操作符的优先级、结合性、Unary、Binary、Tenary
 
 ### TDOP
 
@@ -335,3 +338,14 @@ Clang 的编译器前端就是手写的递归下降解析，在`lib/Parse/ParseE
 ## Bottom Up
 
 自底向上解析
+
+## 类型
+
+1. [Subtype Inference by Example Part 1: Introducing CubiML](https://blog.polybdenum.com/2020/07/04/subtype-inference-by-example-part-1-introducing-cubiml.html)
+
+## 模式
+
+相关模式
+
+1. interpretor 模式
+1. visitor 模式

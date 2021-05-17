@@ -117,6 +117,7 @@ https://github.com/ossu/computer-science
    1. [Tiny C Compiler](https://bellard.org/tcc/)
 1. https://cp-algorithms.com/string/expression_parsing.html
 1. [调度场算法](https://zh.wikipedia.org/wiki/%E8%B0%83%E5%BA%A6%E5%9C%BA%E7%AE%97%E6%B3%95)
+1. Crafting Interpreters 书籍
 
 ### 词法分析
 
