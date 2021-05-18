@@ -344,11 +344,6 @@ Clang 的编译器前端就是手写的递归下降解析，在`lib/Parse/ParseE
 
 1.  [Parsing Expressions by precedence climbing](https://eli.thegreenplace.net/2012/08/02/parsing-expressions-by-precedence-climbing)
 1.  [The top-down parsing of expressions Keith Clarke](https://www.antlr.org/papers/Clarke-expr-parsing-1986.pdf)
-1.  [Pratt Parsing and Precedence Climbing Are the Same Algorithm](http://www.oilshell.org/blog/2016/11/01.html)
-1.  [Top Down Operator Precedence Vaughan R. Pratt](https://dl.acm.org/doi/10.1145/512927.512931)
-1.  [Top Down Operator Precedence Parsing](https://eli.thegreenplace.net/2010/01/02/top-down-operator-precedence-parsing)
-1.  [Top Down Operator Precedence Douglas Crockford](https://www.crockford.com/javascript/tdop/tdop.html)
-1.  Beautiful Code Chapter 9 Top Down Operator Precedence Douglas Crockford
 
 ### Shunting Yard
 
@@ -356,10 +351,13 @@ Clang 的编译器前端就是手写的递归下降解析，在`lib/Parse/ParseE
 
 ### TDOP
 
-1. [Essentials of Programming Language](http://www.eopl3.com/)
-
-1. [Beautiful Code](https://eli.thegreenplace.net/2007/09/28/book-review-beautiful-code-edited-by-andy-oram-greg-wilson/)
-
+1. [Simple But Powerful](https://matklad.github.io/2020/04/13/simple-but-powerful-pratt-parsing.html)
+1. [Pratt Parsing Index and Updates](http://www.oilshell.org/blog/2017/03/31.html)
+1. [Pratt Parsing and Precedence Climbing Are the Same Algorithm](http://www.oilshell.org/blog/2016/11/01.html)
+1. [Top Down Operator Precedence Vaughan R. Pratt](https://dl.acm.org/doi/10.1145/512927.512931)
+1. [Top Down Operator Precedence Parsing](https://eli.thegreenplace.net/2010/01/02/top-down-operator-precedence-parsing)
+1. [Top Down Operator Precedence Douglas Crockford](https://www.crockford.com/javascript/tdop/tdop.html)
+1. Beautiful Code Chapter 9 Top Down Operator Precedence Douglas Crockford
 1. http://www.yinwang.org/
 1. https://blog.csdn.net/ViVivan1992/article/details/101302986
 1. [The Little Javascripter](http://www.crockford.com/little.html)
@@ -398,3 +396,8 @@ Clang 的编译器前端就是手写的递归下降解析，在`lib/Parse/ParseE
 
 访问者模式访问的类也可以没有关联关系，
 Node 节点类的代码存在大量重复，
+
+## Books
+
+1. [Essentials of Programming Language](http://www.eopl3.com/)
+1. [Beautiful Code](https://eli.thegreenplace.net/2007/09/28/book-review-beautiful-code-edited-by-andy-oram-greg-wilson/)
