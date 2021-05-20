@@ -78,12 +78,17 @@ export function _expression(tokenStream: TokenStream, minBp = 0): ASTNode {
   let result: ASTNode
 
   if (token.type === 'operator') {
-    const [_, rbp] = prefixBindingPower(token.value)
+    if (token.value === '(') {
+      result = _expression(tokenStream, 0)
+      match({ type: 'operator', value: ')' })
+    } else {
+      const [_, rbp] = prefixBindingPower(token.value)
 
-    result = {
-      type: 'UnaryExpression',
-      operator: token.value,
-      value: _expression(tokenStream, rbp),
+      result = {
+        type: 'UnaryExpression',
+        operator: token.value,
+        value: _expression(tokenStream, rbp),
+      }
     }
   } else {
     result = {
@@ -109,20 +114,13 @@ export function _expression(tokenStream: TokenStream, minBp = 0): ASTNode {
     tokenStream.consume()
   }
 
-  if (token.type === 'operator') {
-    if (token.value === '(') {
-      const parenExpression = _expression(tokenStream)
-      match({ type: 'operator', value: ')' })
-      return parenExpression
-    }
-  }
-
   while (true) {
     const nextOp = tokenStream.peek()
     if (nextOp === null || nextOp.type !== 'operator') {
       break
     }
 
+    // 在这个位置遇到右括号，通过设置负操作符让递归结束
     const postfix = postfixBindingPower(nextOp.value)
     if (postfix && postfix[0]) {
       if (postfix[0] < minBp) {
@@ -206,6 +204,7 @@ function postfixBindingPower(char: string) {
   const map: PostfixBindingPowerMap = {
     // factorial 阶乘
     '!': [7, undefined],
+    ')': [-1, undefined],
   }
 
   // 非法的postfix operator不抛异常，因为会继续尝试是不是binary operator

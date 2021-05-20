@@ -126,3 +126,25 @@ describe('unary operators', () => {
     })
   })
 })
+
+describe('parenthesis', () => {
+  it('should parse parenthesis expression', () => {
+    expect(expression('(1)')).toEqual({
+      type: 'NumericLiteral',
+      value: 1,
+    })
+
+    expect(expression('(1 + 2)')).toEqual({
+      type: 'BinaryExpression',
+      operator: '+',
+      left: {
+        type: 'NumericLiteral',
+        value: 1,
+      },
+      right: {
+        type: 'NumericLiteral',
+        value: 2,
+      },
+    })
+  })
+})
