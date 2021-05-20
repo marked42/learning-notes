@@ -366,6 +366,7 @@ Clang 的编译器前端就是手写的递归下降解析，在`lib/Parse/ParseE
 
 1. a[i]方括号，[i]相当于 a 的后置操作符，碰到`[`就进入递归，调用`expression`递归解析表达式，碰到`]`就出返回当前函数，
 1. 三元表达式 ? :
+   ?相当于 infix，且右结合，碰到：应该提前返回
 
 1. [Simple But Powerful](https://matklad.github.io/2020/04/13/simple-but-powerful-pratt-parsing.html)
 1. [Pratt Parsing Index and Updates](http://www.oilshell.org/blog/2017/03/31.html)

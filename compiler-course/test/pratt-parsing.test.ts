@@ -164,3 +164,23 @@ describe('index', () => {
     })
   })
 })
+
+describe('ternary expression', () => {
+  it('should parse ternary expression', () => {
+    expect(expression('1 ? 2 : 3')).toEqual({
+      type: 'ConditionalExpression',
+      test: {
+        type: 'NumericLiteral',
+        value: 1,
+      },
+      consequent: {
+        type: 'NumericLiteral',
+        value: 2,
+      },
+      alternate: {
+        type: 'NumericLiteral',
+        value: 3,
+      },
+    })
+  })
+})

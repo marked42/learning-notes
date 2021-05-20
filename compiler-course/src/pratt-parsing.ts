@@ -64,6 +64,12 @@ type ASTNode =
     }
   | { type: 'UnaryExpression'; operator: string; value: ASTNode }
   | { type: 'MemberExpression'; object: ASTNode; property: ASTNode }
+  | {
+      type: 'ConditionalExpression'
+      test: ASTNode
+      consequent: ASTNode
+      alternate: ASTNode
+    }
 
 export function expression(input: string, minBp = 0) {
   const tokenStream = new TokenStream(input)
@@ -132,7 +138,7 @@ export function _expression(tokenStream: TokenStream, minBp = 0): ASTNode {
       break
     }
 
-    // 在这个位置遇到右括号，通过设置负操作符让递归结束
+    // 在这个位置遇到右括号，应该结束递归
     if (nextOp.value === ')' || nextOp.value === ']') {
       break
     }
@@ -152,13 +158,32 @@ export function _expression(tokenStream: TokenStream, minBp = 0): ASTNode {
       continue
     }
 
+    // 这里碰到:应该直接结束
+    if (nextOp.value === ':') {
+      break
+    }
+
     const [leftBP, rightBP] = infixBindingPower(nextOp.value)
     if (leftBP < minBp) {
       // @ts-ignore
       break
     }
-
     tokenStream.consume()
+
+    if (nextOp.value === '?') {
+      // 注意这里又从0开始
+      const consequent = _expression(tokenStream, 0)
+      match({ type: 'operator', value: ':' })
+      // 这里继续使用rbp
+      const alternate = _expression(tokenStream, rightBP)
+      result = {
+        type: 'ConditionalExpression',
+        test: result,
+        consequent,
+        alternate,
+      }
+      break
+    }
 
     const right = _expression(tokenStream, rightBP)
     result = {
@@ -181,15 +206,13 @@ interface InfixBindingPowerMap {
 
 function infixBindingPower(char: string) {
   const map: InfixBindingPowerMap = {
-    '+': [1, 2],
-    '-': [1, 2],
-    '*': [3, 4],
-    '/': [3, 4],
-    '^': [10, 9],
-  }
-
-  if (!map[char]) {
-    throw new Error(`bad operator ${char}`)
+    '=': [2, 1],
+    '?': [4, 3],
+    '+': [5, 6],
+    '-': [5, 6],
+    '*': [7, 8],
+    '/': [7, 8],
+    '^': [14, 13],
   }
 
   return map[char]
@@ -225,4 +248,4 @@ function postfixBindingPower(char: string) {
   // 非法的postfix operator不抛异常，因为会继续尝试是不是binary operator
   return map[char]
 }
-expression('1[2]')
+expression('1 ? 2 : 3')
