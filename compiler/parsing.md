@@ -401,3 +401,11 @@ Node 节点类的代码存在大量重复，
 
 1. [Essentials of Programming Language](http://www.eopl3.com/)
 1. [Beautiful Code](https://eli.thegreenplace.net/2007/09/28/book-review-beautiful-code-edited-by-andy-oram-greg-wilson/)
+
+1. 四种树的遍历模式
+1. 二元表达式不同文法对应同一种语法，文法的改变不影响语法。
+1. 表达式短路求值优化
+1. 树的相关算法
+1. 改写简化向量乘法，乘以 0 的表达式
+1. 迭代使用规则，加法乘法转换为位移操作
+1. 解析抽象语法树，为什么有 expression statement

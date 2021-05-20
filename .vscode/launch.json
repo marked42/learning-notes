@@ -7,10 +7,21 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
-      "skipFiles": ["<node_internals>/**"],
-      "runtimeExecutable": "/usr/local/bin/node",
-      "program": "${workspaceFolder}/the-super-tiny-compiler.js"
-    }
+      "name": "typescript",
+      "program": "${workspaceFolder}/compiler-course/src/pratt-parsing.ts",
+      "preLaunchTask": "tsc: build - tsconfig.json",
+      "outFiles": ["${workspaceFolder}/out/**/*.js"]
+    },
+    {
+      "name": "Current TS File",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/compiler-course/node_modules/.bin/ts-node",
+      "args": [
+          "${relativeFile}"
+      ],
+      "cwd": "${workspaceRoot}",
+      "protocol": "inspector"
+  }
   ]
 }
