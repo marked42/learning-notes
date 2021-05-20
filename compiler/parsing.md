@@ -351,6 +351,19 @@ Clang 的编译器前端就是手写的递归下降解析，在`lib/Parse/ParseE
 
 ### TDOP
 
+为每个操作符定义 Left Binding Power 和 Right Binding Power，
+
+1. 使用递归加循环的方式实现
+1. 注意 EOF token 的处理
+1. 注意使用 peek 操作，操作符优先级高与当前要求的最小优先级时才会继续递归，consume 掉操作符，否则只用 peek。
+1. 使用 0 作为初始的 binding power
+1. 用一个变量 result 代表局部被解析出来的表达式节点，递归的构建出来最终的节点
+1. 前置操作符的处理，
+1. 后置操作符的处理，
+1. 括号的处理
+1. a[i]方括号
+1. 三元表达式 ? :
+
 1. [Simple But Powerful](https://matklad.github.io/2020/04/13/simple-but-powerful-pratt-parsing.html)
 1. [Pratt Parsing Index and Updates](http://www.oilshell.org/blog/2017/03/31.html)
 1. [Pratt Parsing and Precedence Climbing Are the Same Algorithm](http://www.oilshell.org/blog/2016/11/01.html)

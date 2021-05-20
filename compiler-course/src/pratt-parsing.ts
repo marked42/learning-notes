@@ -53,10 +53,10 @@ type Token =
 
 type ASTNode =
   | {
-      type: 'number'
+      type: 'NumericLiteral'
       value: number
     }
-  | { type: 'binary'; left: ASTNode; right: ASTNodeType }
+  | { type: 'BinaryExpression'; left: ASTNode; right: ASTNodeType }
 
 export function expression(input: string, minBp = 0) {
   const tokenStream = new TokenStream(input)
@@ -69,8 +69,8 @@ export function _expression(tokenStream: TokenStream, minBp = 0): ASTNode {
     throw new Error('expect token, encounter got early end of token stream')
   }
 
-  const left = {
-    type: 'number',
+  let result: any = {
+    type: 'NumericLiteral',
     value: token?.value,
   }
 
@@ -100,7 +100,7 @@ export function _expression(tokenStream: TokenStream, minBp = 0): ASTNode {
   }
 
   while (true) {
-    const nextOp = tokenStream.consume()
+    const nextOp = tokenStream.peek()
     if (nextOp === null || nextOp.type !== 'op') {
       break
     }
@@ -108,33 +108,75 @@ export function _expression(tokenStream: TokenStream, minBp = 0): ASTNode {
     const [leftBP, rightBP] = infixBindingPower(nextOp.value)
     if (leftBP < minBp) {
       // @ts-ignore
-      return { type: 'number', value: token.value }
+      break
     }
 
+    tokenStream.consume()
+
     const right = _expression(tokenStream, rightBP)
-    return {
-      op: nextOp,
+    result = {
+      type: 'BinaryExpression',
+      op: nextOp.value,
       // @ts-ignore
-      left: { type: 'number', value: token.value },
+      left: result,
       // @ts-ignore
       right,
     }
   }
 
   // @ts-ignore
-  return left
+  return result
+}
+
+interface InfixBindingPowerMap {
+  [key: string]: [number, number]
 }
 
 function infixBindingPower(char: string) {
-  const map: { [key: string]: [number, number] } = {
+  const map: InfixBindingPowerMap = {
     '+': [1, 2],
     '-': [1, 2],
     '*': [3, 4],
     '/': [3, 4],
+    '^': [10, 9],
+  }
+
+  if (!map[char]) {
+    throw new Error(`bad operator ${char}`)
   }
 
   return map[char]
 }
 
-const result = expression('1 + 2')
-console.log('result: ', result)
+interface PrefixBindingPowerMap {
+  [key: string]: [undefined, number]
+}
+
+function prefixBindingPower(char: string) {
+  const map: PrefixBindingPowerMap = {
+    '+': [undefined, 5],
+    '-': [undefined, 5],
+  }
+
+  if (!map[char]) {
+    throw new Error(`bad operator ${char}`)
+  }
+
+  return map[char]
+}
+
+interface PostfixBindingPowerMap {
+  [key: string]: [number, undefined]
+}
+
+function postfixBindingPower(char: string) {
+  const map: PostfixBindingPowerMap = {
+    '!': [7, undefined],
+  }
+
+  if (!map[char]) {
+    throw new Error('bad operator')
+  }
+
+  return map[char]
+}

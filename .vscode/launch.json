@@ -17,11 +17,18 @@
       "type": "node",
       "request": "launch",
       "program": "${workspaceRoot}/compiler-course/node_modules/.bin/ts-node",
-      "args": [
-          "${relativeFile}"
-      ],
+      "args": ["${relativeFile}"],
       "cwd": "${workspaceRoot}",
       "protocol": "inspector"
-  }
+    },
+    {
+      "name": "Jest",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/compiler-course/node_modules/.bin/jest",
+      "args": ["${relativeFile}"],
+      "cwd": "${workspaceRoot}",
+      "protocol": "inspector"
+    }
   ]
 }
