@@ -1,6 +1,6 @@
 import { expression } from '../src/pratt-parsing'
 
-describe('pratt parsing', () => {
+describe('binary operators', () => {
   it('should parse binary operators', () => {
     const result = expression('1 + 2')
     expect(result).toEqual({
@@ -12,7 +12,7 @@ describe('pratt parsing', () => {
         type: 'NumericLiteral',
         value: 2,
       },
-      op: '+',
+      operator: '+',
       type: 'BinaryExpression',
     })
   })
@@ -22,7 +22,7 @@ describe('pratt parsing', () => {
     expect(result).toEqual({
       left: {
         type: 'BinaryExpression',
-        op: '+',
+        operator: '+',
         left: {
           type: 'NumericLiteral',
           value: 1,
@@ -36,7 +36,7 @@ describe('pratt parsing', () => {
         type: 'NumericLiteral',
         value: 3,
       },
-      op: '+',
+      operator: '+',
       type: 'BinaryExpression',
     })
   })
@@ -50,7 +50,7 @@ describe('pratt parsing', () => {
       },
       right: {
         type: 'BinaryExpression',
-        op: '^',
+        operator: '^',
         left: {
           type: 'NumericLiteral',
           value: 2,
@@ -60,7 +60,7 @@ describe('pratt parsing', () => {
           value: 3,
         },
       },
-      op: '^',
+      operator: '^',
       type: 'BinaryExpression',
     })
   })
@@ -69,14 +69,14 @@ describe('pratt parsing', () => {
     const result = expression('1 + 2 * 3')
     expect(result).toEqual({
       type: 'BinaryExpression',
-      op: '+',
+      operator: '+',
       left: {
         type: 'NumericLiteral',
         value: 1,
       },
       right: {
         type: 'BinaryExpression',
-        op: '*',
+        operator: '*',
         left: {
           type: 'NumericLiteral',
           value: 2,
@@ -85,6 +85,43 @@ describe('pratt parsing', () => {
           type: 'NumericLiteral',
           value: 3,
         },
+      },
+    })
+  })
+})
+
+describe('unary operators', () => {
+  it('should parse prefix unary operator', () => {
+    expect(expression('+ 1')).toEqual({
+      type: 'UnaryExpression',
+      operator: '+',
+      value: {
+        type: 'NumericLiteral',
+        value: 1,
+      },
+    })
+
+    expect(expression('- 1')).toEqual({
+      type: 'UnaryExpression',
+      operator: '-',
+      value: {
+        type: 'NumericLiteral',
+        value: 1,
+      },
+    })
+  })
+
+  it('should throw for unsupported unary operator', () => {
+    expect(() => expression('* 1')).toThrow()
+  })
+
+  it('should parse postfix unary operator', () => {
+    expect(expression('1 !')).toEqual({
+      type: 'UnaryExpression',
+      operator: '!',
+      value: {
+        type: 'NumericLiteral',
+        value: 1,
       },
     })
   })

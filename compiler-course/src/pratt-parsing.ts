@@ -19,7 +19,7 @@ class TokenStream {
 
     return isDigit
       ? { type: 'number' as const, value: Number(char) }
-      : { type: 'op' as const, value: char }
+      : { type: 'operator' as const, value: char }
   }
 
   consume() {
@@ -49,14 +49,20 @@ type Token =
       type: 'number'
       value: number
     }
-  | { type: 'op'; value: string }
+  | { type: 'operator'; value: string }
 
 type ASTNode =
   | {
       type: 'NumericLiteral'
       value: number
     }
-  | { type: 'BinaryExpression'; left: ASTNode; right: ASTNodeType }
+  | {
+      type: 'BinaryExpression'
+      operator: string
+      left: ASTNode
+      right: ASTNode
+    }
+  | { type: 'UnaryExpression'; operator: string; value: ASTNode }
 
 export function expression(input: string, minBp = 0) {
   const tokenStream = new TokenStream(input)
@@ -66,12 +72,24 @@ export function expression(input: string, minBp = 0) {
 export function _expression(tokenStream: TokenStream, minBp = 0): ASTNode {
   const token = tokenStream.consume()
   if (!token) {
-    throw new Error('expect token, encounter got early end of token stream')
+    throw new Error('expect token, encounter EOF token')
   }
 
-  let result: any = {
-    type: 'NumericLiteral',
-    value: token?.value,
+  let result: ASTNode
+
+  if (token.type === 'operator') {
+    const [_, rbp] = prefixBindingPower(token.value)
+
+    result = {
+      type: 'UnaryExpression',
+      operator: token.value,
+      value: _expression(tokenStream, rbp),
+    }
+  } else {
+    result = {
+      type: 'NumericLiteral',
+      value: token?.value,
+    }
   }
 
   function match(targetToken: Token) {
@@ -91,18 +109,33 @@ export function _expression(tokenStream: TokenStream, minBp = 0): ASTNode {
     tokenStream.consume()
   }
 
-  if (token.type === 'op') {
+  if (token.type === 'operator') {
     if (token.value === '(') {
       const parenExpression = _expression(tokenStream)
-      match({ type: 'op', value: ')' })
+      match({ type: 'operator', value: ')' })
       return parenExpression
     }
   }
 
   while (true) {
     const nextOp = tokenStream.peek()
-    if (nextOp === null || nextOp.type !== 'op') {
+    if (nextOp === null || nextOp.type !== 'operator') {
       break
+    }
+
+    const postfix = postfixBindingPower(nextOp.value)
+    if (postfix && postfix[0]) {
+      if (postfix[0] < minBp) {
+        break
+      }
+
+      result = {
+        type: 'UnaryExpression',
+        operator: nextOp.value,
+        value: result,
+      }
+      tokenStream.consume()
+      continue
     }
 
     const [leftBP, rightBP] = infixBindingPower(nextOp.value)
@@ -116,7 +149,7 @@ export function _expression(tokenStream: TokenStream, minBp = 0): ASTNode {
     const right = _expression(tokenStream, rightBP)
     result = {
       type: 'BinaryExpression',
-      op: nextOp.value,
+      operator: nextOp.value,
       // @ts-ignore
       left: result,
       // @ts-ignore
@@ -171,12 +204,10 @@ interface PostfixBindingPowerMap {
 
 function postfixBindingPower(char: string) {
   const map: PostfixBindingPowerMap = {
+    // factorial 阶乘
     '!': [7, undefined],
   }
 
-  if (!map[char]) {
-    throw new Error('bad operator')
-  }
-
+  // 非法的postfix operator不抛异常，因为会继续尝试是不是binary operator
   return map[char]
 }
