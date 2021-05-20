@@ -63,6 +63,7 @@ type ASTNode =
       right: ASTNode
     }
   | { type: 'UnaryExpression'; operator: string; value: ASTNode }
+  | { type: 'MemberExpression'; object: ASTNode; property: ASTNode }
 
 export function expression(input: string, minBp = 0) {
   const tokenStream = new TokenStream(input)
@@ -120,7 +121,22 @@ export function _expression(tokenStream: TokenStream, minBp = 0): ASTNode {
       break
     }
 
+    if (nextOp.value === '[') {
+      tokenStream.consume()
+      result = {
+        type: 'MemberExpression',
+        object: result,
+        property: _expression(tokenStream, 0),
+      }
+      match({ type: 'operator', value: ']' })
+      break
+    }
+
     // 在这个位置遇到右括号，通过设置负操作符让递归结束
+    if (nextOp.value === ')' || nextOp.value === ']') {
+      break
+    }
+
     const postfix = postfixBindingPower(nextOp.value)
     if (postfix && postfix[0]) {
       if (postfix[0] < minBp) {
@@ -204,9 +220,9 @@ function postfixBindingPower(char: string) {
   const map: PostfixBindingPowerMap = {
     // factorial 阶乘
     '!': [7, undefined],
-    ')': [-1, undefined],
   }
 
   // 非法的postfix operator不抛异常，因为会继续尝试是不是binary operator
   return map[char]
 }
+expression('1[2]')

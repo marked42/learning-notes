@@ -364,7 +364,7 @@ Clang 的编译器前端就是手写的递归下降解析，在`lib/Parse/ParseE
 
 遇到左括号继续递归，遇到右括号就返回，所以左括号有最高的优先级，minBp 从 0 开始，右括号应该具有最低的优先级，
 
-1. a[i]方括号
+1. a[i]方括号，[i]相当于 a 的后置操作符，碰到`[`就进入递归，调用`expression`递归解析表达式，碰到`]`就出返回当前函数，
 1. 三元表达式 ? :
 
 1. [Simple But Powerful](https://matklad.github.io/2020/04/13/simple-but-powerful-pratt-parsing.html)

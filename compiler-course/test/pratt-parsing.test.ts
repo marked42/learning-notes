@@ -148,3 +148,19 @@ describe('parenthesis', () => {
     })
   })
 })
+
+describe('index', () => {
+  it('should parse index expression', () => {
+    expect(expression('1[2]')).toEqual({
+      type: 'MemberExpression',
+      object: {
+        type: 'NumericLiteral',
+        value: 1,
+      },
+      property: {
+        type: 'NumericLiteral',
+        value: 2,
+      },
+    })
+  })
+})
