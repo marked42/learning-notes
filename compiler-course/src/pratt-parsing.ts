@@ -123,8 +123,12 @@ export function _expression(tokenStream: TokenStream, minBp = 0): ASTNode {
 
   while (true) {
     const nextOp = tokenStream.peek()
-    if (nextOp === null || nextOp.type !== 'operator') {
+    if (nextOp === null) {
       break
+    }
+
+    if (nextOp.type !== 'operator') {
+      throw new Error('expect a operator')
     }
 
     if (nextOp.value === '[') {

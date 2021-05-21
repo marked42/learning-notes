@@ -345,64 +345,325 @@ Clang 的编译器前端就是手写的递归下降解析，在`lib/Parse/ParseE
 1.  [Parsing Expressions by precedence climbing](https://eli.thegreenplace.net/2012/08/02/parsing-expressions-by-precedence-climbing)
 1.  [The top-down parsing of expressions Keith Clarke](https://www.antlr.org/papers/Clarke-expr-parsing-1986.pdf)
 
-### Shunting Yard
+### 调度场算法（Shunting Yard）
 
 操作符的优先级、结合性、Unary、Binary、Tenary
 
-### TDOP
+### 自顶向下操作符优先级分析（Top Down Operator Precedence）
 
-TDOP 方法的历史参考文章[Pratt Parsing and Precedence Climbing Are the Same Algorithm](http://www.oilshell.org/blog/2016/11/01.html)
+自顶向下的运算符优先级分析法最早由 Pratt 提出，用来解决包含不同优先级操作符的表达式解析问题，也叫 Pratt Parsing，具体的历史可参考这篇[文章](http://www.oilshell.org/blog/2016/11/01.html)的总结。
 
-> Pratt (1973) is improving on the Floyd method (1963)
-> Clarke (1986) is improving on the Richards method (1979)
-> Pratt is assigning a total order to tokens with the binding power mechanism. Later in the paper you will see that this is done with two numbers -- left binding power lbp and right binding power rbp.
-> Clarke is assigning numerical precedences and associativity to operators.
-> They are both avoiding the construction of a partial order on operators, which can be represented as a matrix or table.
+TDOP 的**关键**在于通过给操作符定义**结合优先级**（Binding Power）来解决**操作符优先级**的问题。
 
-TDOP 的核心
-优先级的例子
+二元操作符（binary operator）左右都可以存在操作数（operand），定义结合优先级`bp(op) = (lbp, rbp)`，`lbp`是左侧结合优先级（**L**eft **B**inding **P**ower），`rbp`是右侧结合优先级（**R**ight **B**inding **P**ower）。
+
+下面这个数学表达式中，定义加法操作符`bp(+) = (1, 2)`，乘法操作符`bp(*) = (3, 4)`。
 
 ```js
-1 + 2 * 3
-3 + 1 * 2 * 4 + 5
+  3   +   1   *   2   *   4   +   5
+0   1   2   3   4   3   4   1   2   0
 ```
 
-1. 前缀、后缀、中缀，
+上边是表达式，下边是每个二元运算符左右两侧的`bp`值。数字`1`左侧是加号，右侧是乘号，乘号的`lbp = 3`大于加号的`rbp = 2`所以`1`应该与乘号优先结合，数字`4`同理可知应该与左侧乘号结合。
+
+不同符号通过定义`bp`来确定优先级，对于同一符号来说还存在结合律的问题，加法和乘法都是左结合（left associativity），考虑上面的`1 * 2 * 4`应该解析为`(1 * 2) * 4`而不是`1 * (2 * 4)`。数字`2`左侧是乘号的`rbp = 4`大于其右侧乘号的`lbp = 3`，所以解析结果应该是左结合。同理定义`bp(^) = (6, 5)`可以使得操作符`^`是右结合。
+
+#### 二元操作符（Binary Operator）解析
+
+TDOP 通过使用递归和循环结合的方式解析表达式，整体流程如下。
 
 ```js
-a = b - c
+// 解析表达式
+function expression(tokenStream, minBp = 0) {
+  const token = tokenStream.consume()
+  if (!token || token.type !== number) {
+    throw new Error('expect a number')
+  }
+  let left = numericLiteral(token)
+
+  while (true) {
+    // 使用peek，因为存在直接返回和继续递归两种情况，继续递归时才要消耗掉当前token
+    const op = tokenStream.peek()
+    // 没有跟多输入了，应该返回，相当于最右侧rbp = 0的情况
+    if (op === null) {
+      break
+    }
+
+    // 有token的话应该是个operator，否则是语法错误
+    if (op.type !== 'operator') {
+      throw new Error('expect an operator')
+    }
+
+    // 获得操作符的bp
+    const [lbp, rbp] = infixBindingPower(op)
+    // 操作符的优先级低于当前要求的最低优先级minBp，应当返回
+    if (lbp < minBp) {
+      break
+    }
+
+    // 操作符lbp大于当前要求的最低优先级minBp，应当继续递归调用
+    tokenStream.consume()
+
+    // 递归调用解析右侧操作符组成的表达式
+    const right = expression(tokenStream, rbp)
+
+    // 将当前解析出的部分重新作为表达式左操作符，继续循环
+    left = binaryExpression(op, left, right)
+  }
+
+  return left
+}
+
+function numericLiteral(token) {
+  return {
+    type: 'NumericLiteral',
+    value: token.value,
+  }
+}
+
+function binaryExpression(op, left, right) {
+  return {
+    type: 'BinaryExpression',
+    left,
+    right,
+  }
+}
+
+function infixBindingPower(op) {
+  const map = {
+    '+': [1, 2],
+    '-': [1, 2],
+    '*': [3, 4],
+    '/': [3, 4],
+    '^': [6, 5],
+  }
+}
 ```
 
-1. nud 和 led 的概念
+表达式解析函数从`expression(tokenStream, 0)`开始调用，`minBp = 0`代表了初始的优先级，效果就是任意操作符的优先级都高于`0`，`expression`就会递归调用继续分析后续输入。
 
-1. 为每个操作符定义 Left Binding Power 和 Right Binding Power，
-1. 每种操作符根据其相对于操作数的位置不同进行具体解析实现。
+首先匹配一个数字，同时构造一个字符串字面值表达式作为结果存储到`left`变量中，`left`总是保存了当前已经解析部分产生的表达式。
 
-1. 使用递归加循环的方式实现
-1. 注意 EOF token 的处理
-1. 注意使用 peek 操作，操作符优先级高与当前要求的最小优先级时才会继续递归，consume 掉操作符，否则只用 peek。
-1. 使用 0 作为初始的 binding power
-1. 用一个变量 result 代表局部被解析出来的表达式节点，递归的构建出来最终的节点
-1. 前置操作符的处理，
-1. 后置操作符的处理，
-1. 括号的处理
+接着需要进入一个循环，这个循环会对右侧的操作符进行分析。
 
-遇到左括号继续递归，遇到右括号就返回，所以左括号有最高的优先级，minBp 从 0 开始，右括号应该具有最低的优先级，
+如果右侧操作符优先级低于`minBp`说明左侧已经解析得到了包含更高优先级操作符的表达式，这个表达式在后续的解析中会作为右侧低优先级操作符表达式的左子树。如果右侧没有更多输入，函数同样需要返回，相当于`lbp < minBp`，`lbp = 0`的情况。如果右侧不是一个操作符，这是一个语法错误。
 
-1. a[i]方括号，[i]相当于 a 的后置操作符，碰到`[`就进入递归，调用`expression`递归解析表达式，碰到`]`就出返回当前函数，
+如果右侧操作符优先级高于`minBp`，说明右边要解析的部分组成更高优先级表达式，当前得到的部分`left`是该表达式的左子树，这个表达式尚未解析完成，函数不应该返回而应该继续递归调用，解析右子树部分。注意递归调用使用的`minBp`更新为当前操作符的`rbp`。
+
+循环的使用是为了解析右侧输入直到遇到了更低优先级的操作符，才能将当前结果作为左子树返回。
+
+TDOP 虽然使用了递归嵌套的调用`expression`函数解析表达式，但是表达式抽象语法树的构造却是自下而上的，`left`最开始是数字字面量表达式，遇到右侧更低优先级的操作符，函数返回上一层，返回的结果作为`right`和上一层的`left`组成一个更大一点的局部表达式，直到输入为空完成整个表达式的解析。
+
+#### 一元操作符（Unary Operator）
+
+一元操作符分为前缀操作符（Prefix Operator）和后缀操作符（Postfix Operator）两种。
+
+负号`-`是典型的前缀操作符，前缀操作符的处理需要在`expression`函数调用的开头进行，这时当前 token 可能是数字也可能是一个前缀操作符。
+
+```js
+function expression(tokenStream, minBp = 0) {
+  const token = tokenStream.consume()
+  if (!token) {
+    throw new Error('expect a number, get early EOF')
+  }
+
+  let left
+  if (token.type === 'number') {
+    left = numericLiteral(token)
+  } else if (token.type === 'operator') {
+    // 前缀操作符只有rbp
+    const [_, rbp] = prefixBindingPower(token)
+
+    // 前缀操作符后面是另外一个表达式，递归调用解析，rbp作为minBp
+    const right = expression(tokenStream, rbp);
+
+    // 组合结果
+    left = unaryExpression(token.value, right)
+  }
+
+  ...
+}
+
+function prefixBindingPower(op) {
+  const map = {
+    '-': [undefined, 5],
+    '+': [undefined, 5],
+  }
+  const bp = map[op]
+
+  if (!bp) {
+    throw new Error('expect prefix operator, get ' + op)
+  }
+
+  return bp
+}
+```
+
+碰到前缀操作符时，后边必须跟随另外一个表达式，使用`expression(tokenStream, rbp)`递归调用解析，注意使用了操作符的`rbp`作为`minBp`。由于前缀操作符只有只能跟右侧操作数结合，所以只有`rbp`。
+
+阶乘`!`是后缀操作符，后缀操作符出现在数字的后边，和中缀操作符是同一个位置，只不过后边不能再跟操作数。后缀操作的处理插入在中缀操作符的前边，首先进行尝试，优先级低时直接返回当前结果，优先级高时后缀操作符对应的表达式也解析完成，返回结果。
+
+```js
+function expression(tokenStream, minBp) {
+    ...
+    while (true) {
+        ...
+
+        // 首先尝试后缀操作符
+        const [lbp, _] = postfixBindingPower(token.value)
+        if (postfix && lbp) {
+            if (lbp < minBp) {
+                break
+            }
+
+            left = {
+                type: 'UnaryExpression',
+                operator: token.value,
+                value: left,
+            }
+            tokenStream.consume()
+            continue
+        }
+
+        // 中缀操作符
+        ...
+    }
+}
+```
+
+#### 括号（Parenthesis）
+
+括号不属于之前的任何一种情况，括号中间能够包含任意的表达。解析的时候遇到`(`之后应该递归调用函数，然后再预期遇到一个`)`。`(`可能和数字一样出现在开头，`)`可能和中缀、后缀操作符出现在同一个位置。
+
+预期的解析流程上遇到左括号应该继续递归，相当于左括号有最高的优先级，而且左括号之后会匹配包含所有优先级操作符的表达式，所以 minBp 应该重置为 0。遇到右括号就返回，相当于右括号具有最低的优先级。
+
+```js
+function expression(tokenStream, minBp = 0) {
+  const token = tokenStream.consume()
+  if (!token) {
+    throw new Error('expect a number, get early EOF')
+  }
+
+  let left
+  if (token.type === 'number') {
+    left = numericLiteral(token)
+  // 左括号
+  } else if (token.value === '(') {
+      // 递归调用
+      left = expression(tokenStream, 0)
+      // 必须是个右括号
+      match(')')
+  } else if (token.type === 'operator') {
+      ...
+  }
+
+  while (true) {
+    // 后缀操作符
+    ...
+
+    // 直接返回
+    if (op === ')') {
+        break;
+    }
+
+    const [lbp, rbp] = infixBindingPower(op)
+    // 操作符的优先级低于当前要求的最低优先级minBp，应当返回
+    if (lbp < minBp) {
+      break
+    }
+
+    // 操作符lbp大于当前要求的最低优先级minBp，应当继续递归调用
+    tokenStream.consume()
+
+    // 递归调用解析右侧操作符组成的表达式
+    const right = expression(tokenStream, rbp)
+
+    // 将当前解析出的部分重新作为表达式左操作符，继续循环
+    left = binaryExpression(op, left, right)
+  }
+}
+```
+
+TODO: 使用负数优先级实现')'
+
+#### 索引符号（Index Operator）
+
+索引符号`a[i]`形式中，`[]`可以采取和`()`相似的处理方法，碰到`[`后就递归调用`expression`进行解析，不同之处在于`[i]`相当于是`a`的后缀，`[`只能出现在循环的中。
+
+```js
+function expression(tokenStream, minBp = 0) {
+  while (true) {
+    // 后缀操作符
+    ...
+
+    // 直接返回
+    if (op === ')' || op === ']') {
+        break;
+    }
+
+    // 出现在这里
+    if (op === '[') {
+        tokenStream.consume();
+        // 递归调用
+        const right = expression(tokenStream, 0);
+        // 必须是 ']'
+        match(']')
+
+        // 组合新结果
+        left = memberExpression(left, right)
+        break;
+    }
+
+    const [lbp, rbp] = infixBindingPower(op)
+    // 操作符的优先级低于当前要求的最低优先级minBp，应当返回
+    if (lbp < minBp) {
+      break
+    }
+
+    // 操作符lbp大于当前要求的最低优先级minBp，应当继续递归调用
+    tokenStream.consume()
+
+    // 递归调用解析右侧操作符组成的表达式
+    const right = expression(tokenStream, rbp)
+
+    // 将当前解析出的部分重新作为表达式左操作符，继续循环
+    left = binaryExpression(op, left, right)
+  }
+}
+```
+
+#### 三元操作符（Ternary Operator）
+
 1. 三元表达式 ? :
    ?相当于 infix，且右结合，碰到：应该提前返回
 
-1. [Simple But Powerful](https://matklad.github.io/2020/04/13/simple-but-powerful-pratt-parsing.html)
-1. [Top Down Operator Precedence](https://tdop.github.io/)
-1. [Pratt Parsers: Expression Parsing Made Easy](http://journal.stuffwithstuff.com/2011/03/19/pratt-parsers-expression-parsing-made-easy/)
-1. [Top Down Operator Precedence Vaughan R. Pratt](https://dl.acm.org/doi/10.1145/512927.512931)
-1. [Top Down Operator Precedence Parsing](https://eli.thegreenplace.net/2010/01/02/top-down-operator-precedence-parsing)
-1. Beautiful Code Chapter 9 Top Down Operator Precedence Douglas Crockford
-1. [Top Down Operator Precedence Douglas Crockford](https://www.crockford.com/javascript/tdop/tdop.html)
-1. [Pratt Parsing and Precedence Climbing Are the Same Algorithm](http://www.oilshell.org/blog/2016/11/01.html)
-1. [Pratt Parsing Index and Updates](http://www.oilshell.org/blog/2017/03/31.html)
-1. [How Desmos uses Pratt Parsers](https://engineering.desmos.com/articles/pratt-parser/)
+#### 更多思考
+
+注意如果一个二元操作符的左右优先级设置为相同，现在的逻辑下会继续递归调用，相当于定义操作符为右结合，左结合操作符必须设置`lbp > rbp`，这跟循环中使用的终止条件`lbp < rbp`有关。
+
+右结合操作符可以使用`lbp == rbp`的方案，但是没有必要，推荐永远使用不相同的数值配置，简单清晰。
+
+#### 更好的方案 （Nud 和 Led）
+
+1. nud 和 led 的概念
+
+#### 参考文章
+
+建议首先看[《Simple But Powerful》](https://matklad.github.io/2020/04/13/simple-but-powerful-pratt-parsing.html)，使用 Rust 实现，从实际例子与代码出发，比较容易理解，本文整体思路参考这篇文章。Rust 使用模式匹配（Pattern Match）实现的版本比 Javascript 要方便简洁多了。
+
+然后可以看[《How Desmos uses Pratt Parsers》](https://engineering.desmos.com/articles/pratt-parser/)，从 jison 生成解析器的方案迁移到手写 TDOP，使用 [Typescript](https://github.com/desmosinc/pratt-parser-blog-code) 和类方式实现。文章总结了 Parser Generator 和手写 TDOP 方案的优劣势，手写 TDOP 的主要优势如下。
+
+1. 代码结构清晰，对于解析代码更有掌控力，例如可以提供用户友好的错误信息，而不像 jison 只能提示语法错误。
+1. 代码尺寸更小、性能更高，Parser Generator 方案生成的 Parser 优化程度不够。
+
+[《Pratt Parsers: Expression Parsing Made Easy》](http://journal.stuffwithstuff.com/2011/03/19/pratt-parsers-expression-parsing-made-easy/)实现了 Java 的版本，[《Top Down Operator Precedence Parsing》](https://eli.thegreenplace.net/2010/01/02/top-down-operator-precedence-parsing) 实现了 Python 的版本，可作为上面的补充。
+
+[《Top Down Operator Precedence》](https://tdop.github.io/)
+和 [《Top Down Operator Precedence Vaughan R. Pratt》](https://dl.acm.org/doi/10.1145/512927.512931)是 Pratt Parser 的原版论文。
+
+Douglas Crockford 在《Beautiful Code》第 9 章中介绍了使用 TDOP 实现 Javascript 语言的子集的方案，他的文章[《Top Down Operator Precedence》](https://www.crockford.com/javascript/tdop/tdop.html)包含了同样的内容。
+
+Andy Chu 对 TDOP 的相关教程与文章做了个总结[《Pratt Parsing Index and Updates》](http://www.oilshell.org/blog/2017/03/31.html)，并且指出了 TDOP 和 Precedence Climbing 实际是一个算法 [《Pratt Parsing and Precedence Climbing Are the Same Algorithm》](http://www.oilshell.org/blog/2016/11/01.html)。
 
 ### LL(k)递归下降解析
 
