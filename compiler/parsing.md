@@ -351,7 +351,32 @@ Clang 的编译器前端就是手写的递归下降解析，在`lib/Parse/ParseE
 
 ### TDOP
 
-为每个操作符定义 Left Binding Power 和 Right Binding Power，
+TDOP 方法的历史参考文章[Pratt Parsing and Precedence Climbing Are the Same Algorithm](http://www.oilshell.org/blog/2016/11/01.html)
+
+> Pratt (1973) is improving on the Floyd method (1963)
+> Clarke (1986) is improving on the Richards method (1979)
+> Pratt is assigning a total order to tokens with the binding power mechanism. Later in the paper you will see that this is done with two numbers -- left binding power lbp and right binding power rbp.
+> Clarke is assigning numerical precedences and associativity to operators.
+> They are both avoiding the construction of a partial order on operators, which can be represented as a matrix or table.
+
+TDOP 的核心
+优先级的例子
+
+```js
+1 + 2 * 3
+3 + 1 * 2 * 4 + 5
+```
+
+1. 前缀、后缀、中缀，
+
+```js
+a = b - c
+```
+
+1. nud 和 led 的概念
+
+1. 为每个操作符定义 Left Binding Power 和 Right Binding Power，
+1. 每种操作符根据其相对于操作数的位置不同进行具体解析实现。
 
 1. 使用递归加循环的方式实现
 1. 注意 EOF token 的处理
@@ -369,15 +394,15 @@ Clang 的编译器前端就是手写的递归下降解析，在`lib/Parse/ParseE
    ?相当于 infix，且右结合，碰到：应该提前返回
 
 1. [Simple But Powerful](https://matklad.github.io/2020/04/13/simple-but-powerful-pratt-parsing.html)
-1. [Pratt Parsing Index and Updates](http://www.oilshell.org/blog/2017/03/31.html)
-1. [Pratt Parsing and Precedence Climbing Are the Same Algorithm](http://www.oilshell.org/blog/2016/11/01.html)
+1. [Top Down Operator Precedence](https://tdop.github.io/)
+1. [Pratt Parsers: Expression Parsing Made Easy](http://journal.stuffwithstuff.com/2011/03/19/pratt-parsers-expression-parsing-made-easy/)
 1. [Top Down Operator Precedence Vaughan R. Pratt](https://dl.acm.org/doi/10.1145/512927.512931)
 1. [Top Down Operator Precedence Parsing](https://eli.thegreenplace.net/2010/01/02/top-down-operator-precedence-parsing)
-1. [Top Down Operator Precedence Douglas Crockford](https://www.crockford.com/javascript/tdop/tdop.html)
 1. Beautiful Code Chapter 9 Top Down Operator Precedence Douglas Crockford
-1. http://www.yinwang.org/
-1. https://blog.csdn.net/ViVivan1992/article/details/101302986
-1. [The Little Javascripter](http://www.crockford.com/little.html)
+1. [Top Down Operator Precedence Douglas Crockford](https://www.crockford.com/javascript/tdop/tdop.html)
+1. [Pratt Parsing and Precedence Climbing Are the Same Algorithm](http://www.oilshell.org/blog/2016/11/01.html)
+1. [Pratt Parsing Index and Updates](http://www.oilshell.org/blog/2017/03/31.html)
+1. [How Desmos uses Pratt Parsers](https://engineering.desmos.com/articles/pratt-parser/)
 
 ### LL(k)递归下降解析
 
@@ -426,3 +451,7 @@ Node 节点类的代码存在大量重复，
 1. 改写简化向量乘法，乘以 0 的表达式
 1. 迭代使用规则，加法乘法转换为位移操作
 1. 解析抽象语法树，为什么有 expression statement
+
+1. http://www.yinwang.org/
+1. https://blog.csdn.net/ViVivan1992/article/details/101302986
+1. [The Little Javascripter](http://www.crockford.com/little.html)

@@ -249,3 +249,5 @@ function postfixBindingPower(char: string) {
   return map[char]
 }
 expression('1 ? 2 : 3')
+
+// TODO: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
