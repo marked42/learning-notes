@@ -166,8 +166,26 @@ describe('index', () => {
 })
 
 describe('ternary expression', () => {
-  it('should parse ternary expression', () => {
+  it.only('should parse ternary expression', () => {
     expect(expression('1 ? 2 : 3')).toEqual({
+      type: 'ConditionalExpression',
+      test: {
+        type: 'NumericLiteral',
+        value: 1,
+      },
+      consequent: {
+        type: 'NumericLiteral',
+        value: 2,
+      },
+      alternate: {
+        type: 'NumericLiteral',
+        value: 3,
+      },
+    })
+
+    const result = expression('1 ? 2 : 3 ? 4 : 5')
+    console.log('result: ', result)
+    expect(result).toEqual({
       type: 'ConditionalExpression',
       test: {
         type: 'NumericLiteral',

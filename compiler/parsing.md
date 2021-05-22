@@ -300,6 +300,20 @@ P --> v | "(" E ")" | "-" T
 
 https://en.wikipedia.org/wiki/Operator-precedence_parser
 
+### 操作符
+
+前缀、中缀、后缀，前置一元操作符、后置一元操作符，二元操作符、三元操作符
+
+操作符优先级
+操作符结合律
+
+操作符本身的结合律只出在以操作数作为第一个和最后一个 token 的表达式中。
+
+```js
+// 操作数b作为前一个二元表达式的又操作数，后一个二元表达式的左操作数，同时出现这两种情况时操作符才有结合律的问题
+a + b + c
+```
+
 ### Precedence Climbing
 
 能够处理的语法是由二元运算符连接原子表达式组成的表达式。
@@ -634,8 +648,55 @@ function expression(tokenStream, minBp = 0) {
 
 #### 三元操作符（Ternary Operator）
 
-1. 三元表达式 ? :
-   ?相当于 infix，且右结合，碰到：应该提前返回
+三元表达式`E ? E : E`中操作符`?`和`:`都是中缀操作符，操作数出现在两侧。
+
+考虑表达式`E1 ? E2 : E3 ? E4 : E5`，三元表达式也存在结合律的问题，左结合`(E1 ? E2 : E3) ? E4 : E5`，右结合`E1 ? E2 : (E3 ? E4 : E5)`，右结合的形式相当于多个`if else`语句嵌套的效果，所以采用右结合的形式。
+
+三元表达式解析的对应其结构。
+
+1. 首先匹配第一个操作数
+1. 匹配`?`
+1. 递归调用`expression`匹配成功情况的表达式
+1. 匹配`:`
+1. 递归调用`expression`匹配失败情况的表达式
+
+为了实现右结合的效果，`?`的`lbp`应该大于其`rbp`，这样遇到两个连续的三元表达式才会继续递归调用`expression`达到右结合的效果。
+
+```js
+expression('1 ? 2 : 3 ? 4 : 5')
+function expression(tokenStream, minBp) {
+  while (true) {
+    ...
+
+    const [leftBP, rightBP] = infixBindingPower(nextOp.value)
+    if (leftBP < minBp) {
+      // @ts-ignore
+      break
+    }
+    tokenStream.consume()
+
+    // 当成中缀操作符处理，三元表达式按结构解析递归调用解析部分操作数
+    if (nextOp.value === '?') {
+      // 注意这里又从0开始
+      const consequent = _expression(tokenStream, 0)
+      match({ type: 'operator', value: ':' })
+      // 这里继续使用rbp
+      const alternate = _expression(tokenStream, rightBP)
+      result = {
+        type: 'ConditionalExpression',
+        test: result,
+        consequent,
+        alternate,
+      }
+      break
+    }
+
+    ...
+  }
+}
+```
+
+开始解析是使用`?`的`lbp`判断是否继续，结束解析完成后用`?`的`rbp`继续递归调用，中间的符号`:`是固定的，不需要为其配置优先级。
 
 #### 更多思考
 
@@ -645,18 +706,86 @@ function expression(tokenStream, minBp = 0) {
 
 #### 更好的方案 （Nud 和 Led）
 
-1. nud 和 led 的概念
+观察上面的代码逻辑，操作符出现的位置只有两个
+
+1. 表达式的开头，前缀操作符，`expression`函数顶部，此外操作数也可以出现在表达式的开头。
+1. 操作数的后边，后缀、中缀操作符 ，`expression`函数循环中
+
+为出现在前缀操作符位置的 token 定义处理函数，称为 Nud（null denotation）；为出现在中缀、后缀位置的的操作符定义处理函数，成为 Led（left denotation）。
+
+表达式整体的解析流程如下。
+
+```js
+/**
+ * 将所有表达式token都按照nud和led两类处理
+ **/
+function expression(tokenStream, minBp) {
+  const token = tokenStream.consume()
+  let left = token.nud()
+
+  while (true) {
+    const token = tokenStream.peek()
+    if (!token || minBp < token.lbp) {
+      break
+    }
+
+    tokenStream.consume()
+    left = token.led(left)
+  }
+  return left
+}
+
+// 每个token的处理封装在各自的类种。
+class literalToken {
+  nud() {
+    return this.value
+  }
+}
+
+class OperatorAdd {
+  this.lbp = 10;
+
+  led(left) {
+    const right = expression(tokenStream, this.lbp)
+    return {
+      type: 'BinaryExpression',
+      operator: '+',
+      left,
+      right,
+    }
+  }
+}
+
+class OperatorMul {}
+    this.lbp = 20
+    led(self, left) {
+
+      const right = expression(this.lbp)
+      return {
+        type: 'BinaryExpression',
+        left,
+        right,
+      }
+    }
+}
+```
+
+这种实现中将每个操作符、操作数的处理逻辑拆分到单独的类中，方便通过扩展而不是修改的方式增加新的操作符类型。
+
+注意非操作符的 token 应该当做`nud`处理，直接返回其值。结束符号 EOF 相当于优先级为 0。
 
 #### 参考文章
 
 建议首先看[《Simple But Powerful》](https://matklad.github.io/2020/04/13/simple-but-powerful-pratt-parsing.html)，使用 Rust 实现，从实际例子与代码出发，比较容易理解，本文整体思路参考这篇文章。Rust 使用模式匹配（Pattern Match）实现的版本比 Javascript 要方便简洁多了。
+
+[《Top Down Operator Precedence Parsing》](https://eli.thegreenplace.net/2010/01/02/top-down-operator-precedence-parsing) 为 Nud/Led 方案实现了 Python 的版本。
 
 然后可以看[《How Desmos uses Pratt Parsers》](https://engineering.desmos.com/articles/pratt-parser/)，从 jison 生成解析器的方案迁移到手写 TDOP，使用 [Typescript](https://github.com/desmosinc/pratt-parser-blog-code) 和类方式实现。文章总结了 Parser Generator 和手写 TDOP 方案的优劣势，手写 TDOP 的主要优势如下。
 
 1. 代码结构清晰，对于解析代码更有掌控力，例如可以提供用户友好的错误信息，而不像 jison 只能提示语法错误。
 1. 代码尺寸更小、性能更高，Parser Generator 方案生成的 Parser 优化程度不够。
 
-[《Pratt Parsers: Expression Parsing Made Easy》](http://journal.stuffwithstuff.com/2011/03/19/pratt-parsers-expression-parsing-made-easy/)实现了 Java 的版本，[《Top Down Operator Precedence Parsing》](https://eli.thegreenplace.net/2010/01/02/top-down-operator-precedence-parsing) 实现了 Python 的版本，可作为上面的补充。
+[《Pratt Parsers: Expression Parsing Made Easy》](http://journal.stuffwithstuff.com/2011/03/19/pratt-parsers-expression-parsing-made-easy/)实现了 Java 的版本。
 
 [《Top Down Operator Precedence》](https://tdop.github.io/)
 和 [《Top Down Operator Precedence Vaughan R. Pratt》](https://dl.acm.org/doi/10.1145/512927.512931)是 Pratt Parser 的原版论文。
