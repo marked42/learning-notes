@@ -314,55 +314,6 @@ https://en.wikipedia.org/wiki/Operator-precedence_parser
 a + b + c
 ```
 
-### Precedence Climbing
-
-能够处理的语法是由二元运算符连接原子表达式组成的表达式。
-
-优先级
-
-每个二元运算符都有预先定义好的一个自然数代表其优先级，数值越大优先级越高。
-
-分析例子
-
-```js
-2 + 3 * 4 * 5 - 6
-```
-
-一个表达式包含的所有二元运算符的最小优先级决定了当前原子表达式和后续原子表达式之间的顺序，
-
-```js
-1 + 2 * 3
-
-1 * 2 + 3
-```
-
-结核性
-
-左结合、右结合
-
-```js
-1 + 2 + 3
-```
-
-```cpp
-1 ^ 2 ^ 3
-```
-
-通过扩展原子表达式的定义可以处理一元表达式，标识符等情况。
-
-三元运算符如何处理？
-
-实际例子
-
-Clang 的编译器前端就是手写的递归下降解析，在`lib/Parse/ParseExpr.cpp`中使用了 Precedence Climbing 方法。
-
-1.  [Parsing Expressions by precedence climbing](https://eli.thegreenplace.net/2012/08/02/parsing-expressions-by-precedence-climbing)
-1.  [The top-down parsing of expressions Keith Clarke](https://www.antlr.org/papers/Clarke-expr-parsing-1986.pdf)
-
-### 调度场算法（Shunting Yard）
-
-操作符的优先级、结合性、Unary、Binary、Tenary
-
 ### 自顶向下操作符优先级分析（Top Down Operator Precedence）
 
 自顶向下的运算符优先级分析法最早由 Pratt 提出，用来解决包含不同优先级操作符的表达式解析问题，也叫 Pratt Parsing，具体的历史可参考这篇[文章](http://www.oilshell.org/blog/2016/11/01.html)的总结。
@@ -793,6 +744,60 @@ class OperatorMul {}
 Douglas Crockford 在《Beautiful Code》第 9 章中介绍了使用 TDOP 实现 Javascript 语言的子集的方案，他的文章[《Top Down Operator Precedence》](https://www.crockford.com/javascript/tdop/tdop.html)包含了同样的内容。
 
 Andy Chu 对 TDOP 的相关教程与文章做了个总结[《Pratt Parsing Index and Updates》](http://www.oilshell.org/blog/2017/03/31.html)，并且指出了 TDOP 和 Precedence Climbing 实际是一个算法 [《Pratt Parsing and Precedence Climbing Are the Same Algorithm》](http://www.oilshell.org/blog/2016/11/01.html)。
+
+### Precedence Climbing
+
+Precedence Climbing 方法和 TDOP 一样使用递归加循环的方式自底向上构造解析结果，区别之处在 Precedence Climbing 使用优先级（Precedence）而不是结合力（Binding Power）来解决操作符优先级问题。
+
+整体的表达式解析流程如下。
+
+```js
+function expression(min_prec) {
+  let result = atom()
+
+  while (true) {
+    const token = tokenStream.peek()
+    const prec = precedence(token)
+    const assoc = associativity(token)
+    if (!token || prec < min_prec) {
+      break
+    }
+
+    tokenStream.consume()
+    const next_min_prec = assoc === 'left' ? prec + 1 : prec
+    const rhs = expression(next_min_prec)
+    result = operator(result, rhs)
+  }
+
+  return result
+}
+```
+
+先调用`atom`获取子表达式，可能是操作数或者是另一个完整的表达式。然后同样在循环中根据当前 token 的优先级分情况处理。
+
+1. 如果 token 优先级小于当前要求的最小优先级`min_prec`，应当提前返回。
+1. 如果 token 优先级高于当前要求的最小优先级，继续递归调用`expression`解析右侧表达式，并将表达式返回结果进行组合，直到循环结束，回到第一种情况结束递归。
+
+操作符结合性的问题通过调整表达式要求的最小优先级来处理，连续出现两个相同的操作符，右结合相当于右边的操作符有更高的优先级；左结合相当于左边的操作符有更高的优先级。
+
+1. 对于右结合的操作符，递归调用`expression`时使用`min_prec = prec`，而循环终止的条件是`prec < min_prec`，所以会继续递归调用，形成右结合的效果。
+1. 对于左结合的操作符，使用`min_prec = prec + 1`，这样后续遇到的操作符优先级`prec < min_prec`，递归结束，形成左结合的效果。
+
+对于前缀操作符、括号、索引操作符、三元操作符的处理隐藏在`atom`表达式中，根据每种操作符与操作数相对位置的情况，递归的调用`expression`进行解析，思路和 TDOP 相同。
+
+Clang 的编译器前端就是手写的递归下降解析，在`lib/Parse/ParseExpr.cpp`中使用了 Precedence Climbing 方法。
+
+#### 参考资料
+
+首先看[《Parsing Expressions by precedence climbing》](https://eli.thegreenplace.net/2012/08/02/parsing-expressions-by-precedence-climbing)，针对只包含二元运算符的表达式，解释了 Precedence Climbing 方法的原理，对运算符**优先级**和**结合性**的问题给出解释。对于前缀操作符，文章建议将其当做子表达式来处理，这种做法相当于定死了前缀操作符的优先级高于任何二元操作符，`-x+y`固定解析为`(-x)+y`而不是`-(x+y)`，无法调整前缀操作符合二元操作符的优先级顺序。另外这篇文章没有对后置操作符、索引操作符、三元操作符的情况进行描述。
+
+Theodore Norvell 在[Parsing Expressions by Recursive Descent](https://www.engr.mun.ca/~theo/Misc/exp_parsing.htm#climbing)中对于 Precedence Climbing 进行了比较详细的描述，给出了包含前置操作符优先级处理的例子，并将其推广为表格驱动的解析方法。另外 Precedence Climbing 这个说法也是他提出的。
+
+[《The top-down parsing of expressions》](https://www.antlr.org/papers/Clarke-expr-parsing-1986.pdf)Keith Clarke 的原文。
+
+### 调度场算法（Shunting Yard）
+
+操作符的优先级、结合性、Unary、Binary、Tenary
 
 ### LL(k)递归下降解析
 
