@@ -24,6 +24,11 @@ void bar();
 1. 确定性解析 LL(1) LL(k)
 1. 谓词解析器
 
+#### 参考资料
+
+1. [斯坦福大学 编译原理 递归下降解析](https://www.bilibili.com/video/BV1Ms411A7EP?p=24) 视频资料
+1. [Recursive descent parsing Eli Bendersky's website](https://eli.thegreenplace.net/tag/recursive-descent-parsing) 入门文章
+
 ### 带回溯的递归下降解析
 
 最基础的方法
@@ -257,61 +262,64 @@ A -> a
 
 1. [Predictive Parser](https://www.bilibili.com/video/BV1Ms411A7EP?p=28)
 
-### Operator Precedence
+### 操作符优先级（Operator Precedence）
 
-表达式文法定义
-
-```BNF
-E --> E "+" E
-    | E "-" E
-    | "-" E
-    | E "*" E
-    | E "/" E
-    | E "^" E
-    | "(" E ")"
-    | v
-```
-
-经典解决方法，通过定义更多的中间语法规则区分运算符的优先级
+使用递归下降解析法解析包含不同优先级操作符的表达式，文法如下。
 
 ```BNF
-E --> T {( "+" | "-" ) T}
-T --> F {( "*" | "/" ) F}
-F --> P ["^" F]
-P --> v | "(" E ")" | "-" T
+<expr> : <expr> + <expr>
+       | <expr> - <expr>
+       | <expr> * <expr>
+       | <expr> / <expr>
+       | number
+       | id
 ```
 
-缺点
+通过定义更多的中间语法规则区分运算符的优先级
 
-1. The size of the code is proportional to the number of precedence levels.
-1. The speed of the algorithm is proportional to the number of precedence levels.
-1. The number of precedence levels and the set of operators is built in.
+```BNF
+<expr> : <term> + <expr>
+       | <term> - <expr>
+       | <term>
 
-第一个问题可以通过一个带有优先级参数的函数替换多个手写的函数实现。
-第二个问题无法避免，一个标识符的解析跟优先级层数成线性关系。
+<term> : <factor> * <term>
+       | <factor> / <term>
+       | <factor>
 
-1. [Parsing Expressions by Recursive Descent](https://www.engr.mun.ca/~theo/Misc/exp_parsing.htm)
-1. https://eli.thegreenplace.net/tag/recursive-descent-parsing
-1. [自上而下的运算符优先解析](https://firecodelab.com/blog/translate-top-down-operator-precedence-parsing/)
-1. [From Precedence Climbing to Pratt Parsing](https://www.engr.mun.ca/~theo/Misc/pratt_parsing.htm)
-1. [斯坦福大学 编译原理 递归下降解析](https://www.bilibili.com/video/BV1Ms411A7EP?p=24)
+<factor> : number
+         | id
+         | '(' expr ')'
+```
 
-### Operator Precedence Parser
+这种方法在操作符优先级层级很多的时候存在几个[问题](https://eli.thegreenplace.net/2009/03/14/some-problems-of-recursive-descent-parsers)
 
-https://en.wikipedia.org/wiki/Operator-precedence_parser
+语法问题，需要定义大量的中间产生式，语法规则复杂。
 
-### 操作符
+操作符结合性的问题，递归下降分析方法必须消除左递归，将左递归文法转换为等价的右递归文法。但是右递归文法只能产生右结合的表达式，无法处理左结合的二元表达式。
 
-前缀、中缀、后缀，前置一元操作符、后置一元操作符，二元操作符、三元操作符
-
-操作符优先级
-操作符结合律
-
-操作符本身的结合律只出在以操作数作为第一个和最后一个 token 的表达式中。
+使用循环来解决操作符左结合的问题，将表达式修改为扩展的 Backus 泛式语法（EBNF），将左结合的操作符修改为重复（repetition）的形式表达，在解析函数中对应循环的代码，这样就能形成左结合表达式。
 
 ```js
-// 操作数b作为前一个二元表达式的又操作数，后一个二元表达式的左操作数，同时出现这两种情况时操作符才有结合律的问题
-a + b + c
+<expr> : <term> { + <term> } *
+       | <term> { - <term> } *
+```
+
+另外由于操作符的优先级是和文法对应的，所以操作符的优先级发生变化，或者新增操作符时都需要修改文法，比较麻烦。同时这种做法不支持在解析时临时调整操作符优先级或者增加操作符。
+
+效率问题，一个简单的数字字面量表达式`1`也需要从最开始的非终结符展开，依次调用所有的产生式对应的解析函数，运行效率比较低。
+
+### 为什么操作符会有结合性
+
+操作符的**结合性**只出在以操作数作为第一个和最后一个 token 的表达式中。例如二元表达式`A + B`，首尾都可以出现操作数，所以两个连续的二元表达式出现时，中间那个操作数才会出现左结合或者又结合的问题。
+
+```cpp
+a + b + c;
+(a + b) + c;    // 左结合
+a + (b + c);    // 右结合
+
+a ? b : c ? d : e;
+(a ? b : c) ? d : e;    // 左结合
+a ? b : (c ? d : e);    // 右结合
 ```
 
 ### 自顶向下操作符优先级分析（Top Down Operator Precedence）
@@ -785,19 +793,21 @@ function expression(min_prec) {
 
 对于前缀操作符、括号、索引操作符、三元操作符的处理隐藏在`atom`表达式中，根据每种操作符与操作数相对位置的情况，递归的调用`expression`进行解析，思路和 TDOP 相同。
 
-Clang 的编译器前端就是手写的递归下降解析，在`lib/Parse/ParseExpr.cpp`中使用了 Precedence Climbing 方法。
+Clang 的编译器前端就是手写的[递归下降解析](https://clang.llvm.org/doxygen/ParseExpr_8cpp_source.html)，在`lib/Parse/ParseExpr.cpp`中使用了 Precedence Climbing 方法。
 
 #### 参考资料
 
-首先看[《Parsing Expressions by precedence climbing》](https://eli.thegreenplace.net/2012/08/02/parsing-expressions-by-precedence-climbing)，针对只包含二元运算符的表达式，解释了 Precedence Climbing 方法的原理，对运算符**优先级**和**结合性**的问题给出解释。对于前缀操作符，文章建议将其当做子表达式来处理，这种做法相当于定死了前缀操作符的优先级高于任何二元操作符，`-x+y`固定解析为`(-x)+y`而不是`-(x+y)`，无法调整前缀操作符合二元操作符的优先级顺序。另外这篇文章没有对后置操作符、索引操作符、三元操作符的情况进行描述。
+Eli Bendersky 在[《Parsing Expressions by precedence climbing》](https://eli.thegreenplace.net/2012/08/02/parsing-expressions-by-precedence-climbing)，针对只包含二元运算符的表达式，解释了 Precedence Climbing 方法的原理，对运算符**优先级**和**结合性**的问题给出解释。对于前缀操作符，文章建议将其当做子表达式来处理，这种做法相当于定死了前缀操作符的优先级高于任何二元操作符，`-x+y`固定解析为`(-x)+y`而不是`-(x+y)`，无法调整前缀操作符合二元操作符的优先级顺序。另外这篇文章没有对后置操作符、索引操作符、三元操作符的情况进行描述。
 
 Theodore Norvell 在[Parsing Expressions by Recursive Descent](https://www.engr.mun.ca/~theo/Misc/exp_parsing.htm#climbing)中对于 Precedence Climbing 进行了比较详细的描述，给出了包含前置操作符优先级处理的例子，并将其推广为表格驱动的解析方法。另外 Precedence Climbing 这个说法也是他提出的。
+
+在[《From Precedence Climbing to Pratt Parsing》](https://www.engr.mun.ca/~theo/Misc/pratt_parsing.htm)中，Theodore Norvell 讨论了 TDOP 和 Precedence Climbing 方法之间的联系，并使用命令模式（Command Pattern）对 Precedence Climbing 进行改造，最终达到和 TDOP 相同的效果。
 
 [《The top-down parsing of expressions》](https://www.antlr.org/papers/Clarke-expr-parsing-1986.pdf)Keith Clarke 的原文。
 
 ### 调度场算法（Shunting Yard）
 
-操作符的优先级、结合性、Unary、Binary、Tenary
+操作符的优先级、结合性、Unary、Binary、Ternary
 
 ### LL(k)递归下降解析
 
