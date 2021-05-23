@@ -807,7 +807,65 @@ Theodore Norvell 在[Parsing Expressions by Recursive Descent](https://www.engr.
 
 ### 调度场算法（Shunting Yard）
 
-操作符的优先级、结合性、Unary、Binary、Ternary
+调度场算法对表达式的解析过程与上面两种方法类似，区别在于使用栈代替了递归，使用一个操作数的栈和一个操作符的栈分别记录已经处理过的 token。
+
+```js
+function shuntingYard(tokenStream) {
+  const operatorStack = []
+  const operandsStack = []
+
+  while (true) {
+    const token = tokenStream.peek()
+    if (!token) {
+      break
+    }
+
+    // 操作数直接入栈
+    if (token.type === 'number') {
+      push(token)
+      continue
+    }
+
+    const prec = precedence(token)
+
+    // 栈顶操作符如果优先级高于当前token操作符优先级，全部出栈
+    while (prec < top(operatorStack)) {
+      pop()
+    }
+  }
+
+  // 清空操作数栈，这里可以把EOF token优先级设置为0，这样可以复用上边循环中相同的逻辑
+  while (operators.length > 0) {
+    pop()
+  }
+
+  // 操作数
+  return top(operandsStack)
+}
+
+function top(stack) {
+  return stack[stack.length - 1]
+}
+
+function precedence() {}
+
+function pop() {
+  const operator = operatorStack.pop()
+  const operand2 = operandStack.pop()
+  const operand1 = operandStack.pop()
+
+  const newOperand = operator(operand1, operand2)
+  push(newOperand)
+}
+```
+
+算法结束后操作数栈中应该有一个操作数，这个操作数就是最终结果。操作数栈也可以改造为 ASTNode 的栈，这样最终得到的就是解析完成的抽象语法树。
+
+TODO: 补充对于操作符的优先级、结合性、Unary、Binary、Ternary 的处理。
+
+#### 参考资料
+
+Theodore Norvell 在[Parsing Expressions by Recursive Descent](https://www.engr.mun.ca/~theo/Misc/exp_parsing.htm#shunting_yard)介绍了调度场算法
 
 ### LL(k)递归下降解析
 
