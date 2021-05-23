@@ -252,6 +252,5 @@ function postfixBindingPower(char: string) {
   // 非法的postfix operator不抛异常，因为会继续尝试是不是binary operator
   return map[char]
 }
-console.log(expression('1 ? 2 : 3 ? 4 : 5'))
 
 // TODO: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
