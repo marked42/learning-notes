@@ -215,9 +215,6 @@ console.log(generate(ast).code)
 
 #### 节点遍历
 
-访问者模式 https://zhuanlan.zhihu.com/p/360664179
-Traversal 树的遍历
-Visitor 模式 https://en.wikipedia.org/wiki/Visitor_pattern
 讲述了来龙去脉 A Little Java, A Few Patterns
 packages/babel-traverse/src/path/context.js
 采用的是多叉树先序深度优先遍历

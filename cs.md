@@ -115,80 +115,9 @@ https://github.com/ossu/computer-science
    1. [The Lemon Parser Generator](http://www.hwaci.com/sw/lemon/)
    1. [OTCC](https://bellard.org/otcc/otccn.c)
    1. [Tiny C Compiler](https://bellard.org/tcc/)
-1. https://cp-algorithms.com/string/expression_parsing.html
-1. [调度场算法](https://zh.wikipedia.org/wiki/%E8%B0%83%E5%BA%A6%E5%9C%BA%E7%AE%97%E6%B3%95)
+1. 两周自制脚本语言
+1. [自制编程语言](https://book.douban.com/subject/25735333/)
 1. Crafting Interpreters 书籍
+1. language implementation patterns
 
-### 词法分析
-
-Tokenizer 构造状态机进行分词，有两个问题：
-
-1. 存在关键词 int 和 identifier 模式冲突，为每个构造独立的状态
-1. = == === 这种 token 之间模式重合，首选尽可能长的 token，会存在失败回退的情况如何处理?
-1. 空白字符被忽略，不产生对应的 token
-1. 处理 token 使用状态机转换识别字符串，在一个已经可接受的状态下，需要获取到下一个字符才能确认当前 token 已经结束 ，这里对应了 initToken 的操作，同时 initToken 中的最后一个 else 情况，保持 initial 状态不变，忽略所有未知的 token 模式，包括空白。
-1. 循环结束后需要处理之前遗留的最后一个 token，将其添加到 tokens 列表中。
-
-递归下降解析器问题
-
-1. 根据文法情况分类书写对应函数，每个文法对应函数应该考虑失败的情况
-1. 语法错误直接抛出异常
-1. 语法正确，但是该产生式不合适需要返回 null 表示这种情况，然后在上层继续尝试其他的产生式
-1. 根据产生式匹配时，匹配上的 token 要在 token 流中取出，
-1. 注意 TokenStream 的位置处理，优先使用 peek 方法，只有在成功解析 AST 时才取出当前 token，在返回 null 的情况下应该将之前取出的 token 重新放入流中，恢复处理之前的位置。
-1. 使用循环处理操作符优先级问题，产生左结合的 AST
-1. AST 节点的类层级，以及每个子节点类的成员定义
-1. 只有一个子节点的 AST 节点可以省略掉，直接使用其子节点，这样是跟抽象语法树定义一致。
-1. 递归下降中的回溯？
-
-递归下降解析器，需要消除左递归，会造成运算符顺序改变，使用 Operator Precedence Parser
-gcc 的前端就是手写的递归下降解析器
-
-语法 BNF 巴科斯范式
-
-add ::= mul | add + mul
-mul ::= pri | mul \* pri
-pri ::= Id | Num | (add)
-
-扩展巴科斯范式(EBNF)，使用类似正则表达式的写法
-
-add -> mul (+ mul)\*
-
-解析树 Parse Tree
-对应于产生式展开的每一步
-
-抽象语法树 Abstract Syntax Tree
-
-运算符优先级的问题，修改语法定义解决
-
-结合性问题，同样优先级的运算符是从左到右计算还是从右到左计算。
-
-对于左结合的运算符，递归项要放在左边；而右结合的运算符，递归项放在右边
-
-左递归文法
-add -> mul | add + mul
-消除左递归，
-add -> mul add'
-add' -> + mul add' | ε
-其中 add'是右递归的，但是加号+是左结合运算符，右递归文法使用递归下降解析会得到右结合的语法树，使用 EBNF
-add -> mul (+ mul)\*
-
-```js
-mul();
-while(next token is +){
-  mul()
-  createAddNode
-}
-```
-
-将递归转换为循环来处理，这样加号变成了左结合的，同时消除递归，跟尾递归调用优化是一个原理。
-
-Antlr
-
-https://www.npmjs.com/package/antlr4ts
-
-### 类型系统
-
-1. [类型系统简介](https://zhuanlan.zhihu.com/p/65626985)
-1. [你的类型，0：基本的合一](https://zhuanlan.zhihu.com/p/24181997)
-1. [简评: The Little Typer(可能是最容易理解的关于 Dependent Type 的书)](https://zhuanlan.zhihu.com/p/54532349)
+1. [library genisis](http://libgen.rs/search.php?req=the+little+typer&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=def)

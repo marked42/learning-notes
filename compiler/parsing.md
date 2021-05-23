@@ -9,9 +9,9 @@ Bottom Up Parsing
 
 ### 分类
 
-1. 带回溯的递归下降解析 带回溯的的解析器相当于能够预看任意个符号，因此解析能力强于 LL(k)解析器，但是回溯的运算代价比较高。
-   为什么需要任意个预看符号，例如函数声明和定义的结构只在最右边有区别，而函数定义可以无限长，所以无法使用 LL(k)解析。缓冲区可以增长以
-   支持任意长度的预看符号。分成推演和实际匹配两个过程。
+带回溯的递归下降解析 带回溯的的解析器相当于能够预看任意个符号，因此解析能力强于 LL(k)解析器，但是回溯的运算代价比较高。
+为什么需要任意个预看符号，例如函数声明和定义的结构只在最右边有区别，而函数定义可以无限长，所以无法使用 LL(k)解析。缓冲区可以增长以
+支持任意长度的预看符号。分成推演和实际匹配两个过程。
 
 ```cpp
 // 函数定义
@@ -23,6 +23,8 @@ void bar();
 1. 记忆解析器 林鼠解析器 packrat parser
 1. 确定性解析 LL(1) LL(k)
 1. 谓词解析器
+
+GCC 的前端就是手写的递归下降解析器
 
 #### 参考资料
 
@@ -52,10 +54,12 @@ T -> int | int * T | ( E )
 int * int
 ```
 
-使用递归现将解析表达式存在两个问题
+递归下降解析器问题
 
-1. 如何处理运算符优先级和结合性
-1. 在运算符优先级很多的情况下如何高效处理
+1. 根据文法情况分类书写对应函数，每个文法对应函数应该考虑失败的情况
+1. 语法错误直接抛出异常
+1. 语法正确，但是该产生式不合适需要返回 null 表示这种情况，然后在上层继续尝试其他的产生式
+1. token stream 的回溯
 
 上下文无关文法中一个子集可以使用无回溯的递归下降分析法
 
@@ -91,7 +95,7 @@ end;
 
 ### 左递归
 
-左递归
+递归下降分析法无法处理包含左递归的文法
 
 ```BNF
 S -> Sa | b
@@ -143,15 +147,13 @@ for i ← 1 to n do;
 end;
 ```
 
-类似图论中的循环问题
-
 外层循环的循环不变量，对于 k < i 的情况，Ak 的所有产生式都中不能存在以 Al 开头的，l < k，
 
 ```txt
 ∀ k < i, no production expanding Ak has Al in its rhs, for l < k.
 ```
 
-### packrat parser
+### Packrat Parser
 
 带记忆的递归下降解析器
 
@@ -161,7 +163,7 @@ end;
 
 上下文相关文法，根据谓词来决定是否启用某个匹配
 
-### Backtrack Free Parsing
+### 无回溯的递归下降解析（Backtrack Free Parsing）
 
 是可回溯的递归下降分析法对应语法的子集 LL(k) 语法
 
@@ -297,7 +299,13 @@ A -> a
 
 操作符结合性的问题，递归下降分析方法必须消除左递归，将左递归文法转换为等价的右递归文法。但是右递归文法只能产生右结合的表达式，无法处理左结合的二元表达式。
 
-使用循环来解决操作符左结合的问题，将表达式修改为扩展的 Backus 泛式语法（EBNF），将左结合的操作符修改为重复（repetition）的形式表达，在解析函数中对应循环的代码，这样就能形成左结合表达式。
+语法 BNF
+
+add ::= mul | add + mul
+mul ::= pri | mul \* pri
+pri ::= Id | Num | (add)
+
+扩展巴科斯范式(EBNF)，使用类似正则表达式的写法
 
 ```js
 <expr> : <term> { + <term> } *
@@ -307,6 +315,10 @@ A -> a
 另外由于操作符的优先级是和文法对应的，所以操作符的优先级发生变化，或者新增操作符时都需要修改文法，比较麻烦。同时这种做法不支持在解析时临时调整操作符优先级或者增加操作符。
 
 效率问题，一个简单的数字字面量表达式`1`也需要从最开始的非终结符展开，依次调用所有的产生式对应的解析函数，运行效率比较低。
+
+#### 参考资料
+
+操作符优先级解析方法参考[Wiki](https://en.jinzhao.wiki/wiki/Operator-precedence_parse)
 
 ### 为什么操作符会有结合性
 
@@ -805,9 +817,9 @@ Theodore Norvell 在[Parsing Expressions by Recursive Descent](https://www.engr.
 
 [《The top-down parsing of expressions》](https://www.antlr.org/papers/Clarke-expr-parsing-1986.pdf)Keith Clarke 的原文。
 
-### 调度场算法（Shunting Yard）
+### 调度场算法（Shunting-Yard Algorithm）
 
-调度场算法对表达式的解析过程与上面两种方法类似，区别在于使用栈代替了递归，使用一个操作数的栈和一个操作符的栈分别记录已经处理过的 token。
+[调度场算法](https://en.jinzhao.wiki/wiki/Shunting-yard_algorithm)对表达式的解析过程与上面两种方法类似，区别在于使用栈代替了递归，使用一个操作数的栈和一个操作符的栈分别记录已经处理过的 token。
 
 ```js
 function shuntingYard(tokenStream) {
@@ -875,46 +887,6 @@ Theodore Norvell 在[Parsing Expressions by Recursive Descent](https://www.engr.
 
 自底向上解析
 
-## 类型
+## 解释器生成器（Parser Generator）
 
-1. [Subtype Inference by Example Part 1: Introducing CubiML](https://blog.polybdenum.com/2020/07/04/subtype-inference-by-example-part-1-introducing-cubiml.html)
-
-## 模式
-
-### 解释器模式（Interpreter）
-
-将操作放到每个节点类中
-
-1. 方便增加新的 AST 节点类型
-1. AST 节点类型太多时不方便管理，同一个功能的代码分散在不同的节点类中。
-1. 不方便增加新的操作类型
-
-通过多态实现
-
-### 访问者模式（Visitor）
-
-1. 同一种操作的代码从分散的节点类统一到一个操作类中
-1. 在不改变节点类型的情况下容易增加操作类型
-1. 不方便增加新的 AST 节点类型
-
-遍历过程可能需要全局状态，Visitor 类中通过重载进行静态分发，双分派技术，如果语言本身支持双分派技术，访问者模式就不需要了。
-
-访问者模式访问的类也可以没有关联关系，
-Node 节点类的代码存在大量重复，
-
-## Books
-
-1. [Essentials of Programming Language](http://www.eopl3.com/)
-1. [Beautiful Code](https://eli.thegreenplace.net/2007/09/28/book-review-beautiful-code-edited-by-andy-oram-greg-wilson/)
-
-1. 四种树的遍历模式
-1. 二元表达式不同文法对应同一种语法，文法的改变不影响语法。
-1. 表达式短路求值优化
-1. 树的相关算法
-1. 改写简化向量乘法，乘以 0 的表达式
-1. 迭代使用规则，加法乘法转换为位移操作
-1. 解析抽象语法树，为什么有 expression statement
-
-1. http://www.yinwang.org/
-1. https://blog.csdn.net/ViVivan1992/article/details/101302986
-1. [The Little Javascripter](http://www.crockford.com/little.html)
+使用解释器生成器根据文法自动生成解释器代码，例如[antlr4ts](https://www.npmjs.com/package/antlr4ts)可以生成 TS 代码。
