@@ -119,5 +119,7 @@ https://github.com/ossu/computer-science
 1. [自制编程语言](https://book.douban.com/subject/25735333/)
 1. Crafting Interpreters 书籍
 1. language implementation patterns
+1. [如何写一个编译器？](https://www.zhihu.com/question/446988424/answer/1759049909)
+1. [在独自实现一个小型编译器中你遇到过哪些困难？](https://www.zhihu.com/question/53110320/answer/1899556472)
 
 1. [library genisis](http://libgen.rs/search.php?req=the+little+typer&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=def)

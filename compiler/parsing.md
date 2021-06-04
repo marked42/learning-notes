@@ -875,6 +875,8 @@ function pop() {
 
 TODO: 补充对于操作符的优先级、结合性、Unary、Binary、Ternary 的处理。
 
+讨论 Pratt Parser 和 Dijkstra 之间的关系 [From Pratt to Dijkstra](https://matklad.github.io/2020/04/15/from-pratt-to-dijkstra.html)
+
 #### 参考资料
 
 Theodore Norvell 在[Parsing Expressions by Recursive Descent](https://www.engr.mun.ca/~theo/Misc/exp_parsing.htm#shunting_yard)介绍了调度场算法
@@ -890,3 +892,5 @@ Theodore Norvell 在[Parsing Expressions by Recursive Descent](https://www.engr.
 ## 解释器生成器（Parser Generator）
 
 使用解释器生成器根据文法自动生成解释器代码，例如[antlr4ts](https://www.npmjs.com/package/antlr4ts)可以生成 TS 代码。
+
+1. [Modern Parser Generator](https://matklad.github.io/2018/06/06/modern-parser-generator.html)
