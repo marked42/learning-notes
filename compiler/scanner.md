@@ -164,6 +164,60 @@ function nextToken() {
 不成熟的想法，不记录 stack 没法构造 failed 表格，无法避免极端回溯情况。
 这种方式使用 stack 记录了从开始状态或者最近的接受状态进行状态转换的路径，可以用一个变量 lastAcceptingState 记录最近的一个接受状态，`lastAcceptingStateDistance`记录该状态和第二步匹配结束的错误状态之间的距离，同时需要输入流支持一次回退多个字符，这样第三步的操作就能在常数时间完成。
 
+### 直接生成代码
+
+表格驱动法中每个字符的处理需要两次查表操作
+
+1. 字符分类表 O(1)
+1. 状态转换表 O(1)
+
+生成代码和查表法使用相同的数据记录 DFA 匹配过程，区别在于使用代码逻辑代替查表操作，消除查表操作的开销，提高解析速度。
+
+核心在与两种运算成本的比较
+
+1. 查表 table[char];
+1. 比较 char >= "0" && char <= "9"
+
+尝试分析 ANTLR 生成的 Lexer，使用这种策略。
+
+### 手动实现
+
+前两种方法中字符流是单个字符进行读取或者回退，使用缓冲字符流可以降低每个字符读取的平均开销。如果回溯操作有长度限制，不超过缓冲区长度 N 的限制，
+使用双缓冲技术时，可以一次回溯多个字符，回溯操作从 O(N)的时间复杂度降低到 O(1)。
+
+```ts
+const BUFFER_SIZE = 4096
+const DOUBLE_BUFFER_SIZE = 2 * 4096
+
+// 初始化
+let pos = 0
+// 有效输入的开始位置，回溯不能超过这个位置
+let fence = 0
+fillBuffer(0, BUFFER_SIZE)
+
+// 读取下一个字符
+function nextChar() {
+  const char = buffer[pos]
+  pos = (pos + 1) % DOUBLE_BUFFER_SIZE
+
+  if (pos % BUFFER_SIZE === 0) {
+    // 一次I/O操作，读取下一个BUFFER
+    fillBuffer(pos, pos + BUFFER_SIZE - 1)
+  }
+
+  return char
+}
+
+// 回溯，最大长度等于BUFFER_SIZE
+function rollBack(i) {
+    // 回溯长度超出限制
+    if (input === fence) {
+        throw new Error('rollback error)
+    }
+    input = (input - i) % DOUBLE_BUFFER_SIZE
+}
+```
+
 ## 空间优化
 
 将编译过程中使用到的所有静态字符串信息进行哈希操作，存储为哈希表，减少内存占用，同时能够提供常数时间的字符串相等操作。
