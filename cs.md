@@ -92,6 +92,7 @@ https://github.com/ossu/computer-science
    1. [The Super Tiny Interpreter](https://github.com/keyz/the-super-tiny-interpreter)
    1. [ReactJS 自制编译器](https://www.bilibili.com/video/BV1BJ411p71e?p=2)
    1. [新手上路学习 JavaScript 引擎实现——路线图](https://zhuanlan.zhihu.com/p/20505562)
+   1. http://www.pur3.co.uk/TinyJS
 1. JSON parser
    1. https://github.com/cheery/json-algorithm
    1. [如何编写一个 JSON 解析器](https://www.liaoxuefeng.com/article/994977272296736)

@@ -571,6 +571,50 @@ function expression(tokenStream, minBp = 0) {
 
 TODO: 使用负数优先级实现')'
 
+TODO:
+
+操作符优先级解析问题
+
+1. 不考虑优先级的二元操作符
+1. 考虑优先级的二元操作符
+1. 考虑优先级且带循环的二元操作符
+1. 分析操作符的类型
+
+   1. 前缀 - a，操作数结尾 prefix '-'的优先级有用
+   1. 前缀 ( a )，不是操作数结尾，前缀'('的优先级的优先级没用
+   1. a++，后缀'++'，表达式以操作数开头，'++'的优先级有用
+   1. 后缀')'，（ a )，表达式不是以操作数开头，')'的优先级不起作用
+   1. 中缀 a + b， 加号'+'既是后缀'a +'，又是前缀'+ b'，优先级起作用，同时存在结合性的问题
+   1. a [ b ]，对于符号'['来说，是后缀，作为后缀与'a'之前的操作符争夺'a'，但是`a[ b ]`整体不是以操作数结尾，所以不存在`]`与其他操作符争夺'b'的情况。
+   1. a ? b : c，对于符号'?'，后缀操作符且整个表达式操作数开头，'?'会争夺'a'，':'前缀操作符，且整个表达式操作数结尾，':'会争夺 c；整个表达式既是操作数开头，又是操作数结尾，存在结合性
+   1. 基础假设 操作数、操作符交替出现，不存在连续的操作符或者操作数
+   1. 第一个和最后一个操作符之间的部分操作数，不会出现断开整个表达式的情况，所以操作数可以出现任意低级别的其他操作符。
+
+1. 注意循环终止的条件，使用` precedence > minBp`的情况，下对左结合操作符 minBp = prec + 1，使用`min < precedence`是对右结合操作符 minBp = prec - 1，区别在于对`precedence == minBp`时，具有不同结合性操作符的处理。
+1. 二元操作符结合性问题
+1. 一元操作符，前缀操作符
+1. 一元后缀操作符
+1. 括号操作符 分析括号操作符为什么不需要分配优先级，左侧有操作数的操作符（中缀和后缀操作符）才需要优先级，这种情况才存在于前一个操作符争夺左侧操作数的问题，`+ a (`，
+1. 分析函数调用操作符`a ( args )` 于括号操作符的区别？
+1. 索引操作符 `a[b]`
+1. 三元操作符 `a ? b : c` 分析三元操作符为什么有优先级和结合性，并且三元操作符只用给'?'分配优先级即可，':'并不需要。解析操作数`b`的时候为什么使用 minBp = 0？为什么':'是直接返回。
+1. 操作数间隔的任意形式`a op1 b op2 c op3 ...`中，`...`代表的数目是有限的，不存在无限重复的情况。分析这种形式下对应的解析模式应该怎么写。
+1. 分析存在可以无限重复的模式操作符的情况，应该怎么写？例如函数调用表达式中`f(a, b, c...)`，参数可以是无限个。出现`expression`和`call()`两个函数互相调用间接递归。
+1. 操作符优先级解析和递归下降解析的两者混合到一起
+1. JSON 对象表达式的解析怎么和操作符优先级解析混合到一起?
+1. `if <expression> then <expression> otherwise <expression>` 的解析
+
+递归加循环的逻辑有三种情况
+
+1. 向上 操作符优先级低，终止循环，返回上层函数
+1. 向下 操作符优先级高，且右侧可以继续有操作数，则继续递归解析
+1. 向右 操作符优先级高，但是右侧没有操作数，不继续递归，继续循环
+
+注意
+
+1. 分析 AST 节点是如何自底向上累加构建的，`result`变量
+1. tokenStream 是何时 consume 一个 token 的，可以使用 peek()或者 prev()两种方案
+
 #### 索引符号（Index Operator）
 
 索引符号`a[i]`形式中，`[]`可以采取和`()`相似的处理方法，碰到`[`后就递归调用`expression`进行解析，不同之处在于`[i]`相当于是`a`的后缀，`[`只能出现在循环的中。
@@ -751,10 +795,13 @@ class OperatorMul {}
 
 [《Top Down Operator Precedence Parsing》](https://eli.thegreenplace.net/2010/01/02/top-down-operator-precedence-parsing) 为 Nud/Led 方案实现了 Python 的版本。
 
+TODO: [gcc 和 Parot](http://en.wikipedia.org/wiki/Operator-precedence_parser) 使用了 TDOP 的解析，查看其源码。
+
 然后可以看[《How Desmos uses Pratt Parsers》](https://engineering.desmos.com/articles/pratt-parser/)，从 jison 生成解析器的方案迁移到手写 TDOP，使用 [Typescript](https://github.com/desmosinc/pratt-parser-blog-code) 和类方式实现。文章总结了 Parser Generator 和手写 TDOP 方案的优劣势，手写 TDOP 的主要优势如下。
 
 1. 代码结构清晰，对于解析代码更有掌控力，例如可以提供用户友好的错误信息，而不像 jison 只能提示语法错误。
-1. 代码尺寸更小、性能更高，Parser Generator 方案生成的 Parser 优化程度不够。
+1. 代码尺寸更小 20KB 降低到 10KB、性能更高 4 倍左右提升，Parser Generator 方案生成的 Parser 优化程度不够。
+1. 严重依赖递归调用，对于`1^1^1....`的极端情况，递归层数太多而爆栈，可以记录递归深度对最大深度进行限制，或者自己管理调用栈数据，将数据挪到堆内存中，或者使用 trampoline (TODO:).
 
 [《Pratt Parsers: Expression Parsing Made Easy》](http://journal.stuffwithstuff.com/2011/03/19/pratt-parsers-expression-parsing-made-easy/)实现了 Java 的版本。
 
