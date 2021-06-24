@@ -1,4 +1,74 @@
-# 抽象语法树
+# 语法树
+
+## 解析树与抽象语法树
+
+代码中的语句之间有顺序和嵌套的关系，树适合来表示这样的结构，常用的有解析树和抽象语法树。
+
+解析树和语言文法定义一一对应，对应于递归下降解析过程中逐条选用的文法规则。解析树的问题在于详细记录了每条文法规则，但是对于后续语义分析过程来说，有些信息并不需要。
+
+抽象语法树对解析树进行简化，不拘泥于文法规则，省略中间无用的文法规则节点，只保留能够代表代码结构的最简洁的节点树形式。抽象语法树的定义应该做到独立于文法定义，与语法无关的文法变更不能影响抽象语法树的结构。
+
+使用根节点表示语法结构的类型，子节点作为语法结构的具体元素的形式构造抽象语法树。语句的优先级顺序由树节点的嵌套顺序决定，具有更高优先级的语句作为低优先级语句的子节点存在。同一层级的语句作为同一个树的兄弟节点存在，保持原有的先后顺序。
+
+```cpp
+x = 1 + 2;
+  =
+ / \
+x   +
+   / \
+  1   2
+```
+
+某些语句可能不执行具体的操作，所以根节点没有对应的操作符，需要使用虚词法单元，例如变量声明语句。
+
+```cpp
+int a = 1;
+// var是自定的虚词法单元，在文法中没有对应token。
+  var
+ /   \
+a     1
+```
+
+## AST 的结构
+
+### 同型树
+
+使用一个`AST`类代表所有不同类型的语句对应的语法树，`token`代表树的类型，`children`代表所有子节点。结构简单，容易构建，但是对于不同子节点只能使用下标进行区分使用，比较麻烦。
+
+```java
+public class AST {
+	Token token;
+	List<AST> children;
+	public AST(Token: token) {
+		this.token = token;
+	}
+
+	public void addChild(AST t) {
+		if (children == null) { children = new ArrayList<>(); }
+		children.add(t);
+	}
+}
+```
+
+### 异型树
+
+以`AST`为基类，使用不同的子类代表不同类型的语句，构建稍微复杂，使用起来比较清晰方便。
+
+```java
+public class AST {
+	Token token;
+}
+public class ExprNode extends AST {}
+public class AddNode extends ExprNode {
+	// 具名子节点
+	ExprNode left, right;
+
+	// 使用构造函数创建AddNode子节点可以限制节点的只能是ExprNode类型
+	public AddNode(ExprNode left, ExprNode right) {
+
+	}
+}
+```
 
 ## 模式
 
