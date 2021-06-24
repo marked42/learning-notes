@@ -329,6 +329,14 @@ export default function ({ types: t }) {
 
 ## 在浏览器环境使用
 
+TODO: 分析 babel 的 standalone 版本逻辑
+
+1. 查询得到 `<script type="text/jsx">`或者`text/babel`类型的标签，
+1. 同步或者使用 XHR 异步获取标签内容
+1. 读取标签上附加的 data-plugins,data-presets 属性，确定 babel 使用的配置
+1. 对代码内容按照设定配置进行转码
+1. 新建 script 标签，并添加到 DOM 树种执行转码得到的代码。
+
 `@babel/standalone`库
 
 ```js
