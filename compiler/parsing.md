@@ -579,7 +579,6 @@ TODO:
 1. 考虑优先级的二元操作符
 1. 考虑优先级且带循环的二元操作符
 1. 分析操作符的类型
-
    1. 前缀 - a，操作数结尾 prefix '-'的优先级有用
    1. 前缀 ( a )，不是操作数结尾，前缀'('的优先级的优先级没用
    1. a++，后缀'++'，表达式以操作数开头，'++'的优先级有用
@@ -589,7 +588,15 @@ TODO:
    1. a ? b : c，对于符号'?'，后缀操作符且整个表达式操作数开头，'?'会争夺'a'，':'前缀操作符，且整个表达式操作数结尾，':'会争夺 c；整个表达式既是操作数开头，又是操作数结尾，存在结合性
    1. 基础假设 操作数、操作符交替出现，不存在连续的操作符或者操作数
    1. 第一个和最后一个操作符之间的部分操作数，不会出现断开整个表达式的情况，所以操作数可以出现任意低级别的其他操作符。
-
+1. 一个表达式的所有操作符设置一个优先级即可，不用为每个操作符分别配置优先级，操作符分类
+   1. 前缀操作符
+   1. 后缀操作符
+   1. 三个操作符的表达式中中间的操作符
+   1. 第一个中缀操作符
+   1. 最后一个中缀操作符
+   1. 具有结合性的中缀操作符
+   1. 分析 left binding power 三种情况 p , -1, x
+   1. 分析 right binding power 四种情况, p, p + 1, 0, x
 1. 注意循环终止的条件，使用` precedence > minBp`的情况，下对左结合操作符 minBp = prec + 1，使用`min < precedence`是对右结合操作符 minBp = prec - 1，区别在于对`precedence == minBp`时，具有不同结合性操作符的处理。
 1. 二元操作符结合性问题
 1. 一元操作符，前缀操作符
@@ -603,6 +610,10 @@ TODO:
 1. 操作符优先级解析和递归下降解析的两者混合到一起
 1. JSON 对象表达式的解析怎么和操作符优先级解析混合到一起?
 1. `if <expression> then <expression> otherwise <expression>` 的解析
+
+Operator Types
+
+![Operator Types](./operator-types.png)
 
 递归加循环的逻辑有三种情况
 
@@ -789,10 +800,11 @@ class OperatorMul {}
 
 注意非操作符的 token 应该当做`nud`处理，直接返回其值。结束符号 EOF 相当于优先级为 0。
 
+Nystrom 在[《Pratt Parsers: Expression Parsing Made Easy》](http://journal.stuffwithstuff.com/2011/03/19/pratt-parsers-expression-parsing-made-easy/)实现了使用面向对象形式的 Java 版本代码，这种形式不同的表达式解析逻辑拆分到不同类中，代码组织结构更合理，且容易维护和新增表达式支持，但是如果对于优先级解析算法不了解的情况下，比较难以理解。
+
 #### 参考文章
 
-Aleksey Kladov 在[《Simple But Powerful》](https://matklad.github.io/2020/04/13/simple-but-powerful-pratt-parsing.html)，使用 Rust 实现了，从实际例子与代码出发，比较容易理解，本文整体思路参考这篇文章。Rust 使用模式匹配（Pattern Match）实现的版本比 Javascript 要方便简洁多了。
-然后在[From Pratt to Dijkstra](https://matklad.github.io/2020/04/15/from-pratt-to-dijkstra.html)中将上述版本逐步重构为调度厂算法。
+Aleksey Kladov 在[《Simple But Powerful》](https://matklad.github.io/2020/04/13/simple-but-powerful-pratt-parsing.html)，使用 Rust 实现了，从实际例子与代码出发，比较容易理解，本文整体思路参考这篇文章。Rust 使用模式匹配（Pattern Match）实现的版本比 Javascript 要方便简洁多了。在[From Pratt to Dijkstra](https://matklad.github.io/2020/04/15/from-pratt-to-dijkstra.html)中将上述版本逐步重构为调度厂算法。
 
 [《Top Down Operator Precedence Parsing》](https://eli.thegreenplace.net/2010/01/02/top-down-operator-precedence-parsing) 为 Nud/Led 方案实现了 Python 的版本。
 
