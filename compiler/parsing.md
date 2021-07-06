@@ -998,3 +998,11 @@ Theodore Norvell 在[Parsing Expressions by Recursive Descent](https://www.engr.
 使用解释器生成器根据文法自动生成解释器代码，例如[antlr4ts](https://www.npmjs.com/package/antlr4ts)可以生成 TS 代码。
 
 1. [Modern Parser Generator](https://matklad.github.io/2018/06/06/modern-parser-generator.html)
+1. PEG https://zhuanlan.zhihu.com/p/355364928
+1. https://tomassetti.me/guide-parsing-algorithms-terminology/
+1. https://tomassetti.me/resources-create-programming-languages/
+1. https://tomassetti.me/parsing-in-javascript/
+
+ANTLR
+
+1. https://tomassetti.me/best-practices-for-antlr-parsers/
