@@ -20,6 +20,9 @@ void bar() {}
 void bar();
 ```
 
+[The Packrat Parsing and Parsing Expression Grammars Page](https://bford.info/packrat/)
+[Packrat Parsing: a Practical Linear-Time Algorithm with Backtracking](https://pdos.csail.mit.edu/~baford/packrat/thesis/)
+
 1. 记忆解析器 林鼠解析器 packrat parser Bryan Ford Packrat Parsing: simple, powerful, lazy, linear time, functional pearl
 1. 确定性解析 LL(1) JSON
 1. LL(k) 寻找例子？ 大小为 k 的环形符号缓冲区
@@ -27,6 +30,10 @@ void bar();
 1. 记忆解析器，需要记录每个规则在某个位置 index 匹配的结果，有三种情况，未知、匹配成功（成功的情况记录匹配成功的位置 index），匹配失败。
 1. 谓词解析器
 1. Bryan Ford PEG 表达式文法，《解析表达式文法：基于识别的语法基础》，Parsec 语法谓词
+
+[Parsing Expression Grammars: A Recognition-Based Syntactic Foundation](https://pdos.csail.mit.edu/~baford/packrat/popl04/peg-popl04.pdf)
+
+[Parsec, a fast combinator parser](http://users.cecs.anu.edu.au/~Clem.Baker-Finch/parsec.pdf)
 
 ![Parsing](./Parsing.png)
 
