@@ -20,9 +20,22 @@ void bar() {}
 void bar();
 ```
 
-1. 记忆解析器 林鼠解析器 packrat parser
-1. 确定性解析 LL(1) LL(k)
+[The Packrat Parsing and Parsing Expression Grammars Page](https://bford.info/packrat/)
+[Packrat Parsing: a Practical Linear-Time Algorithm with Backtracking](https://pdos.csail.mit.edu/~baford/packrat/thesis/)
+
+1. 记忆解析器 林鼠解析器 packrat parser Bryan Ford Packrat Parsing: simple, powerful, lazy, linear time, functional pearl
+1. 确定性解析 LL(1) JSON
+1. LL(k) 寻找例子？ 大小为 k 的环形符号缓冲区
+1. 回溯解析，缓冲区的大小可以增加，支持任意多个向前看符号，每个规则解析分为预测匹配(speculating)和实际匹配两个模式。预测匹配只确定规则能否匹配，并不记录具体的匹配结果，匹配结果会在实际匹配时产生。由于递归下降解析规则是逐层嵌套的，所以每个规则与匹配时对应一个位置，需要一个栈来记录逐层嵌套的每个规则对应的开始位置。
+1. 记忆解析器，需要记录每个规则在某个位置 index 匹配的结果，有三种情况，未知、匹配成功（成功的情况记录匹配成功的位置 index），匹配失败。
 1. 谓词解析器
+1. Bryan Ford PEG 表达式文法，《解析表达式文法：基于识别的语法基础》，Parsec 语法谓词
+
+[Parsing Expression Grammars: A Recognition-Based Syntactic Foundation](https://pdos.csail.mit.edu/~baford/packrat/popl04/peg-popl04.pdf)
+
+[Parsec, a fast combinator parser](http://users.cecs.anu.edu.au/~Clem.Baker-Finch/parsec.pdf)
+
+![Parsing](./Parsing.png)
 
 GCC 的前端就是手写的递归下降解析器
 
