@@ -5,10 +5,6 @@
 按照强度划分的任务
 
 1. 一两个小时内能够完成的小任务，基本功练习，提高计算机科学素养，贵在坚持。
-   1. 算法题两道 leetcode
-   1. 一个刻意小练习，例如常用工具函数（lodash）？
-   1. 培养技术敏感性与开阔视野，领域前沿动态的视频一个，了解领域内别人在做些什么，有哪些我们可以借鉴，输出笔记
-1. 一到两周的时间能够完成的任务，有一定复杂度的业务或者技术问题，目标在于不断提高能力上限。
 
    1. UI/UX 方向，使用 css 实现各种不同的炫酷效果
       1. [干货满满!如何优雅简洁地实现时钟翻牌器(支持 JS/Vue/React)](https://zhuanlan.zhihu.com/p/93519427)
@@ -181,67 +177,6 @@
       - [ ] dom api https://zhuanlan.zhihu.com/p/25703872
    1. 浏览器原理
 
-按照强度划分任务主要是为了便于在每周内安排合适强度的学习计划，一个中高强度的任务可以拆分为多个低强度的项目来完成。
-
-每周开始之前提前安排本周任务，结束时进行回顾。
-
-1. 两三道算法题训练
-1. 一个中强度任务
-1. 一个高强度任务的部分问题
-
-## 每周进度
-
-<table>
-   <thead>
-   <tr>
-      <th>日期</th>
-      <th>填坑</th>
-      <th>算法leetcode</th>
-      <th>小练习lodash</th>
-      <th>关注最新动态</th>
-      <th>UI/CSS炫酷动效</th>
-      <th>可视化搭建、多端复用、AST</th>
-      <th>工程化</th>
-      <th>组件库</th>
-      <th>可视化</th>
-      <th>vue</th>
-      <th>软素质</th>
-   </tr>
-   </thead>
-   <tbody>
-   <tr>
-      <td>2021.04.19~2021.04.25</td>
-      <td>
-         1. <a href="https://zhuanlan.zhihu.com/p/20832837"> 你真的知道怎么用javascript来写一个倒计时吗 ?</a>
-      </td>
-      <td></td>
-      <td>
-         1. leftpad
-      </td>
-      <td></td>
-      <td>
-         <a href="https://www.bilibili.com/video/BV1TK411M7tD">Figma新手教学系列</a>
-      </td>
-      <td>
-         <a href="https://juejin.cn/post/6951596501961277448">前端智能化在阿里云大数据研发平台中的实践</a>
-      </td>
-      <td>
-         <ul>
-            <li><a href="https://www.bilibili.com/video/BV1H5411c7Ef">基于Node.js在CLI下工程化体系实践</a></li>
-            <li><a href="https://www.bilibili.com/video/BV1KV411H7c4?from=search&seid=2791112690389061114">有赞前后端协作方式的演进</a></li>
-            <li><a href="https://www.bilibili.com/video/BV1bi4y1A7Gs?from=search&seid=7459594533958101933">如何搭建工程化效能体系为研发加速</a></li>
-            <li><a href="https://www.bilibili.com/video/BV1Sp4y18716?from=search&seid=7339213082970257490">如何构建后现代前端工程化开发体系</a></li>
-         </ul>
-      </td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-
-   </tr>
-   </tbody>
-</table>
-
 ## 填坑挖坑
 
 收藏了很多文章却从来没去学过，这个列表记录了挖的坑，需要持续填坑。
@@ -290,78 +225,99 @@
 
 ## JS & TS
 
-1. 深入 javascript https://juejin.im/post/59278e312f301e006c2e1510
-1. 周爱民老师的 Javascript 课程
-1. https://mp.weixin.qq.com/s/foXbAj3ODqFKYGUP5K8MkQ
-1. 异步模式
-   1. [microtask 队列与 async/await 源码分析](https://zhuanlan.zhihu.com/p/134647506)
-   1. [Promise V8 源码分析(一)](https://zhuanlan.zhihu.com/p/264944183)
-   1. [microtask 队列与 async/await 源码分析](https://zhuanlan.zhihu.com/p/134647506)
-   1. [promise ](https://zhuanlan.zhihu.com/p/21834559)
-   1. [100 行代码实现 Promises/A+ 规范](https://zhuanlan.zhihu.com/p/83965949)
-   1. 异步 async/await/Promise 05*You_Don't \_Know_JS_Async*&\_Performance
-   1. [Promises](https://www.mauriciopoppe.com/notes/computer-science/computation/promises/)
-   1. [探讨：当 Async/Await 的遇到了 EventLoop](https://zhuanlan.zhihu.com/p/86993504)
-   1. https://www.zhihu.com/question/65647171/answer/233495694
-   1. https://css-tricks.com/understanding-async-await/
-   1. [Promise: 给我一个承诺，我还你一个承诺](https://zhuanlan.zhihu.com/p/20209175)
-   1. rxjs https://www.zhihu.com/question/303073602/answer/542179409
-   1. [异步编程那些事（深入）](https://zhuanlan.zhihu.com/p/28315360)
-1. https://www.zhihu.com/question/303073602
-1. https://www.npmjs.com/package/especially
-1. [从一个 JSON.parse 错误深入研究 JavaScript 的转义字符](https://zhuanlan.zhihu.com/p/31030352)
-1. articles
-   1. [JavaScript 是如何工作的：JavaScript 的内存模型](https://zhuanlan.zhihu.com/p/62449359)
-   1. [JavaScript. The Core: 2nd Edition](http://dmitrysoshnikov.com/ecmascript/javascript-the-core-2nd-edition/)
-   1. [ECMA-262-5 in detail. Chapter 0. Introduction](http://dmitrysoshnikov.com/ecmascript/es5-chapter-0-introduction/)
-   1. [ECMA-262-5 in detail. Chapter 1. Properties and Property Descriptors.](http://dmitrysoshnikov.com/ecmascript/es5-chapter-1-properties-and-property-descriptors/)
-   1. [ECMA-262-5 in detail. Chapter 2. Strict Mode.](http://dmitrysoshnikov.com/ecmascript/es5-chapter-2-strict-mode/)
-   1. [ECMA-262-5 in detail. Chapter 3.1. Lexical environments: Common Theory](http://dmitrysoshnikov.com/ecmascript/es5-chapter-3-1-lexical-environments-common-theory/#rules-of-function-creation-and-application)
-   1. [ECMA-262-5 in detail. Chapter 3.2. Lexical environments: ECMAScript implementation.](http://dmitrysoshnikov.com/ecmascript/es5-chapter-3-2-lexical-environments-ecmascript-implementation/#identifier-resolution)
-   1. [ECMA-262-3 in detail. Chapter 1. Execution Contexts](http://dmitrysoshnikov.com/ecmascript/chapter-1-execution-contexts/)
-   1. [ECMA-262-3 in detail. Chapter 2. Variable object](http://dmitrysoshnikov.com/ecmascript/chapter-2-variable-object/)
-   1. [ECMA-262-3 in detail. Chapter 3. This](http://dmitrysoshnikov.com/ecmascript/chapter-3-this/)
-   1. [ECMA-262-3 in detail. Chapter 4. Scope chain](http://dmitrysoshnikov.com/ecmascript/chapter-4-scope-chain/)
-   1. [ECMA-262-3 in detail. Chapter 5. Functions.](http://dmitrysoshnikov.com/ecmascript/chapter-5-functions/)
-   1. [ECMA-262-3 in detail. Chapter 6. Closures.](http://dmitrysoshnikov.com/ecmascript/chapter-6-closures/)
-   1. [ECMA-262-3 in detail. Chapter 7.1. OOP: The general theory](http://dmitrysoshnikov.com/ecmascript/chapter-7-1-oop-general-theory/)
-   1. [ECMA-262-3 in detail. Chapter 7.2. OOP: ECMAScript implementation.](http://dmitrysoshnikov.com/ecmascript/chapter-7-2-oop-ecmascript-implementation/)
-   1. [ECMA-262-3 in detail. Chapter 8. Evaluation strategy](http://dmitrysoshnikov.com/ecmascript/chapter-8-evaluation-strategy/)
-   1. [The Quiz](http://dmitrysoshnikov.com/ecmascript/the-quiz/)
-   1. [OO Relationships](https://medium.com/@DmitrySoshnikov/oo-relationships-5020163ab162)
-   1. [Note 6. ES6: Default values of parameters](http://dmitrysoshnikov.com/ecmascript/es6-notes-default-values-of-parameters/)
-   1. [JavaScript Array “Extras” in Detail](https://dev.opera.com/articles/javascript-array-extras-in-detail/)
-   1. [Javascript Closures](http://jibbering.com/faq/notes/closures/)
-1. https://juejin.im/post/5d6aa4f96fb9a06b112ad5b1 deep copy
-1. https://zhuanlan.zhihu.com/p/41203455
-1. 浮点数 https://zhuanlan.zhihu.com/p/30703042
-1. [浮点精度](https://zhuanlan.zhihu.com/p/28162086)
-1. [为什么(2.55).toFixed(1)等于 2.5？](https://zhuanlan.zhihu.com/p/31202697)
-1. [浮点数精度之谜](https://zhuanlan.zhihu.com/p/28162086)
-1. 模块化 js ninja ch11
-1. [ES modules: A cartoon deep-dive](https://hacks.mozilla.org/2018/03/es-modules-a-cartoon-deep-dive/)
-1. object 相关
-   1. 01*You_Don't \_Know_JS_Up*&\_Going
-   1. 03*You_Don't \_Know_JS_this*&\_Object_Prototypes
-   1. 避免使用 this https://zhuanlan.zhihu.com/p/27536677
-   1. 基础 04*You_Don't \_Know_JS_Types*&\_Grammar
-   1. javascript ninja ch7 ch8
-   1. collections, Array, Map, set, WeakSet js ninja ch9
-   1. RegExp js ninja ch10
-1. 跨浏览器 js ninja ch14
-1. 06*You_Don't \_Know_JS_ES6*&\_Beyond
-1. [Proxy & Reflect](https://zhuanlan.zhihu.com/p/60126477)
-1. proxy https://zhuanlan.zhihu.com/p/35080324
-1. [JS 性能] https://www.zhihu.com/question/402807137/answer/1322391162
-1. [Maybe you don't need Rust and WASM to speed up your JS](https://mrale.ph/blog/2018/02/03/maybe-you-dont-need-rust-to-speed-up-your-js.html) https://mrale.ph/ https://www.zhihu.com/question/272156541/answer/367784539
-1. how javascript works 书籍
-1. this https://www.zhihu.com/collection/144350453?page=4
-1. vscode
-   1. [VSCode TextBuffer Implementation](https://code.visualstudio.com/blogs/2018/03/23/text-buffer-reimplementation)
-   1. vscode https://www.zhihu.com/question/374558844/answer/1051321547
-   1. go to definition https://zhuanlan.zhihu.com/p/100438617
-   1. [依赖注入](https://zhuanlan.zhihu.com/p/60228431)
-   1. https://zhuanlan.zhihu.com/p/337794496
+模块化
+
+1.  https://lihautan.com/javascript-modules/
+1.  https://hacks.mozilla.org/2018/03/es-modules-a-cartoon-deep-dive/
+
+module bundler
+
+1. [What is module bundler and how does it work?](https://lihautan.com/what-is-module-bundler-and-how-does-it-work/)
+1. https://lihautan.com/i-wrote-my-module-bundler/
+1. https://lihautan.com/i-wrote-my-module-bundler-ii-for-the-web/
+1. https://lihautan.com/building-a-simplified-webpack-clone/
+1. enhanced-resolve
+
+parser
+
+1. JSON https://lihautan.com/json-parser-with-javascript/
+1. XML
+1. CSS
+
+其他
+
+1.  深入 javascript https://juejin.im/post/59278e312f301e006c2e1510
+1.  周爱民老师的 Javascript 课程
+1.  https://mp.weixin.qq.com/s/foXbAj3ODqFKYGUP5K8MkQ
+1.  异步模式
+    1.  [microtask 队列与 async/await 源码分析](https://zhuanlan.zhihu.com/p/134647506)
+    1.  [Promise V8 源码分析(一)](https://zhuanlan.zhihu.com/p/264944183)
+    1.  [microtask 队列与 async/await 源码分析](https://zhuanlan.zhihu.com/p/134647506)
+    1.  [promise ](https://zhuanlan.zhihu.com/p/21834559)
+    1.  [100 行代码实现 Promises/A+ 规范](https://zhuanlan.zhihu.com/p/83965949)
+    1.  异步 async/await/Promise 05*You_Don't \_Know_JS_Async*&\_Performance
+    1.  [Promises](https://www.mauriciopoppe.com/notes/computer-science/computation/promises/)
+    1.  [探讨：当 Async/Await 的遇到了 EventLoop](https://zhuanlan.zhihu.com/p/86993504)
+    1.  https://www.zhihu.com/question/65647171/answer/233495694
+    1.  https://css-tricks.com/understanding-async-await/
+    1.  [Promise: 给我一个承诺，我还你一个承诺](https://zhuanlan.zhihu.com/p/20209175)
+    1.  rxjs https://www.zhihu.com/question/303073602/answer/542179409
+    1.  [异步编程那些事（深入）](https://zhuanlan.zhihu.com/p/28315360)
+1.  https://www.zhihu.com/question/303073602
+1.  https://www.npmjs.com/package/especially
+1.  [从一个 JSON.parse 错误深入研究 JavaScript 的转义字符](https://zhuanlan.zhihu.com/p/31030352)
+1.  articles
+    1.  [JavaScript 是如何工作的：JavaScript 的内存模型](https://zhuanlan.zhihu.com/p/62449359)
+    1.  [JavaScript. The Core: 2nd Edition](http://dmitrysoshnikov.com/ecmascript/javascript-the-core-2nd-edition/)
+    1.  [ECMA-262-5 in detail. Chapter 0. Introduction](http://dmitrysoshnikov.com/ecmascript/es5-chapter-0-introduction/)
+    1.  [ECMA-262-5 in detail. Chapter 1. Properties and Property Descriptors.](http://dmitrysoshnikov.com/ecmascript/es5-chapter-1-properties-and-property-descriptors/)
+    1.  [ECMA-262-5 in detail. Chapter 2. Strict Mode.](http://dmitrysoshnikov.com/ecmascript/es5-chapter-2-strict-mode/)
+    1.  [ECMA-262-5 in detail. Chapter 3.1. Lexical environments: Common Theory](http://dmitrysoshnikov.com/ecmascript/es5-chapter-3-1-lexical-environments-common-theory/#rules-of-function-creation-and-application)
+    1.  [ECMA-262-5 in detail. Chapter 3.2. Lexical environments: ECMAScript implementation.](http://dmitrysoshnikov.com/ecmascript/es5-chapter-3-2-lexical-environments-ecmascript-implementation/#identifier-resolution)
+    1.  [ECMA-262-3 in detail. Chapter 1. Execution Contexts](http://dmitrysoshnikov.com/ecmascript/chapter-1-execution-contexts/)
+    1.  [ECMA-262-3 in detail. Chapter 2. Variable object](http://dmitrysoshnikov.com/ecmascript/chapter-2-variable-object/)
+    1.  [ECMA-262-3 in detail. Chapter 3. This](http://dmitrysoshnikov.com/ecmascript/chapter-3-this/)
+    1.  [ECMA-262-3 in detail. Chapter 4. Scope chain](http://dmitrysoshnikov.com/ecmascript/chapter-4-scope-chain/)
+    1.  [ECMA-262-3 in detail. Chapter 5. Functions.](http://dmitrysoshnikov.com/ecmascript/chapter-5-functions/)
+    1.  [ECMA-262-3 in detail. Chapter 6. Closures.](http://dmitrysoshnikov.com/ecmascript/chapter-6-closures/)
+    1.  [ECMA-262-3 in detail. Chapter 7.1. OOP: The general theory](http://dmitrysoshnikov.com/ecmascript/chapter-7-1-oop-general-theory/)
+    1.  [ECMA-262-3 in detail. Chapter 7.2. OOP: ECMAScript implementation.](http://dmitrysoshnikov.com/ecmascript/chapter-7-2-oop-ecmascript-implementation/)
+    1.  [ECMA-262-3 in detail. Chapter 8. Evaluation strategy](http://dmitrysoshnikov.com/ecmascript/chapter-8-evaluation-strategy/)
+    1.  [The Quiz](http://dmitrysoshnikov.com/ecmascript/the-quiz/)
+    1.  [OO Relationships](https://medium.com/@DmitrySoshnikov/oo-relationships-5020163ab162)
+    1.  [Note 6. ES6: Default values of parameters](http://dmitrysoshnikov.com/ecmascript/es6-notes-default-values-of-parameters/)
+    1.  [JavaScript Array “Extras” in Detail](https://dev.opera.com/articles/javascript-array-extras-in-detail/)
+    1.  [Javascript Closures](http://jibbering.com/faq/notes/closures/)
+1.  https://juejin.im/post/5d6aa4f96fb9a06b112ad5b1 deep copy
+1.  https://zhuanlan.zhihu.com/p/41203455
+1.  浮点数 https://zhuanlan.zhihu.com/p/30703042
+1.  [浮点精度](https://zhuanlan.zhihu.com/p/28162086)
+1.  [为什么(2.55).toFixed(1)等于 2.5？](https://zhuanlan.zhihu.com/p/31202697)
+1.  [浮点数精度之谜](https://zhuanlan.zhihu.com/p/28162086)
+1.  模块化 js ninja ch11
+1.  [ES modules: A cartoon deep-dive](https://hacks.mozilla.org/2018/03/es-modules-a-cartoon-deep-dive/)
+1.  object 相关
+    1.  01*You_Don't \_Know_JS_Up*&\_Going
+    1.  03*You_Don't \_Know_JS_this*&\_Object_Prototypes
+    1.  避免使用 this https://zhuanlan.zhihu.com/p/27536677
+    1.  基础 04*You_Don't \_Know_JS_Types*&\_Grammar
+    1.  javascript ninja ch7 ch8
+    1.  collections, Array, Map, set, WeakSet js ninja ch9
+    1.  RegExp js ninja ch10
+1.  跨浏览器 js ninja ch14
+1.  06*You_Don't \_Know_JS_ES6*&\_Beyond
+1.  [Proxy & Reflect](https://zhuanlan.zhihu.com/p/60126477)
+1.  proxy https://zhuanlan.zhihu.com/p/35080324
+1.  [JS 性能] https://www.zhihu.com/question/402807137/answer/1322391162
+1.  [Maybe you don't need Rust and WASM to speed up your JS](https://mrale.ph/blog/2018/02/03/maybe-you-dont-need-rust-to-speed-up-your-js.html) https://mrale.ph/ https://www.zhihu.com/question/272156541/answer/367784539
+1.  how javascript works 书籍
+1.  this https://www.zhihu.com/collection/144350453?page=4
+1.  vscode
+    1.  [VSCode TextBuffer Implementation](https://code.visualstudio.com/blogs/2018/03/23/text-buffer-reimplementation)
+    1.  vscode https://www.zhihu.com/question/374558844/answer/1051321547
+    1.  go to definition https://zhuanlan.zhihu.com/p/100438617
+    1.  [依赖注入](https://zhuanlan.zhihu.com/p/60228431)
+    1.  https://zhuanlan.zhihu.com/p/337794496
 
 ## 浏览器
 
