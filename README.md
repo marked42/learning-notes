@@ -356,12 +356,22 @@
 1. [Maybe you don't need Rust and WASM to speed up your JS](https://mrale.ph/blog/2018/02/03/maybe-you-dont-need-rust-to-speed-up-your-js.html) https://mrale.ph/ https://www.zhihu.com/question/272156541/answer/367784539
 1. how javascript works 书籍
 1. this https://www.zhihu.com/collection/144350453?page=4
+1. source map https://mp.weixin.qq.com/s/BbvJ-OfcS7Sa-e0Zq6iF1w
 1. vscode
    1. [VSCode TextBuffer Implementation](https://code.visualstudio.com/blogs/2018/03/23/text-buffer-reimplementation)
    1. vscode https://www.zhihu.com/question/374558844/answer/1051321547
    1. go to definition https://zhuanlan.zhihu.com/p/100438617
    1. [依赖注入](https://zhuanlan.zhihu.com/p/60228431)
    1. https://zhuanlan.zhihu.com/p/337794496
+   1. https://zhuanlan.zhihu.com/p/96041706
+   1. [The Journey of Visual Studio Code](https://gotocon.com/dl/goto-amsterdam-2016/slides/ErichGamma_TheJourneyOfALargeScaleApplicationBuiltUsingJavaScriptTypeScriptNodeElectron100OSSComponentsAtMicrosoft.pdf)
+   1. [Multi-Language IDE Implemented in JS](https://docs.google.com/document/d/1aodR1LJEF_zu7xBis2MjpHRyv7JKJzW7EWI9XRYCt48/edit#heading=h.6azgo9e2p2iq)
+   1. [Language Server Protocol](https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/)
+   1. [Debugger Adapter Protocol](https://microsoft.github.io/debug-adapter-protocol/overview)
+   1. [Theia Architecture](https://theia-ide.org/docs/architecture)
+   1. [Eclipse Theia 框架技术架构揭秘](https://zhaomenghuan.js.org/blog/theia-tech-architecture.html#cloud-ide)
+1. webassembly
+   1. https://www.infoq.cn/article/2017/07/WebAssembly-solve-JavaScript
 
 ## 浏览器
 

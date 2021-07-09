@@ -1022,3 +1022,12 @@ ANTLR
 1. https://tomassetti.me/best-practices-for-antlr-parsers/
 
 1. [list of languages that compile to js](https://github.com/jashkenas/coffeescript/wiki/list-of-languages-that-compile-to-js)
+
+1. [A Unified Theory of Garbage Collection](https://researcher.watson.ibm.com/researcher/files/us-bacon/Bacon04Unified.pdf)
+
+1. [The Next 700 Programming Languages](https://homepages.inf.ed.ac.uk/wadler/papers/papers-we-love/landin-next-700.pdf)
+
+### Small Languages
+
+1. Lox From Crafting Interpreters
+1. http://finch.stuffwithstuff.com/
