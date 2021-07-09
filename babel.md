@@ -400,6 +400,19 @@ TODO: babel 插件机制的设计
 
 1. [Step-by-step guide for writing a custom babel transformation](https://lihautan.com/step-by-step-guide-for-writing-a-babel-transformation/)
 
+使用 `this.addHelper`添加辅助函数
+
+```js
+path.replaceWith(
+  t.variableDeclaration('const', [
+    t.variableDeclarator(
+      t.identifier(path.get('id.name').node),
+      t.callExpression(this.addHelper('currying'), [t.toExpression(path.node)])
+    ),
+  ])
+)
+```
+
 写一个插件的步骤
 
 1. 确认原始代码的 AST
