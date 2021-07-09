@@ -22,6 +22,7 @@ void bar();
 
 [The Packrat Parsing and Parsing Expression Grammars Page](https://bford.info/packrat/)
 [Packrat Parsing: a Practical Linear-Time Algorithm with Backtracking](https://pdos.csail.mit.edu/~baford/packrat/thesis/)
+[Difference between an LL and Recursive Descent parser?](https://stackoverflow.com/questions/1044600/difference-between-an-ll-and-recursive-descent-parser/1044678#1044678)
 
 1. 记忆解析器 林鼠解析器 packrat parser Bryan Ford Packrat Parsing: simple, powerful, lazy, linear time, functional pearl
 1. 确定性解析 LL(1) JSON
@@ -1019,3 +1020,5 @@ Theodore Norvell 在[Parsing Expressions by Recursive Descent](https://www.engr.
 ANTLR
 
 1. https://tomassetti.me/best-practices-for-antlr-parsers/
+
+1. [list of languages that compile to js](https://github.com/jashkenas/coffeescript/wiki/list-of-languages-that-compile-to-js)
