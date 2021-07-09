@@ -106,6 +106,11 @@ TODO: 分析 babel/register 实现
 
 ### AST
 
+参考资料
+
+1. https://medium.com/basecs/leveling-up-ones-parsing-game-with-asts-d7a6fc2400ff
+1. https://blog.bitsrc.io/what-is-an-abstract-syntax-tree-7502b71bde27
+
 #### 节点类型
 
 babel 使用的 AST 节点规范参考[文档](https://github.com/babel/babel/blob/master/packages/babel-parser/ast/spec.md) 和[ESTree 规范](https://github.com/estree/estree)，其中 ESTree 规范可以看到每个版本的 Javascript 新增的节点规范。
@@ -157,6 +162,8 @@ Babel 使用的 AST 节点通用的信息有这些。
 
 1. builder 如何构造节点
 1. visitor 哪些子节点需要遍历
+1. https://en.wikipedia.org/wiki/Visitor_pattern
+1. 深度优先遍历 https://en.wikipedia.org/wiki/Depth-first_search
 1. aliases 节点别名
 1. 节点类型检测
 
@@ -352,7 +359,7 @@ TODO: babel 插件机制的设计
 1. 统一的插件接口设计，
 1. 插件尽可能设计成纯函数式的，无副作用
 1. 是否需要全局环境 context 数据
-1. 插件的顺序问题？
+1. 插件的顺序问题？ https://jamie.build/babel-plugin-ordering.html
 1. 插件的状态问题，一个插件多次运行，每次能够记录数据，根据数据每次运行的结果不同？
 1. 各种设计考虑问题有哪些具体的例子？
 1. 插件支持同步和异步的模式
@@ -370,6 +377,16 @@ TODO: babel 插件机制的设计
 
 官方的[插件列表](https://babeljs.io/docs/en/plugins-list)
 [官方插件实现分析](https://space.bilibili.com/228173207?spm_id_from=333.788.b_765f7570696e666f.2)
+选择若干典型案例
+
+@babel/plugin-proposal-nullish-coalescing-operator
+@babel/plugin-proposal-optional-chaining
+
+社区插件
+
+1. babel-plugin-lodash
+1. babel-plugin-preval
+1. babel-plugin-macro
 
 ### 顺序
 
@@ -380,6 +397,17 @@ TODO: babel 插件机制的设计
 ### 插件开发
 
 参考[官方插件开发手册](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md)
+
+1. [Step-by-step guide for writing a custom babel transformation](https://lihautan.com/step-by-step-guide-for-writing-a-babel-transformation/)
+
+写一个插件的步骤
+
+1. 确认原始代码的 AST
+1. 确认要转换得到的代码的 AST
+1. 进行 AST 转换
+1. skip 函数跳过当前节点的遍历，防止递归爆栈
+1. 插件的 path 参数，为什么不是 node？插件编写需要考虑到节点所在的上级节点
+1. scope
 
 ```js
 export default function () {
@@ -470,6 +498,7 @@ module.exports = () => ({
 1. babel-plugin-lodash
 1. babel-plugin-preval
 1. babel-plugin-macro
+1. https://lihautan.com/babel-macros/
 1. [awesome babel macro](https://github.com/jgierer12/awesome-babel-macros)
 1. https://github.com/ElementUI/babel-plugin-component
    member-expression-literals
@@ -491,6 +520,14 @@ module.exports = () => ({
 
 1. [jscodeshift](https://www.toptal.com/javascript/write-code-to-rewrite-your-code)
 1. codemods
+1. https://lihautan.com/codemod-with-babel/
+
+## 自定义语法
+
+custom parser syntax
+
+1. [Manipulating AST](https://lihautan.com/manipulating-ast-with-javascript/)
+1. [curry function](https://lihautan.com/creating-custom-javascript-syntax-with-babel/)
 
 ## babel-loader
 
