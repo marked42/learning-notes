@@ -1081,3 +1081,16 @@ ANTLR
    1. 连续函数调用的形式 a()()() curry？
    1. return 语句需要在 function 中，其他位置出现 return 是语法错误。
    1. 使用 map 实现环境变量是基础实现，读取速度较慢，考虑使用固定长度的数组，这样每个局部变量可以使用 index 访问。
+1. 类相关特性
+   1. 类构造函数
+      1. 使用类名的形式 Test()形式，
+      1. 使用实例方法调用 a.init() 形式返回原来的实例 a，不创建新实例。类构造函数应该当成静态函数处理，不属于实例函数。
+      1. 类构造函数中不应该出现带有值的 return 语句 return a，但是允许出现不带值的 return 语句。
+      1. 类静态属性（方法和数据）的设计 https://en.wikipedia.org/wiki/Metaclass
+   1. getter/setter 的设计
+   1. private/protected/public 所有权的设计
+   1. 面向对象的三种做法，基于类、基于[原型](http://gameprogrammingpatterns.com/prototype.html)，和 multi-method 多分发
+   1. 类实例属性读取
+   1. 类实例属性写入
+   1. 类实例方法调用
+   1. 函数或者方法调用中 this 的处理，Lua/Javascript 中 this 调用时确定；Python，C++等 Method 成为 bound method，this 绑定到最初的对象上。
