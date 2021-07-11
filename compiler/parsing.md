@@ -1033,3 +1033,51 @@ ANTLR
 1. http://finch.stuffwithstuff.com/
 
 1. https://craftinginterpreters.com/contents.html
+
+1. floating point numbers https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html
+
+### 语言设计与实现问题
+
+1. parser 中常用的几个函数
+
+   1. 向前看符号 lookahead
+   1. 检查下一个向前看符号类型 check
+   1. 下一个向前看符号是某个类型的话，消耗掉并返回 true，不是的话返回 false； tryMatch(type) ?
+   1. 下一个向前看符号是某个类型的话，消耗掉并返回该 Token，不是的话报错。 match(type) ?
+   1. 消耗下一个向前看符号 match()
+
+1. statement 与表达式的区别，表达式有值，statement 无值，但是有副作用
+   1. while 循环
+   1. for 循环
+1. 变量使用分析
+
+   1. 局部变量未被使用到，warning
+   1. 变量使用前未定义
+   1. 特殊例子
+
+   ```
+   var a = "outer";
+   {
+     var a = a;
+   }
+   ```
+
+1. 函数相关
+   1. 函数调用 CallExpr 和函数声明两种形式 FunctionDeclaration
+   1. 函数体是否支持一条语句的形式，还是必须要花括号。
+   1. 函数名称与变量名称作用域是否独立？ Lisp-1 相互独立 Lisp-2 使用同一作用域
+   1. 函数表达式支持
+   1. 函数执行时环境 Environment 是如何处理的？
+   1. 函数调用 arguments 实参个数与形参 parameters 不一致如何处理？
+   1. 返回值处理 return statement， 使用 Exception
+   1. callee 不是可调用的类型如何处理？在编译时静态检查报错还是运行时报错。
+   1. 函数调用的参数个数和声明中个数不同如何处理？编译时检查还是运行时报错。
+   1. 函数最大参数个数限制 255，运行时处理，变长参数。
+   1. 函数参数列表考虑允许最后一个参数后面逗号可选？
+   1. 函数支持闭包
+   1. 函数参数所在作用域和内部变量所在作用域是同一个么
+   1. 函数声明做了两件事，创建函数和函数到某个名称上；函数表达式可以用来只创建函数，函数表达式支持自身递归功能。
+   1. Foreign Function Interface 机制设计
+   1. 连续函数调用的形式 a()()() curry？
+   1. return 语句需要在 function 中，其他位置出现 return 是语法错误。
+   1. 使用 map 实现环境变量是基础实现，读取速度较慢，考虑使用固定长度的数组，这样每个局部变量可以使用 index 访问。
