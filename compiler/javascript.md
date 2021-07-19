@@ -37,3 +37,4 @@ Spec
 
 1. [A Prettier Formatter](https://archive.jlongster.com/A-Prettier-Formatter)
 1. [a prettier printer](https://homepages.inf.ed.ac.uk/wadler/papers/prettier/prettier.pdf)
+1. [Javascript Hidden Classes and Inline Caching in V8](http://richardartoul.github.io/jekyll/update/2015/04/26/hidden-classes.html)
