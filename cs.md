@@ -124,3 +124,4 @@ https://github.com/ossu/computer-science
 1. language implementation patterns
 
 1. [library genisis](http://libgen.rs/search.php?req=the+little+typer&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=def)
+1. [Software foundations](https://softwarefoundations.cis.upenn.edu/)

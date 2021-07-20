@@ -225,19 +225,6 @@
 
 ## JS & TS
 
-模块化
-
-1.  https://lihautan.com/javascript-modules/
-1.  https://hacks.mozilla.org/2018/03/es-modules-a-cartoon-deep-dive/
-
-module bundler
-
-1. [What is module bundler and how does it work?](https://lihautan.com/what-is-module-bundler-and-how-does-it-work/)
-1. https://lihautan.com/i-wrote-my-module-bundler/
-1. https://lihautan.com/i-wrote-my-module-bundler-ii-for-the-web/
-1. https://lihautan.com/building-a-simplified-webpack-clone/
-1. enhanced-resolve
-
 parser
 
 1. JSON https://lihautan.com/json-parser-with-javascript/
