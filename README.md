@@ -65,24 +65,8 @@
       1. 防抖截流 https://zhuanlan.zhihu.com/p/62138440
       1. https://juejin.im/post/59eff1fb6fb9a044ff30a942
       1. proxy
-   1. 模块化机制，实现 require(commonjs), define(amd), umd 模块的互操作性 https://www.zhihu.com/question/288322186/answer/460742151
    1. [Refactoring Guru]https://refactoringguru.cn/design-patterns/builder
    1. Dive into design patterns
-   1. export default https://zhuanlan.zhihu.com/p/40733281
-   1. bundler 包括依赖分析、异步组件，参考 webpack/rollup/parcel/vite
-      1. webpack 打包使用 node 原生模块 path 的代码会报错，path 找不到，rollup 将其默认为外部模块？
-      1. [https://github.com/woai3c/Front-end-articles/issues/22](https://github.com/woai3c/Front-end-articles/issues/22)
-      1. [webpack loader plugin](https://juejin.cn/post/6871239792558866440)
-      1. [webpack code splitting](https://zhuanlan.zhihu.com/p/25534249)
-      1. [深入了解 webpack 模块加载原理](https://juejin.cn/post/6872354325553741838)
-      1. [从构建进程间缓存设计 谈 Webpack5 优化和工作原理](https://zhuanlan.zhihu.com/p/110995118)
-      1. https://zhuanlan.zhihu.com/p/24717349
-      1. [三十分钟掌握 Webpack 性能优化](https://juejin.cn/post/6844903651291447309)
-      1. webpack hmr https://zhuanlan.zhihu.com/p/30669007
-      1. webpack hash https://zhuanlan.zhihu.com/p/31456808
-      1. [热更新](https://juejin.cn/post/6844903933157048333)
-      1. [rollup](https://juejin.cn/post/6898865993289105415)
-      1. [rollup](https://www.bilibili.com/video/BV1Ah411S7wJ)
    1. 模板引擎 EJS，字符串拼接的性能问题
    1. 前端生态中很多库和工具使用的插件机制研究
    1. 五种递归 https://zhuanlan.zhihu.com/p/84452538
@@ -97,7 +81,6 @@
    1. code diff editor
    1. [Build Your Own Frontend Framework](https://github.com/danistefanovic/build-your-own-x#build-your-own-front-end-framework--library)
    1. [Template Engine](https://github.com/danistefanovic/build-your-own-x#build-your-own-template-engine)
-   1. JavaScript: Build Your Own Module Bundler - Minipack
    1. JavaScript: Learn JavaScript Promises by Building a Promise from Scratch
    1. JavaScript: Implementing promises from scratch (TDD way)
    1. JavaScript: Implement your own — call(), apply() and bind() method in JavaScript
@@ -105,7 +88,6 @@
    1. Node.js: Building A Simple Single Sign On(SSO) Server And Solution From Scratch In Node.js.
    1. Node.js: How to create a real-world Node CLI app with Node
    1. [Let's Build A Browser Engine](https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html)
-   1. [Tiny Package Manager](https://github.com/g-plane/tiny-package-manager)
    1. [同源策略](http://aosabook.org/en/500L/the-same-origin-policy.html)
    1. 复杂场景数据设计
       1. twitter https://zhuanlan.zhihu.com/p/29732224
@@ -252,7 +234,6 @@ parser
     1.  [异步编程那些事（深入）](https://zhuanlan.zhihu.com/p/28315360)
 1.  https://www.zhihu.com/question/303073602
 1.  https://www.npmjs.com/package/especially
-1.  [从一个 JSON.parse 错误深入研究 JavaScript 的转义字符](https://zhuanlan.zhihu.com/p/31030352)
 1.  articles
     1.  [JavaScript 是如何工作的：JavaScript 的内存模型](https://zhuanlan.zhihu.com/p/62449359)
     1.  [JavaScript. The Core: 2nd Edition](http://dmitrysoshnikov.com/ecmascript/javascript-the-core-2nd-edition/)
@@ -281,8 +262,6 @@ parser
 1.  [浮点精度](https://zhuanlan.zhihu.com/p/28162086)
 1.  [为什么(2.55).toFixed(1)等于 2.5？](https://zhuanlan.zhihu.com/p/31202697)
 1.  [浮点数精度之谜](https://zhuanlan.zhihu.com/p/28162086)
-1.  模块化 js ninja ch11
-1.  [ES modules: A cartoon deep-dive](https://hacks.mozilla.org/2018/03/es-modules-a-cartoon-deep-dive/)
 1.  object 相关
     1.  01*You_Don't \_Know_JS_Up*&\_Going
     1.  03*You_Don't \_Know_JS_this*&\_Object_Prototypes

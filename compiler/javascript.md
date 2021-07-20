@@ -40,3 +40,7 @@ Spec
 1. [Javascript Hidden Classes and Inline Caching in V8](http://richardartoul.github.io/jekyll/update/2015/04/26/hidden-classes.html)
 
 1. [The Essence of Javascript](https://blog.brownplt.org/2011/09/29/js-essence.html)
+
+1. [Javascript Mozilla](https://hacks.mozilla.org/category/javascript/)
+1. [SpiderMonkey](https://hacks.mozilla.org/2020/06/compiler-compiler-working-on-a-javascript-engine/)
+1. [A New Regexp Engine in SpiderMonkey](https://hacks.mozilla.org/2020/06/a-new-regexp-engine-in-spidermonkey/)
