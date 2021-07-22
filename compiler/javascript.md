@@ -9,6 +9,9 @@ parsers & engines
 1. acorn/[acorn-jsx](https://github.com/acornjs/acorn-jsx)
 1. eslint
 1. prettier
+1. https://github.com/v8/v8/blob/6.4.286/src/parsing/scanner.cc
+
+1. https://github.com/mozilla/narcissus/
 
 Spec
 

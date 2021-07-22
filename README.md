@@ -87,7 +87,6 @@
    1. Node.js: Build a static site generator in 40 lines with Node.js
    1. Node.js: Building A Simple Single Sign On(SSO) Server And Solution From Scratch In Node.js.
    1. Node.js: How to create a real-world Node CLI app with Node
-   1. [Let's Build A Browser Engine](https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html)
    1. [同源策略](http://aosabook.org/en/500L/the-same-origin-policy.html)
    1. 复杂场景数据设计
       1. twitter https://zhuanlan.zhihu.com/p/29732224
@@ -340,6 +339,8 @@ parser
 - [ ] [JS 在引擎级别的执行过程@周爱民](https://www.bilibili.com/video/BV1Wy4y1b7PG)
 - [ ] 新手上路学习 JavaScript 引擎实现——路线图 https://zhuanlan.zhihu.com/p/20505562
 - [ ] [新手应该如何读 Google V8 引擎源代码？](https://www.zhihu.com/question/39014659)
+- [ ] https://mathiasbynens.be/notes/shapes-ics
+- [ ] https://mathiasbynens.be/notes/prototypes
 
 ## 移动端和 hybrid
 
