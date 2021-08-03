@@ -229,6 +229,7 @@ packages/babel-traverse/src/path/context.js
 1. parent findParent, find, getParentFunction, getParentStatement,
 1. sibling [api](https://github.com/babel/babili/blob/master/packages/babel-plugin-transform-merge-sibling-variables/src/index.js)
 1. path.skip()/path.stop()
+1. posthtml asynchronous tree traversal
 
 ```js
 const MyVisitor = {

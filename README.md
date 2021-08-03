@@ -87,7 +87,6 @@
    1. Node.js: Build a static site generator in 40 lines with Node.js
    1. Node.js: Building A Simple Single Sign On(SSO) Server And Solution From Scratch In Node.js.
    1. Node.js: How to create a real-world Node CLI app with Node
-   1. [Let's Build A Browser Engine](https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html)
    1. [同源策略](http://aosabook.org/en/500L/the-same-origin-policy.html)
    1. 复杂场景数据设计
       1. twitter https://zhuanlan.zhihu.com/p/29732224
@@ -136,12 +135,6 @@
    1. 工程化方向
       1. [活动作品前端工程中的编译时优化](https://www.bilibili.com/video/BV1764y1Q7FA/?spm_id_from=333.788.recommend_more_video.4)
       1. [工程化专场](https://www.bilibili.com/video/BV1cU4y1h7qx)
-      1. [蒋豪群：我在维护 VUE CLI 项目过程中学到了什么](https://www.bilibili.com/medialist/play/watchlater/BV1R54y1B7FB)
-      1. [ES6 modules 即将到来，现在该考虑新的打包方案了嘛？](https://zhuanlan.zhihu.com/p/27276672)
-      1. [vite](https://www.bilibili.com/video/BV1kh411Q7WN)
-      1. [如何写一个标准的前端脚手架](https://zhuanlan.zhihu.com/p/105846231)
-      1. [snowpack](https://zhuanlan.zhihu.com/p/149351900)
-      1. [vite](https://zhuanlan.zhihu.com/p/149033579)
    1. 可视化方向
    1. 智能化方向
       1. [前端智能化实践从需求文档生成代码@桑世龙（狼叔） @李帅（卓风](https://www.bilibili.com/video/BV13b4y1D7Bp)
