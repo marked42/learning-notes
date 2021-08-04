@@ -93,6 +93,8 @@ module bundler
 CommonJS / ESModule / tsconfig esModuleInterop interoperability
 CommonJS 模块历史
 
+不建议使用 default import/export https://humanwhocodes.com/blog/2019/01/stop-using-default-exports-javascript-module/
+
 Kevin Dangoor 最早在[What Server Side Javascript Needs](https://www.blueskyonmars.com/2009/01/29/what-server-side-javascript-needs/)提出了 CommonJS 的设想，
 
 1. [CommonJS effort sets JavaScript on path for world domination](https://arstechnica.com/information-technology/2009/12/commonjs-effort-sets-javascript-on-path-for-world-domination/)
@@ -131,8 +133,12 @@ https://tc39.es/ecma262/#sec-module-environment-records-getbindingvalue-n-s
 
 标识符绑定（Binding）的状态
 
+1. https://www.bilibili.com/video/BV1Wy4y1b7PG?from=search&seid=4090937707251701495
+1. https://www.bilibili.com/video/BV1Wy4y1b7PG?from=search&seid=7425890178206966842
 1. Nicholas C. Zakas [Human Who Codes](https://humanwhocodes.com/)
 1. Robert Nyman [Explaining Javascript Scope and Closures](https://robertnyman.com/2008/10/09/explaining-javascript-scope-and-closures/)
 
 1. [What really is a declarative environment record and how does it differ from an activation object?](https://stackoverflow.com/questions/20139050/what-really-is-a-declarative-environment-record-and-how-does-it-differ-from-an-a)
 1. [Understanding Execution Context and Execution Stack in Javascript](https://blog.bitsrc.io/understanding-execution-context-and-execution-stack-in-javascript-1c9ea8642dd0)
+
+1. [ES6 Module Loading More Complicated Than You Think](https://humanwhocodes.com/blog/2016/04/es6-module-loading-more-complicated-than-you-think/)

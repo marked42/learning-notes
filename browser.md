@@ -27,11 +27,41 @@ HTML 解析库
 
 1.  posthtml
 
+HTML 特性
+
+Everything else is unsupported, including:
+
+Comments
+Doctype declarations
+Escaped characters (like &amp;) and CDATA sections
+Self-closing tags: <br/> or <br> with no closing tag
+Error handling (e.g. unbalanced or improperly nested tags)
+Namespaces and other XHTML syntax: <html:body>
+Character encoding detection
+
+HTML 的节点类型有多种，暂时只解析 Element 和 Text 节点。
+
+递归下降分析法，HTML 节点的嵌套结构
+
+Nodes ->
+| Element -> Tag -> `<TagName Attributes> Nodes </TagName>`
+| Text
+
+支持的特性
+
+1. 根节点有多个的情况，构建的 DOM Tree 应该是 HTML 节点作为根节点
+1. 支持文字节点和 Element 节点
+1. Element 节点必须配对出现，暂时不支持空标签或者自闭合标签。
+
 ## CSS
 
 https://www.html5rocks.com/en/tutorials/internals/howbrowserswork/#CSS_parsing
 
 CSS 是上下文无关文法， [规范](https://www.w3.org/TR/CSS2/grammar.html)
+
+[CSS 2 Spec](https://www.w3.org/TR/CSS2/)
+
+[错误处理](https://www.w3.org/TR/CSS2/syndata.html#parsing-errors)，CSS 解析过程中碰到错误的语法应该能自动忽略，跳过错误部分，继续解析后续正确的部分。
 
 1.  [Let's Build A Browser Engine](https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html)
 

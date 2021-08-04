@@ -214,7 +214,7 @@ parser
 其他
 
 1.  深入 javascript https://juejin.im/post/59278e312f301e006c2e1510
-1.  周爱民老师的 Javascript 课程
+1.  周爱民老师的 Javascript 课程 周爱民 Javascript 语言精粹与编程实践
 1.  https://mp.weixin.qq.com/s/foXbAj3ODqFKYGUP5K8MkQ
 1.  异步模式
     1.  [microtask 队列与 async/await 源码分析](https://zhuanlan.zhihu.com/p/134647506)
