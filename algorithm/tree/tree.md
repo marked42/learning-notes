@@ -354,6 +354,7 @@ const node = {
 function dfsLoop(root: Node, cb: (node: Node) => void) {
   const stack = [{ node: root, index: 0 }]
 
+  // 深度优先 先序遍历
   console.log('enter: ', root)
   cb(root)
 
@@ -368,6 +369,7 @@ function dfsLoop(root: Node, cb: (node: Node) => void) {
       stack.push({ node: child, index: 0 })
     } else {
       stack.pop()
+      // 深度优先 后序遍历
       console.log('exit: ', top.node)
     }
   }
