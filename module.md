@@ -26,6 +26,8 @@
 1. UMD
 1. ES Module
 
+https://auth0.com/blog/javascript-module-systems-showdown/
+
 ## 模块化机制的设计
 
 调研各种语言的模块机制
