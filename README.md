@@ -280,33 +280,20 @@ parser
 
 ## 浏览器
 
-1. [How Browsers Work: Behind the scenes of modern web browsers](https://www.html5rocks.com/en/tutorials/internals/howbrowserswork/)
-   1. [TS](https://dev.to/sanemat/let-s-build-browser-engine-in-typescript-vol0-toy-browser-engine-egm)
-   1. [Haskell](http://hrothen.github.io/posts/lets-build-a-browser-engine-in-haskell.html)
-   1. [Swift](http://www.screaming.org/blog/2014/08/15/lets-build-a-browser-engine-in-swift/)
-   1. [Build Your Own Browser](https://www.w3.org/blog/2008/09/build-your-own-browser/)
-   1. [Let's Build A Browser Engine](https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html)
 1. [从输入 URL 到页面加载的过程？如何由一道题完善自己的前端知识体系！](https://zhuanlan.zhihu.com/p/34453198?group_id=957277540147056640)
-1. https://zhuanlan.zhihu.com/p/47407398
 1. [从浏览器多进程到 JS 单线程，JS 运行机制最全面的一次梳理](https://juejin.im/post/5a6547d0f265da3e283a1df7)
 1. https://time.geekbang.org/column/intro/216
-1. https://www.zhihu.com/question/266787740/answer/313995802
 1. [万字详文：深入理解浏览器原理](https://zhuanlan.zhihu.com/p/96986818)
-1. https://zhuanlan.zhihu.com/p/58518107
-1. how blink works https://zhuanlan.zhihu.com/p/52918538
-1. https://www.zhihu.com/question/266787740/answer/313995802
 1. layoutNG https://zhuanlan.zhihu.com/p/37847490
 1. Chrome HTTP2 https://zhuanlan.zhihu.com/p/34662800
 1. https://www.zhihu.com/question/271492607/answer/362737266
 1. DNS https://zhuanlan.zhihu.com/p/32531969
 1. Chrome https://www.zhihu.com/question/384181805/answer/1151800192kJk
 1. https://zhuanlan.zhihu.com/p/47407398
-1. life of a pixel https://zhuanlan.zhihu.com/p/44737615
 1. chrome websocket 从 Chrome 源码看 WebSocket https://zhuanlan.zhihu.com/p/37350346
 1. nodejs websocket https://www.zhihu.com/question/37647173/answer/1403359896
 1. [websocket](https://zhuanlan.zhihu.com/p/25592934)
 1. [WebSocket 与 TCP/IP](https://zhuanlan.zhihu.com/p/27021102)
-1. [从“快稳省安全”看 Chromium——Chromium 学习系列](https://zhuanlan.zhihu.com/p/58518107)
 1. [浅析前端页面渲染机制](https://zhuanlan.zhihu.com/p/26105913)
 
 ## 工程经验
