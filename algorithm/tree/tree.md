@@ -27,16 +27,17 @@ class Node<Key extends Comparable<Key>, Value> {
 ```
 
 TODO:
+
 1. 所有方法的递归与非递归操作 NonRecursive
 2. algs 3.2.7
 3. algs 3.2.11
 
 ### 二叉树的类型
 
-1. 满二叉树（Full Binary Tree）中每个节点有0或者2个子节点
+1. 满二叉树（Full Binary Tree）中每个节点有 0 或者 2 个子节点
 1. 完全二叉树（Complete Binary Tree）是只有最低层的节点不满，且最低层节点尽可能靠左。这种二叉树能够用数组表示，二叉堆使用的就是完全二叉树。
 1. 完美二叉树（Perfect Binary Tree）所有叶节点都在最底层，高度相同。
-1. 平衡二叉树（Balanced Binary Tree）中左右子树高度之差最多为1。
+1. 平衡二叉树（Balanced Binary Tree）中左右子树高度之差最多为 1。
 1. 病态二叉树（degenerate or pathological）指每个节点只有一个子节点，二叉树退化成了链表。
 
 ### 验证二叉树
@@ -217,7 +218,6 @@ public TreeNode successor(TreeNode node) {
 }
 ```
 
-
 ### 遍历
 
 对树的节点进行**深度优先遍历（Depth First Search）**，根据遍历顺序的不同，常见的有三种方式，
@@ -302,19 +302,81 @@ class BinaryTree {
 
 对于上述的六种深度优先遍历的情况，还可以显式的使用栈来实现。因为深度遍历的过程是从上到下（根节点到叶节点），先遇到的节点后进行处理，正好需要**先进后出**的数据结构。每种顺序的具体实现代码稍有不同，由于左右对称总共六种情况对三种模式。
 
-| 模式 | 顺序 | 说明 | 复杂程度 |
-| -- | -- | -- | -- |
-| 模式1 | 前序（中 -> 左 -> 右）、逆后续（中 -> 右 -> 左） | 根节点在前边 | 最简单 |
-| 模式2 | 中序（左 -> 中 -> 右）、逆中序（右 -> 中 -> 左） | 根节点在中间 | 居中 |
-| 模式3 | 后续（左 -> 右 -> 中）、逆前序（右 -> 左 -> 中） | 根节点在后边 | 最复杂 |
+| 模式   | 顺序                                             | 说明         | 复杂程度 |
+| ------ | ------------------------------------------------ | ------------ | -------- |
+| 模式 1 | 前序（中 -> 左 -> 右）、逆后续（中 -> 右 -> 左） | 根节点在前边 | 最简单   |
+| 模式 2 | 中序（左 -> 中 -> 右）、逆中序（右 -> 中 -> 左） | 根节点在中间 | 居中     |
+| 模式 3 | 后续（左 -> 右 -> 中）、逆前序（右 -> 左 -> 中） | 根节点在后边 | 最复杂   |
 
 利用显式栈来实现不同的遍历顺序的时候只需要实现三种正序即可，因为另外三种逆序正好对应相反的顺序。前序和逆前序顺序相反，所以计算较为简单的前序即可，逆序后得到相对复杂的逆前序的顺序。逆后续和后续这一对也是这样，中序和逆中序的根节点都在中间，复杂程度一样的。
 
 遍历顺序中，**根节点越靠前的情况越简单**，这是由于树的数据结构造成了总是先碰到根节点，然后才能根据根节点获得其左右子节点。每种模式中的两种顺序的处理方法是一样的，只不过是左右子节点的顺序相反，代码实现中交换左右子节点的角色进行处理即可。
 
-根节点在最前边的情况最简单（模式1）是因为深度优先遍历时总是先碰到根节点，正好顺序是和要求的顺序是一致的，这样直接将碰到的根节点添加到结果队列即可。前序遍历的情况左子节点在右子节点前边，所以应该将右子节点先入栈，左子节点后入栈，这样待会出栈的时候左子节点才会先出栈，和前序遍历要求的顺序相同。逆后续的情况顺序与前序顺序左右翻转即可。
+根节点在最前边的情况最简单（模式 1）是因为深度优先遍历时总是先碰到根节点，正好顺序是和要求的顺序是一致的，这样直接将碰到的根节点添加到结果队列即可。前序遍历的情况左子节点在右子节点前边，所以应该将右子节点先入栈，左子节点后入栈，这样待会出栈的时候左子节点才会先出栈，和前序遍历要求的顺序相同。逆后续的情况顺序与前序顺序左右翻转即可。
 
 注意这里不要误认为使用队列也可以完成排序，就同一层级的左右子节点来说在前序顺序下可以将左右子节点按顺序先进先出，但是左子节点的更下层节点也应该在右子节点前边，使用队列的话右子节点会排在左子节点的下层节点之前出队。**深度优先遍历**的顺序决定了不能使用队列。
+
+TODO: 增加循环实现的多叉树遍历
+
+```ts
+interface Node {
+  value: number
+  children: Node[]
+}
+
+function logValue(node: Node) {
+  console.log('visiting: ', node.value)
+}
+
+function dfs(node: Node, cb: (node: Node) => void) {
+  cb(node)
+  for (let i = 0; i <= node.children.length; i++) {
+    dfs(node.children[i], cb)
+  }
+}
+
+const node = {
+  value: 1,
+  children: [
+    {
+      value: 2,
+      children: [],
+    },
+    {
+      value: 3,
+      children: [],
+    },
+  ],
+}
+
+// dfs(node, logValue)
+
+function dfsLoop(root: Node, cb: (node: Node) => void) {
+  const stack = [{ node: root, index: 0 }]
+
+  // 深度优先 先序遍历
+  console.log('enter: ', root)
+  cb(root)
+
+  while (stack.length > 0) {
+    const top = stack[stack.length - 1]
+    const { node, index } = top
+
+    if (index <= node.children.length - 1) {
+      const child = node.children[index]
+      top.index++
+      console.log('enter: ', child)
+      stack.push({ node: child, index: 0 })
+    } else {
+      stack.pop()
+      // 深度优先 后序遍历
+      console.log('exit: ', top.node)
+    }
+  }
+}
+
+dfsLoop(node, logValue)
+```
 
 ```java
 public static List<Integer> preOrderTraversalIteratively(TreeNode root) {
@@ -342,7 +404,7 @@ public static List<Integer> preOrderTraversalIteratively(TreeNode root) {
 }
 ```
 
-模式2（根节点在中间的情况）比模式1（根节点在最前边）要稍微复杂，因为遍历先碰到根节点时不能立即进行处理，因为如果有左子节点的话左子节点要在根节点前边，因此要先把该根节点入栈，待左子节点完全处理完成，才能开始处理栈中的根节点。
+模式 2（根节点在中间的情况）比模式 1（根节点在最前边）要稍微复杂，因为遍历先碰到根节点时不能立即进行处理，因为如果有左子节点的话左子节点要在根节点前边，因此要先把该根节点入栈，待左子节点完全处理完成，才能开始处理栈中的根节点。
 
 使用一个栈保存遍历过程中从根节点到下一目标节点`next`经过的路径，如果目标节点存在则将节点入栈并将`next`指向左子节点开始下一轮循环；如果目标节点不存在，意味着栈顶元素就是最左节点了，出栈并加入结果队列，然后更新`next`指向栈顶元素节点的右子节点继续下一轮循环。`next`在循环中总是指向下一个要入栈的元素，循环终止的条件是没有下一个要入栈的元素而且栈为空。
 
@@ -420,25 +482,27 @@ public static List<Integer> postOrderTraversalIteratively(TreeNode root) {
 另外一种思路是使用队列保存输出结果，和栈的遍历顺序反向来保证输出结果的顺序。
 
 ```js
-var postorderTraversal = function(root) {
-    if (!root) { return [] }
-    const stack = [root]
-    const result = []
+var postorderTraversal = function (root) {
+  if (!root) {
+    return []
+  }
+  const stack = [root]
+  const result = []
 
-    while (stack.length) {
-        const top = stack.pop()
-        result.unshift(top.val)
+  while (stack.length) {
+    const top = stack.pop()
+    result.unshift(top.val)
 
-        if (top.left) {
-            stack.push(top.left)
-        }
-        if (top.right) {
-            stack.push(top.right)
-        }
+    if (top.left) {
+      stack.push(top.left)
     }
+    if (top.right) {
+      stack.push(top.right)
+    }
+  }
 
-    return result
-};
+  return result
+}
 ```
 
 #### Morris Traversal（Threaded Binary Tree）
@@ -451,11 +515,11 @@ var postorderTraversal = function(root) {
 1. 触底 - 左子节点为空，将当前节点设置为右子节点，向上回溯。
 1. 回溯 - 左子节点不为空，将当前节点设置为右子节点，向上回溯同时将当前节点的前驱节点右子节点设置空，恢复二叉树原来的结构。
 
-Morris遍历的过程会暂时的改变二叉树的结构，上面是以改变前驱节点的右子节点为例，对于逆序来说对称的也可以改变**后继节点**的**左子节点**。这种二叉树结构称之为[Threaded Binary Tree](https://en.wikipedia.org/wiki/Threaded_binary_tree)。
+Morris 遍历的过程会暂时的改变二叉树的结构，上面是以改变前驱节点的右子节点为例，对于逆序来说对称的也可以改变**后继节点**的**左子节点**。这种二叉树结构称之为[Threaded Binary Tree](https://en.wikipedia.org/wiki/Threaded_binary_tree)。
 
 ![Threaded Binary Tree](./binary-tree-threaded.png)
 
-考虑中序Morris遍历，左子节点在前，根节点在中间，右子节点在后，所以遍历的下降过程中不记录节点，直到下降到底部最左节点开始记录节点，回溯时是从左子节点到中间根节点，和中序遍历要求顺序相同所以同样添加节点即可。
+考虑中序 Morris 遍历，左子节点在前，根节点在中间，右子节点在后，所以遍历的下降过程中不记录节点，直到下降到底部最左节点开始记录节点，回溯时是从左子节点到中间根节点，和中序遍历要求顺序相同所以同样添加节点即可。
 
 ![Binary Tree Inorder Morris Traversal](./binary-tree-inorder-traversal-morris.jpg)
 
@@ -495,7 +559,7 @@ public static List<Integer> inorderMorrisTraversal(TreeNode root) {
 }
 ```
 
-考虑前序Morris遍历，中间节点在最前边，左子树在中间，右子树在后边，所以在下降阶段（阶段1）和触底（阶段2）将当前节点加入结果中即可。前序遍历和中序遍历处理节点的不同在于一个是在下降阶段一个是在回溯节点，因此只有一行代码的差别。
+考虑前序 Morris 遍历，中间节点在最前边，左子树在中间，右子树在后边，所以在下降阶段（阶段 1）和触底（阶段 2）将当前节点加入结果中即可。前序遍历和中序遍历处理节点的不同在于一个是在下降阶段一个是在回溯节点，因此只有一行代码的差别。
 
 ![Binary Tree Preoder Morris Traversal](./binary-tree-preorder-traversal-morris.jpg)
 
@@ -536,7 +600,7 @@ public static List<Integer> preorderMorrisTraversal(TreeNode root) {
 }
 ```
 
-后续Morris遍历比中序和前序稍微复杂些，因为中间节点要在左子树和右子树后边，所以在下降和触底阶段都不能将节点加入结果列表，只能在回溯阶段进行处理。回溯到当前节点$A$时，才能将其前驱节点$P$到其左子节点$L$的路径上的节点加入结果队列，而且顺序是$P \rightarrow L$。另外还需要额外一个辅助节点，将这个辅助节点的左子节点设置为根节点，这样才能完成整个树的后续遍历。
+后续 Morris 遍历比中序和前序稍微复杂些，因为中间节点要在左子树和右子树后边，所以在下降和触底阶段都不能将节点加入结果列表，只能在回溯阶段进行处理。回溯到当前节点$A$时，才能将其前驱节点$P$到其左子节点$L$的路径上的节点加入结果队列，而且顺序是$P \rightarrow L$。另外还需要额外一个辅助节点，将这个辅助节点的左子节点设置为根节点，这样才能完成整个树的后续遍历。
 
 ![Binary Tree Postoder Morris Traversal](./binary-tree-postorder-traversal-morris.jpg)
 
@@ -586,12 +650,12 @@ public static List<Integer> postOrderMorrisTraversal(TreeNode root) {
 }
 ```
 
-很显然Morris遍历只使用了节点本身和最多一个辅助节点（后续遍历情况）的空间，所以空间复杂度是$O(1)$。整个遍历过程中，每个节点会在下降和回溯阶段各碰到一次，每次进行的主要操作是寻找前驱节点复杂度是$O(l)$和路径长度有关、修改前驱节点复杂度是$O(1)$。每个节点寻找前驱节点的操作和路径长度线性相关，所有节点寻找前驱节点操作的时间成本加起来和树总路径长度线性相关，即证明时间复杂度是$O(N)$，只不过其中的常系数大致是原来的**两倍**，因为下降和回溯各找一次。
+很显然 Morris 遍历只使用了节点本身和最多一个辅助节点（后续遍历情况）的空间，所以空间复杂度是$O(1)$。整个遍历过程中，每个节点会在下降和回溯阶段各碰到一次，每次进行的主要操作是寻找前驱节点复杂度是$O(l)$和路径长度有关、修改前驱节点复杂度是$O(1)$。每个节点寻找前驱节点的操作和路径长度线性相关，所有节点寻找前驱节点操作的时间成本加起来和树总路径长度线性相关，即证明时间复杂度是$O(N)$，只不过其中的常系数大致是原来的**两倍**，因为下降和回溯各找一次。
 
 对应的逆序遍历也可以对称地解决，考虑顺序与逆序的互为逆序的关系，同样可以解决等价但是较为简单的问题。
 
 1. Morris, Joseph M. (1979). "Traversing binary trees simply and cheaply"
-1. [Morris Traversal方法遍历二叉树（非递归，不用栈，O(1)空间）](https://www.cnblogs.com/AnnieKim/archive/2013/06/15/morristraversal.html)
+1. [Morris Traversal 方法遍历二叉树（非递归，不用栈，O(1)空间）](https://www.cnblogs.com/AnnieKim/archive/2013/06/15/morristraversal.html)
 
 #### 表达式树
 
@@ -601,11 +665,12 @@ public static List<Integer> postOrderMorrisTraversal(TreeNode root) {
 
 对表达式树进行前序遍历得到前缀表达式（prefix expression）$+ * A - B C + D E$，也称为波兰表达式（Polish notation），特点在于运算符位于运算数前。
 
-对表达式进行后序遍历得到后缀表达式（postfix expression）$A B C - * D E + +$，也称为逆波兰表达式（reverse polish notation)，特点在于运算符位于操作数之后。后缀表达式使用Stack Machine很方便执行。
+对表达式进行后序遍历得到后缀表达式（postfix expression）$A B C - * D E + +$，也称为逆波兰表达式（reverse polish notation)，特点在于运算符位于操作数之后。后缀表达式使用 Stack Machine 很方便执行。
 
 对表达式树进行中序遍历得到中缀表达式（infix expression），是数学上通常使用的表达式书写方式，中序表达式需要用括号来区分不同运算符的优先级。
 
 https://en.wikipedia.org/wiki/Reverse_Polish_notation
+
 1. Postfix Expression Evaluation from left and right
 1. Shunting Yard Algorithm
 
@@ -621,7 +686,7 @@ https://en.wikipedia.org/wiki/Reverse_Polish_notation
 
 还是利用二叉树的中序遍历升序性质，顺序被破坏的树在中序遍历的过程中肯定有两个连续的节点不符合升序性质。可能出现两种情况，如果互换的两个节点本身在升序序列中相邻，则出现一对违反升序性质的节点对，互换这个节点对即可将树回复原装；如果互换的两个节点不相邻，则出现两对违反升序性质的节点对，需要将第一对的第一个节点和第二对的第二个节点互换，将树恢复原状。
 
-此处利用Morris中序遍历，还可以只用两个变量记录需要交换的节点对而不是用列表记录所有节点对。
+此处利用 Morris 中序遍历，还可以只用两个变量记录需要交换的节点对而不是用列表记录所有节点对。
 
 ```java
 class Solution {
@@ -860,14 +925,15 @@ kth Smallest 230
 ### 高度平衡
 
 TODO: https://algs4.cs.princeton.edu/32bst/
+
 1. Perfect balance. Write a program PerfectBalance.java that inserts a set of keys into an initially empty BST such that the tree produced is equivalent to binary search, in the sense that the sequence of compares done in the search for any key in the BST is the same as the sequence of compares used by binary search for the same set of keys.
 
 ### 树深度与平衡
 
-depth of leaf nodes all, min depth/max depth/ maxDepth,minDepth最多差1称为平衡
+depth of leaf nodes all, min depth/max depth/ maxDepth,minDepth 最多差 1 称为平衡
 104，111, , 559
 
-左右子树的高度之差最多为1称之为高度平衡，高度平衡的树要求每个子树也是高度平衡，判断一个树是否高度平衡（Leetcode 110）。
+左右子树的高度之差最多为 1 称之为高度平衡，高度平衡的树要求每个子树也是高度平衡，判断一个树是否高度平衡（Leetcode 110）。
 
 常规的的递归解法先定义求解树高度的函数`maxHeight`，然后按照高度平衡定义递归求解`isBalanced`。
 
@@ -886,7 +952,7 @@ public int maxHeight(TreeNode node) {
 }
 ```
 
-另外一个思路是将平衡的判断**混入**到求树高度的递归逻辑中，树的高度取值范围是$[0, \infty)$，所以在树不平衡时不妨选取一个负数-1来表示。如果树是高度平衡的，那么计算得到的是树的高度，反之是-1。
+另外一个思路是将平衡的判断**混入**到求树高度的递归逻辑中，树的高度取值范围是$[0, \infty)$，所以在树不平衡时不妨选取一个负数-1 来表示。如果树是高度平衡的，那么计算得到的是树的高度，反之是-1。
 
 ```java
 public final int unbalanced = -1;
@@ -943,38 +1009,42 @@ public int maxDepth(TreeNode root) {
 
 ### 外部路径和内部路径
 
-外部路径比内部路径大2N，Hibbard删除方法的性能问题。
+外部路径比内部路径大 2N，Hibbard 删除方法的性能问题。
 
 ### 重建二叉树（BST Reconstruction）
 
-从中序序列和前序序列重构二叉树(Leetcode 105)，对于二叉树节点来说，中序遍历顺序是左子树、根节点、右子树，前序遍历的顺序是根节点、左子树、右子树。前序遍历的第一个节点是根节点，在中序遍历中找到该节点，其左侧元素组成左子树，右侧元素组成右子树。针对左子树部分和右子树部分递归的进行这样的处理，递归终止的条件是序列长度为零时返回空指针，序列长度为1时返回一个叶节点。
+从中序序列和前序序列重构二叉树(Leetcode 105)，对于二叉树节点来说，中序遍历顺序是左子树、根节点、右子树，前序遍历的顺序是根节点、左子树、右子树。前序遍历的第一个节点是根节点，在中序遍历中找到该节点，其左侧元素组成左子树，右侧元素组成右子树。针对左子树部分和右子树部分递归的进行这样的处理，递归终止的条件是序列长度为零时返回空指针，序列长度为 1 时返回一个叶节点。
 
 ```js
-var buildTree = function(preorder, inorder) {
-    function build(preStart, inStart, length) {
-        if (length <= 0) { return null }
-        const rootVal = preorder[preStart]
-        if (length === 1) { return new TreeNode(rootVal) }
-
-        const node = new TreeNode(rootVal)
-        let index
-        for (let i = inStart; i < inStart + length; i++) {
-            if (inorder[i] === rootVal) {
-                index = i
-                break
-            }
-        }
-        const left = index - inStart
-        const right = inStart + length - index - 1
-
-        node.left = build(preStart + 1, inStart, left)
-        node.right = build(preStart + 1 + left, index + 1, right)
-
-        return node
+var buildTree = function (preorder, inorder) {
+  function build(preStart, inStart, length) {
+    if (length <= 0) {
+      return null
+    }
+    const rootVal = preorder[preStart]
+    if (length === 1) {
+      return new TreeNode(rootVal)
     }
 
-    return build(0, 0, preorder.length)
-};
+    const node = new TreeNode(rootVal)
+    let index
+    for (let i = inStart; i < inStart + length; i++) {
+      if (inorder[i] === rootVal) {
+        index = i
+        break
+      }
+    }
+    const left = index - inStart
+    const right = inStart + length - index - 1
+
+    node.left = build(preStart + 1, inStart, left)
+    node.right = build(preStart + 1 + left, index + 1, right)
+
+    return node
+  }
+
+  return build(0, 0, preorder.length)
+}
 ```
 
 从中序遍历和后序遍历(Leetcode 106)可使用同样的方法重构二叉树，区别在于后续遍历序列中顺序是左子树、右子树、根节点，每次取最后的元素作为根节点拆分中序遍历序列。
@@ -984,32 +1054,40 @@ var buildTree = function(preorder, inorder) {
 ![reconstruct](./reconstruct-from-pre-post-order.jpg)
 
 ```js
-var constructFromPrePost = function(pre, post) {
-    function build(preStart, postStart, len) {
-        if (len <= 0) { return null }
-        const node = new TreeNode(pre[preStart])
-        if (len === 1) { return node }
-
-        const leftChildRoot = pre[preStart + 1]
-        let leftChildRootIndex
-        for (let i = postStart; i < postStart + len; i++) {
-            if (post[i] === leftChildRoot)  {
-                leftChildRootIndex = i
-                break
-            }
-        }
-
-        const leftLength = leftChildRootIndex + 1 - postStart
-        const rightLength = len - leftLength - 1
-
-        node.left = build(preStart + 1, postStart, leftLength)
-        node.right = build(preStart + 1 + leftLength, leftChildRootIndex + 1, rightLength)
-
-        return node
+var constructFromPrePost = function (pre, post) {
+  function build(preStart, postStart, len) {
+    if (len <= 0) {
+      return null
+    }
+    const node = new TreeNode(pre[preStart])
+    if (len === 1) {
+      return node
     }
 
-    return build(0, 0, pre.length)
-};
+    const leftChildRoot = pre[preStart + 1]
+    let leftChildRootIndex
+    for (let i = postStart; i < postStart + len; i++) {
+      if (post[i] === leftChildRoot) {
+        leftChildRootIndex = i
+        break
+      }
+    }
+
+    const leftLength = leftChildRootIndex + 1 - postStart
+    const rightLength = len - leftLength - 1
+
+    node.left = build(preStart + 1, postStart, leftLength)
+    node.right = build(
+      preStart + 1 + leftLength,
+      leftChildRootIndex + 1,
+      rightLength
+    )
+
+    return node
+  }
+
+  return build(0, 0, pre.length)
+}
 ```
 
 1. BST reconstruction. Given the preorder traversal of a BST (not including null nodes), reconstruct the tree.
@@ -1022,14 +1100,13 @@ var constructFromPrePost = function(pre, post) {
 
 https://www.youtube.com/watch?v=JL4OjKV_pGE
 
-Leetcode使用的二叉树的序列化格式如下`[1,2,3,null,null,4,5]`
+Leetcode 使用的二叉树的序列化格式如下`[1,2,3,null,null,4,5]`
 
 ```js
 function TreeNode(val) {
-      this.val = val;
-      this.left = this.right = null;
- }
-
+  this.val = val
+  this.left = this.right = null
+}
 
 /**
  * Encodes a tree to a single string.
@@ -1037,27 +1114,27 @@ function TreeNode(val) {
  * @param {TreeNode} root
  * @return {string}
  */
-var serialize = function(root) {
-    const queue = [root]
-    const result = []
-    while (queue.length > 0 && queue.some(node => !!node)) {
-        const size = queue.length
-        for (let i = 0; i < size; i++) {
-            const node = queue.shift()
-            if (node === null) {
-                result.push(null)
-                queue.push(null)
-                queue.push(null)
-            } else {
-                result.push(node.val)
-                queue.push(node.left || null)
-                queue.push(node.right || null)
-            }
-        }
+var serialize = function (root) {
+  const queue = [root]
+  const result = []
+  while (queue.length > 0 && queue.some((node) => !!node)) {
+    const size = queue.length
+    for (let i = 0; i < size; i++) {
+      const node = queue.shift()
+      if (node === null) {
+        result.push(null)
+        queue.push(null)
+        queue.push(null)
+      } else {
+        result.push(node.val)
+        queue.push(node.left || null)
+        queue.push(node.right || null)
+      }
     }
+  }
 
-    return `[${result.map(val => val === null ? 'null' : val)}]`
-};
+  return `[${result.map((val) => (val === null ? 'null' : val))}]`
+}
 
 /**
  * Decodes your encoded data to tree.
@@ -1065,29 +1142,33 @@ var serialize = function(root) {
  * @param {string} data
  * @return {TreeNode}
  */
-var deserialize = function(data) {
-    const nodeValues = JSON.parse(data)
-    if (nodeValues.length === 0) { return null }
+var deserialize = function (data) {
+  const nodeValues = JSON.parse(data)
+  if (nodeValues.length === 0) {
+    return null
+  }
 
-    const nodes = nodeValues.map(val => val === null ? null : new TreeNode(val))
-    for (let i = 0; 2 * i + 1 <= nodes.length - 1; i++) {
-        if (nodes[i] !== null) {
-            const left = 2 * i + 1
-            const right = 2 * i + 2
-            nodes[i].left = nodes[left] || null
-            nodes[i].right = nodes[right] || null
-        }
+  const nodes = nodeValues.map((val) =>
+    val === null ? null : new TreeNode(val)
+  )
+  for (let i = 0; 2 * i + 1 <= nodes.length - 1; i++) {
+    if (nodes[i] !== null) {
+      const left = 2 * i + 1
+      const right = 2 * i + 2
+      nodes[i].left = nodes[left] || null
+      nodes[i].right = nodes[right] || null
     }
+  }
 
-    return nodes[0]
-};
+  return nodes[0]
+}
 
 /**
  * Your functions will be called as such:
  * deserialize(serialize(root));
  */
 
-const serialized = "[1,2,3,null,null,4,5]"
+const serialized = '[1,2,3,null,null,4,5]'
 const nodes = deserialize(serialized)
 console.log(serialize(nodes))
 ```
@@ -1098,33 +1179,33 @@ console.log(serialize(nodes))
 
 ## 平衡二叉树
 
-## 2-3树
+## 2-3 树
 
-2-3树中包含两种节点：2结点和普通二叉树的节点一样，节点中包含一个值且有两个子节点（包含空节点）；3节点中包含两个节点值且有三个子节点。2-3树通过3节点能够容纳多一个节点的性质保持树的平衡。
+2-3 树中包含两种节点：2 结点和普通二叉树的节点一样，节点中包含一个值且有两个子节点（包含空节点）；3 节点中包含两个节点值且有三个子节点。2-3 树通过 3 节点能够容纳多一个节点的性质保持树的平衡。
 
 ![2-3 Tree](./2-3-tree.png)
 
 ### 插入操作
 
-向2-3树中插入一个节点首先根据要插入的键值进行查找，如果树中存在相同的键直接更新即可；如果不存在需要在最终查找到的叶节点下新增子节点。新增子节点可以分为几种情况。
+向 2-3 树中插入一个节点首先根据要插入的键值进行查找，如果树中存在相同的键直接更新即可；如果不存在需要在最终查找到的叶节点下新增子节点。新增子节点可以分为几种情况。
 
 #### 根节点为空
 
 插入新节点是根节点
 
-#### 向2节点插入新节点
+#### 向 2 节点插入新节点
 
-2节点变为3节点
+2 节点变为 3 节点
 
 ![2-3-tree-insert-into-2-node](./2-3-tree-insert-into-2-node.png)
 
-#### 向3节点插入新节点
+#### 向 3 节点插入新节点
 
-3节点插入新节点变为临时的4节点，然后需要将4节点向上分解以消除4节点。如果3节点的父节点是2节点，那么分解4节点后父节点变为3节点。
+3 节点插入新节点变为临时的 4 节点，然后需要将 4 节点向上分解以消除 4 节点。如果 3 节点的父节点是 2 节点，那么分解 4 节点后父节点变为 3 节点。
 
 ![2-3-tree-insert-into-3-node](./2-3-tree-insert-into-3-node.png)
 
-如果3节点的父节点是3节点，那么4节点分解后父节点变为新的4节点，需要继续向上分解直到父节点是2节点或者是根节点。4节点是根节点的情况下，4节点分解后其中间成为新的根节点，且2-3树高度加1。
+如果 3 节点的父节点是 3 节点，那么 4 节点分解后父节点变为新的 4 节点，需要继续向上分解直到父节点是 2 节点或者是根节点。4 节点是根节点的情况下，4 节点分解后其中间成为新的根节点，且 2-3 树高度加 1。
 
 ![2-3-tree-insert-into-3-node](./2-3-tree-split-4-node.png)
 
@@ -1132,31 +1213,31 @@ console.log(serialize(nodes))
 
 ### [左倾红黑树（**L**eft **L**earning **R**ed **B**ack **T**ree)](https://www.cs.princeton.edu/~rs/talks/LLRB/RedBlack.pdf)
 
-2-3树中的3结点和临时的4结点内部结点之间的**连接**定义为红色，其余连接定义为黑色。这样定义下每一个2-3树都可以有对应红黑树（连接带有颜色的二叉树）表示。
+2-3 树中的 3 结点和临时的 4 结点内部结点之间的**连接**定义为红色，其余连接定义为黑色。这样定义下每一个 2-3 树都可以有对应红黑树（连接带有颜色的二叉树）表示。
 
-1. 黑色连接等同于2-3树中的节点间的连接
-1. 红色连接相当于于2-3树中3结点和临时的4结点的内部连接
-2. 红色连接相连的节点相当于2-3树中的3节点和临时4节点
-1. 2-3树中树的平衡相当于红黑树中黑色连接的平衡，红色连接等同于2-3树节点内部连接不增加其高度
+1. 黑色连接等同于 2-3 树中的节点间的连接
+1. 红色连接相当于于 2-3 树中 3 结点和临时的 4 结点的内部连接
+1. 红色连接相连的节点相当于 2-3 树中的 3 节点和临时 4 节点
+1. 2-3 树中树的平衡相当于红黑树中黑色连接的平衡，红色连接等同于 2-3 树节点内部连接不增加其高度
 
-一个2-3树的对应红黑树不是惟一的。
+一个 2-3 树的对应红黑树不是惟一的。
 
 ![Left Leaning Red Black Tree](./left-leaning-red-black-tree.jpeg)
 
-为了简化可能的情况，只使用红色左连接而禁止使用红色右连接，这样的红黑树就叫左倾红黑树。2-3树和左倾红黑树是**一一对应**的。左倾红黑树是黑连接平衡的，即从根节点到任意叶节点经过的黑色连接个数是相同的。左倾红黑树必须满足以下几条性质：
+为了简化可能的情况，只使用红色左连接而禁止使用红色右连接，这样的红黑树就叫左倾红黑树。2-3 树和左倾红黑树是**一一对应**的。左倾红黑树是黑连接平衡的，即从根节点到任意叶节点经过的黑色连接个数是相同的。左倾红黑树必须满足以下几条性质：
 
-1. 红黑树的根节点总是黑色的 - 对应2-3树中根节点是2节点和根节点是3节点其中较大的节点。
-2. 空的子节点也当成黑色处理 - 平衡2-3树中最底层叶节点的子节点是空节点
+1. 红黑树的根节点总是黑色的 - 对应 2-3 树中根节点是 2 节点和根节点是 3 节点其中较大的节点。
+2. 空的子节点也当成黑色处理 - 平衡 2-3 树中最底层叶节点的子节点是空节点
 3. 不允许出现红色右连接 - 左倾红黑树的要求
-4. 不允许出现出现两条连续的红色左连接 -对应2-3树中临时4节点，在插入删除节点操作完成时被消除
+4. 不允许出现出现两条连续的红色左连接 -对应 2-3 树中临时 4 节点，在插入删除节点操作完成时被消除
 
-在左倾红黑树进行插入和删除节点的过程中如果保持以上的性质，就相当于等价表示的2-3的树在插入删除节点过程中保持平衡。红黑树中除了插入和删除节点之外的查询操作和普通的二叉树完全一样，不需要做任何修改，这也是红黑树相比于2-3树简单的地方。
+在左倾红黑树进行插入和删除节点的过程中如果保持以上的性质，就相当于等价表示的 2-3 的树在插入删除节点过程中保持平衡。红黑树中除了插入和删除节点之外的查询操作和普通的二叉树完全一样，不需要做任何修改，这也是红黑树相比于 2-3 树简单的地方。
 
 二叉树中一个结点向下可以有两个连接，但是向上只有一个连接到其父结点，因此可以将每条连接的是红连接还是黑连接的信息保存在连接子结点当中。结点中保存一个布尔值，`true`表示这个结点是红结点，到其父结点的连接是红连接，反之是黑结点。
 
 #### 左旋和右旋
 
-2-3树中三节点可以用红色左连接或者红色右连接的红黑树表示，左旋和右旋操作将两种形式互相转换。以左旋操作为例，子树根节点`F`到右子节点`Q`的红色右连接被转换成了根节点`Q`到左子节点`F`的红色连接。左旋和右旋操作是局部变换，只需要修改涉及到的两个节点即可，在常数时间内完成。
+2-3 树中三节点可以用红色左连接或者红色右连接的红黑树表示，左旋和右旋操作将两种形式互相转换。以左旋操作为例，子树根节点`F`到右子节点`Q`的红色右连接被转换成了根节点`Q`到左子节点`F`的红色连接。左旋和右旋操作是局部变换，只需要修改涉及到的两个节点即可，在常数时间内完成。
 
 ![LLRB Rotate Left & Right](./llrb-rotate-lef-right.png)
 
@@ -1166,15 +1247,15 @@ console.log(serialize(nodes))
 Node h = rotateLeft(h);
 ```
 
-#### 颜色转换（消除临时4节点）
+#### 颜色转换（消除临时 4 节点）
 
-2-3树中分解临时4节点的操作等价于左倾红黑树中对一个左右都是红连接的节点变成黑色（4节点分解），并将节点本身的颜色变成红色（节点上浮）。
+2-3 树中分解临时 4 节点的操作等价于左倾红黑树中对一个左右都是红连接的节点变成黑色（4 节点分解），并将节点本身的颜色变成红色（节点上浮）。
 
 ![LLRB Flip Colors](./llrb-flip-color.png)
 
 #### 插入结点操作
 
-红黑树插入节点操作对应于2-3树，新插入的节点与父节点之间是红色连接，相当于2-3树中2节点/3节点增加一个节点变成3节点/4节点。旋转与变色操作相当于2-3树中将4节点进行向上分解。向3节点插入新节点时才会形成4节点，需要向上分解处理，新节点可能插入在3节点的左中右三个位置。
+红黑树插入节点操作对应于 2-3 树，新插入的节点与父节点之间是红色连接，相当于 2-3 树中 2 节点/3 节点增加一个节点变成 3 节点/4 节点。旋转与变色操作相当于 2-3 树中将 4 节点进行向上分解。向 3 节点插入新节点时才会形成 4 节点，需要向上分解处理，新节点可能插入在 3 节点的左中右三个位置。
 
 ![Rotate then Flip color](./rotate-then-flip-color.png)
 
@@ -1215,15 +1296,15 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 ```
 
-注意递归实现中变色操作放在最后，这样在当前节点递归结束后其对应子树中不存在对应4节点的连续红色连接。如果节点向上传递了红色连接，该红色连接与更上层红色连接形成的连续连接被上层节点的函数消除。根节点的向上传递红色连接会将树高增加1，此处需要手动将根节点重新恢复成黑色。
+注意递归实现中变色操作放在最后，这样在当前节点递归结束后其对应子树中不存在对应 4 节点的连续红色连接。如果节点向上传递了红色连接，该红色连接与更上层红色连接形成的连续连接被上层节点的函数消除。根节点的向上传递红色连接会将树高增加 1，此处需要手动将根节点重新恢复成黑色。
 
 #### 删除节点操作
 
-#### 自顶向下的2-3-4树插入操作（Top Down)
+#### 自顶向下的 2-3-4 树插入操作（Top Down)
 
 #### 红黑树的性质
 
-1. 红黑树的操作在线性对数级别。一棵大小为$N$的红黑树高度不会超过$2\log N$。比普通二叉树平均路径长度少40%.
+1. 红黑树的操作在线性对数级别。一棵大小为$N$的红黑树高度不会超过$2\log N$。比普通二叉树平均路径长度少 40%.
 1. 有$N$个内部节点红黑树中，根节点到任意节点的平均路径长度是约为$\log N$
 
 ### 标准红黑树
@@ -1233,41 +1314,41 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 1. 内部节点 - 存储一个具体键值的节点，包括`color`、`key`、`left`、`right`、`parent`等属性。
 1. 外部结点 - 外部节点是为了分析方便，保证每个内部节点都有子节点。可以用空指针`NIL`或者哨兵（sentinel）节点实现，算法导论中为节省空间使用一个哨兵`T.nil`元素作为所有内部节点的子节点。
 
-红黑树来源于平衡B树，用节点带有红黑颜色的平衡二叉搜索树来代表等价的B树，并实现保持平衡B树的相应插入删除节点操作，所以我们从可以从B树的角度来理解这些性质。
+红黑树来源于平衡 B 树，用节点带有红黑颜色的平衡二叉搜索树来代表等价的 B 树，并实现保持平衡 B 树的相应插入删除节点操作，所以我们从可以从 B 树的角度来理解这些性质。
 
-标准红黑树等价于2-3-4树，2-3-4树中包含三种节点。
+标准红黑树等价于 2-3-4 树，2-3-4 树中包含三种节点。
 
-1. 2节点（2-node）- 有一个键`key`和两个子节点`left`、`right`，其中`left < key < right`。
-2. 3节点（3-node）- 有两个键和三个子节点，键值和节点满足大小顺序。
-3. 4节点（4-node）- 有三个键和四个子节点，键值和节点满足大小顺序。
+1. 2 节点（2-node）- 有一个键`key`和两个子节点`left`、`right`，其中`left < key < right`。
+2. 3 节点（3-node）- 有两个键和三个子节点，键值和节点满足大小顺序。
+3. 4 节点（4-node）- 有三个键和四个子节点，键值和节点满足大小顺序。
 
-如下图椭圆形代表3节点内部包含两个节点`a`、`b`，黑色小方块代表外部节点，节点间加粗的线代表红色连接，节点的圈加粗的代表红色节点。
+如下图椭圆形代表 3 节点内部包含两个节点`a`、`b`，黑色小方块代表外部节点，节点间加粗的线代表红色连接，节点的圈加粗的代表红色节点。
 
 ![Red Black Tree 3-node](./rb-tree-3-node.png)
 
-两个二叉树节点连接在一起表示一个3节点，使用红色连接还是红色节点是对这一表示的不同说法。红色连接的方式更加直观，红色链接是2-3-4树中的节点的内部连接，黑色连接是节点的外部连接。红色节点表示的话，有个叫做提升（lifting）节点的操作，就是将红色节点提升到与黑色父节点一样的高度，也表示两个二叉树节点合在一起对应一个三节点。标准红黑树中不限制红色节点是左倾（红色节点是左子节点）还是右倾（红色节点是右子节点），所以有两种表达方式。
+两个二叉树节点连接在一起表示一个 3 节点，使用红色连接还是红色节点是对这一表示的不同说法。红色连接的方式更加直观，红色链接是 2-3-4 树中的节点的内部连接，黑色连接是节点的外部连接。红色节点表示的话，有个叫做提升（lifting）节点的操作，就是将红色节点提升到与黑色父节点一样的高度，也表示两个二叉树节点合在一起对应一个三节点。标准红黑树中不限制红色节点是左倾（红色节点是左子节点）还是右倾（红色节点是右子节点），所以有两种表达方式。
 
-4节点使用红色或黑色的二叉树节点表示如下：
+4 节点使用红色或黑色的二叉树节点表示如下：
 
 ![Red Black Tree 4-node](./rb-tree-4-node.jpeg)
 
-不考虑左右倾有5种表示形式，但是其中前4种树的高度是2，第五种对称形式一个黑色父节点两个红色子节点树高度是1。表示4节点时只使用第5种形式二叉树的高度会更低，其余4种形式在插入操作中作为中间状态可能出现。
+不考虑左右倾有 5 种表示形式，但是其中前 4 种树的高度是 2，第五种对称形式一个黑色父节点两个红色子节点树高度是 1。表示 4 节点时只使用第 5 种形式二叉树的高度会更低，其余 4 种形式在插入操作中作为中间状态可能出现。
 
-平衡2-3-4树的等价红黑树必须满足以下五条性质。
+平衡 2-3-4 树的等价红黑树必须满足以下五条性质。
 
-| 编号 | 性质 | 说明 |
-| -- | -- | -- |
-| 1 | 每个节点是红色或是黑色 | 删除节点过程中单个节点可能临时代表双黑或者黑红 |
-| 2 | 根节点是黑色的 | 对应2节点3节点的根必定时黑色的，对应4节点的根节点颜色是黑是红并不影响树的平衡和拓扑结构，统一规定为黑色是为了与2节点3节点的表示一致，这意味着需要的时候将根节点从红色改为黑色是允许的。|
-| 3 | 叶节点（NIL）是黑色的 | 叶节点是外部节点，不与其父节点合并表示3节点4节点，所以规定为黑色的。 |
-| 4 | 如果一个节点是红色的，则它的两个子节点都是黑色的 | 禁止了4节点对应的高度为2的表示形式。 |
-| 5 | 对于每个节点，从该节点到其所有后代节点的简单路径上，均包含相同数目的黑色节点。| 平衡的2-3-4树中从根节点到任意叶节点高度路径长度相同，路径上包含的黑色节点个数相同。|
+| 编号 | 性质                                                                           | 说明                                                                                                                                                                                              |
+| ---- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | 每个节点是红色或是黑色                                                         | 删除节点过程中单个节点可能临时代表双黑或者黑红                                                                                                                                                    |
+| 2    | 根节点是黑色的                                                                 | 对应 2 节点 3 节点的根必定时黑色的，对应 4 节点的根节点颜色是黑是红并不影响树的平衡和拓扑结构，统一规定为黑色是为了与 2 节点 3 节点的表示一致，这意味着需要的时候将根节点从红色改为黑色是允许的。 |
+| 3    | 叶节点（NIL）是黑色的                                                          | 叶节点是外部节点，不与其父节点合并表示 3 节点 4 节点，所以规定为黑色的。                                                                                                                          |
+| 4    | 如果一个节点是红色的，则它的两个子节点都是黑色的                               | 禁止了 4 节点对应的高度为 2 的表示形式。                                                                                                                                                          |
+| 5    | 对于每个节点，从该节点到其所有后代节点的简单路径上，均包含相同数目的黑色节点。 | 平衡的 2-3-4 树中从根节点到任意叶节点高度路径长度相同，路径上包含的黑色节点个数相同。                                                                                                             |
 
-红黑树从根节点到外部节点的所有路径中最短的路径是只有黑色节点的路径，最长的路径是黑色节点红色节点交替出现的路径，因为不允许连续的红色节点。最长路径长度不超过最短路径长度的2倍，因此是近似于平衡的，这种近似平衡对应的就是2-3-4树的平衡性质。
+红黑树从根节点到外部节点的所有路径中最短的路径是只有黑色节点的路径，最长的路径是黑色节点红色节点交替出现的路径，因为不允许连续的红色节点。最长路径长度不超过最短路径长度的 2 倍，因此是近似于平衡的，这种近似平衡对应的就是 2-3-4 树的平衡性质。
 
 从某个节点出发（不含该节点）到达一个外部节点的任意一条简单路径上黑色节点个数称为该节点的黑高（black-height）。红黑树的黑高为其根节点的黑高。
 
-一个内部有n个节点的红黑树高度最多是$2\log (n+1)$。首先证明黑高为$bh$树中至少包含$2^{bh} - 1$个节点（不包含任何红色节点的情况，是一个只有黑色节点的高度为$bh$的完全平衡二叉树）。$n \ge 2^{bh} - 1 \rightarrow 2\log (n+1) \ge bh$。
+一个内部有 n 个节点的红黑树高度最多是$2\log (n+1)$。首先证明黑高为$bh$树中至少包含$2^{bh} - 1$个节点（不包含任何红色节点的情况，是一个只有黑色节点的高度为$bh$的完全平衡二叉树）。$n \ge 2^{bh} - 1 \rightarrow 2\log (n+1) \ge bh$。
 
 #### 旋转操作
 
@@ -1282,29 +1363,29 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 
 #### 插入操作
 
-算法导论中描述的插入操作使用了循环的方式实现，在普通二叉树的插入操作上进行 RB-INSERT-FIXUP操作修复红黑树性质。
+算法导论中描述的插入操作使用了循环的方式实现，在普通二叉树的插入操作上进行 RB-INSERT-FIXUP 操作修复红黑树性质。
 
 插入节点操作的实现思路是将插入的键值`key`与根节点进行比较，小的话继续在左子树重复此步骤，大的话继续在右子树重复此步骤，记录当前节点知道要出入的位置为空（等于哨兵元素）即找到了目标插入位置。同时注意处理树为空的情况。
 
 ![RB Insert](./rb-insert.png)
 
-插入的节点默认为红色节点，因为对于一个当前黑平衡的红黑树插入黑色节点是无法保持树的黑平衡的，而插入红色节点不影响红黑树的黑平衡性质（性质5），只可能破坏性质1（空树插入一个节点）或者性质4（在红色节点下插入新的红色节点）。
+插入的节点默认为红色节点，因为对于一个当前黑平衡的红黑树插入黑色节点是无法保持树的黑平衡的，而插入红色节点不影响红黑树的黑平衡性质（性质 5），只可能破坏性质 1（空树插入一个节点）或者性质 4（在红色节点下插入新的红色节点）。
 
-对于性质4的破坏称之为**双红缺陷**，对应有两种情况。
+对于性质 4 的破坏称之为**双红缺陷**，对应有两种情况。
 
-向4节点中插入 - 对应2-3-4树中的上溢（overflow）情况，即向一个4节点中插入新节点会出现2-3-4树中允许存在的5节点，修复的方法是将4节点拆分上浮。在红黑树中是将4节点两个红色子节点变为黑色，根节点变为红色，将红色节点上浮进行下一轮循环（同样可以像左倾红黑树中用递归实现）。
+向 4 节点中插入 - 对应 2-3-4 树中的上溢（overflow）情况，即向一个 4 节点中插入新节点会出现 2-3-4 树中允许存在的 5 节点，修复的方法是将 4 节点拆分上浮。在红黑树中是将 4 节点两个红色子节点变为黑色，根节点变为红色，将红色节点上浮进行下一轮循环（同样可以像左倾红黑树中用递归实现）。
 
-向3节点中插入 - 修复的方法相当于将标准红黑树中不允许的4节点4种表示形式转换为形式5（高度为1的对称表示形式）。修复的方法和左倾红黑树中类似，都是将**之字形(zig zag)**的情况转换为**一条直线**的情况再转换为对称表示的情况。需要注意的是和左倾红黑树中不同，标准红黑树中允许存在4节点（即4节点的形式5）。
+向 3 节点中插入 - 修复的方法相当于将标准红黑树中不允许的 4 节点 4 种表示形式转换为形式 5（高度为 1 的对称表示形式）。修复的方法和左倾红黑树中类似，都是将**之字形(zig zag)**的情况转换为**一条直线**的情况再转换为对称表示的情况。需要注意的是和左倾红黑树中不同，标准红黑树中允许存在 4 节点（即 4 节点的形式 5）。
 
 ![RB Insert 3-node](./rb-tree-insertion-3-node.png)
 
-实现中注意区分左倾右倾两种对称的情况，循环结束的情况是父节点不是红色节点，即不再出现连续红色节点，性质4被修复。最后循环结束时红色节点可能被上浮到了父节点，因此将父节点颜色重新修改为黑色，修复性质2。
+实现中注意区分左倾右倾两种对称的情况，循环结束的情况是父节点不是红色节点，即不再出现连续红色节点，性质 4 被修复。最后循环结束时红色节点可能被上浮到了父节点，因此将父节点颜色重新修改为黑色，修复性质 2。
 
 ![RB Insert Fixup](./rb-insert-fixup.png)
 
 #### 持久化数据结构（persistent data structure）
 
-注意红黑树的插入操作修复过程只需要常数时间的旋转操作（改变二叉树拓扑结构）和最多$O(\log n)$的变色操作（只改变节点数据不改变二叉树拓扑结构）。相比于AVL树，红黑树的插入和删除操作都只需要常数时间的旋转操作，这对于创建持久化数据结构是个重要优势。
+注意红黑树的插入操作修复过程只需要常数时间的旋转操作（改变二叉树拓扑结构）和最多$O(\log n)$的变色操作（只改变节点数据不改变二叉树拓扑结构）。相比于 AVL 树，红黑树的插入和删除操作都只需要常数时间的旋转操作，这对于创建持久化数据结构是个重要优势。
 
 #### 删除操作
 
@@ -1319,45 +1400,45 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 
 ![RB-DELETE](./rb-tree-delete.png)
 
-如果被删除的目标节点是红色节点，红黑树的5条性质不受影响，这种情况无需任何修复操作。如果被删除的目标节点是黑色，那么该节点到根节点的路径上黑高度-1，这时候如果目标节点的子节点是红色，那么可以简单的将子节点从红色变为黑色，即可修复黑高度平衡。但是如果子节点也是黑色，这时候没法简单修复，称为**双黑缺陷**。
+如果被删除的目标节点是红色节点，红黑树的 5 条性质不受影响，这种情况无需任何修复操作。如果被删除的目标节点是黑色，那么该节点到根节点的路径上黑高度-1，这时候如果目标节点的子节点是红色，那么可以简单的将子节点从红色变为黑色，即可修复黑高度平衡。但是如果子节点也是黑色，这时候没法简单修复，称为**双黑缺陷**。
 
-算法导论中对于节点删除操作的修复情况划分不是太好，直接理解较为困难。这里先采用[邓俊辉](https://www.bilibili.com/video/av49361421?p=317)老师的方法。红黑树的节点删除然后修复违反性质重新平衡的过程同样应该从对应的2-3-4树去作理解，毕竟红黑树的黑平衡操作就是在模拟2-3-4的平衡，这样理解起来更加直观。
+算法导论中对于节点删除操作的修复情况划分不是太好，直接理解较为困难。这里先采用[邓俊辉](https://www.bilibili.com/video/av49361421?p=317)老师的方法。红黑树的节点删除然后修复违反性质重新平衡的过程同样应该从对应的 2-3-4 树去作理解，毕竟红黑树的黑平衡操作就是在模拟 2-3-4 的平衡，这样理解起来更加直观。
 
-这里节点x是被删除节点的子节点，节点x是黑色，节点p是被删除节点的父节点，节点删除后x替代被删除节点的位置成为p的子节点。节点s是p的另外一个子节点，也是删除后x的兄弟节点。
+这里节点 x 是被删除节点的子节点，节点 x 是黑色，节点 p 是被删除节点的父节点，节点删除后 x 替代被删除节点的位置成为 p 的子节点。节点 s 是 p 的另外一个子节点，也是删除后 x 的兄弟节点。
 
-**情况1（BB-1）** x是黑色，兄弟节点s是黑色，且s有一个红色子节点t。
+**情况 1（BB-1）** x 是黑色，兄弟节点 s 是黑色，且 s 有一个红色子节点 t。
 
-这种情况相当于2-3-4树中兄弟节点是3节点或者4节点，这时候可以从兄弟节点中借一个节点过来填补被删除节点的位置恢复2-3-4树的平衡。注意图中节点x是p的右子节点，对称的情况x是p的左子节点解决方法类似。
+这种情况相当于 2-3-4 树中兄弟节点是 3 节点或者 4 节点，这时候可以从兄弟节点中借一个节点过来填补被删除节点的位置恢复 2-3-4 树的平衡。注意图中节点 x 是 p 的右子节点，对称的情况 x 是 p 的左子节点解决方法类似。
 
-节点t和s组成了一个三节点，借一个节点给作为x的父节点即可修复2-3-4树平衡。但是在红黑树中注意到`t < s < p`，应该将节点p右旋，这样根节点s成为节点p、t的父节点，然后将节点t设置为黑色。图中的情况t是s的左子节点，如果t是s的右子节点，那么应该首先将红色右子节点转换为红色左子节点。
+节点 t 和 s 组成了一个三节点，借一个节点给作为 x 的父节点即可修复 2-3-4 树平衡。但是在红黑树中注意到`t < s < p`，应该将节点 p 右旋，这样根节点 s 成为节点 p、t 的父节点，然后将节点 t 设置为黑色。图中的情况 t 是 s 的左子节点，如果 t 是 s 的右子节点，那么应该首先将红色右子节点转换为红色左子节点。
 
-1~2次旋转（s旋转，p旋转），3次变色（t, s, p各变色一次）。
+1~2 次旋转（s 旋转，p 旋转），3 次变色（t, s, p 各变色一次）。
 
 图中白色节点代表颜色不定，黑色红色都可能。
 
 ![BB-1](./rb-tree-delete-bb1.png)
 
-**情况2（BB-2R）** x是黑色，兄弟节点s是黑色且没有红色子节点，父节点p是红色。
+**情况 2（BB-2R）** x 是黑色，兄弟节点 s 是黑色且没有红色子节点，父节点 p 是红色。
 
-这种情况在2-3-4树中相当于兄弟节点是2节点，没有多余节点可以借，但是父节点是3节点或者是4节点，可以将父节点p从上层脱离，与子节点s组合（merge）成一个3节点。因为p是红色，位于3节点或者4节点内，所以将p脱离不影响上层节点的平衡。需要注意的是节点s应该修改为红色，因为节点s和p合并组成一个3节点。
+这种情况在 2-3-4 树中相当于兄弟节点是 2 节点，没有多余节点可以借，但是父节点是 3 节点或者是 4 节点，可以将父节点 p 从上层脱离，与子节点 s 组合（merge）成一个 3 节点。因为 p 是红色，位于 3 节点或者 4 节点内，所以将 p 脱离不影响上层节点的平衡。需要注意的是节点 s 应该修改为红色，因为节点 s 和 p 合并组成一个 3 节点。
 
-0次旋转，2次变色。
+0 次旋转，2 次变色。
 
 ![BB-2R](./rb-tree-delete-bb2r.png)
 
-**情况2（BB-2B）** x是黑色，兄弟节点s是黑色且没有红色子节点，父节点p是黑色。
+**情况 2（BB-2B）** x 是黑色，兄弟节点 s 是黑色且没有红色子节点，父节点 p 是黑色。
 
-与BB-2R一样需要将节点p从上层挪下来与s合并形成3节点，所以s变为红色。但是此时p节点下溢操作向上传递，需要循环处理直到根节点或者所在节点是红色节点（对应删除节点子节点是红色的简单修复情况）。
+与 BB-2R 一样需要将节点 p 从上层挪下来与 s 合并形成 3 节点，所以 s 变为红色。但是此时 p 节点下溢操作向上传递，需要循环处理直到根节点或者所在节点是红色节点（对应删除节点子节点是红色的简单修复情况）。
 
-0次旋转，1次变色。
+0 次旋转，1 次变色。
 
 ![BB-2B](./rb-tree-delete-bb2b.png)
 
-**情况3（BB-3）** x是黑色，兄弟节点s是红色。
+**情况 3（BB-3）** x 是黑色，兄弟节点 s 是红色。
 
-将节点p进行右旋，转换成BB-1和BB-2R的情况，不可能转换成BB-2B因为父节点p是红色。
+将节点 p 进行右旋，转换成 BB-1 和 BB-2R 的情况，不可能转换成 BB-2B 因为父节点 p 是红色。
 
-1次旋转，2次变色。
+1 次旋转，2 次变色。
 
 ![BB-2B](./rb-tree-delete-bb3.png)
 
@@ -1373,11 +1454,11 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 
 ![BB Summary](./rb-tree-delete-cases-flow.jpg)
 
-算法导论中情况的划分对应的伪代码实现。需要注意的是Case 1可以转化为其他三种，Case 3转化为Case 4，Case 2可能下一轮终结或者重新转换为所有情况。该伪代码实现的方式是将能够转为其他情况的Case 1放在最前面，使用一个`if`语句转化为其他三个Case的情况，然后使用if-else并列处理Case 2和Case 3/Case 4。
+算法导论中情况的划分对应的伪代码实现。需要注意的是 Case 1 可以转化为其他三种，Case 3 转化为 Case 4，Case 2 可能下一轮终结或者重新转换为所有情况。该伪代码实现的方式是将能够转为其他情况的 Case 1 放在最前面，使用一个`if`语句转化为其他三个 Case 的情况，然后使用 if-else 并列处理 Case 2 和 Case 3/Case 4。
 
-Case 2中如果x.p的颜色是红色则下一轮循环结束，从11行->1行->23行染色（对应BB-2R中的颜色操作）。23行另外的情况就是递归到根节点，x是根节点，将根节点颜色恢复为黑色。
+Case 2 中如果 x.p 的颜色是红色则下一轮循环结束，从 11 行->1 行->23 行染色（对应 BB-2R 中的颜色操作）。23 行另外的情况就是递归到根节点，x 是根节点，将根节点颜色恢复为黑色。
 
-21行中Case 3/Case 4是已经完成修复，所以设置`x = T.root`终结循环。
+21 行中 Case 3/Case 4 是已经完成修复，所以设置`x = T.root`终结循环。
 
 ![Delete Fixup](./rb-tree-delete-fixup.png)
 
@@ -1387,9 +1468,9 @@ Case 2中如果x.p的颜色是红色则下一轮循环结束，从11行->1行->2
 
 #### 自上而下插入（Top-Down Insertion)
 
-算法导论中描述的插入方法是自下而上插入，先从根节点自上而下找到树底部插入的目标位置，然后再自下而上的修复性质4。
+算法导论中描述的插入方法是自下而上插入，先从根节点自上而下找到树底部插入的目标位置，然后再自下而上的修复性质 4。
 
-自上而下的插入方法可以从上到下只进行一遍节点遍历，但是遍历的过程中要保证当前节点始终是2节点或者3节点，这样就不会出现下4节点插入而违反性质4的情况。这种方法对应2-3-4树中的子上而下插入方法。
+自上而下的插入方法可以从上到下只进行一遍节点遍历，但是遍历的过程中要保证当前节点始终是 2 节点或者 3 节点，这样就不会出现下 4 节点插入而违反性质 4 的情况。这种方法对应 2-3-4 树中的子上而下插入方法。
 
 #### 自上而下删除（Top-Down Deletion)
 
@@ -1397,13 +1478,13 @@ Case 2中如果x.p的颜色是红色则下一轮循环结束，从11行->1行->2
 
 #### 函数式实现
 
-#### concurrent红黑树
+#### concurrent 红黑树
 
-## AVL树
+## AVL 树
 
 CLRS 13-3
 
-## Treap树
+## Treap 树
 
 CLRS 13-4
 
@@ -1411,6 +1492,6 @@ CLRS 13-4
 
 Splay Tree
 
-## B树
+## B 树
 
 ## B+树
