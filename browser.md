@@ -143,6 +143,11 @@ inline 布局
 
 Skia: https://mp.weixin.qq.com/s/gs1CBWpnPpbK2fD9tQKEKw
 
+1. bfc https://zhuanlan.zhihu.com/p/52426569
+1. [从 Chrome 源码看浏览器如何 layout 布局](https://www.zhihu.com/collection/144350453)
+1. [layout](https://zhuanlan.zhihu.com/p/104927765)
+1. layoutNG https://zhuanlan.zhihu.com/p/37847490
+
 ## Painting
 
 [High Performance Animations](https://www.html5rocks.com/en/tutorials/speed/high-performance-animations/)

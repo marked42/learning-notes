@@ -264,7 +264,7 @@ parser
 1. [从浏览器多进程到 JS 单线程，JS 运行机制最全面的一次梳理](https://juejin.im/post/5a6547d0f265da3e283a1df7)
 1. https://time.geekbang.org/column/intro/216
 1. [万字详文：深入理解浏览器原理](https://zhuanlan.zhihu.com/p/96986818)
-1. layoutNG https://zhuanlan.zhihu.com/p/37847490
+1. [浅析前端页面渲染机制](https://zhuanlan.zhihu.com/p/26105913)
 1. Chrome HTTP2 https://zhuanlan.zhihu.com/p/34662800
 1. https://www.zhihu.com/question/271492607/answer/362737266
 1. DNS https://zhuanlan.zhihu.com/p/32531969
@@ -274,7 +274,6 @@ parser
 1. nodejs websocket https://www.zhihu.com/question/37647173/answer/1403359896
 1. [websocket](https://zhuanlan.zhihu.com/p/25592934)
 1. [WebSocket 与 TCP/IP](https://zhuanlan.zhihu.com/p/27021102)
-1. [浅析前端页面渲染机制](https://zhuanlan.zhihu.com/p/26105913)
 
 ## 工程经验
 
@@ -319,10 +318,7 @@ parser
 ## CSS
 
 1. 张鑫旭 http://www.imooc.com/t/197450
-1. bfc https://zhuanlan.zhihu.com/p/52426569
 1. https://zhuanlan.zhihu.com/p/61632491
-1. [从 Chrome 源码看浏览器如何 layout 布局](https://www.zhihu.com/collection/144350453)
-1. [layout](https://zhuanlan.zhihu.com/p/104927765)
 1. line-height vertical-align https://zhuanlan.zhihu.com/p/51189193
 1. svg https://zhuanlan.zhihu.com/p/54088196
 1. svg https://zhuanlan.zhihu.com/p/38187460
