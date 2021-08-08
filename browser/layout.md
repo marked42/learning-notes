@@ -69,6 +69,19 @@ https://zhuanlan.zhihu.com/p/104927765
 [Render Tree Construction](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-tree-construction)
 https://github.com/beeware/colosseum
 
+定位机制（Positioning Scheme） position 和 float 属性
+
+1. 正常流 Normal Flow position: static/relative
+1. 浮动 Float
+1. 绝对定位 position: absolute/fixed position:sticky ?
+
+[布局](https://www.html5rocks.com/en/tutorials/internals/howbrowserswork/#css)相关的四个因素
+
+1. 盒子类型
+1. 盒子的尺寸
+1. 盒子的定位 Position
+1. 图片尺寸、屏幕尺寸等外部信息
+
 ### 宽度的计算
 
 width/margin-left/margin-right auto 关键字的计算规则
