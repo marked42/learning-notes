@@ -2,7 +2,11 @@
 
 ## HTML
 
+html parsing model https://html.spec.whatwg.org/multipage/parsing.html#overview-of-the-parsing-model
+
 HTML 语法相比 XML 更宽容，允许省略的标签头部和尾部
+
+https://html.spec.whatwg.org/multipage/parsing.html#an-introduction-to-error-handling-and-strange-cases-in-the-parser
 
 The difference is that the HTML approach is more "forgiving": it lets you omit certain tags (which are then added implicitly), or sometimes omit start or end tags, and so on. On the whole it's a "soft" syntax, as opposed to XML's stiff and demanding syntax.
 
