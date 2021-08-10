@@ -25,6 +25,10 @@ CSS 是上下文无关文法， [规范](https://www.w3.org/TR/CSS2/grammar.html
 1. [specified, computed, actual values](https://www.w3.org/TR/CSS2/cascade.html#value-stages)
 1. 内联样式
 
+[Specificity](https://specifishity.com/)
+[Cascading and Inheritance](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Cascade_and_inheritance#specificity_2)
+[Specificity](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity)
+
 资料
 
 1. [Let's Build A Browser Engine](https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html)
