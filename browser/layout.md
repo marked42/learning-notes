@@ -1,5 +1,9 @@
 # Layout
 
+整体流程
+
+RenderTree -> LayoutTree（生成盒子） -> Layout（尺寸、位置计算）
+
 ## 盒子模型 Box Model
 
 margin
@@ -17,20 +21,38 @@ padding
 1. 适用范围 all elements except table-row-group, table-header-group, table-footer-group, table-row, table-column-group and table-column
 1. 不能为负值
 
-## Layout
+## 视觉格式化模型（Visual Formatting Model）
 
-visual formatting model
+[视觉格式化模型](http://grid-layout.com/history.html)
 
-1. [Preventing 'layout thrashing'](http://blog.wilsonpage.co.uk/preventing-layout-thrashing/)
+[盒子生成算法](https://www.w3.org/TR/CSS2/visuren.html#box-gen)
 
-盒子生成算法
-https://www.w3.org/TR/CSS2/visuren.html#box-gen
-StyleNodeTree -> LayoutTree
+1. 块级盒子（block-level box）
+1. 行级盒子 inline-level box
+1. 内联盒子（inline box
+1. block containing box
+1. block box
+1. 内联格式区域 inline formatting context
 
-https://developer.mozilla.org/zh-CN/docs/Web/CSS/Visual_formatting_model
+“在一个块格式区域中，盒子会从包含块的顶部开始，按序垂直排列。同级盒子间的垂直距离会由“margin”属性决定。相邻两个块级盒子之间的垂直间距会遵循外边距折叠原则被折叠。
 
-介绍浏览器原理
-https://mp.weixin.qq.com/s?__biz=MzI0ODA2ODU2NQ==&mid=2651131609&idx=2&sn=3df598084177675024492b6a2b3fb9b5&chksm=f257ce63c520477590331c84a849f4d1df328a98e6cd54799227ca03b4697a8d5b35535d02cc&scene=21#wechat_redirect
+在一个块格式区域中，每个盒子的左外边缘会与包含块左边缘重合（如果是从右到左的排版顺序，则盒子的右外边缘与包含块右边缘重合）。” - 9.4.1
+
+1. 块格式区域 block formatting context
+
+“在内联格式区域中，盒子会从包含块的顶部开始，按序水平排列。只有水平外边距、边框和内边距会被保留。这些盒子可以以不同的方式在垂直方向上对齐：可以底部对齐或顶部对其，或者按文字底部进行对齐。我们把包含一串盒子的矩形区域称为一个线条框。（The rectangular area that contains the boxes that form a line is called a line box.）” - 9.4.2
+
+[流式布局](https://developer.mozilla.org/zh-CN/docs/Web/CSS/display#css_flow_layout_display_block_display_inline)
+
+双关键字形式 [display](https://developer.mozilla.org/en-US/docs/Web/CSS/display/two-value_syntax_of_display)
+
+[常规流中的块和内联布局](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Flow_Layout/Block_and_Inline_Layout_in_Normal_Flow)
+
+[外边距折叠](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing)
+
+## 布局（Layout）
+
+[从 Chrome 源码看浏览器如何计算 CSS](https://mp.weixin.qq.com/s?__biz=MzI0ODA2ODU2NQ==&mid=2651131609&idx=2&sn=3df598084177675024492b6a2b3fb9b5&chksm=f257ce63c520477590331c84a849f4d1df328a98e6cd54799227ca03b4697a8d5b35535d02cc&scene=21#wechat_redirect)
 
 布局相关问题
 
@@ -107,9 +129,19 @@ inline 布局
 
 Skia: https://mp.weixin.qq.com/s/gs1CBWpnPpbK2fD9tQKEKw
 
+## 重新布局
+
+（Relayout Reflow）
+
+1. [Preventing 'layout thrashing'](http://blog.wilsonpage.co.uk/preventing-layout-thrashing/)
+
+## Flexbox & Grid
+
+TODO:
+
 1. bfc https://zhuanlan.zhihu.com/p/52426569
 1. [从 Chrome 源码看浏览器如何 layout 布局](https://www.zhihu.com/collection/144350453)
-1. [layout](https://zhuanlan.zhihu.com/p/104927765)
+1. [Web Layout History](http://grid-layout.com/history.html) [中文简体](https://zhuanlan.zhihu.com/p/104927765)
 1. layoutNG https://zhuanlan.zhihu.com/p/37847490
 1. [深入了解 CSS 字体度量，行高和 vertical-align](https://www.w3cplus.com/css/css-font-metrics-line-height-and-vertical-align.html)
 1. [Deep dive CSS: font metrics, line-height and vertical-align](https://iamvdo.me/en/blog/css-font-metrics-line-height-and-vertical-align)
