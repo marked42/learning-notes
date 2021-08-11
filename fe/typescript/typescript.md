@@ -1917,6 +1917,19 @@ declare global {
 export {}
 ```
 
+```ts
+const a = {
+  first: 1,
+  second: 2,
+}
+
+const key = 'first'
+
+// 类型会报错，字面量类型推断到准确的key，
+// 这种场景也出现在使用index.ts文件将其他模块的对象统一重新导出时。
+a[key]
+```
+
 #### 图灵完备
 
 https://github.com/Microsoft/TypeScript/issues/14833

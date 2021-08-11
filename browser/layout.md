@@ -23,16 +23,10 @@ padding
 
 ## 视觉格式化模型（Visual Formatting Model）
 
-[视觉格式化模型](http://grid-layout.com/history.html)
+[Visual Formatting Model MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Visual_formatting_model)
+[Visual Formatting Model Spec](https://www.w3.org/TR/2011/REC-CSS2-20110607/visuren.html#box-gen)
 
-[盒子生成算法](https://www.w3.org/TR/CSS2/visuren.html#box-gen)
-
-1. 块级盒子（block-level box）
-1. 行级盒子 inline-level box
-1. 内联盒子（inline box
-1. block containing box
-1. block box
-1. 内联格式区域 inline formatting context
+1. 行内格式区域 inline formatting context
 
 “在一个块格式区域中，盒子会从包含块的顶部开始，按序垂直排列。同级盒子间的垂直距离会由“margin”属性决定。相邻两个块级盒子之间的垂直间距会遵循外边距折叠原则被折叠。
 
@@ -47,6 +41,39 @@ padding
 双关键字形式 [display](https://developer.mozilla.org/en-US/docs/Web/CSS/display/two-value_syntax_of_display)
 
 [常规流中的块和内联布局](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Flow_Layout/Block_and_Inline_Layout_in_Normal_Flow)
+
+1. 块级元素 block level element， display block/list-item/table
+1. 块级盒子（block-level box）
+1. 块容器盒子 block containing box
+1. 块盒子 block box
+
+块级元素会生成至少一个主块级盒子（principal block-level box），列表项会生成额外的盒子放置项目符号。
+块级盒子描述盒子作为块格式化上下文的参与者，从上到下布局（水平方向书写模式下），强调的是元素与其父元素和兄弟元素的关系。
+
+块容器盒子能**包含**其他盒子形成新的格式化上下文（Formatting Context），强调的是元素与其子元素的关系。块容器盒子形成的格式化上下文是块级格式化上下文（Block Formatting Context）或者行内格式化上下文（Inline Formatting Context）。块级格式化上下文中只能包含块级盒子，行内格式化上下文中只能包含行内级盒子。
+
+块级盒子同时是块容器盒子时称为块盒子（block box）。
+
+![box types](./box-types.png)
+
+1. 是块级盒子但不是块盒子，table/可替换元素
+1. 块容器盒子但不是块盒子，非替换的 inline-block/和非替换的 inline-table
+
+块级元素可能包含块级元素和行内级元素，此时需要形成匿名的块级盒子包裹住行内级元素对应的盒子；行内级元素可能包含行内级元素和块级元素，同样需要形成匿名的行内级元素。
+
+[盒子生成算法](https://www.w3.org/TR/CSS2/visuren.html#box-gen)
+
+匿名盒子生成的例子
+
+1. 块包含盒子可能只包含行内级盒子，也可能只包含块级盒子，但通常的文档都会同时包含两者，在这种情况下，就会在相邻的行内级盒子外创建匿名块盒子。
+1. 另一种会创建匿名块盒子的情况是一个行内盒子中包含一或多个块盒子
+
+匿名盒子无法被 CSS 选择器选中，所以匿名盒子可继承的样式属性值都是`inherit`，不可继承的样式属性值都是`initial`。
+
+1. 行内级元素 inline-level element, display inline/inline-block/inline-table
+1. 行内级盒子 inline-level box
+1. 行内盒子（inline box
+1. 原子行内级盒子（atomic inline level box）
 
 [外边距折叠](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing)
 
