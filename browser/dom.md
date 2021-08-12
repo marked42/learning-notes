@@ -59,3 +59,4 @@ Nodes ->
 
 [Parsing HTML](https://html.spec.whatwg.org/multipage/parsing.html#parse-state)
 [html5 parsing test](https://github.com/html5lib/html5lib-tests)
+[Constructing the Object Model](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/constructing-the-object-model?hl=en#document-object-model-dom)

@@ -43,6 +43,11 @@ https://www.smashingmagazine.com/2019/04/display-two-value/
 
 [常规流中的块和内联布局](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Flow_Layout/Block_and_Inline_Layout_in_Normal_Flow)
 
+[WEBKIT 渲染不可不知的这四棵树](https://juejin.cn/post/6844903446391308301)
+[Chromium 网页 Render Object Tree 创建过程分析](https://blog.csdn.net/Luoshengyang/article/details/50615628)
+[CSS Box Model and Positioning](https://www.codeproject.com/Articles/567385/CSSplusBoxplusModelplusandplusPositioning)
+[Render-Tree Construction, Layout, and Paint](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-tree-construction?hl=en)
+
 1. 块级元素 block level element， display block/list-item/table
 1. 块级盒子（block-level box）
 1. 块容器盒子 block containing box
