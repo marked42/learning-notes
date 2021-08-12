@@ -45,14 +45,21 @@ padding
 [流式布局](https://developer.mozilla.org/zh-CN/docs/Web/CSS/display#css_flow_layout_display_block_display_inline)
 
 双关键字形式 [display](https://developer.mozilla.org/en-US/docs/Web/CSS/display/two-value_syntax_of_display)
+https://www.smashingmagazine.com/2019/04/display-two-value/
 
 [常规流中的块和内联布局](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Flow_Layout/Block_and_Inline_Layout_in_Normal_Flow)
 
 [外边距折叠](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing)
 
+[BFC](https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Block_formatting_context)
+https://www.smashingmagazine.com/2017/12/understanding-css-layout-block-formatting-context/
+
 ## 布局（Layout）
 
+http://book.mixu.net/css/
+
 [从 Chrome 源码看浏览器如何计算 CSS](https://mp.weixin.qq.com/s?__biz=MzI0ODA2ODU2NQ==&mid=2651131609&idx=2&sn=3df598084177675024492b6a2b3fb9b5&chksm=f257ce63c520477590331c84a849f4d1df328a98e6cd54799227ca03b4697a8d5b35535d02cc&scene=21#wechat_redirect)
+[从 Chrome 源码看浏览器如何 layout 布局](https://mp.weixin.qq.com/s?__biz=MzI0ODA2ODU2NQ==&mid=2651131615&idx=2&sn=fcb743ed1448be5a13efb22db7c88107&chksm=f257ce65c5204773ab413d6819c9e1ae0785ccdec0acd1d6acf1781b9a4c8e81258c2506cfec&scene=0&key=31a87ca88902ae43bad5c493b64337c36ee2f4b42d197b5412ee85b74d706c59026b6f7488791cbb25f40fbbb1d374a50ca6a08c79c3f1f2d04337c24db4f0dc0bcc9a80f98c47cc9286de8ac67e1573&ascene=0&uin=MTU5MDQxMTgwOA==&devicetype=iMac%20MacBookPro11,1%20OSX%20OSX%2010.12.4%20build%2816E195%29&version=12020010&nettype=WIFI&fontScale=100&pass_ticket=4GNHpvW%2b%2bQjkuIsGQIH2rty%2b/6fvftft87oMZ1nEqtAaJVpFZVYCUdIVZQiNUZmZ)
 
 布局相关问题
 
