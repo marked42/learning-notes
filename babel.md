@@ -460,7 +460,6 @@ export default function ({ types: t }) {
 
 1. Merge visitors whenever possible
 1. Do not traverse when manual lookup will do
-1.
 
 ### 插件测试
 
