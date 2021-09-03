@@ -196,3 +196,4 @@ TODO:
 1. [WebCore Rendering](https://trac.webkit.org/wiki/WebCoreRendering)
 1. [Efficiently Rendering CSS](https://css-tricks.com/efficiently-rendering-css/)
 1. [Rendering: repaint, reflow/relayout, restyle](https://www.phpied.com/rendering-repaint-reflowrelayout-restyle/)
+1. http://www.nowamagic.net/academy/part/48/115/#
