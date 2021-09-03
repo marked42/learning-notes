@@ -379,6 +379,7 @@ TODO: babel 插件机制的设计
 官方的[插件列表](https://babeljs.io/docs/en/plugins-list)
 [官方插件实现分析](https://space.bilibili.com/228173207?spm_id_from=333.788.b_765f7570696e666f.2)
 选择若干典型案例
+https://www.sitepoint.com/understanding-asts-building-babel-plugin/?spm=taofed.bloginfo.blog.10.22bb5ac8m6A7NK
 
 @babel/plugin-proposal-nullish-coalescing-operator
 @babel/plugin-proposal-optional-chaining
@@ -544,6 +545,8 @@ custom parser syntax
 1. [curry function](https://lihautan.com/creating-custom-javascript-syntax-with-babel/)
 
 ## babel-loader
+
+## sourcemap
 
 ## 资料
 

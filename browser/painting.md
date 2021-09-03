@@ -44,3 +44,5 @@ z-index 只能改变同层的元素前后关系，一层的元素绘制在一起
 [High Performance Animations](https://www.html5rocks.com/en/tutorials/speed/high-performance-animations/)
 [16 毫秒的优化](https://github.com/puterjam/speed_render)
 [GPU Accelerated Compositing in Chrome](http://www.chromium.org/developers/design-documents/gpu-accelerated-compositing-in-chrome)
+
+1. [小数像素问题](https://fed.taobao.org/blog/taofed/do71ct/mobile-rem-problem/?spm=taofed.blogs.blog-list.1.71585ac87cGEjF) [LayoutUnit](https://trac.webkit.org/wiki/LayoutUnit?spm=taofed.bloginfo.blog.2.6c895ac8nX9U1j)
