@@ -5,3 +5,5 @@
 1. [世界上有哪些代码量很少，但很牛逼很经典的算法或项目案例？](https://www.zhihu.com/question/358255792/answer/974431591)
 1. [Leetcode Animation](https://github.com/MisterBooo/LeetCodeAnimation)
 1. [algorithm visualizer](https://github.com/algorithm-visualizer/algorithm-visualizer)
+
+1. hash 算法
