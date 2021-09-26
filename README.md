@@ -78,7 +78,7 @@
    1. 设计模式例子
    1. vue-router 路由库
    1. vuex 状态管理库
-   1. code diff editor
+   1. [code diff editor](https://fed.taobao.org/blog/taofed/do71ct/how-to-display-git-diff/?spm=taofed.blogs.blog-list.4.18be5ac8oJK4PP)
    1. [Build Your Own Frontend Framework](https://github.com/danistefanovic/build-your-own-x#build-your-own-front-end-framework--library)
    1. [Template Engine](https://github.com/danistefanovic/build-your-own-x#build-your-own-template-engine)
 
