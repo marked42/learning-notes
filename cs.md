@@ -94,6 +94,8 @@ https://github.com/ossu/computer-science
    1. [ReactJS 自制编译器](https://www.bilibili.com/video/BV1BJ411p71e?p=2)
    1. [新手上路学习 JavaScript 引擎实现——路线图](https://zhuanlan.zhihu.com/p/20505562)
    1. http://www.pur3.co.uk/TinyJS
+   1. https://hllvm-group.iteye.com/group/topic/37596
+   1. https://zhuanlan.zhihu.com/p/25042028
 1. JSON parser
    1. https://github.com/cheery/json-algorithm
    1. [如何编写一个 JSON 解析器](https://www.liaoxuefeng.com/article/994977272296736)
@@ -127,6 +129,12 @@ https://github.com/ossu/computer-science
 1. 异常机制
 
    1. [C++ exceptions under the hood](https://zhuanlan.zhihu.com/p/406894769)
+
+1. 闭包
+
+   1. https://mrale.ph/blog/2012/09/23/grokking-v8-closures-for-fun.html
+   1. https://blog.mozilla.org/luke/2012/10/02/optimizing-javascript-variable-access/
+   1. the implementation of lua 5.0
 
 1. [library genisis](http://libgen.rs/search.php?req=the+little+typer&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=def)
 1. [Software foundations](https://softwarefoundations.cis.upenn.edu/)
