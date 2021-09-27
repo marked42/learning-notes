@@ -14,6 +14,7 @@ https://github.com/sindresorhus/awesome
 
 1. ucore 清华大学课程
 1. [OS xv6 6.828](https://pdos.csail.mit.edu/6.828/2018/schedule.html) [videos](https://www.bilibili.com/video/BV1px411E7ST)
+1. [6.824 分布式 Lab](http://nil.csail.mit.edu/6.824/2018/schedule.html)
 1. [MIT6.828-神级 OS 课程-要是早遇到，我还会是这种 five 系列](https://zhuanlan.zhihu.com/p/74028717)
 1. Operating Systems: Three Easy Pieces
 1. 操作系统真象还原
@@ -122,6 +123,24 @@ https://github.com/ossu/computer-science
 1. [自制编程语言](https://book.douban.com/subject/25735333/)
 1. Crafting Interpreters 书籍
 1. language implementation patterns
+1. Linker 《链接器和加载器》 《自己动手构造编译系统：编译、汇编与链接》 《自己动手写编译器、链接器》
+1. 异常机制
+
+   1. [C++ exceptions under the hood](https://zhuanlan.zhihu.com/p/406894769)
 
 1. [library genisis](http://libgen.rs/search.php?req=the+little+typer&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=def)
 1. [Software foundations](https://softwarefoundations.cis.upenn.edu/)
+
+### Python
+
+1. Foundations of Programming Languages
+1. https://www.zhihu.com/question/40787248/answer/88477685
+1. [Generational GC in Python and Ruby](http://patshaughnessy.net/2013/10/30/generational-gc-in-python-and-ruby)
+1. [Faster CPython](https://faster-cpython.readthedocs.io/)
+1. [Inside The virtual Machine]()
+1. [Python Internal A Ten-hour codewalk through the Python interpreter source code](https://www.youtube.com/playlist?list=PLzV58Zm8FuBL6OAv1Yu6AwXZrnsFbbR0S)
+
+### 函数式编程
+
+1. lambda 演算
+1. 高效不可变数据结构 Chris Okasaki https://www.cs.cmu.edu/~rwh/theses/okasaki.pdf 论文与书籍

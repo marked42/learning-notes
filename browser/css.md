@@ -31,6 +31,8 @@ CSS 是上下文无关文法， [规范](https://www.w3.org/TR/CSS2/grammar.html
 
 资料
 
+1. https://css-tricks.com/what-is-vertical-align/
+
 1. [Let's Build A Browser Engine](https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html)
 1. https://zhuanlan.zhihu.com/p/267488164
 1. [How Browsers Work: Behind the scenes of modern web browsers](https://www.html5rocks.com/en/tutorials/internals/howbrowserswork/)
