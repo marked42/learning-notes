@@ -1,5 +1,11 @@
 # VM
 
+## 执行模型
+
+1. 堆和栈
+1. 基于栈的基础漆
+1. 基于堆的寄存器
+
 ## 主流的实现
 
 parsers & engines
@@ -42,3 +48,25 @@ parsers & engines
 ## JSX 语法
 
 [JSX AST](https://github.com/facebook/jsx)
+
+## 运行环境
+
+全局环境、Exotic Object 宿主环境
+
+## 事件循环
+
+v8 采用事件循环机制在主线程执行 JS 代码
+
+## 垃圾回收
+
+garbage collection
+
+## Lazy Parsing
+
+闭包机制与懒解析策略，预解析器
+
+## 闭包
+
+1.  https://mrale.ph/blog/2012/09/23/grokking-v8-closures-for-fun.html
+1.  https://blog.mozilla.org/luke/2012/10/02/optimizing-javascript-variable-access/
+1.  the implementation of lua 5.0

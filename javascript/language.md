@@ -2,7 +2,7 @@
 
 1. 词法与语法
 1. Javascript 脚本运行模型
-1. 值与对象
+1. 值与对象 原型链 new Test() new 函数调用 obj.**proto** -> Test.prototype 隐藏属性使用，不建议使用**proto** 非标准，性能问题
 1. 作用域链
 1. 函数
 1. 闭包

@@ -130,12 +130,6 @@ https://github.com/ossu/computer-science
 
    1. [C++ exceptions under the hood](https://zhuanlan.zhihu.com/p/406894769)
 
-1. 闭包
-
-   1. https://mrale.ph/blog/2012/09/23/grokking-v8-closures-for-fun.html
-   1. https://blog.mozilla.org/luke/2012/10/02/optimizing-javascript-variable-access/
-   1. the implementation of lua 5.0
-
 1. [library genisis](http://libgen.rs/search.php?req=the+little+typer&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=def)
 1. [Software foundations](https://softwarefoundations.cis.upenn.edu/)
 
