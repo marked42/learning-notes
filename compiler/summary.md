@@ -6,12 +6,34 @@
 
 前端 中端 后端
 
-词法分析 -> 语法分析 -> 语意分析 -> 中间代码 -> 优化 -> 字节码 -> 机器码
+词法解析 -> 语法解析 -> 语意分析 (semantic analysis) -> 中间代码 -> 优化 -> 字节码 -> 机器码
 
 1. parsing
+1. 语义分析
+   1. 符号、作用域 抽象数据结构符号表 (abstract data structure symbol table)
+      1. 全局作用域 同名符号定义，后面覆盖前边
+      1. 局部作用域
+      1. 嵌套作用域 内层作用域可以看到外层作用域定义的变量，内层作用域声明的符号覆盖外层作用域同名符号，如果形成 scope tree 每种作用域什么时候创建，添加到栈顶，什么时候结束
+   1. 静态类型检查
 1. IR generating
+   1. ast [参考](#LIP)
 1. 执行模型 syntax directed/ast tree walk/ activation record
 1. optimization
+1. 语言特性
+   1. 闭包机制
+   1. 面向对象
+   1. 垃圾收集
+
+作用域四个功能
+
+```java
+public interface Scope {
+	public String getScopeName();
+	public Scope getEnclosingScope();
+	public void define(Symbol symbol);
+	public Symbol resolve(String name);
+}
+```
 
 forward reference 限制在类语法中。
 
@@ -66,4 +88,5 @@ attribute grammar 使用属性语法描述？
 
 ## 参考资料
 
-1. <span > Modern Compiler Implementation In C
+1. <span id="MCIIC"> Modern Compiler Implementation In C
+1. <span id="LIP"> Language Implementation Patterns
