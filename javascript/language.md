@@ -19,6 +19,8 @@ Spec
 1. https://timothygu.me/es-howto/?spm=taofed.bloginfo.blog.35.2c2e5ac8DuBYAN
 1. https://v8.dev/blog/tags/understanding-ecmascript
 1. [The Essence of Javascript](https://blog.brownplt.org/2011/09/29/js-essence.html)
+1. http://crockford.com/javascript/
+1. https://www.iteye.com/category/22618
 
 Javascript 规范解读 ES5 之前
 

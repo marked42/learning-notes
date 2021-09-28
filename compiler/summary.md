@@ -17,10 +17,27 @@
    1. 静态类型检查
 1. IR generating
    1. ast [参考](#LIP)
+   1. control flow graph
+   1. static single assignment
+   1. continuation passing style
+   1. three address code
 1. 执行模型 syntax directed/ast tree walk/ activation record
 1. optimization
+   1. [On Stack Replacement](https://wingolog.org/archives/2011/06/20/on-stack-replacement-in-v8)
 1. 语言特性
    1. 闭包机制
+      1. 闭包与对象等价 https://www.iteye.com/blog/rednaxelafx-245022
+      1. https://www.zhihu.com/question/48850636/answer/113181336
+      1. https://www.zhihu.com/question/27416568/answer/36565794
+      1. https://blog.mozilla.org/luke/2012/10/02/optimizing-javascript-variable-access/
+      1. https://mrale.ph/blog/2012/09/23/grokking-v8-closures-for-fun.html
+      1. http://www.lua.org/pil/27.3.3.html
+      1. http://www.lua.org/pil/6.1.html
+      1. 龙书第 7 张 Access to Nonlocal Names
+      1. PLP 3.6 The Binding of Referencing Environments
+      1. https://www.zhihu.com/question/34499262/answer/59415153
+      1. https://www.zhihu.com/question/31208722/answer/51050003
+      1. https://www.zhihu.com/question/33920941/answer/57597076
    1. 面向对象
    1. 垃圾收集
 
