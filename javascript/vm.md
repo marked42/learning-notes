@@ -92,9 +92,20 @@ let point2 = { y: 100, x: 200 }
 
 v8 采用事件循环机制在主线程执行 JS 代码
 
+宏任务、微任务、和栈溢出
+
+1. 微任务队列，微任务检查点 check point
+1. 宏任务队列，一个宏任务执行完成后进入微任务检查点
+
 ## 垃圾回收
 
 garbage collection
+
+1. mark sweep
+1. parallel
+1. tri-color mark
+1. incremental
+1. concurrent
 
 ## Lazy Parsing
 

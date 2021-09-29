@@ -1,4 +1,4 @@
-# Name Scope & Binding
+# 名称、作用域、绑定、闭包
 
 概念
 
@@ -150,3 +150,38 @@ deep binding 的情况**只会出现在**允许函数嵌套定义，而且变量
 1. 在程序结束时才回收，无限期延长其生命周期。
 1. 垃圾回收算法决定，在对象不肯能再被以任何方式使用时回收。
 1. 更精确的对象声明周期分析，在对象声明周期结束后回收，rust 引入声明周期标志的处理方法？
+
+作用域四个功能
+
+```java
+public interface Scope {
+	public String getScopeName();
+	public Scope getEnclosingScope();
+	public void define(Symbol symbol);
+	public Symbol resolve(String name);
+}
+```
+
+forward reference 限制在类语法中。
+
+将 AST 节点和 Scope Tree 互相关联起来，这样在对 AST 进行解释执行或者代码分析时利用上 Scope Tree 的信息。
+
+incremental analysis 对于 IDE 提供编程智能提示功能非常有用。
+
+如果 AST 结构改变怎么处理，Scope Tree 如何更新？
+
+语言概念列表
+
+1. Type 类型，包括内置类型、自定义类型 Class/Struct
+1. Symbol 符号
+   1. VariableSymbol
+   1. ScopedSymbol
+      1. ClassSymbol
+      1. StructSymbol
+      1. 函数 FunctionSymbol
+1. Scope 作用域
+   1. 全局作用域 Global Scope
+   1. 局部作用域 Local Scope
+   1. 函数作用域 Function Scope
+
+两趟构建作用域树，第一遍声明、第二遍引用

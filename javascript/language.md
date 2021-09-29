@@ -8,6 +8,10 @@
 1. 闭包
 1. OOP
 1. 异步
+   1. call back
+   1. Promise
+   1. generator function 协程的概念 函数暂停与恢复执行、 co 框架
+   1. async/await
 1. 模块机制
 
 ## 语言特性及规范

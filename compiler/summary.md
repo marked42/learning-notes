@@ -25,56 +25,8 @@
 1. optimization
    1. [On Stack Replacement](https://wingolog.org/archives/2011/06/20/on-stack-replacement-in-v8)
 1. 语言特性
-   1. 闭包机制
-      1. 闭包与对象等价 https://www.iteye.com/blog/rednaxelafx-245022
-      1. https://www.zhihu.com/question/48850636/answer/113181336
-      1. https://www.zhihu.com/question/27416568/answer/36565794
-      1. https://blog.mozilla.org/luke/2012/10/02/optimizing-javascript-variable-access/
-      1. https://mrale.ph/blog/2012/09/23/grokking-v8-closures-for-fun.html
-      1. http://www.lua.org/pil/27.3.3.html
-      1. http://www.lua.org/pil/6.1.html
-      1. 龙书第 7 张 Access to Nonlocal Names
-      1. PLP 3.6 The Binding of Referencing Environments
-      1. https://www.zhihu.com/question/34499262/answer/59415153
-      1. https://www.zhihu.com/question/31208722/answer/51050003
-      1. https://www.zhihu.com/question/33920941/answer/57597076
    1. 面向对象
    1. 垃圾收集
-
-作用域四个功能
-
-```java
-public interface Scope {
-	public String getScopeName();
-	public Scope getEnclosingScope();
-	public void define(Symbol symbol);
-	public Symbol resolve(String name);
-}
-```
-
-forward reference 限制在类语法中。
-
-将 AST 节点和 Scope Tree 互相关联起来，这样在对 AST 进行解释执行或者代码分析时利用上 Scope Tree 的信息。
-
-incremental analysis 对于 IDE 提供编程智能提示功能非常有用。
-
-如果 AST 结构改变怎么处理，Scope Tree 如何更新？
-
-语言概念列表
-
-1. Type 类型，包括内置类型、自定义类型 Class/Struct
-1. Symbol 符号
-   1. VariableSymbol
-   1. ScopedSymbol
-      1. ClassSymbol
-      1. StructSymbol
-      1. 函数 FunctionSymbol
-1. Scope 作用域
-   1. 全局作用域 Global Scope
-   1. 局部作用域 Local Scope
-   1. 函数作用域 Function Scope
-
-两趟构建作用域树，第一遍声明、第二遍引用
 
 ## 类型检查
 
