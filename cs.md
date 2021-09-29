@@ -127,11 +127,10 @@ https://github.com/ossu/computer-science
 1. language implementation patterns
 1. Linker 《链接器和加载器》 《自己动手构造编译系统：编译、汇编与链接》 《自己动手写编译器、链接器》
 1. 异常机制
+1. [C++ exceptions under the hood](https://zhuanlan.zhihu.com/p/406894769)
 
-   1. [C++ exceptions under the hood](https://zhuanlan.zhihu.com/p/406894769)
-
-1. [library genisis](http://libgen.rs/search.php?req=the+little+typer&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=def)
 1. [Software foundations](https://softwarefoundations.cis.upenn.edu/)
+1. 书单 https://www.douban.com/doulist/138361510/
 
 ### Python
 

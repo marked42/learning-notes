@@ -82,8 +82,22 @@ int main() {
 1. https://mrale.ph/blog/2012/09/23/grokking-v8-closures-for-fun.html
 1. http://www.lua.org/pil/27.3.3.html
 1. http://www.lua.org/pil/6.1.html
-1. 龙书第 7 章 Access to Nonlocal Data on the Stack
-1. PLP 3.6 The Binding of Referencing Environments
 1. https://www.zhihu.com/question/34499262/answer/59415153
 1. https://www.zhihu.com/question/31208722/answer/51050003
 1. https://www.zhihu.com/question/33920941/answer/57597076
+
+1. Advanced Compiler Design And Implementation Chapter 5.4 Run-Time Support
+1. Modern Compiler Implementation In C Chapter 6.1 Stack Frames
+1. Programming Language Pragmatics Chapter 3.6 The Binding of Referencing Environments
+1. Concepts of Programming Languages Chapter 5 Names, Bindings, and Scopes
+1. Compilers Principles, Techniques & Tools Chapter 7 Run-Time Environments
+1. Engineering a Compiler Chapter 6 The Procedure Abstraction
+
+## TODO
+
+1. access link/static link/dynamic link
+1. display
+1. precall sequence
+1. postcall sequence
+1. prologue sequence
+1. epilogue sequence
