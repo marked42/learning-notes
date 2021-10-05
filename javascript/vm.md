@@ -53,6 +53,8 @@ let point2 = { y: 100, x: 200 }
 // 尽量不使用delete删除对象属性
 ```
 
+http://richardartoul.github.io/jekyll/update/2015/04/26/hidden-classes.html
+
 ### 内联缓存
 
 ## 特性实现参考

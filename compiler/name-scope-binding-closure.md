@@ -1,4 +1,4 @@
-# 名称、作用域、绑定、闭包
+# 绑定与作用域
 
 ## 绑定 Binding
 
@@ -32,28 +32,67 @@ elaboration time 值绑定首次激活的时候。
 
 ### 静态作用域
 
-1. Basic 语言，只有一个全局作用域，几百个全局变量，不用声明直接使用。
-1. pre-Fortran 90，区分全局作用域和函数局部作用域，局部作用域变量可以显示声明，也可以隐式声明。C 语言中在函数内使用 static 关键自声明全局变量。
-1. Algo 60 嵌套的函数 **closest nested scope rule** for bindings from names to objects:
+静态作用域分为全局作用域和局部作用域（块级作用域、函数作用域）。
 
-1. 语言内置对象或者类型标识符存在于局部作用域和全局作用域之外的最外层作用域（outermost scope)，某些语言中这个最外层作用域的角色就由全局作用域充当。
+Basic 语言，只有一个全局作用域，几百个全局变量，不用声明直接使用，C/C++ 中在函数外定义的变量处于全局作用域，全局作用域中的变量可以在任意位置使用。
 
-1. 作用域中的名称绑定被嵌套作用域中同名变量隐藏时，称作外层作用域有了一个空洞（hole）。 A name-to-object binding that is hidden by a nested declaration of the same name is said to have a hole in its scope 作用域指示符 qualifier or scope resolution operator，c++中使用::name 表示全局作用域.
+块级作用域使用花括号表示，块级作用域内声明的变量只对作用域内部可见，对作用域外部不可见。
 
-嵌套作用域情况下，如何确定一个变量指向那个外层作用域中的对象？
+函数作用域使用函数体作为作用域边界，效果跟块级作用域类似。C/C++中除了普通的局部变量声明还可以使用 static 关键字声明静态局部变量，静态局部变量的作用域还是函数作用域，但是和全局作用域中变量一样编译时静态分配，程序运行过程中只有一份实例，因此不同的函数调用使用的是同一个变量。
 
-1. 栈帧之间需要维护 static link，当前作用域向外 k 层的作用域中存在变量 a，那么沿着 static link 向外 k 层对应的栈帧中就保存着对应的函数局部变量，然后在通过 frame pointer + displacement 位置偏移就能找到变量对应对象。
-1. 嵌套函数被作为参数或者返回值传递，可能会在外层作用域 inactive 的情况下被调用，这时候外层作用域对应的栈帧 frame 已经消失了。也就是闭包的情况。这时如何找到变量名 a 对应的对象？Section 9.2 。函数嵌套作用域，如何确定函数内标识符指向那个变量，因为运行时函数栈和静态作用域并不一致。
+局部作用域支持嵌套，在嵌套作用域中根据最近嵌套作用域规则（closest nested scope rule）确定名称引用的绑定。从当前作用域开始，沿着包围当前作用域的外层作用域逐层寻找直到全局作用域，在每层作用域中寻找是否存在名称为 x 的绑定，第一个找到的也就是最近嵌套作用域的绑定 x 就是当前作用域中名称 x 使用的绑定。
 
-作用域链 static parent, static ancestors
+嵌套作用域中名称 x 确定对应绑定的机制造成内层作用域的名称 x 会使得外层作用域同名的绑定 x 不可见（invisible），也称为遮挡（shadowing）。C++中可以使用作用于前缀 my_proc.x 来明确访问函数 my_proc 中的名称 x，或者::x 来明确访问全局作用域中的名称 x，这样可以绕过同名遮挡机制。Javascript 等语言中没有提供作用域前缀的方式，无法访问被遮挡的名称。
 
-#### 声明顺序问题 Declaration Order
+#### 声明顺序 Declaration Order
 
-一个作用域中，变量在被声明之前的部分能够使用么？变量的作用域是整个括号作用域的范围还是变量声明开始到作用域结束的范围。
+局部作用域的范围界定存在一个微妙的问题，对于局部作用域 B 中声明的对象 X，X 的作用域是指整个 B 的范围（whole block）还是从 X 的声明位置开始到 B 的结束位置（declaration before use）。这两种不同的定义对于对象 X 先使用后声明的情况有不同的处理。
 
-早期语言 Algol 60 and Lisp 通过要求函数中所有局部变量都要在开头统一声明，然后才能使用，但是这种做法还会存在声明的变量互相引用的问题。
+C 等早期语言因为编译器的实现采用一趟编译的策略（single pass compilation）所以自然的采用了从声明开始到作用域结束的方案，C++/Java 沿用同样方案。下面的 C 程序中嵌套的局部变量 b 的初始化语句中使用的变量 a 指的是外层作用域的变量。
 
-如果采取变量作用于是从变量声明所在行到作用于结束的方案，那么所有变量使用前都必须先声明。对于互相引用的函数、递归定义的类型等情况，存在问题。C 语言采用将声明和定义分开的方法解决这个问题。两种方案 whole block 和 declaration before use。
+```c
+#include <stdio.h>
+
+int main() {
+   int a = 1;
+   {
+      // b = 1
+      int b = a;
+      int a = 2;
+
+	   printf("b: %d", b);
+   }
+}
+```
+
+早期语言 Algol 60 and Lisp 通过要求函数中所有局部变量都要在开头统一声明然后再使用的方法来避免这个问题，但是这种做法无法解决递归引用的问题。C 语言将声明和定义区分开来，使用前置声明来解决递归引用。
+
+```c
+// 递归结构体
+struct manager;
+struct employee {
+   struct manager *boss;
+   struct employee *next_employee;
+};
+
+struct manager {
+   struct employee *first_employee;
+};
+
+// 递归函数
+void list_tail(follow_set fs);
+void list(follow_set fs) {
+   list_tail(fs);
+}
+
+void list_tail(follow_set fs) {
+   list(fs);
+}
+```
+
+C++/Java/C#等面向对象语言中对于先声明后使用的规则进行了放宽，类的成员定义无顺序要求，可以用任意顺序定义和使用。
+
+Javascript 中绑定的作用域采用整个局部作用域方案，但是声明位置到局部作用域开头的区域被称为暂时性死区（temporal dead zone），在这个区域使用变量
 
 ```
 let a = 1;
@@ -84,6 +123,8 @@ void sub() {
 
 Declaration Order 声明顺序
 
+#### 声明与定义（Declaration & Definition）
+
 C89 中函数中所有变量声明必须位于函数开头，除了嵌套的块级作用域中。
 
 先声明后使用
@@ -108,6 +149,15 @@ dynamic parent 也就是 caller 的栈帧
 Symbol Table 或者 central reference\Association List
 
 A symbol table with visibility support can be implemented in several different ways. One appealing approach, due to LeBlanc and Cook [CL83], is described on the companion site, along with both association lists and central reference tables.
+
+#### 非局部对象
+
+局部对象
+
+1. 栈帧之间需要维护 static link，当前作用域向外 k 层的作用域中存在变量 a，那么沿着 static link 向外 k 层对应的栈帧中就保存着对应的函数局部变量，然后在通过 frame pointer + displacement 位置偏移就能找到变量对应对象。
+1. 嵌套函数被作为参数或者返回值传递，可能会在外层作用域 inactive 的情况下被调用，这时候外层作用域对应的栈帧 frame 已经消失了。也就是闭包的情况。这时如何找到变量名 a 对应的对象？Section 9.2 。函数嵌套作用域，如何确定函数内标识符指向那个变量，因为运行时函数栈和静态作用域并不一致。
+
+作用域链 static parent, static ancestors
 
 ## 变量
 
@@ -240,3 +290,5 @@ incremental analysis 对于 IDE 提供编程智能提示功能非常有用。
 ## Reference
 
 1. <span id="plp3.1">Programming Language Pragmatics Chapter 3.1 The Notion of Binding Time</span>
+
+1. Programming Language Pragmatics Chapter 3.3 Scope Rules / Access to Nonlocal Objects Page 128
