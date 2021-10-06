@@ -231,6 +231,23 @@ C/C++使用 const 关键字表示运行时常量，新增了 constexpr 表示编
 
 C# const 关键字表示编译时常量，readonly 关键字表示运行时常量（或者叫只读变量）。
 
+全局变量
+静态局部变量（static local variable）
+局部变量
+非局部变量
+
+C 语言中变量只能是声明在函数之外顶层环境的全局变量，或者是声明在函数内的局部变量，并且不支持嵌套函数声明。
+
+```c
+int global = 0;
+
+int main() {
+	const char* local = "tom";
+	print(local);
+	return 0;
+}
+```
+
 ## 作用域的实现
 
 Symbol Table 或者 central reference\Association List

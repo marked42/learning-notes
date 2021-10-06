@@ -8,9 +8,6 @@ TODO:
 1. calling sequence 如何形成维护栈帧
 1. static chain nonlocal variable nested subroutines
 1. closure
-1. 参数传递和返回值 parameter passing / return
-1. 异常 iterator/generator
-1. 协程 coroutine
 
 ## 栈帧（Stack Frame）
 
@@ -75,8 +72,55 @@ TODO: calling convention C++
 
 传参方式
 
-1. 值 call by value
-1. 引用 call by reference
-1. 闭包 closure call by sharing
+值传递（call by value）值拷贝的形式，两个参数是独立的
+
+引用传递（call by reference）保存地址形式，在函数中可以通过参数修改传入的数据，传入的参数必须是左值 l-value，
+引用传递有两个作用：
+
+1. 值传递需要拷贝，参数无法拷贝或者拷贝操作成本较高的情况下使用，代价是参数访问多了一层间接跳转（indirection）。
+1. 在函数内部要通过形参来修改实参
+
+分享传递（call by sharing） 针对变量本身就是引用类型的说法，实现上还是和值传递一样做拷贝，和引用传递的区别在于参数无法重新绑定到其他对象上。
+
+Java 中基础类型是值传递，其他变量都是对象的引用类型可以解释 call by sharing。
+
+C++中的参数传递例子 值、指针、引用、右值引用等。
+
+C#中区分值类型（struct）和引用类型（class），都使用 call by value 形式，区别在于引用类型变量本身保存的就是变量地址。使用 ref 或者 out 标记参数使用引用 call by reference。
+
+call-by-name
+
+call-by-need
 
 可选参数、默认参数、命名参数、变长参数
+
+1. Essentials of Programming Language
+
+## Closure
+
+COPL 9.12
+
+## Exception Handling 异常机制
+
+PLP 9.4
+COPL 14
+
+## 协程 Coroutine
+
+PLP 9.5
+
+iterator/generator
+
+## Event
+
+PLP 9.6
+COPL 14
+
+## 参考
+
+1. PLP 9
+1. COPL 9
+1. COPL 10
+1. Engineering a Compiler Chapter 6. The Procedure Abstraction
+1. Modern Compiler Implementation in C Chapter 6. Activation Records
+1. Advanced Design and Implementation of Virtual Machines Chapter 8. Stack Unwinding

@@ -48,23 +48,6 @@ function newPerson(name, age) {
 
 ## 变量分类
 
-全局变量
-静态局部变量（static local variable）
-局部变量
-非局部变量
-
-C 语言中变量只能是声明在函数之外顶层环境的全局变量，或者是声明在函数内的局部变量，并且不支持嵌套函数声明。
-
-```c
-int global = 0;
-
-int main() {
-	const char* local = "tom";
-	print(local);
-	return 0;
-}
-```
-
 函数调用特性
 
 1. 递归
@@ -86,7 +69,9 @@ int main() {
 1. https://www.zhihu.com/question/31208722/answer/51050003
 1. https://www.zhihu.com/question/33920941/answer/57597076
 
+1. Closures in Lua
 1. Advanced Compiler Design And Implementation Chapter 5.4 Run-Time Support
+1. Advanced Compiler Design And Implementation Chapter 3 Symbol-Table Structure
 1. Modern Compiler Implementation In C Chapter 6.1 Stack Frames
 1. Programming Language Pragmatics Chapter 3.6 The Binding of Referencing Environments
 1. Concepts of Programming Languages Chapter 5 Names, Bindings, and Scopes

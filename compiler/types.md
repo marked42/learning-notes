@@ -8,3 +8,6 @@
 1. [简评: The Little Typer(可能是最容易理解的关于 Dependent Type 的书)](https://zhuanlan.zhihu.com/p/54532349)
 1. types and programs language
 1. type inheritance & relational theory
+
+1. Concepts of Programming Language Chapter 6
+1. Programming Language Pragmatics Chapter 7/8
