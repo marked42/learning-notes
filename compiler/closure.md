@@ -69,20 +69,11 @@ function newPerson(name, age) {
 1. https://www.zhihu.com/question/31208722/answer/51050003
 1. https://www.zhihu.com/question/33920941/answer/57597076
 
-1. Closures in Lua
-1. Advanced Compiler Design And Implementation Chapter 5.4 Run-Time Support
-1. Advanced Compiler Design And Implementation Chapter 3 Symbol-Table Structure
+1. Compilers Principles, Techniques & Tools Chapter 7 Run-Time Environments
 1. Modern Compiler Implementation In C Chapter 6.1 Stack Frames
 1. Programming Language Pragmatics Chapter 3.6 The Binding of Referencing Environments
 1. Concepts of Programming Languages Chapter 5 Names, Bindings, and Scopes
-1. Compilers Principles, Techniques & Tools Chapter 7 Run-Time Environments
 1. Engineering a Compiler Chapter 6 The Procedure Abstraction
-
-## TODO
-
-1. access link/static link/dynamic link
-1. display
-1. precall sequence
-1. postcall sequence
-1. prologue sequence
-1. epilogue sequence
+1. Advanced Compiler Design And Implementation Chapter 5.4 Run-Time Support
+1. Advanced Compiler Design And Implementation Chapter 3 Symbol-Table Structure
+1. Closures in Lua
