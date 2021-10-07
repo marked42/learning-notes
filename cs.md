@@ -145,3 +145,4 @@ https://github.com/ossu/computer-science
 
 1. lambda 演算
 1. 高效不可变数据结构 Chris Okasaki https://www.cs.cmu.edu/~rwh/theses/okasaki.pdf 论文与书籍
+1. [Why is the main() function always at address 0x00401000 in a simple program?](https://devblogs.microsoft.com/oldnewthing/20211006-00/?p=105770)
