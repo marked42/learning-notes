@@ -1,32 +1,91 @@
 # 深入理解 Javascript 语言
 
-以 ES6 规范文本为依据，对 Javascript 语言的特性进行剖析。
+以 ES6 规范文本为依据，对 Javascript 语言的特性进行剖析，大的主题
 
-1. [JavaScript. The Core: 2nd Edition](http://dmitrysoshnikov.com/ecmascript/javascript-the-core-2nd-edition/)
+Deepdive Into Javascript
+
+- Concepts & Application Patterns & Implementation
+
+1. 语言特性的应用，并且从规范中剖析其原理
+1. JS 的典型问题场景与模式
+1. 从实现 JS 引擎的角度进行解读
 
 ## 词法与语法
 
 1. Javascript 脚本运行模型
+1. Spec Chapter 10 Source Code
+1. Spec Chapter 11 Lexical Grammar
 
 ## 值与对象
+
+TODO: Spec Chapter 6 Data Types & Values
+
+基础值 Primitive Type/Object
+
+1. string, `typeof 'hello' === 'string'`
+1. number, `typeof 1.0 === 'number'`
+1. boolean, `typeof true === 'boolean'`
+1. null, `typeof null === 'object'`
+1. undefined, `typeof undefined === 'undefined'`
+1. symbol (ES6), `typeof Symbol() === 'symbol'`
+1. object, `typeof {a: 1} === 'object'`
+
+使用 Object.prototype.toString.call
+
+Notice that, value `null` if of type `null`, but `typeof null` returns 'object',
+this is an bug because of implementation （TODO: 以具体的引擎实现例子来解释）
+
+对象 是 一组属性 (properties) 和 一个原型属性 （`__proto__` 已被标准化） 的组合。
+
+运行时（run time）访问一个对象上属性 x 的过程称为动态派发 dynamic dispatch 和 基于类的面向对象语言中调用需函数效果相同
+
+原型链，需要一个完整的原型链例子，包含原型链的根部，Function.prototype Object.prototype 等。
+
+1. 值与对象 原型链 new Test() new 函数调用 obj.**proto** -> Test.prototype 隐藏属性使用，不建议使用**proto** 非标准，性能问题
 
 ### delete 操作符的含义
 
 1.  [ECMA-262-5 in detail. Chapter 1. Properties and Property Descriptors.](http://dmitrysoshnikov.com/ecmascript/es5-chapter-1-properties-and-property-descriptors/)
 
+### 类型转换
+
+1. 什么时候发生类型转换
+1. 转换具体过程如何 ToPrimitive
+1. 显式的类型转换写法
+1. [what is {} + {}](https://2ality.com/2012/01/object-plus-object.html)
+
+```js
+Number('1')
+!1
+;+new Date()
+void 0
+Boolean({}) // true
+
+typeof a === undefined
+```
+
+1. 臭名昭著的 Javascript 真值表
+1. 一个面试题 valueOf, toString [a == 1 && a == 2 && a == 3](https://stackoverflow.com/questions/48270127/can-a-1-a-2-a-3-ever-evaluate-to-true)
+
+### 相等性判断
+
+1. `==`
+1. `===` https://tc39.es/ecma262/#sec-strict-equality-comparison
+1. `Object.is` https://tc39.es/ecma262/#sec-samevalue
+
+https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Equality_comparisons_and_sameness
+
 ## 运行环境与作用域
 
-1. 值与对象 原型链 new Test() new 函数调用 obj.**proto** -> Test.prototype 隐藏属性使用，不建议使用**proto** 非标准，性能问题
 1. 作用域链
-1. Execution Context 全局、函数、模块，eval，new Function
-
-   1. 全局作用域，使用变量可以访问全局对象上的属性，或者 global/window/globalThis 访问全局对象本身。
-   1. VariableObject 是 ES5 之前的说法，全局作用域对象，ActionObject 代表函数作用域对象，ES6 中被 LexicalEnvironment 概念代替。
-   1. 函数作用域内特殊变量 arguments arguments 变量是拷贝还是引用，函数调用前准备 Lexical Environment，形参和 arguments 变量。 有哪些要处理 变量声明 var / let / const /FunctionDeclaration/ arguments / this / super / ClassDeclaration
-   1. 函数表达式可以匿名，不添加对应变量，但是有名称的函数表达式内可以使用名称形成递归调用。类表达式
-   1. 名称是否允许重复，那个具有更高优先级？ var / function 允许 / let / const
-   1. 函数调用分成两步 准备调用环境，执行函数代码。
-   1. var a = 1 声明了变量 a; 和 a = 1 只是隐式的在全局对象上增加了属性 a，没有声明变量。区别的例子。
+1. Execution Context global、function、module，eval，new Function
+1. 全局作用域，使用变量可以访问全局对象上的属性，或者 global/window/globalThis 访问全局对象本身。
+1. VariableObject 是 ES5 之前的说法，全局作用域对象，ActionObject 代表函数作用域对象，ES6 中被 LexicalEnvironment 概念代替。
+1. 函数作用域内特殊变量 arguments arguments 变量是拷贝还是引用，函数调用前准备 Lexical Environment，形参和 arguments 变量。 有哪些要处理 变量声明 var / let / const /FunctionDeclaration/ arguments / this / super / ClassDeclaration
+1. 函数表达式可以匿名，不添加对应变量，但是有名称的函数表达式内可以使用名称形成递归调用。类表达式
+1. 名称是否允许重复，那个具有更高优先级？ var / function 允许 / let / const
+1. 函数调用分成两步 准备调用环境，执行函数代码。
+1. var a = 1 声明了变量 a; 和 a = 1 只是隐式的在全局对象上增加了属性 a，没有声明变量。区别的例子。
 
 ```js
 alert(a) // undefined
@@ -35,6 +94,18 @@ alert(b) // "b" is not defined
 b = 10
 var a = 20
 ```
+
+EnvironmentRecord 类型
+
+1. ObjectEnvironmentRecord global/with/ function expression
+1. DeclarativeEnvironmentRecord
+1. FunctionEnvironmentRecord
+1. ModuleEnvironmentRecord
+
+两个过程的细节
+
+1. Identifier Resolution
+1. 属性访问
 
 ### 变量与作用域
 
@@ -90,6 +161,52 @@ console.log(ref.x) // {n:2}
 })()
 ```
 
+静态作用域 函数作为参数 downwards funarg problem
+
+```js
+let x = 10
+
+function foo() {
+  console.log(x)
+}
+
+function bar(funArg) {
+  let x = 20
+  funArg() // 10, not 20!
+}
+
+// Pass `foo` as an argument to `bar`.
+bar(foo)
+```
+
+upwards funarg problem
+
+```js
+function foo() {
+  let x = 10
+
+  // Closure, capturing environment of `foo`.
+  function bar() {
+    return x
+  }
+
+  // Upward funarg.
+  return bar
+}
+
+let x = 20
+
+// Call to `foo` returns `bar` closure.
+let bar = foo()
+
+bar() // 10, not 20!
+```
+
+nonlocal variable
+自由变量（free variable）指被嵌套函数捕获并且嵌套函数返回的情况下生命周期需要延长的变量，函数执行环境销毁时自由变量需要继续存在。
+
+简单的实现可以保存执行环境中的所有变量，准确的的实现是指捕获自由变量。
+
 #### 语句的块级作用域
 
 ```js
@@ -143,12 +260,23 @@ setTimeout(()=>console.log(i), 1000);
 1.  Chapter 18 Global Object
 1.  Chapter 19 Fundamental Objects
 
+### Realm
+
+Spec 8.2 Code Realm
+
+Realm: A code realm is an object which encapsulates a separate global environment.
+
+a direct realm equivalent in browser environment is the iframe element, which exactly provides a custom global environment. In Node.js it is close to the sandbox of the vm module.
+
+### This
+
+1.  [ECMA-262-3 in detail. Chapter 3. This](http://dmitrysoshnikov.com/ecmascript/chapter-3-this/)
+1.  https://stackoverflow.com/questions/3127429/how-does-the-this-keyword-work/3127440#3127440
+1.  [ECMA-262-3 in detail. Chapter 4. Scope chain](http://dmitrysoshnikov.com/ecmascript/chapter-4-scope-chain/)
+
 ## 函数
 
 函数\ 闭包
-
-1.  [ECMA-262-3 in detail. Chapter 3. This](http://dmitrysoshnikov.com/ecmascript/chapter-3-this/)
-1.  [ECMA-262-3 in detail. Chapter 4. Scope chain](http://dmitrysoshnikov.com/ecmascript/chapter-4-scope-chain/)
 
 1.  [ECMA-262-3 in detail. Chapter 5. Functions.](http://dmitrysoshnikov.com/ecmascript/chapter-5-functions/)
 1.  [ECMA-262-3 in detail. Chapter 6. Closures.](http://dmitrysoshnikov.com/ecmascript/chapter-6-closures/)
@@ -161,14 +289,33 @@ setTimeout(()=>console.log(i), 1000);
 
 ## 类
 
+为什么引入类语法？为了解决多个对象都要使用同一个对象作为原型的情况，没有类的情况下需要手动模拟，配置原型链。
+类是个语法糖，具体都做了哪些处理？使用 构造函数加上原型实现。 TODO: 需要细节
+
 1. [OO Relationships](https://medium.com/@DmitrySoshnikov/oo-relationships-5020163ab162)
 
 ## 异步
 
-    1.  call back
-    1.  Promise
-    1.  generator function 协程的概念 函数暂停与恢复执行、 co 框架
-    1.  async/await
+1.  call back
+1.  Promise
+1.  generator function 协程的概念 函数暂停与恢复执行、 co 框架 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators
+1.  async/await https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
+1.  top level async await
+1.  setTimeout/setInterval 如何实现的
+1.  [web worker](https://www.html5rocks.com/en/tutorials/workers/basics/) 是 HTML 规范的内容
+    agent pattern/ [actor pattern](https://en.wikipedia.org/wiki/Actor_model)
+
+## jobs
+
+1.  spec 8.4 jobs & jobs queues
+
+Jobs are enqueued on the job queues, and in current spec version there are two job queues: ScriptJobs, and PromiseJobs.
+
+And initial job on the ScriptJobs queue is the main entry point to our program — initial script which is loaded and evaluated: a realm is created, a global context is created and is associated with this realm, it’s pushed onto the stack, and the global code is executed.
+
+Notice, the ScriptJobs queue manages both, scripts and modules.
+
+event loop https://gist.github.com/DmitrySoshnikov/26e54990e7df8c3ae7e6e149c87883e4
 
 ## 模块机制
 
@@ -205,6 +352,22 @@ ExportDeclaration : export default HoistableDeclaration
 
 1.  [JavaScript Array “Extras” in Detail](https://dev.opera.com/articles/javascript-array-extras-in-detail/)
 
+数组
+
+Avoid using sparse array.
+
+```javascript
+let a = new Array(1, 2, 3)
+a // [1, 2, 3]
+
+let b = new Array(3) // single parameter 3, no slots
+b.length // 3
+
+let c = Array.apply(null, { length: 3 }) // 3 slots with value as undefined
+
+let c = [undefined, undefined, undefined]
+```
+
 ## 参考资料
 
 _文章_
@@ -213,6 +376,7 @@ _文章_
 1. [ECMAScript 规范阅读导引] [Part 1](https://fed.taobao.org/blog/taofed/do71ct/mlgtox) [Part 1](https://zhuanlan.zhihu.com/p/117308655) [Part 2](https://zhuanlan.zhihu.com/p/118140237)
 1. [How to Read the ECMAScript Specification](https://timothygu.me/es-howto/)
 1. [ES6 规范](https://www.ecma-international.org/publications-and-standards/standards/ecma-262/)
+1. [JavaScript. The Core: 2nd Edition](http://dmitrysoshnikov.com/ecmascript/javascript-the-core-2nd-edition/)
 
 _教程与书籍_
 

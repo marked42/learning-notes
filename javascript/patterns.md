@@ -3,8 +3,11 @@
 1. deep copy
 1. vue publisher/subscriber
 1. throttle/debounce
-1. async
 1. event loop
+1. promise 十道题
+   https://zhuanlan.zhihu.com/p/30797777
+   https://www.zhihu.com/question/62305365/answer/199219185
+   https://www.zhihu.com/question/62305365/answer/198580686
 
 ## Prettier
 
