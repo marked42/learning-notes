@@ -19,6 +19,10 @@ parsers & engines
 1. prettier
 1. https://github.com/v8/v8/blob/6.4.286/src/parsing/scanner.cc
 1. https://github.com/mozilla/narcissus/
+1. https://github.com/doodlewind/minimal-js-runtime
+1. https://ming1016.github.io/2018/04/21/deeply-analyse-javascriptcore/
+1. https://ming1016.github.io/2021/02/21/deeply-analyse-quickjs/
+1. https://blog.fundebug.com/2019/06/18/arrow-function-this/
 
 ### V8
 

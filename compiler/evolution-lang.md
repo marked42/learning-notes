@@ -597,9 +597,9 @@ iterator/generator
 PLP 9.6
 COPL 14
 
-## 参考 Reference
+## 参考资料
 
-_Books_
+_教材_
 
 1. Compilers Principles, Techniques & Tools
    1. Chapter 7 Run-Time Environments
@@ -619,8 +619,6 @@ _Books_
    1. Chapter 6. The Procedure Abstraction
 1. Advanced Design and Implementation of Virtual Machines
    1. Chapter 8. Stack Unwinding
-1. Compilers Principles Techniques and Tools
-   1. Chapter 7
 1. Advanced Compiler Design And Implementation
 
    1. Chapter 3 Symbol-Table Structure
@@ -631,7 +629,7 @@ _Books_
    1. Chapter 6. Tracking and Identifying Program Symbols
    1. Chapter 7. Managing Symbol Tables for Data Aggregates
 
-_Articles_
+_文章_
 
 1. [Programming in Lua Chapter 6.1 Closures](http://www.lua.org/pil/6.1.html)
 1. [Programming in Lua Chapter 27.3.3 Upvalues](http://www.lua.org/pil/27.3.3.html)
