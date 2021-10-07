@@ -1,57 +1,42 @@
-# Language
+# 深入理解 Javascript 语言
 
-1. 词法与语法
+以 ES6 规范文本为依据，对 Javascript 语言的特性进行剖析。
+
+1. [JavaScript. The Core: 2nd Edition](http://dmitrysoshnikov.com/ecmascript/javascript-the-core-2nd-edition/)
+
+## 词法与语法
+
 1. Javascript 脚本运行模型
+
+## 值与对象
+
+### delete 操作符的含义
+
+1.  [ECMA-262-5 in detail. Chapter 1. Properties and Property Descriptors.](http://dmitrysoshnikov.com/ecmascript/es5-chapter-1-properties-and-property-descriptors/)
+
+## 运行环境与作用域
+
 1. 值与对象 原型链 new Test() new 函数调用 obj.**proto** -> Test.prototype 隐藏属性使用，不建议使用**proto** 非标准，性能问题
 1. 作用域链
-1. 函数
-1. 闭包
-1. OOP
-1. 异步
-   1. call back
-   1. Promise
-   1. generator function 协程的概念 函数暂停与恢复执行、 co 框架
-   1. async/await
-1. 模块机制
+1. Execution Context 全局、函数、模块，eval，new Function
 
-## 语言特性及规范
+   1. 全局作用域，使用变量可以访问全局对象上的属性，或者 global/window/globalThis 访问全局对象本身。
+   1. VariableObject 是 ES5 之前的说法，全局作用域对象，ActionObject 代表函数作用域对象，ES6 中被 LexicalEnvironment 概念代替。
+   1. 函数作用域内特殊变量 arguments arguments 变量是拷贝还是引用，函数调用前准备 Lexical Environment，形参和 arguments 变量。 有哪些要处理 变量声明 var / let / const /FunctionDeclaration/ arguments / this / super / ClassDeclaration
+   1. 函数表达式可以匿名，不添加对应变量，但是有名称的函数表达式内可以使用名称形成递归调用。类表达式
+   1. 名称是否允许重复，那个具有更高优先级？ var / function 允许 / let / const
+   1. 函数调用分成两步 准备调用环境，执行函数代码。
+   1. var a = 1 声明了变量 a; 和 a = 1 只是隐式的在全局对象上增加了属性 a，没有声明变量。区别的例子。
 
-Spec
+```js
+alert(a) // undefined
+alert(b) // "b" is not defined
 
-1. Javascript 核心原理解析 周爱民
-1. https://fed.taobao.org/blog/taofed/do71ct/mlgtox/?spm=taofed.blogs.blog-list.1.2beb5ac8IEtTG3
-1. https://timothygu.me/es-howto/?spm=taofed.bloginfo.blog.35.2c2e5ac8DuBYAN
-1. https://v8.dev/blog/tags/understanding-ecmascript
-1. [The Essence of Javascript](https://blog.brownplt.org/2011/09/29/js-essence.html)
-1. http://crockford.com/javascript/
-1. https://www.iteye.com/category/22618
+b = 10
+var a = 20
+```
 
-Javascript 规范解读 ES5 之前
-
-1.  articles
-    1.  [JavaScript 是如何工作的：JavaScript 的内存模型](https://zhuanlan.zhihu.com/p/62449359)
-    1.  [JavaScript. The Core: 2nd Edition](http://dmitrysoshnikov.com/ecmascript/javascript-the-core-2nd-edition/)
-    1.  [ECMA-262-5 in detail. Chapter 0. Introduction](http://dmitrysoshnikov.com/ecmascript/es5-chapter-0-introduction/)
-    1.  [ECMA-262-5 in detail. Chapter 1. Properties and Property Descriptors.](http://dmitrysoshnikov.com/ecmascript/es5-chapter-1-properties-and-property-descriptors/)
-    1.  [ECMA-262-5 in detail. Chapter 2. Strict Mode.](http://dmitrysoshnikov.com/ecmascript/es5-chapter-2-strict-mode/)
-    1.  [ECMA-262-5 in detail. Chapter 3.1. Lexical environments: Common Theory](http://dmitrysoshnikov.com/ecmascript/es5-chapter-3-1-lexical-environments-common-theory/#rules-of-function-creation-and-application)
-    1.  [ECMA-262-5 in detail. Chapter 3.2. Lexical environments: ECMAScript implementation.](http://dmitrysoshnikov.com/ecmascript/es5-chapter-3-2-lexical-environments-ecmascript-implementation/#identifier-resolution)
-    1.  [ECMA-262-3 in detail. Chapter 1. Execution Contexts](http://dmitrysoshnikov.com/ecmascript/chapter-1-execution-contexts/)
-    1.  [ECMA-262-3 in detail. Chapter 2. Variable object](http://dmitrysoshnikov.com/ecmascript/chapter-2-variable-object/)
-    1.  [ECMA-262-3 in detail. Chapter 3. This](http://dmitrysoshnikov.com/ecmascript/chapter-3-this/)
-    1.  [ECMA-262-3 in detail. Chapter 4. Scope chain](http://dmitrysoshnikov.com/ecmascript/chapter-4-scope-chain/)
-    1.  [ECMA-262-3 in detail. Chapter 5. Functions.](http://dmitrysoshnikov.com/ecmascript/chapter-5-functions/)
-    1.  [ECMA-262-3 in detail. Chapter 6. Closures.](http://dmitrysoshnikov.com/ecmascript/chapter-6-closures/)
-    1.  [ECMA-262-3 in detail. Chapter 7.1. OOP: The general theory](http://dmitrysoshnikov.com/ecmascript/chapter-7-1-oop-general-theory/)
-    1.  [ECMA-262-3 in detail. Chapter 7.2. OOP: ECMAScript implementation.](http://dmitrysoshnikov.com/ecmascript/chapter-7-2-oop-ecmascript-implementation/)
-    1.  [ECMA-262-3 in detail. Chapter 8. Evaluation strategy](http://dmitrysoshnikov.com/ecmascript/chapter-8-evaluation-strategy/)
-    1.  [The Quiz](http://dmitrysoshnikov.com/ecmascript/the-quiz/)
-    1.  [OO Relationships](https://medium.com/@DmitrySoshnikov/oo-relationships-5020163ab162)
-    1.  [Note 6. ES6: Default values of parameters](http://dmitrysoshnikov.com/ecmascript/es6-notes-default-values-of-parameters/)
-    1.  [JavaScript Array “Extras” in Detail](https://dev.opera.com/articles/javascript-array-extras-in-detail/)
-    1.  [Javascript Closures](http://jibbering.com/faq/notes/closures/)
-
-## 变量与作用域
+### 变量与作用域
 
 读写未声明的变量会隐式的在全局作用域创建该变量，使用严格模式禁用这种情况。
 
@@ -105,7 +90,7 @@ console.log(ref.x) // {n:2}
 })()
 ```
 
-### 语句的块级作用域
+#### 语句的块级作用域
 
 ```js
 // 一些简单的、显而易见的块级作用域包括：
@@ -152,9 +137,42 @@ setTimeout(()=>console.log(i), 1000);
 
 这就是 for 语句中使用“let/const”这种块级作用域声明所需要付出的代价。
 
-## delete 操作符的含义
+1.  [ECMA-262-5 in detail. Chapter 3.1. Lexical environments: Common Theory](http://dmitrysoshnikov.com/ecmascript/es5-chapter-3-1-lexical-environments-common-theory/#rules-of-function-creation-and-application)
+1.  [ECMA-262-5 in detail. Chapter 3.2. Lexical environments: ECMAScript implementation.](http://dmitrysoshnikov.com/ecmascript/es5-chapter-3-2-lexical-environments-ecmascript-implementation/#identifier-resolution)
+1.  Chapter 8 Executable Code and Execution Context
+1.  Chapter 18 Global Object
+1.  Chapter 19 Fundamental Objects
 
-## Export
+## 函数
+
+函数\ 闭包
+
+1.  [ECMA-262-3 in detail. Chapter 3. This](http://dmitrysoshnikov.com/ecmascript/chapter-3-this/)
+1.  [ECMA-262-3 in detail. Chapter 4. Scope chain](http://dmitrysoshnikov.com/ecmascript/chapter-4-scope-chain/)
+
+1.  [ECMA-262-3 in detail. Chapter 5. Functions.](http://dmitrysoshnikov.com/ecmascript/chapter-5-functions/)
+1.  [ECMA-262-3 in detail. Chapter 6. Closures.](http://dmitrysoshnikov.com/ecmascript/chapter-6-closures/)
+1.  [ECMA-262-3 in detail. Chapter 7.1. OOP: The general theory](http://dmitrysoshnikov.com/ecmascript/chapter-7-1-oop-general-theory/)
+1.  [ECMA-262-3 in detail. Chapter 7.2. OOP: ECMAScript implementation.](http://dmitrysoshnikov.com/ecmascript/chapter-7-2-oop-ecmascript-implementation/)
+
+1.  [ECMA-262-3 in detail. Chapter 8. Evaluation strategy](http://dmitrysoshnikov.com/ecmascript/chapter-8-evaluation-strategy/)
+
+1.  [Note 6. ES6: Default values of parameters](http://dmitrysoshnikov.com/ecmascript/es6-notes-default-values-of-parameters/)
+
+## 类
+
+1. [OO Relationships](https://medium.com/@DmitrySoshnikov/oo-relationships-5020163ab162)
+
+## 异步
+
+    1.  call back
+    1.  Promise
+    1.  generator function 协程的概念 函数暂停与恢复执行、 co 框架
+    1.  async/await
+
+## 模块机制
+
+### Export
 
 ```
 // 这里的语法是 export default FunctionDeclaration，不是匿名函数表达式
@@ -178,3 +196,45 @@ ExportDeclaration : export default HoistableDeclaration
 2. If declarationNames does not include the element "_default_", append "_default_" to
    declarationNames.
 3. Return declarationNames.
+
+## 严格模式
+
+1. [ECMA-262-5 in detail. Chapter 2. Strict Mode.](http://dmitrysoshnikov.com/ecmascript/es5-chapter-2-strict-mode/)
+
+## 内置对象
+
+1.  [JavaScript Array “Extras” in Detail](https://dev.opera.com/articles/javascript-array-extras-in-detail/)
+
+## 参考资料
+
+_文章_
+
+1. Understanding ECMAScript [Part 1](https://v8.dev/blog/understanding-ecmascript-part-1) [Part 2](https://v8.dev/blog/understanding-ecmascript-part-2) [Part 3](https://v8.dev/blog/understanding-ecmascript-part-3) [Part 4](https://v8.dev/blog/understanding-ecmascript-part-4)
+1. [ECMAScript 规范阅读导引] [Part 1](https://fed.taobao.org/blog/taofed/do71ct/mlgtox) [Part 1](https://zhuanlan.zhihu.com/p/117308655) [Part 2](https://zhuanlan.zhihu.com/p/118140237)
+1. [How to Read the ECMAScript Specification](https://timothygu.me/es-howto/)
+1. [ES6 规范](https://www.ecma-international.org/publications-and-standards/standards/ecma-262/)
+
+_教程与书籍_
+
+1. Understanding Javascript 6
+1. ES 6 For Humans
+1. ES 6 标准入门 第二版
+1. Javascript Ninja
+1. Secrets of the Effective Javascript
+1. You Don't Know JS
+1. Effective Javascript
+1. Javascript The Good Parts
+1. Eloquent Javascript
+1. Javascript Twenty Years
+1. Javascript 核心原理解析 周爱民
+1. Javascript Design Patterns
+1. Functional Javascript
+1. https://zh.javascript.info/
+
+_其他_
+
+1. [The Quiz](http://dmitrysoshnikov.com/ecmascript/the-quiz/)
+1. [JavaScript 是如何工作的：JavaScript 的内存模型](https://zhuanlan.zhihu.com/p/62449359)
+1. http://crockford.com/javascript/
+1. https://www.iteye.com/category/22618
+1. 实现类似 Javascript 语言脚本 [Essentials of Interpretation](http://dmitrysoshnikov.com/courses/essentials-of-interpretation/)
