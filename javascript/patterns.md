@@ -1,6 +1,7 @@
 # 代码模式与生态
 
 1. deep copy https://juejin.im/post/5d6aa4f96fb9a06b112ad5b1
+1. [JSON Parser with Javascript](https://lihautan.com/json-parser-with-javascript/)
 1. vue
    1. 类似 vue template 解析
    1. [Vue 的模板编译](https://www.bilibili.com/video/BV1Rf4y1S7RN?from=search&seid=12773308433329510711)

@@ -122,3 +122,18 @@ garbage collection
 1.  https://mrale.ph/blog/2012/09/23/grokking-v8-closures-for-fun.html
 1.  https://blog.mozilla.org/luke/2012/10/02/optimizing-javascript-variable-access/
 1.  the implementation of lua 5.0
+
+## v8
+
+- [ ] [深入 V8 引擎-第 01 课：上手开始看 V8 Ignition 解释器的字节码（Bytecodes）](https://www.bilibili.com/video/BV1FJ411E7Sf)
+- [ ] [v8 引擎是如何知道 js 数据类型的？](https://www.zhihu.com/question/62732293/answer/201723301)
+- [ ] [如何在 V8 源码里找到某个 JS 方法是如何实现的？](https://www.zhihu.com/question/59792274/answer/168987086)
+- [ ] [从 Chrome 源码看 JS Array 的实现](https://zhuanlan.zhihu.com/p/26388217)
+- [ ] [lazy parsing](https://zhuanlan.zhihu.com/p/63326335)
+- [ ] [理解 V8 的字节码「译」](https://zhuanlan.zhihu.com/p/28590489)
+- [ ] [JS 在引擎级别的执行过程@周爱民](https://www.bilibili.com/video/BV1Wy4y1b7PG)
+- [ ] 新手上路学习 JavaScript 引擎实现——路线图 https://zhuanlan.zhihu.com/p/20505562
+- [ ] [新手应该如何读 Google V8 引擎源代码？](https://www.zhihu.com/question/39014659)
+- [ ] [JavaScript engine fundamentals: Shapes and Inline Caches](https://mathiasbynens.be/notes/shapes-ics)
+- [ ] [JavaScript engine fundamentals: optimizing prototypes](https://mathiasbynens.be/notes/prototypes)
+- [ ] [解读 V8 GC Log（二）: 堆内外内存的划分与 GC 算法](https://developer.aliyun.com/article/592880)
