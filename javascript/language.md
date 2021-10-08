@@ -16,9 +16,7 @@ Deepdive Into Javascript
 1. Spec Chapter 10 Source Code
 1. Spec Chapter 11 Lexical Grammar
 
-## 值与对象
-
-TODO: Spec Chapter 6 Data Types & Values
+## 值与类型
 
 基础值 Primitive Type/Object
 
@@ -254,12 +252,6 @@ setTimeout(()=>console.log(i), 1000);
 
 这就是 for 语句中使用“let/const”这种块级作用域声明所需要付出的代价。
 
-1.  [ECMA-262-5 in detail. Chapter 3.1. Lexical environments: Common Theory](http://dmitrysoshnikov.com/ecmascript/es5-chapter-3-1-lexical-environments-common-theory/#rules-of-function-creation-and-application)
-1.  [ECMA-262-5 in detail. Chapter 3.2. Lexical environments: ECMAScript implementation.](http://dmitrysoshnikov.com/ecmascript/es5-chapter-3-2-lexical-environments-ecmascript-implementation/#identifier-resolution)
-1.  Chapter 8 Executable Code and Execution Context
-1.  Chapter 18 Global Object
-1.  Chapter 19 Fundamental Objects
-
 ### Realm
 
 Spec 8.2 Code Realm
@@ -268,31 +260,18 @@ Realm: A code realm is an object which encapsulates a separate global environmen
 
 a direct realm equivalent in browser environment is the iframe element, which exactly provides a custom global environment. In Node.js it is close to the sandbox of the vm module.
 
+### 作用域
+
 ### This
 
-1.  [ECMA-262-3 in detail. Chapter 3. This](http://dmitrysoshnikov.com/ecmascript/chapter-3-this/)
-1.  https://stackoverflow.com/questions/3127429/how-does-the-this-keyword-work/3127440#3127440
-1.  [ECMA-262-3 in detail. Chapter 4. Scope chain](http://dmitrysoshnikov.com/ecmascript/chapter-4-scope-chain/)
+1.  [This 带来的困惑](https://zhuanlan.zhihu.com/p/27536677)
 
 ## 函数
-
-函数\ 闭包
-
-1.  [ECMA-262-3 in detail. Chapter 5. Functions.](http://dmitrysoshnikov.com/ecmascript/chapter-5-functions/)
-1.  [ECMA-262-3 in detail. Chapter 6. Closures.](http://dmitrysoshnikov.com/ecmascript/chapter-6-closures/)
-1.  [ECMA-262-3 in detail. Chapter 7.1. OOP: The general theory](http://dmitrysoshnikov.com/ecmascript/chapter-7-1-oop-general-theory/)
-1.  [ECMA-262-3 in detail. Chapter 7.2. OOP: ECMAScript implementation.](http://dmitrysoshnikov.com/ecmascript/chapter-7-2-oop-ecmascript-implementation/)
-
-1.  [ECMA-262-3 in detail. Chapter 8. Evaluation strategy](http://dmitrysoshnikov.com/ecmascript/chapter-8-evaluation-strategy/)
-
-1.  [Note 6. ES6: Default values of parameters](http://dmitrysoshnikov.com/ecmascript/es6-notes-default-values-of-parameters/)
 
 ## 类
 
 为什么引入类语法？为了解决多个对象都要使用同一个对象作为原型的情况，没有类的情况下需要手动模拟，配置原型链。
 类是个语法糖，具体都做了哪些处理？使用 构造函数加上原型实现。 TODO: 需要细节
-
-1. [OO Relationships](https://medium.com/@DmitrySoshnikov/oo-relationships-5020163ab162)
 
 ## 异步
 
@@ -305,7 +284,39 @@ a direct realm equivalent in browser environment is the iframe element, which ex
 1.  [web worker](https://www.html5rocks.com/en/tutorials/workers/basics/) 是 HTML 规范的内容
     agent pattern/ [actor pattern](https://en.wikipedia.org/wiki/Actor_model)
 
-## jobs
+1.  [异步编程那些事（深入）](https://zhuanlan.zhihu.com/p/28315360)
+1.  [Understanding Async Await](https://css-tricks.com/understanding-async-await/)
+1.  [异步复杂度要到什么程度才需要用到 Rxjs？](https://www.zhihu.com/question/303073602/answer/542179409)
+
+1.  promise 十道题
+    https://zhuanlan.zhihu.com/p/30797777
+    https://www.zhihu.com/question/62305365/answer/199219185
+    https://www.zhihu.com/question/62305365/answer/198580686
+
+Promise
+
+1.  [探讨：当 Async/Await 的遇到了 EventLoop](https://zhuanlan.zhihu.com/p/86993504)
+
+1.  [Creating a JavaScript promise from scratch](https://humanwhocodes.com/blog/2020/09/creating-javascript-promise-from-scratch-constructor/)
+1.  [Implementing promises from scratch](https://www.mauriciopoppe.com/notes/computer-science/computation/promises/)
+1.  [史上最易读懂的 Promise/A+ 完全实现](https://zhuanlan.zhihu.com/p/21834559)
+1.  [100 行代码实现 Promises/A+ 规范](https://zhuanlan.zhihu.com/p/83965949)
+1.  [Promise: 给我一个承诺，我还你一个承诺](https://zhuanlan.zhihu.com/p/20209175)
+
+Event Loop
+
+1. [Event Loop 必知必会（六道题）](https://zhuanlan.zhihu.com/p/34182184)
+1. [JavaScript Event Loop 机制详解与 Vue.js 中实践应用](https://zhuanlan.zhihu.com/p/29116364)
+1. [详解 JavaScript 中的 Event Loop（事件循环）机制](https://zhuanlan.zhihu.com/p/33058983)
+1. [Event Loop 的规范和实现](https://zhuanlan.zhihu.com/p/33087629)
+1. [Node.js 源码解析：深入 Libuv 理解事件循环](https://zhuanlan.zhihu.com/p/35039878)
+1. [理解 Node.js 事件驱动架构](https://zhuanlan.zhihu.com/p/27417770)
+
+异步模型
+
+1. [async/await 异步模型是否优于 stackful coroutine 模型？](https://www.zhihu.com/question/65647171/answer/233495694)
+
+### jobs
 
 1.  spec 8.4 jobs & jobs queues
 
@@ -346,11 +357,7 @@ ExportDeclaration : export default HoistableDeclaration
 
 ## 严格模式
 
-1. [ECMA-262-5 in detail. Chapter 2. Strict Mode.](http://dmitrysoshnikov.com/ecmascript/es5-chapter-2-strict-mode/)
-
 ## 内置对象
-
-1.  [JavaScript Array “Extras” in Detail](https://dev.opera.com/articles/javascript-array-extras-in-detail/)
 
 数组
 
@@ -368,32 +375,55 @@ let c = Array.apply(null, { length: 3 }) // 3 slots with value as undefined
 let c = [undefined, undefined, undefined]
 ```
 
+### Number 精度问题
+
+1.  浮点数 https://zhuanlan.zhihu.com/p/30703042
+1.  [浮点精度](https://zhuanlan.zhihu.com/p/28162086)
+1.  [为什么(2.55).toFixed(1)等于 2.5？](https://zhuanlan.zhihu.com/p/31202697)
+1.  [浮点数精度之谜](https://zhuanlan.zhihu.com/p/28162086)
+
+### Proxy & Reflect
+
+1.  [Proxy & Reflect](https://zhuanlan.zhihu.com/p/60126477)
+1.  [抱歉，学会 Proxy 真的可以为所欲为](https://zhuanlan.zhihu.com/p/35080324)
+
+### RegExp
+
+1. [JavaScript 正则表达式匹配汉字](https://zhuanlan.zhihu.com/p/33335629)
+
+## Performance
+
+1.  [JS 性能](https://www.zhihu.com/question/402807137/answer/1322391162)
+1.  [Maybe you don't need Rust and WASM to speed up your JS](https://mrale.ph/blog/2018/02/03/maybe-you-dont-need-rust-to-speed-up-your-js.html)
+
+## VM
+
+1.  [microtask 队列与 async/await 源码分析](https://zhuanlan.zhihu.com/p/134647506)
+1.  [Promise V8 源码分析(一)](https://zhuanlan.zhihu.com/p/264944183)
+
 ## 参考资料
 
 _文章_
 
+1. [JavaScript. The Core: 2nd Edition](http://dmitrysoshnikov.com/ecmascript/javascript-the-core-2nd-edition/)
 1. Understanding ECMAScript [Part 1](https://v8.dev/blog/understanding-ecmascript-part-1) [Part 2](https://v8.dev/blog/understanding-ecmascript-part-2) [Part 3](https://v8.dev/blog/understanding-ecmascript-part-3) [Part 4](https://v8.dev/blog/understanding-ecmascript-part-4)
-1. [ECMAScript 规范阅读导引] [Part 1](https://fed.taobao.org/blog/taofed/do71ct/mlgtox) [Part 1](https://zhuanlan.zhihu.com/p/117308655) [Part 2](https://zhuanlan.zhihu.com/p/118140237)
+1. [ECMAScript 规范阅读导引] [Part 1](https://fed.taobao.org/blog/taofed/do71ct/mlgtox) [Part 2](https://zhuanlan.zhihu.com/p/118140237)
 1. [How to Read the ECMAScript Specification](https://timothygu.me/es-howto/)
 1. [ES6 规范](https://www.ecma-international.org/publications-and-standards/standards/ecma-262/)
-1. [JavaScript. The Core: 2nd Edition](http://dmitrysoshnikov.com/ecmascript/javascript-the-core-2nd-edition/)
 
 _教程与书籍_
 
-1. Understanding Javascript 6
-1. ES 6 For Humans
-1. ES 6 标准入门 第二版
-1. Javascript Ninja
-1. Secrets of the Effective Javascript
 1. You Don't Know JS
+1. Understanding Javascript 6
+1. Secrets of the Effective Javascript
 1. Effective Javascript
 1. Javascript The Good Parts
 1. Eloquent Javascript
-1. Javascript Twenty Years
-1. Javascript 核心原理解析 周爱民
+1. Javascript Twenty Years https://cn.history.js.org/
 1. Javascript Design Patterns
 1. Functional Javascript
 1. https://zh.javascript.info/
+1. Javascript 核心原理解析 周爱民
 
 _其他_
 
@@ -402,3 +432,12 @@ _其他_
 1. http://crockford.com/javascript/
 1. https://www.iteye.com/category/22618
 1. 实现类似 Javascript 语言脚本 [Essentials of Interpretation](http://dmitrysoshnikov.com/courses/essentials-of-interpretation/)
+
+1. [深入 javascript](https://juejin.im/post/59278e312f301e006c2e1510)
+1. [关于 JavaScript Object.keys() 排序问题的探索](https://mp.weixin.qq.com/s/foXbAj3ODqFKYGUP5K8MkQ)
+1. [especially](https://www.npmjs.com/package/especially)
+
+People
+
+1.  [mraleph](https://mrale.ph/)
+1.  [颜海镜](https://www.zhihu.com/column/yanhaijing)

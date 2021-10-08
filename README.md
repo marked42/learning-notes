@@ -53,52 +53,16 @@
       1. https://zhuanlan.zhihu.com/p/103245540
       1. https://github.com/jamiebuilds/the-super-tiny-compiler
       1. https://github.com/estree/estree
-   1. 有重点的阅读一本技术书籍
    1. [帧动画](https://www.imooc.com/video/11812)
-   1. https://developer.chrome.com/devtools
-   1. [js 常见模式](https://www.cnblogs.com/tugenhua0707/p/5198407.html)
-      1. pub/sub
-      1. https://juejin.cn/post/6844903943068205064#heading-9
-      1. event emitter
-      1. observer 观察者
-      1. js 常见模式 https://zhuanlan.zhihu.com/p/24980136
-      1. 防抖截流 https://zhuanlan.zhihu.com/p/62138440
-      1. https://juejin.im/post/59eff1fb6fb9a044ff30a942
-      1. proxy
    1. [Refactoring Guru]https://refactoringguru.cn/design-patterns/builder
-   1. Dive into design patterns
-   1. 模板引擎 EJS，字符串拼接的性能问题
-   1. 前端生态中很多库和工具使用的插件机制研究
-   1. 五种递归 https://zhuanlan.zhihu.com/p/84452538
-   1. semver
-   1. observable
-   1. 类似 vue template 解析
-   1. 虚拟 DOM 算法
-   1. LRU 缓存机制，vue 组件 keep-alive
-   1. 设计模式例子
-   1. vue-router 路由库
-   1. vuex 状态管理库
    1. [code diff editor](https://fed.taobao.org/blog/taofed/do71ct/how-to-display-git-diff/?spm=taofed.blogs.blog-list.4.18be5ac8oJK4PP)
    1. [Build Your Own Frontend Framework](https://github.com/danistefanovic/build-your-own-x#build-your-own-front-end-framework--library)
-   1. [Template Engine](https://github.com/danistefanovic/build-your-own-x#build-your-own-template-engine)
 
-   1. JavaScript: Implement your own — call(), apply() and bind() method in JavaScript
-   1. Node.js: Build a static site generator in 40 lines with Node.js
-   1. Node.js: Building A Simple Single Sign On(SSO) Server And Solution From Scratch In Node.js.
-   1. Node.js: How to create a real-world Node CLI app with Node
    1. [同源策略](http://aosabook.org/en/500L/the-same-origin-policy.html)
    1. 复杂场景数据设计
       1. twitter https://zhuanlan.zhihu.com/p/29732224
       1. https://www.zhihu.com/question/65624888/answer/236561676
       1. [前端应用开发：从数据流到真实应用之间，隔了些什么东西？](https://zhuanlan.zhihu.com/p/61451331)
-   1. [函数式编程](https://www.bilibili.com/video/BV1Mh411Z7LC)
-   1. [dayjs](https://zhuanlan.zhihu.com/p/335951657)
-   1. https://github.com/fouber/lottery
-   1. event loop https://zhuanlan.zhihu.com/p/34182184 https://zhuanlan.zhihu.com/p/35039878
-   1. https://zhuanlan.zhihu.com/p/29116364
-   1. https://zhuanlan.zhihu.com/p/33058983
-   1. https://zhuanlan.zhihu.com/p/33087629
-   1. nodejs event loop https://zhuanlan.zhihu.com/p/27417770
 
 1. 需要几个月或者数年完成的任务，目标在于磨炼解决大型项目、高难度问题的工程能力。
    1. 使用 vue3 开发一套通用组件库
@@ -123,14 +87,8 @@
    1. vue2/vue3 的核心原理
       1. [尤雨溪教你写 vue 高级 vue 教程 源码分析 中文字幕翻译完毕 ](https://www.bilibili.com/video/BV1d4411v7UX)
       1. [vue 源码](https://www.bilibili.com/video/BV1GK4y1W7fi?from=search&seid=12773308433329510711)
-      1. [Vue 的模板编译](https://www.bilibili.com/video/BV1Rf4y1S7RN?from=search&seid=12773308433329510711)
       1. [使用 JSX/TSX 开发 Vue3 组件](https://zhuanlan.zhihu.com/p/153387704)
       1. [Vue3 Compiler 优化细节，如何手写高性能渲染函数](https://zhuanlan.zhihu.com/p/150732926)
-      1. 指针碰撞 vdom https://zhuanlan.zhihu.com/p/101176821
-      1. https://zhuanlan.zhihu.com/p/62411633
-      1. https://zhuanlan.zhihu.com/p/24435564
-      1. https://zhuanlan.zhihu.com/p/36500459
-      1. nexTick https://zhuanlan.zhihu.com/p/36553258
    1. 工程化方向
       1. [活动作品前端工程中的编译时优化](https://www.bilibili.com/video/BV1764y1Q7FA/?spm_id_from=333.788.recommend_more_video.4)
       1. [工程化专场](https://www.bilibili.com/video/BV1cU4y1h7qx)
@@ -138,22 +96,15 @@
    1. 智能化方向
       1. [前端智能化实践从需求文档生成代码@桑世龙（狼叔） @李帅（卓风](https://www.bilibili.com/video/BV13b4y1D7Bp)
    1. [Typescript 重构 Axios](https://www.bilibili.com/video/BV1f54y1L7PV)
-   1. axios https://zhuanlan.zhihu.com/p/62657441
-   1. [JavaScript 正则表达式匹配汉字](https://zhuanlan.zhihu.com/p/33335629)
    1. JS/TS
       - [ ] [TS Type Challenge](https://github.com/type-challenges/type-challenges)
       - [ ] [有趣也有用的现代类型系统](https://zhuanlan.zhihu.com/p/33882384)
       - [ ] [Winter 前端进阶课程](https://www.bilibili.com/video/BV1Hr4y1P7KE?p=41)
-      - [ ] Secrets of the JavaScript Ninja, 2nd Edition
-      - [ ] You Don't Know Javascript
       - [ ] Functional Programming in JavaScript by Luis Atencio (Manning, 2016),
       - [ ] DOM Enlightenment [关于 JS 更新 input 元素的 value 属性引发的狗血讨论](https://zhuanlan.zhihu.com/p/62753879)
       - [ ] dom api https://zhuanlan.zhihu.com/p/25703872
-   1. 浏览器原理
 
 ## 填坑挖坑
-
-收藏了很多文章却从来没去学过，这个列表记录了挖的坑，需要持续填坑。
 
 1. [常见算法问题](https://juejin.im/post/5958bac35188250d892f5c91#heading-27)
 
@@ -207,50 +158,7 @@ parser
 
 其他
 
-1.  深入 javascript https://juejin.im/post/59278e312f301e006c2e1510
-1.  周爱民老师的 Javascript 课程 周爱民 Javascript 语言精粹与编程实践
-1.  https://mp.weixin.qq.com/s/foXbAj3ODqFKYGUP5K8MkQ
-1.  异步模式
-    1.  [microtask 队列与 async/await 源码分析](https://zhuanlan.zhihu.com/p/134647506)
-    1.  [Promise V8 源码分析(一)](https://zhuanlan.zhihu.com/p/264944183)
-    1.  [microtask 队列与 async/await 源码分析](https://zhuanlan.zhihu.com/p/134647506)
-    1.  [promise ](https://zhuanlan.zhihu.com/p/21834559)
-    1.  JavaScript: Learn JavaScript Promises by Building a Promise from Scratch
-    1.  JavaScript: Implementing promises from scratch (TDD way)
-    1.  https://humanwhocodes.com/blog/2020/09/creating-javascript-promise-from-scratch-resolving-to-a-promise/
-    1.  [100 行代码实现 Promises/A+ 规范](https://zhuanlan.zhihu.com/p/83965949)
-    1.  异步 async/await/Promise 05*You_Don't \_Know_JS_Async*&\_Performance
-    1.  [Promises](https://www.mauriciopoppe.com/notes/computer-science/computation/promises/)
-    1.  [探讨：当 Async/Await 的遇到了 EventLoop](https://zhuanlan.zhihu.com/p/86993504)
-    1.  https://www.zhihu.com/question/65647171/answer/233495694
-    1.  https://css-tricks.com/understanding-async-await/
-    1.  [Promise: 给我一个承诺，我还你一个承诺](https://zhuanlan.zhihu.com/p/20209175)
-    1.  rxjs https://www.zhihu.com/question/303073602/answer/542179409
-    1.  [异步编程那些事（深入）](https://zhuanlan.zhihu.com/p/28315360)
-1.  https://www.zhihu.com/question/303073602
-1.  https://www.npmjs.com/package/especially
-1.  https://juejin.im/post/5d6aa4f96fb9a06b112ad5b1 deep copy
-1.  https://zhuanlan.zhihu.com/p/41203455
-1.  浮点数 https://zhuanlan.zhihu.com/p/30703042
-1.  [浮点精度](https://zhuanlan.zhihu.com/p/28162086)
-1.  [为什么(2.55).toFixed(1)等于 2.5？](https://zhuanlan.zhihu.com/p/31202697)
-1.  [浮点数精度之谜](https://zhuanlan.zhihu.com/p/28162086)
-1.  object 相关
-    1.  01*You_Don't \_Know_JS_Up*&\_Going
-    1.  03*You_Don't \_Know_JS_this*&\_Object_Prototypes
-    1.  避免使用 this https://zhuanlan.zhihu.com/p/27536677
-    1.  基础 04*You_Don't \_Know_JS_Types*&\_Grammar
-    1.  javascript ninja ch7 ch8
-    1.  collections, Array, Map, set, WeakSet js ninja ch9
-    1.  RegExp js ninja ch10
-1.  跨浏览器 js ninja ch14
-1.  06*You_Don't \_Know_JS_ES6*&\_Beyond
-1.  [Proxy & Reflect](https://zhuanlan.zhihu.com/p/60126477)
-1.  proxy https://zhuanlan.zhihu.com/p/35080324
-1.  [JS 性能] https://www.zhihu.com/question/402807137/answer/1322391162
-1.  [Maybe you don't need Rust and WASM to speed up your JS](https://mrale.ph/blog/2018/02/03/maybe-you-dont-need-rust-to-speed-up-your-js.html) https://mrale.ph/ https://www.zhihu.com/question/272156541/answer/367784539
 1.  how javascript works 书籍
-1.  this https://www.zhihu.com/collection/144350453?page=4
 1.  vscode
     1.  [VSCode TextBuffer Implementation](https://code.visualstudio.com/blogs/2018/03/23/text-buffer-reimplementation)
     1.  vscode https://www.zhihu.com/question/374558844/answer/1051321547
@@ -336,7 +244,6 @@ parser
 - [ ] CSS 揭秘
 - [ ] CSS 世界
 - [ ] CSS-Tricks https://zhuanlan.zhihu.com/p/60917882
-- [ ] Effective Javascript
 - [ ] javascript 设计模式与开发实践
 - [ ] 《javascript 框架设计(第二版)》
 - [ ] Refactoring 2nd Edition
