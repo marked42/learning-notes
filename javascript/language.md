@@ -2,61 +2,6 @@
 
 ## 值与类型
 
-基础值 Primitive Type/Object
-
-1. string, `typeof 'hello' === 'string'`
-1. number, `typeof 1.0 === 'number'`
-1. boolean, `typeof true === 'boolean'`
-1. null, `typeof null === 'object'`
-1. undefined, `typeof undefined === 'undefined'`
-1. symbol (ES6), `typeof Symbol() === 'symbol'`
-1. object, `typeof {a: 1} === 'object'`
-
-使用 Object.prototype.toString.call
-
-Notice that, value `null` if of type `null`, but `typeof null` returns 'object',
-this is an bug because of implementation （TODO: 以具体的引擎实现例子来解释）
-
-对象 是 一组属性 (properties) 和 一个原型属性 （`__proto__` 已被标准化） 的组合。
-
-运行时（run time）访问一个对象上属性 x 的过程称为动态派发 dynamic dispatch 和 基于类的面向对象语言中调用需函数效果相同
-
-原型链，需要一个完整的原型链例子，包含原型链的根部，Function.prototype Object.prototype 等。
-
-1. 值与对象 原型链 new Test() new 函数调用 obj.**proto** -> Test.prototype 隐藏属性使用，不建议使用**proto** 非标准，性能问题
-
-### delete 操作符的含义
-
-1.  [ECMA-262-5 in detail. Chapter 1. Properties and Property Descriptors.](http://dmitrysoshnikov.com/ecmascript/es5-chapter-1-properties-and-property-descriptors/)
-
-### 类型转换
-
-1. 什么时候发生类型转换
-1. 转换具体过程如何 ToPrimitive
-1. 显式的类型转换写法
-1. [what is {} + {}](https://2ality.com/2012/01/object-plus-object.html)
-
-```js
-Number('1')
-!1
-;+new Date()
-void 0
-Boolean({}) // true
-
-typeof a === undefined
-```
-
-1. 臭名昭著的 Javascript 真值表
-1. 一个面试题 valueOf, toString [a == 1 && a == 2 && a == 3](https://stackoverflow.com/questions/48270127/can-a-1-a-2-a-3-ever-evaluate-to-true)
-
-### 相等性判断
-
-1. `==`
-1. `===` https://tc39.es/ecma262/#sec-strict-equality-comparison
-1. `Object.is` https://tc39.es/ecma262/#sec-samevalue
-
-https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Equality_comparisons_and_sameness
-
 ## 运行环境与作用域
 
 1. 作用域链
