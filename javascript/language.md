@@ -363,6 +363,7 @@ _其他_
 1. 实现类似 Javascript 语言脚本 [Essentials of Interpretation](http://dmitrysoshnikov.com/courses/essentials-of-interpretation/)
 
 1. [深入 javascript](https://juejin.im/post/59278e312f301e006c2e1510)
+1. [JavaScript 深入之执行上下文](https://github.com/mqyqingfeng/Blog/issues/8)
 1. [关于 JavaScript Object.keys() 排序问题的探索](https://mp.weixin.qq.com/s/foXbAj3ODqFKYGUP5K8MkQ)
 1. [especially](https://www.npmjs.com/package/especially)
 
@@ -370,3 +371,5 @@ People
 
 1.  [mraleph](https://mrale.ph/)
 1.  [颜海镜](https://www.zhihu.com/column/yanhaijing)
+
+1.  blogs https://github.com/Pines-Cheng/blog
