@@ -134,6 +134,14 @@ nonlocal variable
 
 简单的实现可以保存执行环境中的所有变量，准确的的实现是指捕获自由变量。
 
+```js
+const obj = { foo() { return this } }
+// true
+(obj.foo) () === obj
+// false
+eval('obj.foo') () = obj
+```
+
 #### 语句的块级作用域
 
 ```js
