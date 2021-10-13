@@ -120,3 +120,11 @@ this is an bug because of implementation （TODO: 以具体的引擎实现例子
 1. `Object.is` https://tc39.es/ecma262/#sec-samevalue
 
 https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Equality_comparisons_and_sameness
+
+从严格性来讲
+
+SameValueZero
+
+Abstract Equal < StrictEqual < SameValue
+
+SameValue 和 StrictEqual 关于 NaN 和 signed zero 处理不同。
