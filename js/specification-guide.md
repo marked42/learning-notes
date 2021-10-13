@@ -13,14 +13,6 @@
    1. Fundamental
    1. Host Defined / Exotic Object
 
-1. AbstractOperations
-1. CompletionRecord normal completion / abstract completion
-
-   1. AbstractOperation -> CompletionRecord -> Result
-   1. ReturnIfAbrupt
-   1. ? AbstractOperation forwards any errors
-   1. ! AbstractOperation asserts not abrupt
-
 1. internal slot 对于普通 javascript 代码是不感知的[[This]]
 
 对于抛出错误的情况，规范只规定了错误对象的类型（TypeError），并没有规定错误对象信息，信息由实现决定。
