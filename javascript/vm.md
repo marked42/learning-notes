@@ -57,7 +57,9 @@ let point2 = { y: 100, x: 200 }
 // 尽量不使用delete删除对象属性
 ```
 
-http://richardartoul.github.io/jekyll/update/2015/04/26/hidden-classes.html
+1. [Hidden Class](http://richardartoul.github.io/jekyll/update/2015/04/26/hidden-classes.html)
+1. [Franziska Hinkelmann- JavaScript engines - how do they even? - JSConf EU](https://www.bilibili.com/video/BV1oJ411J7kD)
+1. [Franziska Hinkelmann- A Trip to the Zoo- SpiderMonkey, SquirrelFish, Nashorn, V8](https://www.bilibili.com/video/BV1oJ411J7z8)
 
 ### 内联缓存
 

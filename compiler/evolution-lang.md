@@ -581,7 +581,8 @@ function newPerson(name, age) {
 
 1. 子函数正常调用并返回
 1. 程序出错无法继续执行
-1. 程序抛出异常则栈展开（unwinding）到能够处理异常的栈帧。
+1. 程序抛出 异常则栈展开（unwinding）到能够处理异常的栈帧。
+1. https://amillioncodemonkeys.com/2021/02/03/interpreter-exception-handling-implementation/
 
 PLP 9.4
 COPL 14

@@ -128,3 +128,83 @@ SameValueZero
 Abstract Equal < StrictEqual < SameValue
 
 SameValue 和 StrictEqual 关于 NaN 和 signed zero 处理不同。
+
+## delete
+
+1. 严格模式下的静态语义 delete a 报错
+1. 删除值的时候返回 true，无任何副作用
+1. 只能删除 PropertyReference，而且 configurable 为 false 时报错 super.name 不能删除 ReferenceError
+1. strict reference
+1. EnvironmentRecord 中调用 DeleteBinding 方法
+
+## 全局环境
+
+VarNames 隐式创建的全局属性变量可以删除，var/let/const 不能删除。
+
+绑定的相关问题
+
+绑定的状态 不存在 -> 声明 —> 初始化 -> 只读
+
+1. 声明 重复声明问题
+1. 初始化
+1. 读取 读取未初始化的绑定
+1. 写入 写入未初始化的绑定、写入只读的绑定
+1. 删除
+
+例子分析
+
+```js
+// 发生了什么
+var x = (y = 100)
+
+// 分析
+// 意味着给旧的变量添加一个指向新变量的属性。
+var a = { n: 1 }
+a.x = a = { n: 2 }
+alert(a.x) // --> undefined
+
+// with的隐式泄露到全局对象
+with ((obj = {})) {
+  y = 100
+}
+```
+
+函数名称的确定，匿名函数绑定到标识符时，name 属性初始化为标识符名称，且后续保持不变。
+
+```js
+export default function test() {}
+export default function () {}
+
+const fun1 = function test() {}
+const fun2 = function () {}
+const fun3 = () => {}
+
+const obj = {
+  left1: function test() {},
+  left2: function () {},
+  left3: () => {},
+}
+```
+
+块级作用域，大多数语句没有块级作用域，块级作用域的四个情况
+
+1. try try/catch/finally
+1. with statement with (x) {}
+1. block statement {}
+1. for of statement
+
+```js
+// i全局一个 forEnv
+for (let i = 0; i; ;) {
+  // loopEnv
+  // 每个循环一个
+  let j = 0;
+}
+
+// 每个循环一个
+for (let i of values) {
+  let j = 0;
+}
+```
+
+switch statement 没有全局作用域，所以在其中声明变量会提示报错。
