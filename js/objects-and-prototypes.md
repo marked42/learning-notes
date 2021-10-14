@@ -121,6 +121,14 @@ this is an bug because of implementation （TODO: 以具体的引擎实现例子
 
 https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Equality_comparisons_and_sameness
 
+从严格性来讲
+
+SameValueZero
+
+Abstract Equal < StrictEqual < SameValue
+
+SameValue 和 StrictEqual 关于 NaN 和 signed zero 处理不同。
+
 ## delete
 
 1. 严格模式下的静态语义 delete a 报错
@@ -167,9 +175,9 @@ with ((obj = {})) {
 export default function test() {}
 export default function () {}
 
-const fun1 = function test() {};
-const fun2 = function () {};
-const fun3 = () => {};
+const fun1 = function test() {}
+const fun2 = function () {}
+const fun3 = () => {}
 
 const obj = {
   left1: function test() {},
