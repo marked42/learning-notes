@@ -13,14 +13,6 @@
    1. Fundamental
    1. Host Defined / Exotic Object
 
-1. AbstractOperations
-1. CompletionRecord normal completion / abstract completion
-
-   1. AbstractOperation -> CompletionRecord -> Result
-   1. ReturnIfAbrupt
-   1. ? AbstractOperation forwards any errors
-   1. ! AbstractOperation asserts not abrupt
-
 1. internal slot 对于普通 javascript 代码是不感知的[[This]]
 
 OrdinaryGetOwnProperty is called “ordinary” since it operates on ordinary objects. ECMAScript objects can be either ordinary or exotic. Ordinary objects must have the default behavior for a set of methods called essential internal methods. If an object deviates from the default behavior, it’s exotic.
