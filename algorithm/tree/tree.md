@@ -174,6 +174,10 @@ class Solution {
 遍历解法 TODO
 使用队列模拟递归解法的栈结构
 
+### 树的最大最小深度
+
+1. 递归和层序遍历解法 注意最大最小深度的递归解法条件不同
+
 ### 前驱与后继结点（Predecessor & Successor)
 
 中序遍历中节点$S$的前驱节点是左子树中最大的节点，由于中序遍历全局有序，所以任意节点的前驱节点在升序数列中刚好在该节点之前。
@@ -498,6 +502,156 @@ var postorderTraversal = function (root) {
     }
     if (top.right) {
       stack.push(top.right)
+    }
+  }
+
+  return result
+}
+```
+
+#### 统一的形式的栈实现
+
+递归的解法针对不同的遍历顺序只需要简单调整顺序，形式统一简单。上面使用栈实现三种顺序树遍历的方法，每种方法的代码框架都不相同，无法统一到一种形式。
+考虑如何使用一种统一的循环逻辑实现三种顺序的遍历。
+
+首先要对于数节点的处理，用一个栈来记录节点遍历顺序，对于然后对于
+
+先考虑中序遍历，在出栈时对元素进行处理，所以入栈时应该以目标顺序相反的顺序入栈，先入栈右节点，然后是根节点，然后是左节点，出站时根节点已经遍历过，这时只需要放入结果数组。
+
+但是根节点两次被弹出，一次对应递归调用开始，一次对应递归调用返回，返回的时候对根节点放入结果数组。这两种情况下需要额外的信息进行区分，使用节点后边跟空指针`null`的方式来区分。
+
+这样的话不能将空节点放入 stack，可能与使用`null`的含义冲突
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var postorderTraversal = function (root) {
+  const stack = root ? [root] : []
+
+  const result = []
+  // stack中不能将空节点添加进去
+  while (stack.length) {
+    const top = stack.pop()
+
+    // 弹出栈的时候进行记录
+    if (top == null) {
+      result.push(stack.pop().val)
+    } else {
+      // 中
+      stack.push(top)
+      stack.push(null)
+
+      // 右
+      if (top.right) {
+        stack.push(top.right)
+      }
+
+      // 左
+      if (top.left) {
+        stack.push(top.left)
+      }
+    }
+  }
+
+  return result
+}
+```
+
+使用 visited 表示节点已经被访问过
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var postorderTraversal = function (root) {
+  const stack = [{ node: root, visited: false }]
+
+  const result = []
+  // stack中不能将空节点添加进去
+  while (stack.length) {
+    const top = stack.pop()
+
+    if (!top.node) {
+      continue
+    }
+
+    // 弹出栈的时候进行记录
+    if (top.visited) {
+      result.push(top.node.val)
+    } else {
+      // 中
+      top.visited = true
+      stack.push(top)
+
+      // 右
+      stack.push({ node: top.node.right, visited: false })
+
+      // 左
+      stack.push({ node: top.node.left, visited: false })
+    }
+  }
+
+  return result
+}
+```
+
+结果放入数组时向头部插入，这样可以将代码逻辑调整为需要的顺序一致，性能相比尾部插入有损失。
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var postorderTraversal = function (root) {
+  const stack = [{ node: root, visited: false }]
+
+  const result = []
+  // stack中不能将空节点添加进去
+  while (stack.length) {
+    const top = stack.pop()
+
+    if (!top.node) {
+      continue
+    }
+
+    // 弹出栈的时候进行记录
+    if (top.visited) {
+      result.unshift(top.node.val)
+    } else {
+      // 左
+      stack.push({ node: top.node.left, visited: false })
+      // 右
+      stack.push({ node: top.node.right, visited: false })
+      // 中
+      top.visited = true
+      stack.push(top)
     }
   }
 
@@ -1178,6 +1332,39 @@ console.log(serialize(nodes))
 前、中、后序遍历
 
 ## 平衡二叉树
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isBalanced = function (root) {
+  function height(root) {
+    if (!root) {
+      return 0
+    }
+
+    const left = height(root.left)
+    const right = height(root.right)
+
+    if (left === -1 || right === -1) {
+      return -1
+    }
+
+    return Math.abs(left - right) <= 1 ? Math.max(left, right) + 1 : -1
+  }
+
+  return height(root) !== -1
+}
+```
 
 ## 2-3 树
 
