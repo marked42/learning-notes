@@ -32,6 +32,76 @@ TODO: trampoline 一般的将递归调用改造为循环的方法
 2. algs 3.2.7
 3. algs 3.2.11
 
+TODO: 递归解法思考框架
+
+1. 分解子问题
+1. 子问题分解需要间接的中间数据支持，不一定直接得到答案。
+1. 子问题的递归结束条件
+1. 子问题的答案如何决定父问题的答案
+1. 递归的结束条件选择空指针（null）还是叶节点
+   1. 空指针的话形式统一，对于整个树为空的情况不用额外判断，
+   1. 叶节点的话一般贴近原始题目的描述，但是递归情况的处理稍微复杂，对整个树为空的情况额外判断，而且递归函数要保证接受的节点参数不为 null，减少对于空指针情况的递归对于完全二叉树可以减少一半的函数调用，性能相对高
+
+https://leetcode-cn.com/problems/find-bottom-left-tree-value/
+
+TODO: 树的遍历与回溯
+
+1. 中间状态记录的两种方式，一种是每个递归函数调用有自己的拷贝，内存消耗高；一种是统一使用一个变量，在递归开始结束维持状态数据，最终保留结果时进行拷贝。
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} targetSum
+ * @return {number[][]}
+ */
+var pathSum = function (root, targetSum) {
+  if (!root) {
+    return []
+  }
+
+  const result = []
+  const path = []
+  let sum = 0
+
+  function traverse(node) {
+    path.push(node.val)
+    sum += node.val
+    if (!node.left && !node.right) {
+      if (sum === targetSum) {
+        result.push([...path])
+      }
+      path.pop()
+      sum -= node.val
+      return
+    }
+
+    if (node.left) {
+      traverse(node.left)
+    }
+    if (node.right) {
+      traverse(node.right)
+    }
+    path.pop()
+    sum -= node.val
+  }
+  traverse(root)
+
+  return result
+}
+```
+
+例子
+
+1. 路径总和 https://leetcode-cn.com/problems/path-sum-ii/
+
 ### 二叉树的类型
 
 1. 满二叉树（Full Binary Tree）中每个节点有 0 或者 2 个子节点
@@ -1250,7 +1320,7 @@ var constructFromPrePost = function (pre, post) {
 1. https://www.geeksforgeeks.org/construct-a-binary-search-tree-from-given-postorder/
 1. https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/
 
-### 序列化与凡序列化
+### 序列化与反序列化
 
 https://www.youtube.com/watch?v=JL4OjKV_pGE
 
