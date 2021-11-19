@@ -1,5 +1,16 @@
 # 树
 
+TODO:
+没有思路
+
+1. https://leetcode-cn.com/problems/subtree-of-another-tree/
+1. https://leetcode-cn.com/problems/two-sum-iv-input-is-a-bst/ 中序加上逆中序，不需要额外空间
+1. https://leetcode-cn.com/problems/second-minimum-node-in-a-binary-tree/ 官方题解未充分利用条件，不需要遍历所有节点
+
+1. https://leetcode-cn.com/problems/minimum-distance-between-bst-nodes/submissions/ 中序遍历应用
+1. https://leetcode-cn.com/problems/increasing-order-search-tree/ 逆中序
+1. https://leetcode-cn.com/problems/kth-largest-element-in-a-stream/ 最小二叉堆
+
 ## 二叉树
 
 ### 定义
@@ -36,11 +47,18 @@ TODO: 递归解法思考框架
 
 1. 分解子问题
 1. 子问题分解需要间接的中间数据支持，不一定直接得到答案。
+   1. 求二叉树直径 https://leetcode-cn.com/problems/diameter-of-binary-tree/
+   1. 二叉树坡度 https://leetcode-cn.com/problems/binary-tree-tilt/
 1. 子问题的递归结束条件
 1. 子问题的答案如何决定父问题的答案
 1. 递归的结束条件选择空指针（null）还是叶节点
    1. 空指针的话形式统一，对于整个树为空的情况不用额外判断，
    1. 叶节点的话一般贴近原始题目的描述，但是递归情况的处理稍微复杂，对整个树为空的情况额外判断，而且递归函数要保证接受的节点参数不为 null，减少对于空指针情况的递归对于完全二叉树可以减少一半的函数调用，性能相对高
+
+循环相比于递归的好处
+
+1. 递归思路相对简单
+1. 循环遍历的方式可以控制遍历的终止与继续
 
 https://leetcode-cn.com/problems/find-bottom-left-tree-value/
 
@@ -249,6 +267,8 @@ class Solution {
 1. 递归和层序遍历解法 注意最大最小深度的递归解法条件不同
 
 ### 前驱与后继结点（Predecessor & Successor)
+
+TODO: 有问题
 
 中序遍历中节点$S$的前驱节点是左子树中最大的节点，由于中序遍历全局有序，所以任意节点的前驱节点在升序数列中刚好在该节点之前。
 
@@ -971,6 +991,11 @@ class Solution {
 }
 ```
 
+TODO:
+求众数，代码细节复杂 https://leetcode-cn.com/problems/find-mode-in-binary-search-tree/submissions/
+236 最近公共祖先 https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/
+235 题
+
 #### 逆中序遍历应用
 
 LeetCode 1038
@@ -1208,6 +1233,12 @@ public int maxDepth(TreeNode root) {
 一个优化频繁访问的节点的技巧是使用缓存，将最近访问的节点保存在一个变量中，如果这个节点被连续重复访问，那么后续查询操作可以在常量时间内完成。
 
 ### 插入操作
+
+二叉树插入，删除
+
+450 701
+
+构造树 108
 
 ### 结点数（size）与数高度（height）
 
