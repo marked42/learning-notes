@@ -1175,6 +1175,8 @@ kth Smallest 230
 
 TODO: https://algs4.cs.princeton.edu/32bst/
 
+深度，高度概念。
+
 1. Perfect balance. Write a program PerfectBalance.java that inserts a set of keys into an initially empty BST such that the tree produced is equivalent to binary search, in the sense that the sequence of compares done in the search for any key in the BST is the same as the sequence of compares used by binary search for the same set of keys.
 
 ### 树深度与平衡
