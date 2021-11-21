@@ -6,6 +6,7 @@ TODO:
 1. https://leetcode-cn.com/problems/subtree-of-another-tree/
 1. https://leetcode-cn.com/problems/two-sum-iv-input-is-a-bst/ 中序加上逆中序，不需要额外空间
 1. https://leetcode-cn.com/problems/second-minimum-node-in-a-binary-tree/ 官方题解未充分利用条件，不需要遍历所有节点
+1. https://leetcode-cn.com/problems/maximum-width-of-binary-tree/solution/er-cha-shu-zui-da-kuan-du-by-leetcode/ 树的宽度
 
 1. https://leetcode-cn.com/problems/minimum-distance-between-bst-nodes/submissions/ 中序遍历应用
 1. https://leetcode-cn.com/problems/increasing-order-search-tree/ 逆中序
@@ -119,6 +120,7 @@ var pathSum = function (root, targetSum) {
 例子
 
 1. 路径总和 https://leetcode-cn.com/problems/path-sum-ii/
+1. https://leetcode-cn.com/problems/path-sum-iii/ 思路不太一样
 
 ### 二叉树的类型
 
@@ -1429,6 +1431,8 @@ const serialized = '[1,2,3,null,null,4,5]'
 const nodes = deserialize(serialized)
 console.log(serialize(nodes))
 ```
+
+https://leetcode-cn.com/problems/serialize-and-deserialize-bst/solution/xu-lie-hua-he-fan-xu-lie-hua-er-cha-sou-suo-shu-2/
 
 ## 多叉树
 
