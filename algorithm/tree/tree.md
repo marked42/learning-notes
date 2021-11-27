@@ -53,8 +53,11 @@ TODO: 递归解法思考框架
 1. 子问题的递归结束条件
 1. 子问题的答案如何决定父问题的答案
 1. 递归的结束条件选择空指针（null）还是叶节点
+
    1. 空指针的话形式统一，对于整个树为空的情况不用额外判断，
    1. 叶节点的话一般贴近原始题目的描述，但是递归情况的处理稍微复杂，对整个树为空的情况额外判断，而且递归函数要保证接受的节点参数不为 null，减少对于空指针情况的递归对于完全二叉树可以减少一半的函数调用，性能相对高
+
+1. 注意递归函数返回值
 
 循环相比于递归的好处
 
@@ -996,7 +999,54 @@ class Solution {
 TODO:
 求众数，代码细节复杂 https://leetcode-cn.com/problems/find-mode-in-binary-search-tree/submissions/
 236 最近公共祖先 https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/
+https://leetcode-cn.com/problems/first-common-ancestor-lcci/
 235 题
+
+```js
+// 返回满足条件的节点，比较简单，递归情况包含了当前节点p/q/null三种情况
+var lowestCommonAncestor = function (root, p, q) {
+  if (root === p || root === q || root === null) {
+    return root
+  }
+
+  const left = lowestCommonAncestor(root.left, p, q)
+  const right = lowestCommonAncestor(root.right, p, q)
+
+  if (left === null) {
+    return right
+  }
+  if (right === null) {
+    return left
+  }
+
+  return root
+}
+
+// 第一种做法返回 true false比较复杂
+var lowestCommonAncestor = function (root, p, q) {
+  let ancestor
+  function postorder(node) {
+    if (!node) {
+      return false
+    }
+
+    const left = postorder(node.left)
+    const right = postorder(node.right)
+
+    if (
+      (left && right) ||
+      ((node.val === p.val || node.val === q.val) && (left || right))
+    ) {
+      ancestor = node
+    }
+
+    return left || right || node.val === p.val || node.val === q.val
+  }
+  postorder(root)
+
+  return ancestor
+}
+```
 
 #### 逆中序遍历应用
 
