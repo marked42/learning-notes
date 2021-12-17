@@ -302,6 +302,20 @@ Binding
 
 https://zhuanlan.zhihu.com/p/333951676
 
+#### 遍历操作类型
+
+1. hasType 给一个全局 boolean 标志位 false，遍历的过程遇到条件成立就设置标志位位 true
+1. 深度优先的节点遍历 enter/exit/type enter exit
+
+1. 节点操作类型 replace/replaceWithMultiple/insertBefore/insertAfter/查询操作...
+1. 嵌套的 traverse 可以显式传入 parentPath
+
+1. visitor 类型介绍 核心类型是 { keyType: { enter: Array<Function>, exit: Array<Function> } }，每个节点类型支持 enter/exit 两种，每种有多个 callback 数组类型。
+1. Identifier -> Identifier{ enter() {} }
+1. 'Identifier|NumericLiteral' -> Identifier {}, Numeric Literal
+1. Aliases Property
+1. 介绍下 virtualTypes 常用的动态类型
+
 #### 节点变换
 
 ast 的查询、沿着树上下遍历
