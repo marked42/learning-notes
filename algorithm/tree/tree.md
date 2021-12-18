@@ -4,8 +4,10 @@ TODO:
 没有思路
 
 1. https://leetcode-cn.com/problems/subtree-of-another-tree/
+1. https://leetcode-cn.com/problems/cousins-in-binary-tree/
 1. https://leetcode-cn.com/problems/two-sum-iv-input-is-a-bst/ 中序加上逆中序，不需要额外空间
 1. https://leetcode-cn.com/problems/second-minimum-node-in-a-binary-tree/ 官方题解未充分利用条件，不需要遍历所有节点
+1. https://leetcode-cn.com/problems/recover-binary-search-tree/submissions/ 恢复二叉树，存在 edge case
 
 1. https://leetcode-cn.com/problems/minimum-distance-between-bst-nodes/submissions/ 中序遍历应用
 1. https://leetcode-cn.com/problems/increasing-order-search-tree/ 逆中序
@@ -932,6 +934,8 @@ https://en.wikipedia.org/wiki/Reverse_Polish_notation
 
 此处利用 Morris 中序遍历，还可以只用两个变量记录需要交换的节点对而不是用列表记录所有节点对。
 
+https://leetcode-cn.com/problems/recover-binary-search-tree/submissions/
+
 ```java
 class Solution {
     public void recoverTree(TreeNode root) {
@@ -995,6 +999,50 @@ TODO:
 求众数，代码细节复杂 https://leetcode-cn.com/problems/find-mode-in-binary-search-tree/submissions/
 236 最近公共祖先 https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/
 235 题
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {void} Do not return anything, modify root in-place instead.
+ */
+var recoverTree = function (root) {
+  let first = null
+  let second = null
+  let prev = null
+
+  function inorder(node) {
+    if (!node) {
+      return
+    }
+
+    inorder(node.left)
+    if (prev && prev.val > node.val) {
+      if (first === null) {
+        first = prev
+      }
+      second = node
+    }
+
+    prev = node
+    inorder(node.right)
+  }
+  inorder(root)
+
+  const temp = first.val
+  first.val = second.val
+  second.val = temp
+
+  return root
+}
+```
 
 #### 逆中序遍历应用
 
