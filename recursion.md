@@ -20,3 +20,4 @@ References
 1. https://blog.moertel.com/tags/recursion-to-iteration%20series.html
 1. https://en.wikipedia.org/wiki/Tail_call
 1. https://www.cs.odu.edu/~zeil/cs361/latest/Public/recursionConversion/index.html
+1. https://www.refactoring.com/catalog/replaceRecursionWithIteration.html
