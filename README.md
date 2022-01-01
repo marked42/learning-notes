@@ -108,7 +108,7 @@
    1. https://juejin.im/post/59dc2b7a6fb9a0451869ae3a
    1. https://github.com/dwqs/blog/issues/68
    1. https://zhuanlan.zhihu.com/p/45568315
-1. CRSF
+1. CSRF
 1. [SameSite cookies explained](https://web.dev/samesite-cookies-explained/)
 1. https://juejin.im/post/593df628da2f60006728cff2
 1. [劫持与反劫持](https://juejin.im/post/593df628da2f60006728cff2)
@@ -197,7 +197,6 @@
 - [ ] CSS-Tricks https://zhuanlan.zhihu.com/p/60917882
 - [ ] javascript 设计模式与开发实践
 - [ ] 《javascript 框架设计(第二版)》
-- [ ] Refactoring 2nd Edition
 - [ ] 高性能网站建设指南
 - [ ] 前端架构：从入门到微前端
 - [ ] https://github.com/phodal/booktree
@@ -214,3 +213,55 @@
 - [ ] [dwb](http://dwbbb.com/)
 
 1. [How to be a Mentor](https://kentcdodds.com/chats-with-kent-podcast/seasons/01/episodes/creating-successful-mentor-relationships-with-emma-bostian)
+
+## TODO
+
+1. Diff 算法相关
+1. Parsing
+   1. JSON Parsing
+   1. HTML/XML
+   1. CSS
+   1. Expression Shunting Yard / TDOP
+   1. 正则表达式
+   1. HTTP
+   1. Javascript Parser
+1. Recursion/Iteration
+1. API Design
+1. 编码
+1. Algorithm
+   1. Binary Tree
+   1. Hash Table
+   1. DP
+1. Javascript Spec
+   1. Module
+   1. Promise
+   1. Async/Await
+1. Frontend Tools 针对典型问题分析，了解要实现什么功能，进行设计，对比经典方案
+
+   1. 模块依赖分析 对这个过程如何抽象设计才合理
+   1. Babel
+   1. ESLint
+   1. rollup
+   1. bundling webpack/Vite
+   1. CLI
+      1. params parsing commander / yargs / minimist
+      1. console ora/chalk/ansi code
+      1. log 和 debug 设计
+   1. monorepo lerna
+   1. DOM Diff Algorithm
+   1. Design of Editor / VSCode
+
+1. Language and Parsing
+   1. Closure
+   1. LuaVM
+   1. crafting interpreters
+1. 架构与设计
+   1. Refactoring 2
+   1. Code Complete
+   1. Clean Code
+   1. Legacy Code
+   1. Design Pattern
+   1. type code 和 sub class 设计
+   1. TDD Kent Beck
+1. UI/UX Design
+1. 客户端 iOS / Android

@@ -110,9 +110,7 @@ TODO:
 1. 模块化 js ninja ch11
 1. 模块化机制，实现 require(commonjs), define(amd), umd 模块的互操作性 https://www.zhihu.com/question/288322186/answer/460742151
 1. https://zhuanlan.zhihu.com/p/40733281
-   <<<<<<< HEAD
-1. # https://exploringjs.com/es6/ch_modules.html
-
+1. https://exploringjs.com/es6/ch_modules.html
 1. https://zhuanlan.zhihu.com/p/97335917
 
 ## ES Module
@@ -148,4 +146,3 @@ https://tc39.es/ecma262/#sec-module-environment-records-getbindingvalue-n-s
 1. [Understanding Execution Context and Execution Stack in Javascript](https://blog.bitsrc.io/understanding-execution-context-and-execution-stack-in-javascript-1c9ea8642dd0)
 
 1. [ES6 Module Loading More Complicated Than You Think](https://humanwhocodes.com/blog/2016/04/es6-module-loading-more-complicated-than-you-think/)
-   > > > > > > > 85dad8e6955da524cb95ab95a1a6caf8022c35a9
