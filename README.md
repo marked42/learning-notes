@@ -232,6 +232,7 @@
    1. Binary Tree
    1. Hash Table
    1. DP
+   1. string trie 树
 1. Javascript Spec
    1. Module
    1. Promise
