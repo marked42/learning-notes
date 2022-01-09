@@ -25,6 +25,8 @@ Workflow
 
 Red -> Green -> Refactor
 
+1. [Refactoring to Functions](https://www.bilibili.com/video/BV1xs411X7iv)
+
 Two Hats
 
 1. Add Function
