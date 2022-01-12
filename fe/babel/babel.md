@@ -593,3 +593,7 @@ custom parser syntax
 1. [Code Transformation and Linting with ASTs with Kent C Dodds](https://frontendmasters.com/courses/linting-asts/)
 1. https://github.com/babel/babel/pull/3561
 1. [AST In Modern Javascript](https://juejin.cn/post/6844903540024950791)
+
+1. https://www.bilibili.com/video/BV14M4y1A78f/
+1. https://www.bilibili.com/video/BV1U44y1E7pV
+1. [Writing custom Babel and ESLint plugins with ASTs](https://www.bilibili.com/video/BV1zq4y1q7U6/)
