@@ -1,5 +1,7 @@
 # Refactoring and Patterns
 
+[google code review guide](https://google.github.io/eng-practices/review/reviewer/)
+
 1. Refactoring 2nd Edition
 1. https://www.martinfowler.com/articles/refactoring-pipelines.html
 1. https://martinfowler.com/books/refactoringHtml.html
@@ -56,6 +58,27 @@ patterns happy 要不得
 
 每个模式的应用要考虑成本和收益，在成本大于收益时不要使用模式，
 
+```java
+    if ("json".equalsIgnoreCase(configFormat)) {
+      parser = new JsonRuleConfigParser();
+    } else if ("xml".equalsIgnoreCase(configFormat)) {
+      parser = new XmlRuleConfigParser();
+    } else if ("yaml".equalsIgnoreCase(configFormat)) {
+      parser = new YamlRuleConfigParser();
+    } else if ("properties".equalsIgnoreCase(configFormat)) {
+      parser = new PropertiesRuleConfigParser();
+    }
+```
+
+解决两个问题
+
+1. 代码中写死的 if/else 分支，无法运行时动态添加分类问题
+1. 每个分类的代码逻辑可能很长，不是一句简单的 new 语句，如何将不同分支代码拆分
+1. 添加新分类会修改代码，违反开放、封闭原则。
+1. 代码中分支不多，不需要频繁添加新分类时不用重构
+
+## DI 容器是创建过程的终极解决方案
+
 什么时候该使用这个模式，成本与收益？
 
 1. raw constructor -> 原始数据需要转换处理，得到构造函数所需要的数据
@@ -81,7 +104,8 @@ patterns happy 要不得
 
 Open/Closed Principle. You can introduce new strategies without having to change the context.
 
-1.  https://libgen.unblockit.how/libraryp2/main/009EAA05B477B57182B12B6755C01B87
-1.  https://gateway.pinata.cloud/ipfs/bafykbzaceap7vc6374zw5isy4tarcg24egfnhy662xlz7pqy2frf5hdquyq7c?filename=Thorsten%20Ball%20-%20Writing%20an%20interpreter%20in%20Go%20%282017%29.pdf
-1.  https://libgen.unblockit.how/book/index.php?md5=F0182DEBE7478735C07B82D15DD58FDE
-1.  Design Patterns for Object-Oriented Software Development.
+1. [Build Your Own Lisp](https://buildyourownlisp.com/contents)
+1. https://libgen.unblockit.how/libraryp2/main/009EAA05B477B57182B12B6755C01B87
+1. https://gateway.pinata.cloud/ipfs/bafykbzaceap7vc6374zw5isy4tarcg24egfnhy662xlz7pqy2frf5hdquyq7c?filename=Thorsten%20Ball%20-%20Writing%20an%20interpreter%20in%20Go%20%282017%29.pdf
+1. https://libgen.unblockit.how/book/index.php?md5=F0182DEBE7478735C07B82D15DD58FDE
+1. Design Patterns for Object-Oriented Software Development.
