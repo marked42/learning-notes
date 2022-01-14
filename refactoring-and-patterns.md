@@ -41,13 +41,38 @@ dark patterns
 
 1. https://www.darkpatterns.org/
 
-## Creation
+## Patterns
 
-patterns happy 要不得
+1. 对于典型问题的套路总结
+1. 对于设计的交流语言 convey intention
+1. functional patterns
+1. patterns happy 要不得
 
 每个模式的应用要考虑成本和收益，在成本大于收益时不要使用模式，
 
 什么时候该使用这个模式，成本与收益？
+
+需要寻找例子
+
+1. 例子要真实，才能体现模式的必要性。
+
+## Creation
+
+创建对象逻辑比较复杂时会遇到哪些问题？
+
+1. 类数据特别多，造成构造函数参数特别多，逻辑太长需要拆分
+1. 创建一系列的对象，对象有共同的基类? 对象组合造成子类个数非常多
+1. 对象之间没有关联
+
+几种方法区分 https://refactoring.guru/design-patterns/factory-comparison
+
+### factory method
+
+设计的正交性
+
+Components -> button window
+System -> windows / html
+Dialog -> system + button
 
 1. raw constructor -> 原始数据需要转换处理，得到构造函数所需要的数据
 1. creation method
@@ -62,6 +87,12 @@ patterns happy 要不得
 1. 对参数进行封装，用户不知道如何使用构造函数
 1. 构造函数种类很多，使用参数支持，而不是为每类都创建对应函数
 1. 构造函数太多，干扰类本身的 public api，使用专门的 Factory
+
+builder pattern/template pattern
+
+focuses on constructing complex objects step by step
+
+针对复杂的对象 composite，建造者模式可以返回不同的类实例
 
 ## Conditional
 
