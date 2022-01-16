@@ -33,6 +33,14 @@ Effective Java Type-safe Enum Patterns
 
 类型安全，且可拓展
 
+## Null Object
+
+Martin Fowler Introduce Special Case
+
+对于某个类空值的特殊处理逻辑散落**多处**，应该将这些逻辑抽取到单独的类对象中。这属于 Primitive Obsession 的一种。
+
+introduce null object
+
 ## 聚合为类
 
 1. Change Reference to Value
