@@ -2,8 +2,12 @@
 
 直接使用构造函数创建新对象
 
-1. 名称固定，返回值固定，
+1. 名称固定，意味着没法使用更有意义的名称
+1. 返回值只能是该类的实例，无法返回子类或者一个代理对象 Proxy
+1. 必须使用 new 运算符
 1. 多个构造函数易混淆，参数多了易用错
+
+相关的重构手法 Replace Constructor with Factory Function
 
 ## 构造函数
 
@@ -87,10 +91,18 @@ class SimpleFactory {
 ## 建造者模式(Builder)
 
 针对单一对象创建过程复杂的情况。
+focuses on constructing complex objects step by step
+针对复杂的对象 composite，建造者模式可以返回不同的类实例
 
 1. 直接使用构造函数，构造函数的缺点
 1. 使用构造函数加上手动的 getter/setter 调用
 1. 建造者模式，避免中间状态，封装校验逻辑，创建不可变对象。
+
+创建对象逻辑比较复杂时会遇到哪些问题？
+
+1. 类数据特别多，造成构造函数参数特别多，逻辑太长需要拆分
+1. 创建一系列的对象，对象有共同的基类? 对象组合造成子类个数非常多
+1. 对象之间没有关联
 
 ## 依赖容器（Dependency Injection Container）
 

@@ -4,6 +4,11 @@
 
 1. 开闭原则 Open/Closed Principle. You can introduce new strategies without having to change the context.
 1. SOLID 原则
+1. 高内聚，低耦合
+1. 设计的正交性
+1. YAGNI You aren’t gonna need it 原则 overdesign
+1. 最小权限原则，所有需要权限的地方，只给需要的最小权限。
+1. 只读 immutable data，side-effect free
 
 ## 代码味道（Code Smell）
 
@@ -44,7 +49,11 @@ Martin Fowler 关于重构流程的视频 [Workflows of Refactoring](https://www
 
 ## 模式
 
-patterns happy 要不得
+1. 例子要真实，才能体现模式的必要性。
+1. 对于典型问题的套路总结
+1. 对于设计的交流语言 convey intention
+1. functional patterns
+1. patterns happy 要不得
 
 什么时候该使用这个模式，成本与收益？
 每个模式的应用要考虑成本和收益，在成本大于收益时不要使用模式，

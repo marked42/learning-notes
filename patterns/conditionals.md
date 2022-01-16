@@ -1,5 +1,10 @@
 # 条件
 
+条件选择语句（if/else/switch）可能存在的问题
+
+1. 条件分支写死在代码中，无法运行时动态修改
+1. 单个条件分支逻辑复杂，代码行数很多
+
 ## 合并条件
 
 decompose conditional
@@ -39,6 +44,16 @@ client + context + state
 1. 方便增加新的状态
 
 ## Replace Conditional Dispatcher with Command
+
+重构手法
+Replace Function with Command/Replace Command with Function
+
+多数情况下函数形式够用了，在函数逻辑特别复杂，需要拆分的情况下考虑重构为命令对象（command object）
+
+这个模式对于 Java 等面向对象语言更有必要，因为函数不能独立存在，只能作为对象方法存在。
+JS 中可以使用嵌套函数和闭包实现等价效果。
+
+命令对象的形式相比于函数要灵活，可以将函数拆分为多个阶段分别执行，保存中间状态，支持相关操作例如 undo。
 
 命令模式
 
