@@ -2,6 +2,7 @@
 
 ## 原则（Principles）
 
+1. DRY
 1. 开闭原则 Open/Closed Principle. You can introduce new strategies without having to change the context.
 1. SOLID 原则
 1. 高内聚，低耦合
@@ -11,6 +12,46 @@
 1. 只读 immutable data，side-effect free
 
 ## 代码味道（Code Smell）
+
+Mysterious Name
+Global Data/Singleton
+Mutable Data
+
+1. Bloaters
+   1. Long Method
+   1. Long Parameter List
+1. Data Organization
+
+   1. Large Class
+   1. Primitive Obsession
+   1. Data Clumps
+   1. Data Class
+   1. Temporary Field
+   1. Lazy Element
+   1. Combinatorial Explosion / Composition over Inheritance
+
+1. Object-Orientation Abusers
+   1. Alternative Classes with Different Interfaces
+   1. Refused Bequest
+   1. Temporary Field
+   1. Repeated Switches
+1. Change Preventers 违反高内聚原则
+
+   1. Hierarchies
+
+1. Dispensables
+   1. Comments
+   1. Duplicated Code/Combinatorial Explosion
+   1. Dead Code
+   1. Speculative Generality
+1. Couplers 违反低耦合原则
+
+   1. Features Envy
+   1. Inappropriate Intimacy/Insider Trading 互相依赖私有成员
+   1. Incomplete Library Class
+   1. Middle Man/Message Chains
+   1. Divergent Change 一个模块、类因为多个原因发生变化 Single Responsibility
+   1. Shotgun Surgery 新增或者更新一个功能时，需要修改多个模块、类 这两个讲的是模块之间的的耦合关系
 
 1. [Code Refactoring Learn Code Smells And Level Up Your code](https://www.bilibili.com/video/BV1Sz411q76F)
 

@@ -4,6 +4,7 @@
 
 数据
 
+1. Extract Data/Inline Data
 1. Separate Query from Modifier
 1. Split Variable
 1. Replace Derived Variable with query
@@ -37,6 +38,19 @@ Effective Java Type-safe Enum Patterns
 1. Change Reference to Value
 1. Change Value to Reference
 
+## 数据层级
+
+Method/Field/Constructor 放到合适的层级
+
+1. Extract Superclass 消除多个子类中相同的代码重复多次，或者利用模板方法模式消除部分重复，可能需要新建共同的父类。
+1. Extract Class 使用 Composite 解决类数目爆炸问题
+1. 将父类中的成员下降到具体子类中，消除 Refused Bequest
+
 ## 组合优于继承
 
+Favor object composition over class inheritance
+Liskov Principle
+
 composite inheritance
+Replace Subclass with delegate
+Replace Superclass with delegate

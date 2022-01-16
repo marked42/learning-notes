@@ -7,11 +7,11 @@
 
 ## 合并条件
 
-decompose conditional
-
-## Guard Clause
-
-1. 使用 Guard Clause 语句简化条件，提早退出。
+1.  decompose conditional
+1.  Consolidate Conditional
+1.  Replace Nested with Guard 使用 Guard Clause 语句简化条件，提早退出。
+1.  introduce assertion
+1.  introduce null object
 
 ## Replace Conditional with Polymorphism
 
@@ -19,6 +19,8 @@ decompose conditional
 
 1. type code/switch case/if 分支特别多，每个分支代码也很多的情况下
 1. inheritance 形式。使用 replace type code with polymorphism，可以将每个分支代码封装在单独类中，类的个数和分支数相同。
+
+## Replace Type Code with Sub Classes
 
 ## Replace Conditional with Strategy
 
