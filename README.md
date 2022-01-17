@@ -212,11 +212,8 @@
 - [ ] [颜海镜](https://yanhaijing.com/)
 - [ ] [dwb](http://dwbbb.com/)
 
-1. [How to be a Mentor](https://kentcdodds.com/chats-with-kent-podcast/seasons/01/episodes/creating-successful-mentor-relationships-with-emma-bostian)
-
 ## TODO
 
-1. Diff 算法相关
 1. Parsing
    1. JSON Parsing
    1. HTML/XML
@@ -225,6 +222,11 @@
    1. 正则表达式
    1. HTTP
    1. Javascript Parser
+   1. Writing Compilers and Interpreters
+1. Language
+   1. Closure
+   1. LuaVM
+   1. crafting interpreters
 1. Recursion/Iteration
 1. API Design
 1. 编码
@@ -239,6 +241,7 @@
    1. Async/Await
 1. Frontend Tools 针对典型问题分析，了解要实现什么功能，进行设计，对比经典方案
 
+   1. DOM Diff Algorithm
    1. 模块依赖分析 对这个过程如何抽象设计才合理
    1. Babel
    1. ESLint
@@ -249,20 +252,47 @@
       1. console ora/chalk/ansi code
       1. log 和 debug 设计
    1. monorepo lerna
-   1. DOM Diff Algorithm
-   1. Design of Editor / VSCode
+   1. Design of [Editor](https://viewsourcecode.org/snaptoken/kilo/) / VSCode
 
-1. Language and Parsing
-   1. Closure
-   1. LuaVM
-   1. crafting interpreters
-1. 架构与设计
-   1. Refactoring 2
-   1. Code Complete
-   1. Clean Code
-   1. Legacy Code
-   1. Design Pattern
-   1. type code 和 sub class 设计
-   1. TDD Kent Beck
+## 架构与设计
+
+JS 模式
+
+- [ ] Learning Javascript Design Patterns
+- [ ] Maintainable Javascript [Nicholas C.Zakas Books](https://humanwhocodes.com/)
+- [ ] Testable Javascript
+- [ ] Typescript Design Patterns
+- [ ] Effective Javascript
+- [ ] Javascript Ninja
+- [ ] Eloquent Ninja
+- [ ] Javascript For the Impatient Programmer
+- [ ] Becoming Functional
+- [ ] High Performance Javascript
+- [ ] You dont know JS
+- [ ] JavaScript 设计模式与开发实践
+- [ ] JavaScript 设计模式
+
+通用模式
+
+- [ ] https://github.com/phodal/booktree
+- [ ] Refactoring 2
+- [x] Refactoring to Patterns
+- [ ] A Little Java, A Few Patterns
+- [ ] Working Effectively with Legacy Code
+- [ ] Design Pattern
+- [ ] TDD Kent Beck
+- [ ] Implementations Patterns
+- [ ] Clean Code
+- [ ] The Art of Readable Code
+- [ ] The Clean Coder
+- [ ] Code Complete
+- [ ] Domain Driven Design
+- [ ] Code Reading
+- [ ] Clean Architecture
+- [ ] Patterns of enterprise application architecture
+- [ ] Pattern-Oriented_Software_Architecture
+
+## Design
+
 1. UI/UX Design
 1. 客户端 iOS / Android
