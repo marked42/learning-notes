@@ -35,6 +35,10 @@ if (aPlan.withinRange(low, high)) {
 
 统一为数组形式
 
+### Collecting Parameters
+
+TODO: TDD / Refactoring To Patterns
+
 ## 过程
 
 1. Separate Query with Modifier

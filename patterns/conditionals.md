@@ -44,6 +44,8 @@ client + context + state
 1. 拆分不同状态的代码
 1. 方便增加新的状态
 
+TODO: TDD Pluggable Object
+
 ## Replace Conditional Dispatcher with Command
 
 重构手法

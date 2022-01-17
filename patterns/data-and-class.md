@@ -8,7 +8,6 @@
 1. Separate Query from Modifier
 1. Split Variable
 1. Replace Derived Variable with query
-1. Value <-> Reference Data
 
 1. 删除不必要的写方法 setting method
 1. 读写分离，变量拆分
@@ -33,13 +32,21 @@ Effective Java Type-safe Enum Patterns
 
 类型安全，且可拓展
 
-## Null Object
+## Special Case
+
+Null Object
 
 Martin Fowler Introduce Special Case
 
 对于某个类空值的特殊处理逻辑散落**多处**，应该将这些逻辑抽取到单独的类对象中。这属于 Primitive Obsession 的一种。
 
 introduce null object
+
+## Value/Reference
+
+Value Object TDD
+
+1. Value <-> Reference Data Refactoring
 
 ## 聚合为类
 
