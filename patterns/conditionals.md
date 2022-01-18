@@ -45,6 +45,7 @@ client + context + state
 1. 方便增加新的状态
 
 TODO: TDD Pluggable Object
+https://github.com/lecepin/blog
 
 ## Replace Conditional Dispatcher with Command
 
