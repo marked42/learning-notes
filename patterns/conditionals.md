@@ -46,6 +46,8 @@ client + context + state
 
 TODO: TDD Pluggable Object
 
+图片编辑单选、多选模式实现。
+
 ## Replace Conditional Dispatcher with Command
 
 重构手法

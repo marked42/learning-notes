@@ -73,6 +73,10 @@ Mutable Data
 1.  Turn Understanding -> Code
 1.  代码审查（code review）的时候， [google code review guide](https://google.github.io/eng-practices/review/reviewer/)
 
+总原则
+
+旧的不变，添加新的，使用新的，替换旧的
+
 ### 开发流程
 
 Workflow
