@@ -1,4 +1,20 @@
-# babel examples
+# 插件案例分析
+
+### babel 现有的插件进行大致的分析和分类。
+
+官方的[插件列表](https://babeljs.io/docs/en/plugins-list)
+[官方插件实现分析](https://space.bilibili.com/228173207?spm_id_from=333.788.b_765f7570696e666f.2)
+选择若干典型案例
+https://www.sitepoint.com/understanding-asts-building-babel-plugin/?spm=taofed.bloginfo.blog.10.22bb5ac8m6A7NK
+
+@babel/plugin-proposal-nullish-coalescing-operator
+@babel/plugin-proposal-optional-chaining
+
+社区插件
+
+1. babel-plugin-lodash
+1. babel-plugin-preval
+1. babel-plugin-macro
 
 ## tree-walk interpreter
 
