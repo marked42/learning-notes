@@ -251,7 +251,8 @@
       1. params parsing commander / yargs / minimist
       1. console ora/chalk/ansi code
       1. log 和 debug 设计
-   1. monorepo lerna
+   1. monorepo lerna [version](https://cloud.tencent.com/developer/article/1883133),[publish](https://cloud.tencent.com/developer/article/1883132)
+
    1. Design of [Editor](https://viewsourcecode.org/snaptoken/kilo/) / VSCode
 
 ## 架构与设计

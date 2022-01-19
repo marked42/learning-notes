@@ -6,7 +6,7 @@
 
 1. Extract Data/Inline Data
 1. Separate Query from Modifier
-1. Split Variable
+1. Split Variable 单一职责，解释性命名
 1. Replace Derived Variable with query
 
 1. 删除不必要的写方法 setting method

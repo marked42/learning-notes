@@ -45,6 +45,7 @@ client + context + state
 1. 方便增加新的状态
 
 TODO: TDD Pluggable Object
+https://github.com/lecepin/blog
 
 图片编辑单选、多选模式实现。
 

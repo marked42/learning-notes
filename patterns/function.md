@@ -14,7 +14,7 @@
 ## 参数
 
 1. Parameterize Function
-1. Remove Flag Argument
+1. Remove Flag Argument 不要使用参数控制函数内部不同逻辑，将函数拆分，单一责任原则。
 1. Preserve Whole Object
 
 ```js
