@@ -67,11 +67,24 @@ Mutable Data
 
 ## 重构
 
+### 什么是重构
+
+在不改变可观察行为的情况下，修改程序内部结构。
+
+程序在开发之处不可避免的走向腐化，熵增原则，新增功能的成本越来越高，最终可能失败。
+
+软件开发的两种方式
+
+1. 在开发之处考虑到所有情况，进行设计，然后开发
+1. 开发的过程中，根据需求，不断调整重构，维护项目代码整洁
+
 ### 重构的时机
 
 1.  Litter-Pickup Refactoring/Camp Rule
 1.  Turn Understanding -> Code
 1.  代码审查（code review）的时候， [google code review guide](https://google.github.io/eng-practices/review/reviewer/)
+
+关键是步骤尽可能的小，关键点，避免大量代码变化造成问题追查成本较高。
 
 ### 开发流程
 
