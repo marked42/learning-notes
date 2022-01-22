@@ -12,6 +12,21 @@
 ## 构造函数
 
 1. raw constructor -> 原始数据需要转换处理，得到构造函数所需要的数据
+1. 构造函数名称通常是固定的，无法使用有意义的名称
+1. 多个重载的构造函数无法很好区分
+
+```js
+class Point {
+  // Cartesian
+  constructor(x: number, y: number) {
+  }
+
+  // Polar
+  constructor(rho: number, radius: number) {
+
+  }
+}
+```
 
 ## 创建方法(Creation Method)
 
@@ -103,6 +118,13 @@ focuses on constructing complex objects step by step
 1. 类数据特别多，造成构造函数参数特别多，逻辑太长需要拆分
 1. 创建一系列的对象，对象有共同的基类? 对象组合造成子类个数非常多
 1. 对象之间没有关联
+
+```js
+class HtmlBuilder {}
+
+// 对象复杂，一个Builder需要拆分成不同的子Builder创建不同的部分。
+class BuilderFacets {}
+```
 
 ## 依赖容器（Dependency Injection Container）
 

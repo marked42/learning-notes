@@ -259,10 +259,8 @@
 
 JS 模式
 
-- [ ] Learning Javascript Design Patterns
 - [ ] Maintainable Javascript [Nicholas C.Zakas Books](https://humanwhocodes.com/)
 - [ ] Testable Javascript
-- [ ] Typescript Design Patterns
 - [ ] Effective Javascript
 - [ ] Javascript Ninja
 - [ ] Eloquent Ninja
@@ -270,8 +268,6 @@ JS 模式
 - [ ] Becoming Functional
 - [ ] High Performance Javascript
 - [ ] You dont know JS
-- [ ] JavaScript 设计模式与开发实践
-- [ ] JavaScript 设计模式
 
 通用模式
 

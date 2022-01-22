@@ -11,6 +11,7 @@
 
 1. 删除不必要的写方法 setting method
 1. 读写分离，变量拆分
+1. 避免全局数据，尽量缩小数据的可见范围，权限 don't modify object you don't own
 
 ## 基础数据
 
