@@ -25,3 +25,4 @@ defineType('BinaryExpression', {
 
 1. [The Super Tiny Compiler](https://github.com/jamiebuilds/the-super-tiny-compiler)
 1. [Creating custom JavaScript syntax with Babel](https://lihautan.com/creating-custom-javascript-syntax-with-babel/)
+1. https://zhuanlan.zhihu.com/p/27289600
