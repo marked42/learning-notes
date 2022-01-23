@@ -122,7 +122,7 @@ parser.parse(script)
 
 ### 语句（Statement）
 
-语句是`Program`节点的子节点，包含常见的语句类型。
+语句是`Program`节点的子节点，常见的语句类型如下。
 
 ```txt
 // 只包含一个分号的空语句 EmptyStatement
@@ -282,7 +282,7 @@ export interface CommentLine extends BaseComment {
 export type Comment = CommentBlock | CommentLine
 ```
 
-同一个注释节点可以由多个抽象语法树节点共享，因此对于注释相对于一个节点有三种位置。
+同一个注释节点可以由多个抽象语法树节点共享，一个节点的注释有三种位置。
 
 ```ts
 // leading comment
@@ -294,23 +294,89 @@ function fun(/* inner comment */ a) {}
 
 ### 节点别名 Aliases
 
-aliases 节点别名
+上述节点都是具体的节点类型，若干不同节点还可以使用别名归类到同一个概念下。
 
-1. Aliases Property
-1. 介绍下 virtualTypes 常用的动态类型
+#### Binary
+
+二元表达式（BinaryExpression）和逻辑表达式（LogicalExpression）都是两个操作数，可以使用 Binary 来引用。
+
+#### 循环相关
+
+For 循环语句包括普通 for 语句、for-in 语句和 for-of 语句，可以统称为 For；While 语句和 Do-While 语句可以统称为 While；For 和 While 又可以统称为 Loop。
+
+#### 函数相关
+
+所有可能代表函数的类型，统称为 Function。
+
+```ts
+export type Function =
+  | FunctionDeclaration
+  | FunctionExpression
+  | ObjectMethod
+  | ArrowFunctionExpression
+  | ClassMethod
+  | ClassPrivateMethod
+```
+
+#### 左值类型
+
+左值类型 LVal 指的是能够出现在赋值表达式左边的节点类型。
+
+```ts
+export type LVal =
+  | Identifier
+  | MemberExpression
+  | RestElement
+  | AssignmentPattern
+  | ArrayPattern
+  | ObjectPattern
+  | TSParameterProperty
+```
+
+#### 模式类似
+
+可能作为 Pattern 的几种类型。
+
+```ts
+export type PatternLike =
+  | Identifier
+  | RestElement
+  | AssignmentPattern
+  | ArrayPattern
+  | ObjectPattern
+```
+
+#### 作用域相关
+
+作用域相关的节点别名有 Scopable/BlockParent/Block 等，详细机制可以参考[插件作用域篇](./plugin-scope.md)。
 
 ## AST 相关的工具
 
-每种 AST 节点有关联的功能点
-一个 AST 节点类型对应的工具函数。
+@babel/types 包为操作 AST 节点提供了很多辅助函数，涵盖了绝大部分使用场景。对于常见的操作可以先查看下官方是否已经提供，下面列出一些常见的工具函数。
 
-### 类型 validator
+### 构造 AST
+
+每个节点在@babel/type 中都定义有相关的构造函数，
+
+```ts
+import * as t from '@babel/types'
+
+// 1 + 2
+t.binaryExpression('+', t.numericLiteral(1), t.numericLiteral(2))
+```
+
+### 查询验证节点类型
+
+每个节点类型都有`is`开头的辅助函数判断指定节点参数是否是某种类型的节点，可以接受第二个可选参数指定需要满足的属性。
 
 ```js
-// 构造
-t.binaryExpression()
 // 是否
 t.isBinaryExpression(maybeBinaryExpressionNode, { operator: '*' })
+```
+
+`assert`开头的辅助函数保证节点必须是指定类型，否则会抛出异常。
+
+```ts
 // 保证节点类型
 t.assertBinaryExpression(maybeBinaryExpressionNode, { operator: '*' })
 ```
@@ -336,5 +402,63 @@ const ast = buildRequire({
 console.log(generate(ast).code)
 ```
 
-1. interpreter directive stage 1
-1. template literal/tagged template literal quasi ?
+### 克隆节点
+
+抽象语法树中每个节点都是唯一的，不能在多个位置重复使用一个节点，对于需要使用两个内容一模一样的节点，可以使用辅助函数进行克隆。
+
+```ts
+import * as t from '@babel/types'
+
+const id = t.identifier('a')
+const clonedId = t.clone(id)
+
+id !== clonedId
+```
+
+### 成员表达式组合
+
+成员表达式（MemberExpression）可以多个组合起来。
+
+```ts
+import * as t from '@babel/types'
+
+// a.b
+const m = t.memberExpression(t.identifier('a'), t.identifier('b'))
+const c = t.identifier('c')
+
+// a.b -> a.b.c
+t.appendToMemberExpression(m, c)
+// a.b -> c.a.b
+t.prependToMemberExpression(m, c)
+```
+
+### 注释节点
+
+辅助函数提供了对节点添加、继承、删除注释的操作。
+
+```ts
+import * as t from '@babel/types'
+
+const node = t.identifier('a')
+
+// 添加单条注释，可以指明是单行还是多行形式
+t.addComment(node, 'leading', 'comment content', 'line')
+// 添加多条注释
+t.addComments(node, 'leading', comments)
+
+// 子节点node继承父节点parent的所有注释
+t.inheritComments(node, parent)
+
+// 删除节点所有注释
+t.removeComments(node)
+```
+
+### 值转换为 AST 节点
+
+使用`valueToNode`将具体类型未知的运行时值转换为合适的 AST 节点。
+
+```ts
+import * as t from '@babel/types'
+
+t.isNodesEquivalent(t.valueToNode(1), t.numericLiteral(1))
+```

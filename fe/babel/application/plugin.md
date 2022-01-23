@@ -4,6 +4,7 @@
 1. path
 1. scope
 1. examples
+1. path 相关 介绍下 virtualTypes 常用的动态类型
 
 ## 能用 babel 做些什么
 

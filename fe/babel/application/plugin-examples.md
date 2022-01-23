@@ -73,3 +73,12 @@ import [default,] [Named | Namespace] from 'mod'
 ```
 
 导出语句形式
+
+# Examples
+
+TODO: 找到官方插件中的相应用例
+
+1. 逗号表达式（SequenceExpression） converters toSequenceExpression/gatherSequenceExpression
+1. Expression 和 Statement 互转 toExpression/toStatement
+1. 判断类型关系
+1. 环境信息操作，使用`inherit/removeProperties`删除节点中的辅助信息字段。
