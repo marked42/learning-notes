@@ -236,7 +236,7 @@ null
 1n;
 ```
 
-其中 Symbol 没有没有字面量形式。另外 ECMAScript 规范规定`undefined`是标识符，默认值是`undefined`，而不是字面量，这点上和`null`不同。
+其中 Symbol 没有字面量形式。另外 ECMAScript 规范规定`undefined`是标识符，默认值是`undefined`，而不是字面量，这点上和`null`不同。
 
 ### 模式 Pattern
 
