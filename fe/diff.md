@@ -25,6 +25,7 @@
 参考资料
 
 1. [An O(ND) Difference Algorithm and Its Variations](http://www.xmailserver.org/diff2.pdf)
+1. [Git 是怎样生成 diff 的：Myers 算法](https://cjting.me/2017/05/13/how-git-generate-diff/)
 1. [The Myers diff algorithm: part 1](https://blog.jcoglan.com/2017/02/12/the-myers-diff-algorithm-part-1/)
 1. [The Myers diff algorithm: part 2](https://blog.jcoglan.com/2017/02/15/the-myers-diff-algorithm-part-2/)
 1. [The Myers diff algorithm: part 3](https://blog.jcoglan.com/2017/02/17/the-myers-diff-algorithm-part-3/)

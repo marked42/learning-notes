@@ -1,4 +1,14 @@
-# 作用域相关
+# 作用域机制
+
+TODO: intro
+
+## 变量名
+
+## 绑定标识符（Binding Identifier）
+
+## 引用标识符
+
+## 作用域
 
 这其中有作用域相关的节点操作 BindingIdentifier/IdentifierReference/Scope
 Identifier/IdentifierName Let/Var
