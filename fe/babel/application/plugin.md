@@ -8,8 +8,12 @@
 
 ## 能用 babel 做些什么
 
-1. [Code Transformation and Linting with ASTs with Kent C Dodds](https://frontendmasters.com/courses/linting-asts/)
+1. [Code Transformation and Linting with ASTs with Kent C Dodds](https://www.bilibili.com/video/BV13S4y1G741)
 1. [Writing custom Babel and ESLint plugins with ASTs](https://www.bilibili.com/video/BV1zq4y1q7U6/)
+
+例子
+
+1. ESLint 插件，if 语句必须使用 block statement
 
 ### 插件开发
 

@@ -381,6 +381,10 @@ t.isBinaryExpression(maybeBinaryExpressionNode, { operator: '*' })
 t.assertBinaryExpression(maybeBinaryExpressionNode, { operator: '*' })
 ```
 
+### 多层节点
+
+TODO: looksLike
+
 ### 从模板构造 AST
 
 手工构造复杂的 AST 节点树比较麻烦， `@babel/template`提供了从模板字符串自动生成对应 AST 树的方法。
