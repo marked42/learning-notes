@@ -11,6 +11,14 @@
 1. 最小权限原则，所有需要权限的地方，只给需要的最小权限。
 1. 只读 immutable data，side-effect free
 
+Implementation Patterns
+
+三个核心概念
+
+价值 Values
+原则 Principle
+模式 Pattern
+
 ## 代码味道（Code Smell）
 
 Mysterious Name
