@@ -20,6 +20,7 @@ _文章_
 1. [ECMAScript 规范阅读导引] [Part 1](https://fed.taobao.org/blog/taofed/do71ct/mlgtox) [Part 2](https://zhuanlan.zhihu.com/p/118140237)
 1. [How to Read the ECMAScript Specification](https://timothygu.me/es-howto/)
 1. [ES6 规范](https://www.ecma-international.org/publications-and-standards/standards/ecma-262/)
+1. [ES6 In Depth](https://hacks.mozilla.org/category/es6-in-depth/)
 
 _教程与书籍_
 
