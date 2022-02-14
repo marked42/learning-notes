@@ -64,6 +64,9 @@ const { length } = 'string'
 // 数组也可以使用对象解构，数组也是对象
 const { 0: x, 2: y } = ['a', 'b', 'c']
 
+// 可以使用字符串，数字和标识符
+const { 'fizz-buzz': fizzBuzz } = { 'fizz-buzz': 1 }
+
 // 计算属性结构
 let key = 'z'
 let { [key]: foo } = { z: 'bar' }
@@ -118,9 +121,17 @@ Object.entries(note).forEach(([key, value]) => {
   console.log(`${key}: ${value}`)
 })
 
-// Using a for loop
+// for loop destructuring binding
 for (let [key, value] of Object.entries(note)) {
   console.log(`${key}: ${value}`)
+}
+
+// for loop destructuring assignment
+for ([a, b] of [
+  [1, 2],
+  [3, 4],
+]) {
+  console.log(a, b)
 }
 
 function returnMultiple() {
@@ -233,11 +244,11 @@ var [a, b = 2] = [1]
 
 ## 扩展元素 SpreadElement
 
-可以使用的位置
+Spread Syntax 只能用在三个位置
 
-1. 对象表达式中
-1. 数组表达式中
-1. 函数调用声明与调用位置
+1. ObjectLiteral 对象表达式中
+1. ArrayLiteral 数组表达式中
+1. FunctionCall 函数调用声明与调用位置
 
 ```js
 // 右侧 TODO: b需要实现什么协议？
@@ -317,20 +328,26 @@ function f2(...args) {
 }
 ```
 
-## 规范层面的语意与机制
+## 规范解读
 
-解构赋值 Destructuring Assignment
+解构赋值 [Destructuring Assignment](https://262.ecma-international.org/6.0/#sec-destructuring-assignment)
 解构模式 Destructuring Pattern
 
 IsDestructuring
 
-DestructuringAssignmentEvaluation
+IsValidSimpleAssignmentTarget
+
 DestructuringAssignmentTarget
 AssignmentRestElement
+
+三种求值策略
+
+DestructuringAssignmentEvaluation
 IteratorDestructuringAssignmentEvaluation
 KeyedDestructuringAssignmentEvaluation
 
-Destructuring Binding Patterns
+解构绑定模式
+[Destructuring Binding Patterns](https://262.ecma-international.org/6.0/#sec-destructuring-binding-patterns)
 
 1. 解构语句的静态错误、动态错误、和运行时机制
 
