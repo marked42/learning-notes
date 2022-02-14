@@ -353,3 +353,44 @@ Destructuring Binding Patterns
 
 1. [Spread Syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
 1. [Assigning versus defining properties](https://exploringjs.com/es6/ch_oop-besides-classes.html#sec_assigning-vs-defining-properties)
+
+# backup
+
+1. [Rest Parameters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters)
+1. [Parameter List](https://tc39.es/ecma262/multipage/ecmascript-language-functions-and-classes.html#sec-parameter-lists)
+1. [Array Initializer](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-array-initializer)
+1. [Object Initializer](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-object-initializer)
+1. [Argument List Evaluation](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-runtime-semantics-argumentlistevaluation)
+1. [Object Rest/Spread Properties for ECMAScript Rest](https://github.com/tc39/proposal-object-rest-spread/blob/main/Rest.md)
+1. [Object Rest/Spread Properties for ECMAScript Spread](https://github.com/tc39/proposal-object-rest-spread/blob/main/Spread.md)
+1. [Binding Initialization](https://tc39.es/ecma262/multipage/syntax-directed-operations.html#sec-runtime-semantics-bindinginitialization)
+
+```js
+// ArgumentList 规定
+a(...b)
+
+// Parameter Lists FormalParameters
+function a(...b) {}
+```
+
+扩展语法忽略 null 和 undefined
+
+1. [Spread Syntax Proposal](https://github.com/tc39/proposal-object-rest-spread/blob/main/Spread.md)
+
+```js
+function ownX({ ...properties }) {
+  return properties.x
+}
+ownX(Object.create({ x: 1 })) // undefined
+```
+
+```js
+// Uncaught SyntaxError: Missing initializer in destructuring declaration
+let { a, b };
+
+// Uncaught SyntaxError: Identifier 'a' has already been declared
+let { a, a } = {}
+
+// Correct
+let { a, b } = {}
+```

@@ -241,6 +241,9 @@ null
 ### 模式 Pattern
 
 解构语法对应的几种特殊形式
+扩展语法不是表达式，不能独立存在，只能使用在固定的几个地方。
+
+TODO: 添加指向解构语法的参考
 
 ```ts
 // ObjectPattern 包括 AssignmentPattern和RestElement
@@ -251,6 +254,8 @@ const { b, ...a } = { a: 2 }
 
 // ArrayPattern
 const [x, y] = [0, 1]
+// RestElement
+const [x, ...y] = [0, 1]
 
 // RestElement a
 function fun(...a) {}
