@@ -64,3 +64,7 @@ JS 中可以使用嵌套函数和闭包实现等价效果。
 命令模式
 
 例子 Editor copy/paste/cut/undo/redo
+
+## 参考
+
+1. Clean Code Switch Statements P68
