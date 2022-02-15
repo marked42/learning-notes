@@ -87,11 +87,8 @@ https://github.com/ossu/computer-science
    1. [Write You A Scheme, Version 2.0](https://wespiser.com/writings/wyas/00_overview.html)
    1. [Build Your Own Lisp](http://buildyourownlisp.com/)
 1. Javascript
-   1. [the super tiny compiler](https://www.bilibili.com/video/BV1gp4y167Z4)
    1. [How to implement a programming language in JavaScript](http://lisperator.net/pltut/)
    1. [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
-   1. [The Super Tiny Interpreter](https://github.com/keyz/the-super-tiny-interpreter)
-   1. [ReactJS 自制编译器](https://www.bilibili.com/video/BV1BJ411p71e?p=2)
    1. [新手上路学习 JavaScript 引擎实现——路线图](https://zhuanlan.zhihu.com/p/20505562)
    1. http://www.pur3.co.uk/TinyJS
    1. https://hllvm-group.iteye.com/group/topic/37596

@@ -1,39 +1,58 @@
 # 解构与展开（Destructuring & Spread）
 
-1. 解决什么问题？
+## 解构
 
-## 使用位置
+### 为什么引入解构
 
-[解构赋值（Destructuring Assignment）](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)和解构绑定（Destructuring Binding）
-
-1. 结构赋值使用的位置 VariableDeclarator / AssignmentExpression
-1. 函数声明参数位置 不需要用户记忆参数的顺序
-1. for of 循环中
-
-解构赋值，不是变量声明语句时，变量必须存在
+ES6 之前从对象或者数组中提取多个字段的话只能使用多个赋值语句，写法存在重复。
 
 ```js
-// Syntax error
-{ blowUp } = { blowUp: 10 };
-
-// valid 没有分号？
-{ blowUp } = { blowUp: 10 }
-
-// 解构赋值形式的语法陷阱，直接使用花括号对会被识别为块语句，可以使用括号对包裹，强制为表达式
-let prop;
-assert.throws(
-  () => eval("{prop} = { prop: 'hello' };"),
-  {
-    name: 'SyntaxError',
-    message: "Unexpected token '='",
-  });
+const person = {
+  firstName: 'Jackie'
+  lastName: 'Chen'
+}
+// 多次赋值写法
+const firstName = person.firstName, lastName = person.lastName;
 ```
 
-## 解构对象
+ES6 引入解构语法，使用和对象字面量一致的形式从目标值中一次提取多个变量。
+
+```js
+// 解构语法
+const { firstName, lastName } = person
+```
+
+### 解构对象
+
+解构对象值`person`，将对象属性`firstName`重新定义为指定名称`fn`的变量。
+
+```js
+const { firstName: fn, lastName: ln } = person
+```
+
+对象属性名称和指定变量名称相同时可以使用简写形式。
+
+```js
+const { firstName, lastName } = person
+```
+
+对象解构的写法和对象字面量形式相同，因此也可以使用数字、字符串和计算属性形式。
+
+```js
+// 用字符串
+const { 'fizz-buzz': fizzBuzz } = { 'fizz-buzz': 1 }
+
+// 数字
+const { 2: fizzBuzz } = [undefined, 1]
+
+// 计算属性
+const key = 'fizz-buzz'
+const { [key]: fizzBuzz } = { 'fizz-buzz': 1 }
+```
+
+数组和对象
 
 1. 解构对象，属性重命名
-1. 解构对象的简写形式
-1. 结构对象的属性会在原型链上寻找，和普通的属性访问相同 obj.a
 
 ```ts
 const note = {
@@ -63,18 +82,11 @@ const { length } = 'string'
 
 // 数组也可以使用对象解构，数组也是对象
 const { 0: x, 2: y } = ['a', 'b', 'c']
-
-// 可以使用字符串，数字和标识符
-const { 'fizz-buzz': fizzBuzz } = { 'fizz-buzz': 1 }
-
-// 计算属性结构
-let key = 'z'
-let { [key]: foo } = { z: 'bar' }
-
-console.log(foo) // "bar"
 ```
 
-## 解构数组
+1. 结构对象的属性会在原型链上寻找，和普通的属性访问相同 obj.a
+
+### 解构数组
 
 1. 展开元素和 iteration protocol
 1. 解构赋值支持嵌套形式
@@ -104,6 +116,88 @@ swap
 
 ```js
 ;[x, y] = [y, x]
+```
+
+### 可以在哪里使用解构
+
+解构语法分为[解构绑定模式（Destructuring Binding Patterns）](https://tc39.es/ecma262/multipage/ecmascript-language-statements-and-declarations.html#sec-destructuring-binding-patterns)和[解构赋值（Destructuring Assignment）](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)两大类，二者的写法基本一致，但语义有所不同。解构绑定模式会**声明新变量**，也就是创建标识符绑定（[Binding Identifier](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#prod-BindingIdentifier)）；解构赋值会对已有的变量进行**赋值**。
+
+#### 解构绑定
+
+解构绑定模式属于语句级别，可能出现的位置如下。
+
+```js
+// 变量声明语句 VariableDeclarator
+const { firstName, lastName } = person
+
+// for-of 语句也可以包含变量声明
+for (const { firstName, lastName } of persons) {
+}
+
+// 函数定义参数部分，为函数声明局部变量，机制和变量声明语句类似
+function print({ firstName, lastName }) {}
+```
+
+解构绑定模式定义了变量，所以也遵循变量声明的规则，存在重复声明的变量属于语法错误。
+
+例如在一个解构绑定中声明多个同名变量。
+
+```js
+const person = {
+  firstName: 'Jackie',
+  lastName: 'Chen',
+}
+
+// Uncaught SyntaxError: Identifier 'firstName' has already been declared
+const { firstName, firstName } = person
+```
+
+或者在解构绑定中声明已经存在的变量。
+
+```js
+const person = {
+  firstName: 'Jackie',
+  lastName: 'Chen',
+}
+
+let firstName
+
+// Uncaught SyntaxError: Identifier 'firstName' has already been declared
+const { firstName } = {}
+```
+
+另外解构绑定是从目标值中提取属性来声明变量，缺少目标值的话也属于语法错误。
+
+```js
+// Uncaught SyntaxError: Missing initializer in destructuring declaration
+let { firstName, lastName };
+```
+
+#### 解构赋值
+
+解构赋值是表达式，可以出现在任意赋值语句的左侧。
+
+```js
+let firstName,
+  lastName
+
+  // 赋值语句 AssignmentExpression
+;({ firstName, lastName } = person)
+
+// for-of 语句也可以使用赋值形式
+for ({ firstName, lastName } of persons) {
+}
+```
+
+注意这里解构赋值语句需要用括号对包裹起来，形成表达式语句，花括号对开头的语句会被识别为块语句而不是解构赋值表达式。
+
+```js
+// 解构赋值形式的语法陷阱，直接使用花括号对会被识别为块语句，可以使用括号对包裹，强制为表达式
+let prop
+assert.throws(() => eval("{prop} = { prop: 'hello' };"), {
+  name: 'SyntaxError',
+  message: "Unexpected token '='",
+})
 ```
 
 ### 解构应用
@@ -157,7 +251,14 @@ function parseProtocol(url) {
 }
 ```
 
-## 嵌套解构
+```js
+function ownX({ ...properties }) {
+  return properties.x
+}
+ownX(Object.create({ x: 1 })) // undefined
+```
+
+### 嵌套解构
 
 混合使用数组解构和对象解构
 
@@ -200,7 +301,7 @@ console.log(arr) // [1,3,2]
 
 1. 数组对象混合使用
 
-## 其余元素（Rest Element）
+### 其余元素/属性（Rest Element/Property）
 
 对象中的写法，只能有一个，位置无所谓
 数组中的写法，只能有一个，必须在最后
@@ -211,7 +312,7 @@ var { a, ...rest } = {}
 var [a, ...rest] = []
 ```
 
-## 模式没有任何匹配时如何处理
+### 模式没有任何匹配时如何处理
 
 1. 不存在的元素值为 undefined，可以给解构赋值的默认值
 
@@ -223,7 +324,7 @@ var { a, b } = { a: 1 }
 var [a, b] = [1]
 ```
 
-## 默认值
+### 默认值
 
 使用等号指定解构变量的默认值
 
@@ -237,12 +338,50 @@ const { prop: p = 123 } = {} // (A)
 var [a, b = 2] = [1]
 ```
 
-## 什么元素可以被解构？
+### 什么元素可以被解构？
 
 1. 结构赋值的对象 null/undefined 会报错，array/object/iterable 和其他 primitive 是 ok 的。原因在于使用 object assignment pattern 时要求目标值可以转换为对象 [RequireObjectCoercible](https://262.ecma-international.org/6.0/#sec-requireobjectcoercible)。
 1. 使用 array assignment pattern 时要求目标对象实现 iteration protocol [GetIterator](https://262.ecma-international.org/6.0/#sec-getiterator) non iterable 对象报错
 
-## 扩展元素 SpreadElement
+### 函数参数处理
+
+函数参数的传递与数组解构处理类似
+
+```js
+function f1(«pattern1», «pattern2») {
+  // ···
+}
+
+function f2(...args) {
+  const [«pattern1», «pattern2»] = args;
+  // ···
+}
+```
+
+### 规范解读
+
+解构赋值 [Destructuring Assignment](https://262.ecma-international.org/6.0/#sec-destructuring-assignment)
+解构模式 Destructuring Pattern
+
+IsDestructuring
+
+IsValidSimpleAssignmentTarget
+
+DestructuringAssignmentTarget
+AssignmentRestElement
+
+三种求值策略
+
+DestructuringAssignmentEvaluation
+IteratorDestructuringAssignmentEvaluation
+KeyedDestructuringAssignmentEvaluation
+
+解构绑定模式
+[Destructuring Binding Patterns](https://262.ecma-international.org/6.0/#sec-destructuring-binding-patterns)
+
+1. 解构语句的静态错误、动态错误、和运行时机制
+
+## 展开语法（Spread Syntax）
 
 Spread Syntax 只能用在三个位置
 
@@ -296,91 +435,7 @@ multiply(...numbers)
 ```
 
 解构操作符是如何规定的，下面的表达式不会报错
-
-```js
-{...undefined}
-{...null}
-{...0}
-```
-
-## 创建新对象而不是修改现有对象
-
-使用扩展操作符方便的创建不可变数据（Immutable Data），而不是修改当前数据。
-
-```js
-var obj = { a: 1 }
-
-var newObj = { ...obj, b: 2 }
-```
-
-## 函数参数处理
-
-函数参数的传递与数组解构处理类似
-
-```js
-function f1(«pattern1», «pattern2») {
-  // ···
-}
-
-function f2(...args) {
-  const [«pattern1», «pattern2»] = args;
-  // ···
-}
-```
-
-## 规范解读
-
-解构赋值 [Destructuring Assignment](https://262.ecma-international.org/6.0/#sec-destructuring-assignment)
-解构模式 Destructuring Pattern
-
-IsDestructuring
-
-IsValidSimpleAssignmentTarget
-
-DestructuringAssignmentTarget
-AssignmentRestElement
-
-三种求值策略
-
-DestructuringAssignmentEvaluation
-IteratorDestructuringAssignmentEvaluation
-KeyedDestructuringAssignmentEvaluation
-
-解构绑定模式
-[Destructuring Binding Patterns](https://262.ecma-international.org/6.0/#sec-destructuring-binding-patterns)
-
-1. 解构语句的静态错误、动态错误、和运行时机制
-
-## 参考
-
-1. [Understanding Destructuring, Rest Parameters, and Spread Syntax in JavaScript](https://www.digitalocean.com/community/tutorials/understanding-destructuring-rest-parameters-and-spread-syntax-in-javascript)
-1. [Destructuring Assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
-1. [Destructuring Assignment Spec](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-destructuring-assignment)
-1. [Destructuring and parameter handling in ECMAScript 6](https://2ality.com/2015/01/es6-destructuring.html)
-1. [JavaScript for impatient programmers Chapter 37 Destructuring](https://exploringjs.com/impatient-js/ch_destructuring.html)
-1. [JavaScript for impatient programmers Chapter 25.6 Parameter Handling](https://exploringjs.com/impatient-js/ch_callables.html#parameter-handling)
-1. [ES6 In Depth: Destructuring](https://hacks.mozilla.org/2015/05/es6-in-depth-destructuring/)
-1. [prefer-destructuring]https://eslint.org/docs/rules/prefer-destructuring
-1. [Iteration Protocols](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#iterable_examples)
-
-1. [ES2018: Rest/Spread Properties](https://2ality.com/2016/10/rest-spread-properties.html#spreading-objects-versus-objectassign)
-1. [Object Rest/Spread Properties for ECMAScript](https://github.com/tc39/proposal-object-rest-spread)
-1. [Stage 3 Draft / June 15, 2017 Object Rest/Spread Properties](https://tc39.es/proposal-object-rest-spread/)
-1. [@babel/plugin-proposal-object-rest-spread](https://babel.dev/docs/en/babel-plugin-proposal-object-rest-spread)
-
-1. [Spread Syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
-1. [Assigning versus defining properties](https://exploringjs.com/es6/ch_oop-besides-classes.html#sec_assigning-vs-defining-properties)
-
-# backup
-
-1. [Rest Parameters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters)
-1. [Parameter List](https://tc39.es/ecma262/multipage/ecmascript-language-functions-and-classes.html#sec-parameter-lists)
-1. [Array Initializer](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-array-initializer)
-1. [Object Initializer](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-object-initializer)
-1. [Argument List Evaluation](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-runtime-semantics-argumentlistevaluation)
-1. [Object Rest/Spread Properties for ECMAScript Rest](https://github.com/tc39/proposal-object-rest-spread/blob/main/Rest.md)
-1. [Object Rest/Spread Properties for ECMAScript Spread](https://github.com/tc39/proposal-object-rest-spread/blob/main/Spread.md)
-1. [Binding Initialization](https://tc39.es/ecma262/multipage/syntax-directed-operations.html#sec-runtime-semantics-bindinginitialization)
+扩展语法忽略 null 和 undefined
 
 ```js
 // ArgumentList 规定
@@ -390,24 +445,61 @@ a(...b)
 function a(...b) {}
 ```
 
-扩展语法忽略 null 和 undefined
+```js
+{...undefined}
+{...null}
+{...0}
+```
 
+### 创建新对象而不是修改现有对象
+
+使用扩展操作符方便的创建不可变数据（Immutable Data），而不是修改当前数据。
+
+```js
+var obj = { a: 1 }
+
+var newObj = { ...obj, b: 2 }
+```
+
+### 规范解读
+
+## 问题与练习
+
+Questions & Quiz
+
+通过问题来检验学习结果
+
+1.
+
+## 参考
+
+解构相关
+
+1. [Understanding Destructuring, Rest Parameters, and Spread Syntax in JavaScript](https://www.digitalocean.com/community/tutorials/understanding-destructuring-rest-parameters-and-spread-syntax-in-javascript)
+1. [Destructuring Assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
+1. [Destructuring Assignment Spec](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-destructuring-assignment)
+1. [Destructuring and parameter handling in ECMAScript 6](https://2ality.com/2015/01/es6-destructuring.html)
+1. [JavaScript for impatient programmers Chapter 37 Destructuring](https://exploringjs.com/impatient-js/ch_destructuring.html)
+1. [ES6 In Depth: Destructuring](https://hacks.mozilla.org/2015/05/es6-in-depth-destructuring/)
+1. [JavaScript for impatient programmers Chapter 25.6 Parameter Handling](https://exploringjs.com/impatient-js/ch_callables.html#parameter-handling)
+1. 《Understanding ECMAScript 6》Chapter 5 Destructuring for Easier Data Access
+1. [prefer-destructuring]https://eslint.org/docs/rules/prefer-destructuring
+1. [Iteration Protocols](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#iterable_examples)
+1. [Rest Parameters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters)
+1. [Object Rest/Spread Properties for ECMAScript Rest](https://github.com/tc39/proposal-object-rest-spread/blob/main/Rest.md)
+1. [Parameter List](https://tc39.es/ecma262/multipage/ecmascript-language-functions-and-classes.html#sec-parameter-lists)
+1. [Binding Initialization](https://tc39.es/ecma262/multipage/syntax-directed-operations.html#sec-runtime-semantics-bindinginitialization)
+
+扩展语法
+
+1. [Spread Syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
 1. [Spread Syntax Proposal](https://github.com/tc39/proposal-object-rest-spread/blob/main/Spread.md)
-
-```js
-function ownX({ ...properties }) {
-  return properties.x
-}
-ownX(Object.create({ x: 1 })) // undefined
-```
-
-```js
-// Uncaught SyntaxError: Missing initializer in destructuring declaration
-let { a, b };
-
-// Uncaught SyntaxError: Identifier 'a' has already been declared
-let { a, a } = {}
-
-// Correct
-let { a, b } = {}
-```
+1. [Array Initializer](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-array-initializer)
+1. [Object Initializer](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-object-initializer)
+1. [Argument List Evaluation](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-runtime-semantics-argumentlistevaluation)
+1. [Object Rest/Spread Properties for ECMAScript Spread](https://github.com/tc39/proposal-object-rest-spread/blob/main/Spread.md)
+1. [ES2018: Rest/Spread Properties](https://2ality.com/2016/10/rest-spread-properties.html#spreading-objects-versus-objectassign)
+1. [Object Rest/Spread Properties for ECMAScript](https://github.com/tc39/proposal-object-rest-spread)
+1. [Stage 3 Draft / June 15, 2017 Object Rest/Spread Properties](https://tc39.es/proposal-object-rest-spread/)
+1. [@babel/plugin-proposal-object-rest-spread](https://babel.dev/docs/en/babel-plugin-proposal-object-rest-spread)
+1. [Assigning versus defining properties](https://exploringjs.com/es6/ch_oop-besides-classes.html#sec_assigning-vs-defining-properties)
