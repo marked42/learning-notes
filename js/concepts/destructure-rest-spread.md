@@ -24,7 +24,7 @@ const { firstName, lastName } = person
 
 ### 解构对象
 
-解构对象值`person`，将对象属性`firstName`重新定义为指定名称`fn`的变量。
+解构对象值`person`，用对象属性`firstName`的值定义指定名称`fn`的变量。
 
 ```js
 const { firstName: fn, lastName: ln } = person
@@ -50,9 +50,68 @@ const key = 'fizz-buzz'
 const { [key]: fizzBuzz } = { 'fizz-buzz': 1 }
 ```
 
-数组和对象
+解构对象的目标值是`null/undefined`时会报错，因为对象解构要求目标值可以转换为对象[RequireObjectCoercible](https://262.ecma-international.org/6.0/#sec-requireobjectcoercible)，Javascript 中除了`null/undefined`其他值都可以转换为对象。
 
-1. 解构对象，属性重命名
+```js
+const person = null
+// 运行时报错 Uncaught TypeError: Cannot destructure property 'a' of 'null' as it is null.
+const { firstName } = person
+```
+
+使用解构对象形式获取数组中指定下标的元素。
+
+```js
+const { 2: c } = ['a', 'b', 'c']
+```
+
+基础类型值也可以使用对象解构，获取字符串的长度。
+
+```js
+const { length } = 'string'
+```
+
+### 解构数组
+
+1. 展开元素和 iteration protocol
+1. 解构赋值支持嵌套形式
+1. 解构数组，数组可以跳过元素
+1. 不存在的元素值为 undefined，可以给解构赋值的默认值
+1. 结构数组的的属性会不会在原型链上寻找？
+
+1. 使用 array assignment pattern 时要求目标对象实现 iteration protocol [GetIterator](https://262.ecma-international.org/6.0/#sec-getiterator) non iterable 对象报错
+   数组和对象
+
+```js
+const date = ['1970', '12', '01']
+
+const [year, month, day] = date
+
+// 跳过元素
+const [year, , day] = date
+
+let x = 'a'
+let y = 'b'
+```
+
+使用数组解构交换（swap）两个变量，不需要临时变量。
+
+```js
+let x = 1,
+  y = 2
+;[x, y] = [y, x]
+```
+
+或者交换已有数组中两个元素。
+
+```js
+const arr = [1, 2, 3]
+;[arr[2], arr[1]] = [arr[1], arr[2]]
+console.log(arr) // [1,3,2]
+```
+
+### 嵌套解构
+
+对象解构支持嵌套形式，可以在同一处解构不同层次的多个属性。
 
 ```ts
 const note = {
@@ -71,51 +130,141 @@ const {
   date,
   author: { firstName, lastName },
 } = note
+```
 
-// Access object and nested values
+注意上边的解构中定义了五个变量，不包括`author`，嵌套的形式中对应属性名不属于解构变量。如果想同时解构声明`author`变量的话，使用下面的形式。
+
+```js
+// 定义了三个变量 author/firstName/lastName
 const {
   author,
   author: { firstName, lastName },
 } = note
-
-const { length } = 'string'
-
-// 数组也可以使用对象解构，数组也是对象
-const { 0: x, 2: y } = ['a', 'b', 'c']
 ```
 
-1. 结构对象的属性会在原型链上寻找，和普通的属性访问相同 obj.a
-
-### 解构数组
-
-1. 展开元素和 iteration protocol
-1. 解构赋值支持嵌套形式
-1. 解构数组，数组可以跳过元素
-1. 不存在的元素值为 undefined，可以给解构赋值的默认值
-1. 结构数组的的属性会不会在原型链上寻找？
+数组解构也支持嵌套形式。
 
 ```js
-const date = ['1970', '12', '01']
-
-const [year, month, day] = date
-
-// 跳过元素
-const [year, , day] = date
-
-// Create a nested array
 const nestedArray = [1, 2, [3, 4], 5]
 
 // 嵌套数组
 const [one, two, [three, four], five] = nestedArray
-
-let x = 'a'
-let y = 'b'
 ```
 
-swap
+对象解构和数组解构可以任意形式嵌套。
 
 ```js
-;[x, y] = [y, x]
+const note = {
+  title: 'My first note',
+  author: {
+    firstName: 'Sherlock',
+    lastName: 'Holmes',
+  },
+  tags: ['personal', 'writing', 'investigations'],
+}
+
+const {
+  title,
+  author: { firstName },
+  tags: [personalTag, writingTag],
+} = note
+
+console.log(date)
+```
+
+### 未匹配模式如何处理
+
+1. 不存在的元素值为 undefined，可以给解构赋值的默认值
+
+```js
+// b === undefined
+var { a, b } = { a: 1 }
+
+// b === undefined
+var [a, b] = [1]
+```
+
+### 默认值
+
+使用等号指定解构变量的默认值
+
+```js
+// b === 2
+var { a, b = 2 } = { a: 1 }
+
+const { prop: p = 123 } = {} // (A)
+
+// b === 2
+var [a, b = 2] = [1]
+```
+
+### 其余元素/属性（Rest Element/Property）
+
+对象中的写法，只能有一个，位置无所谓
+数组中的写法，只能有一个，必须在最后
+
+```js
+var { a, ...rest } = {}
+
+var [a, ...rest] = []
+```
+
+### 典型场景
+
+解构语法主要使用在提供对象或者数组的地方用来接受部分数据。
+
+#### 多返回值函数
+
+Javascript 函数只能返回一个值，但是可以返回数组或者对象包含多个值。
+
+```js
+function mousePosition() {
+  return [x, y]
+}
+const [x, y] = mousePosition()
+```
+
+正则表达式匹配返回类数组对象
+
+```js
+function parseProtocol(url) {
+  const parsedURL = /^(\w+)\:\/\/([^\/]+)\/(.*)$/.exec(url)
+  if (!parsedURL) {
+    return false
+  }
+  console.log(parsedURL)
+  // ["https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+  // "https", "developer.mozilla.org", "en-US/docs/Web/JavaScript"]
+
+  const [, protocol, fullhost, fullpath] = parsedURL
+  return protocol
+}
+```
+
+#### 函数参数
+
+```js
+// Using forEach
+Object.entries(note).forEach(([key, value]) => {
+  console.log(`${key}: ${value}`)
+})
+```
+
+#### for-of 循环
+
+```js
+// for loop destructuring binding
+for (let [key, value] of Object.entries(note)) {
+  console.log(`${key}: ${value}`)
+}
+
+// for loop destructuring assignment
+for ([a, b] of [
+  [1, 2],
+  [3, 4],
+]) {
+  console.log(a, b)
+}
 ```
 
 ### 可以在哪里使用解构
@@ -200,150 +349,7 @@ assert.throws(() => eval("{prop} = { prop: 'hello' };"), {
 })
 ```
 
-### 解构应用
-
-解构语法可以使用在数组参数和变量声明
-
-1. 函数多个返回值 return [a, b] 使用对象更好，因为有名称含义
-1. 返回对象的函数配合解构
-1. 交换 [a, b] = [b, a]
-1. 获取函数的数组返回值中的部分元素，获取函数的数组返回之中其余元素，结构语法配合返回数组或者对象的函数使用。
-
-```js
-// Using forEach
-Object.entries(note).forEach(([key, value]) => {
-  console.log(`${key}: ${value}`)
-})
-
-// for loop destructuring binding
-for (let [key, value] of Object.entries(note)) {
-  console.log(`${key}: ${value}`)
-}
-
-// for loop destructuring assignment
-for ([a, b] of [
-  [1, 2],
-  [3, 4],
-]) {
-  console.log(a, b)
-}
-
-function returnMultiple() {
-  return [x, y]
-}
-const [x, y] = returnMultiple()
-```
-
-正则表达式匹配返回数组的例子
-
-```js
-function parseProtocol(url) {
-  const parsedURL = /^(\w+)\:\/\/([^\/]+)\/(.*)$/.exec(url)
-  if (!parsedURL) {
-    return false
-  }
-  console.log(parsedURL)
-  // ["https://developer.mozilla.org/en-US/docs/Web/JavaScript",
-  // "https", "developer.mozilla.org", "en-US/docs/Web/JavaScript"]
-
-  const [, protocol, fullhost, fullpath] = parsedURL
-  return protocol
-}
-```
-
-```js
-function ownX({ ...properties }) {
-  return properties.x
-}
-ownX(Object.create({ x: 1 })) // undefined
-```
-
-### 嵌套解构
-
-混合使用数组解构和对象解构
-
-对象的嵌套形式
-
-```js
-const note = {
-  title: 'My first note',
-  author: {
-    firstName: 'Sherlock',
-    lastName: 'Holmes',
-  },
-  tags: ['personal', 'writing', 'investigations'],
-}
-
-const {
-  title,
-  date = new Date(),
-  author: { firstName },
-  tags: [personalTag, writingTag],
-} = note
-
-console.log(date)
-```
-
-数组的嵌套形式
-
-```js
-let a = 1
-let b = 3
-
-;[a, b] = [b, a]
-console.log(a) // 3
-console.log(b) // 1
-
-const arr = [1, 2, 3]
-;[arr[2], arr[1]] = [arr[1], arr[2]]
-console.log(arr) // [1,3,2]
-```
-
-1. 数组对象混合使用
-
-### 其余元素/属性（Rest Element/Property）
-
-对象中的写法，只能有一个，位置无所谓
-数组中的写法，只能有一个，必须在最后
-
-```js
-var { a, ...rest } = {}
-
-var [a, ...rest] = []
-```
-
-### 模式没有任何匹配时如何处理
-
-1. 不存在的元素值为 undefined，可以给解构赋值的默认值
-
-```js
-// b === undefined
-var { a, b } = { a: 1 }
-
-// b === undefined
-var [a, b] = [1]
-```
-
-### 默认值
-
-使用等号指定解构变量的默认值
-
-```js
-// b === 2
-var { a, b = 2 } = { a: 1 }
-
-const { prop: p = 123 } = {} // (A)
-
-// b === 2
-var [a, b = 2] = [1]
-```
-
-### 什么元素可以被解构？
-
-1. 结构赋值的对象 null/undefined 会报错，array/object/iterable 和其他 primitive 是 ok 的。原因在于使用 object assignment pattern 时要求目标值可以转换为对象 [RequireObjectCoercible](https://262.ecma-international.org/6.0/#sec-requireobjectcoercible)。
-1. 使用 array assignment pattern 时要求目标对象实现 iteration protocol [GetIterator](https://262.ecma-international.org/6.0/#sec-getiterator) non iterable 对象报错
-
-### 函数参数处理
+### 函数参数
 
 函数参数的传递与数组解构处理类似
 
@@ -380,6 +386,17 @@ KeyedDestructuringAssignmentEvaluation
 [Destructuring Binding Patterns](https://262.ecma-international.org/6.0/#sec-destructuring-binding-patterns)
 
 1. 解构语句的静态错误、动态错误、和运行时机制
+
+解释为什么是 undefined？
+
+1. 结构对象的属性会在原型链上寻找，和普通的属性访问相同 obj.a
+
+```js
+function ownX({ ...properties }) {
+  return properties.x
+}
+ownX(Object.create({ x: 1 })) // undefined
+```
 
 ## 展开语法（Spread Syntax）
 
@@ -469,7 +486,8 @@ Questions & Quiz
 
 通过问题来检验学习结果
 
-1.
+1. 对象解构的目标值是`null`或者`undefined`时会发生什么？满足什么条件的值可以数组解构？
+1. 展开语法`...null`和`...undefined`运行结果如何？
 
 ## 参考
 
@@ -503,3 +521,7 @@ Questions & Quiz
 1. [Stage 3 Draft / June 15, 2017 Object Rest/Spread Properties](https://tc39.es/proposal-object-rest-spread/)
 1. [@babel/plugin-proposal-object-rest-spread](https://babel.dev/docs/en/babel-plugin-proposal-object-rest-spread)
 1. [Assigning versus defining properties](https://exploringjs.com/es6/ch_oop-besides-classes.html#sec_assigning-vs-defining-properties)
+
+```
+
+```
