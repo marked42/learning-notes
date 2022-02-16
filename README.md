@@ -220,13 +220,12 @@
    1. CSS
    1. Expression Shunting Yard / TDOP
    1. 正则表达式
-   1. HTTP
-   1. Javascript Parser
-   1. Writing Compilers and Interpreters
 1. Language
    1. Closure
-   1. LuaVM
    1. crafting interpreters
+   1. Writing Compilers and Interpreters
+   1. Javascript Parser
+   1. LuaVM
 1. Recursion/Iteration
 1. API Design
 1. 编码
@@ -250,7 +249,7 @@
    1. CLI
       1. params parsing commander / yargs / minimist
       1. console ora/chalk/ansi code
-      1. log 和 debug 设计
+      1. 错误处理 log 和 debug 设计
    1. monorepo lerna [version](https://cloud.tencent.com/developer/article/1883133),[publish](https://cloud.tencent.com/developer/article/1883132)
 
    1. Design of [Editor](https://viewsourcecode.org/snaptoken/kilo/) / VSCode
@@ -288,8 +287,3 @@ JS 模式
 - [ ] Clean Architecture
 - [ ] Patterns of enterprise application architecture
 - [ ] Pattern-Oriented_Software_Architecture
-
-## Design
-
-1. UI/UX Design
-1. 客户端 iOS / Android

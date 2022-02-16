@@ -22,7 +22,7 @@ ES6 引入解构语法，使用和对象字面量一致的形式从目标值中�
 const { firstName, lastName } = person
 ```
 
-### 解构对象
+### 对象解构
 
 解构对象值`person`，用对象属性`firstName`的值定义指定名称`fn`的变量。
 
@@ -70,27 +70,26 @@ const { 2: c } = ['a', 'b', 'c']
 const { length } = 'string'
 ```
 
-### 解构数组
+### 数组解构
 
-1. 展开元素和 iteration protocol
-1. 解构赋值支持嵌套形式
-1. 解构数组，数组可以跳过元素
-1. 不存在的元素值为 undefined，可以给解构赋值的默认值
-1. 结构数组的的属性会不会在原型链上寻找？
-
-1. 使用 array assignment pattern 时要求目标对象实现 iteration protocol [GetIterator](https://262.ecma-international.org/6.0/#sec-getiterator) non iterable 对象报错
-   数组和对象
+使用数组字面值类似的写法可以结构数组中元素。
 
 ```js
 const date = ['1970', '12', '01']
 
 const [year, month, day] = date
+```
 
-// 跳过元素
+使用单独的逗号可以跳过数组中的元素。
+
+```js
+const date = ['1970', '12', '01']
+
+// 跳过元素 month
 const [year, , day] = date
 
-let x = 'a'
-let y = 'b'
+// 可以用在开头，跳过year
+const [, month, day] = date
 ```
 
 使用数组解构交换（swap）两个变量，不需要临时变量。
@@ -107,6 +106,13 @@ let x = 1,
 const arr = [1, 2, 3]
 ;[arr[2], arr[1]] = [arr[1], arr[2]]
 console.log(arr) // [1,3,2]
+```
+
+数组结构的目标值必须是[Iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#iterable_examples)，实现了迭代器协议[GetIterator](https://262.ecma-international.org/6.0/#sec-getiterator)，否则会报错。
+
+```js
+// TypeError: {} is not iterable
+const [year, month] = {}
 ```
 
 ### 嵌套解构
@@ -174,7 +180,7 @@ console.log(date)
 
 ### 未匹配模式如何处理
 
-1. 不存在的元素值为 undefined，可以给解构赋值的默认值
+对象和数组解构形式中不存在匹配的元素或者属性时，解构得到的变量值为`undefined`。
 
 ```js
 // b === undefined
@@ -186,7 +192,7 @@ var [a, b] = [1]
 
 ### 默认值
 
-使用等号指定解构变量的默认值
+使用等号指定解构变量的默认值，默认值在解构得到`undefined`时生效。
 
 ```js
 // b === 2
@@ -200,13 +206,22 @@ var [a, b = 2] = [1]
 
 ### 其余元素/属性（Rest Element/Property）
 
-对象中的写法，只能有一个，位置无所谓
-数组中的写法，只能有一个，必须在最后
+解构语法提取对象中指定的属性和数组中指定位置的元素，其余属性或者元素可以使用`...rest`的写法进行收集。
+
+对象解构中只能有一个其余属性（Rest Property），位置可以不是最后一个。
 
 ```js
-var { a, ...rest } = {}
+var { a, ...rest } = { a: 1, b: 2, c: 3}
+var { ..rest, a } = { a: 1, b: 2, c: 3}
+```
 
-var [a, ...rest] = []
+数组解构中只能有一个其余元素（Rest Element），必须是最后一个。
+
+```js
+var [a, ...rest] = [1, 2, 3]
+
+// SyntaxError: Rest element must be last element
+var [...rest, a] = [1, 2, 3]
 ```
 
 ### 典型场景
@@ -491,7 +506,7 @@ Questions & Quiz
 
 ## 参考
 
-解构相关
+解构相关 将参考资料进行一个综述
 
 1. [Understanding Destructuring, Rest Parameters, and Spread Syntax in JavaScript](https://www.digitalocean.com/community/tutorials/understanding-destructuring-rest-parameters-and-spread-syntax-in-javascript)
 1. [Destructuring Assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
@@ -501,8 +516,7 @@ Questions & Quiz
 1. [ES6 In Depth: Destructuring](https://hacks.mozilla.org/2015/05/es6-in-depth-destructuring/)
 1. [JavaScript for impatient programmers Chapter 25.6 Parameter Handling](https://exploringjs.com/impatient-js/ch_callables.html#parameter-handling)
 1. 《Understanding ECMAScript 6》Chapter 5 Destructuring for Easier Data Access
-1. [prefer-destructuring]https://eslint.org/docs/rules/prefer-destructuring
-1. [Iteration Protocols](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#iterable_examples)
+1. [prefer-destructuring](https://eslint.org/docs/rules/prefer-destructuring)
 1. [Rest Parameters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters)
 1. [Object Rest/Spread Properties for ECMAScript Rest](https://github.com/tc39/proposal-object-rest-spread/blob/main/Rest.md)
 1. [Parameter List](https://tc39.es/ecma262/multipage/ecmascript-language-functions-and-classes.html#sec-parameter-lists)
@@ -521,7 +535,3 @@ Questions & Quiz
 1. [Stage 3 Draft / June 15, 2017 Object Rest/Spread Properties](https://tc39.es/proposal-object-rest-spread/)
 1. [@babel/plugin-proposal-object-rest-spread](https://babel.dev/docs/en/babel-plugin-proposal-object-rest-spread)
 1. [Assigning versus defining properties](https://exploringjs.com/es6/ch_oop-besides-classes.html#sec_assigning-vs-defining-properties)
-
-```
-
-```

@@ -12,14 +12,18 @@
 // console.log(a, b, c)
 
 // 理
-function ownX({ ...properties }) {
-  console.log(properties)
-  return properties.x
-}
-const obj = Object.create({ x: 1, y: 2 })
-const obj = { x: 1, y: 2 }
-console.log(obj)
-console.log(ownX(obj)) // undefined
+// function ownX({ ...properties }) {
+//   console.log(properties)
+//   return properties.x
+// }
+// const obj = Object.create({ x: 1, y: 2 })
+// const obj = { x: 1, y: 2 }
+// console.log(obj)
+// console.log(ownX(obj)) // undefined
 
-const { x, ...rest } = obj
-console.log('rest: ', rest)
+// const { x, ...rest } = obj
+// console.log('rest: ', rest)
+
+// let [year, month] = {}
+
+var [...rest, a] = [1, 2, 3]
