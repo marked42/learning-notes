@@ -1,29 +1,22 @@
-// const person = {
-//   firstName: 'Jackie',
-//   lastName: 'Chen',
-// }
-
-// let firstName
-// const { firstName } = {}
-
-// let t = { a: 1 }
-// Object.setPrototypeOf(t, { b: 2 })
-// let { a, b, c } = t
-// console.log(a, b, c)
-
-// 理
 // function ownX({ ...properties }) {
-//   console.log(properties)
+//   console.log('properties: ', properties)
 //   return properties.x
 // }
-// const obj = Object.create({ x: 1, y: 2 })
-// const obj = { x: 1, y: 2 }
-// console.log(obj)
+// const obj = Object.create({ x: 1 })
 // console.log(ownX(obj)) // undefined
 
-// const { x, ...rest } = obj
-// console.log('rest: ', rest)
+const proto = { a: 1 }
+const obj = Object.create(proto, {
+  b: {
+    value: 2,
+    enumerable: true,
+  },
+  c: {
+    value: 3,
+    enumerable: false,
+  },
+})
 
-// let [year, month] = {}
-
-var [...rest, a] = [1, 2, 3]
+const { ...prop } = obj
+// prop: { b: 2 }
+console.log('prop: ', prop)

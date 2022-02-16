@@ -1,5 +1,11 @@
 # 解构与展开（Destructuring & Spread）
 
+TODO: 替换结构
+
+ES6 开始引入了解构和展开的语法特性，使用起来非常方便。但是这些特性的用法还是非常丰富的，可能多数人平常并不太会注意到，本文对其进行了完整的剖析，以作参考。
+
+如果你对相关内容非常熟悉，不妨直接跳到[习题部分](#quiz)，测试一下自己的理解，或者你可以在阅读完本文之后使用习题作为回顾。
+
 ## 解构
 
 ### 为什么引入解构
@@ -15,7 +21,7 @@ const person = {
 const firstName = person.firstName, lastName = person.lastName;
 ```
 
-ES6 引入解构语法，使用和对象字面量一致的形式从目标值中一次提取多个变量。
+使用和对象字面量一致的形式从目标值中一次提取多个变量。
 
 ```js
 // 解构语法
@@ -210,11 +216,16 @@ var [a, b = 2] = [1]
 
 解构语法提取对象中指定的属性和数组中指定位置的元素，其余属性或者元素可以使用`...rest`的写法进行收集。
 
-对象解构中只能有一个其余属性（Rest Property），位置可以不是最后一个。
+对象解构中只能有一个其余属性（Rest Property），位置必须是最后一个。
 
 ```js
 var { a, ...rest } = { a: 1, b: 2, c: 3}
+
+// SyntaxError: Rest element must be last element
 var { ..rest, a } = { a: 1, b: 2, c: 3}
+
+// SyntaxError: Rest element must be last element 指y
+let { x, ...y, ...z } = obj;
 ```
 
 数组解构中只能有一个其余元素（Rest Element），必须是最后一个。
@@ -224,6 +235,45 @@ var [a, ...rest] = [1, 2, 3]
 
 // SyntaxError: Rest element must be last element
 var [...rest, a] = [1, 2, 3]
+```
+
+对于多层嵌套的解构形式，可以在每一层都使用一次。
+
+```js
+const obj = {
+  foo: {
+    a: 1,
+    b: 2,
+    c: 3,
+  },
+  bar: 4,
+  baz: 5,
+}
+const {
+  foo: { a, ...rest1 },
+  ...rest2
+} = obj
+```
+
+其余元素只能对对象本身的**未被指定的可枚举属性**进行收集，不包括不可枚举属性和原型对象的属性。
+
+```js
+const prototype = { a: 1 }
+const obj = Object.create(prototype, {
+  // 只收集 b
+  b: {
+    value: 2,
+    enumerable: true,
+  },
+  c: {
+    value: 3,
+    enumerable: false,
+  },
+})
+
+const { ...prop } = obj
+// prop: { b: 2 }
+console.log('prop: ', prop)
 ```
 
 ### 函数参数
@@ -254,7 +304,7 @@ function drawChart({
 }
 ```
 
-典型的场景是数组的`forEach`函数。
+数组的`forEach`函数也是一个典型的使用场景。
 
 ```js
 // Using forEach
@@ -388,13 +438,17 @@ assert.throws(() => eval("{prop} = { prop: 'hello' };"), {
 })
 ```
 
+这里使用了`eval`函数，因为这属于编译期语法错误，无法正常的直接运行，`eval`将编译期错误转换为运行时错误，配合测试代码正常运行。
+
 ## 展开语法（Spread Syntax）
 
-展开语法和结构中的其余元素都使用`...`的形式，区别在于使用的位置。展开语法不属于表达式，只能使用在三个语法结构中。
+展开语法和结构中的其余元素都使用`...`的形式，二者都是特殊语法形式，不是表达式。其余元素是将多个属性或者值收集到一个值中，展开语法正好相反。
 
-**对象初始化**
+展开语法在同一个表达式中可以使用多次，而且不要求在最后一个，而且只能出现在三个固定的语法结构中。
 
-用在对象初始化表达式（ObjectInitializer）中方便的创建新的对象。
+### 对象初始化
+
+用在对象初始化表达式（[Object Initializer](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-object-initializer)）中方便地拷贝对象、扩展对象、合并两个对象。
 
 ```js
 // 声明式
@@ -404,9 +458,38 @@ let newObj = { a, ...b }
 let newObj = Object.assign(a, b)
 ```
 
-**数组初始化**
+#### 与`Object.assign`的异同
 
-用在数组初始化表达式（ArrayInitializer）中创建新的数组，比使用`concat/push/shift`等函数创建新数组更方便。
+TODO:
+展开语法和使用`Object.assign`在语意上也有差别，可以参考[Spreading objects versus Object.assign()](<https://2ality.com/2016/10/rest-spread-properties.html#spreading-objects-versus-object.assign()>)。
+
+都是使用[[Get]]拷贝获取值，所以无法拷贝 PropertyDescriptor
+
+[[Define]]
+[[Set]]
+
+TODO:
+只展开可枚举属性
+
+#### 属性顺序问题
+
+对象初始化中可以出现多个展开，因此先后顺序有影响，后展开的属性会覆盖之前同名的属性。
+
+```js
+const obj = { foo: 1, bar: 2, baz: 3 }
+
+// { foo: true, bar: 2, baz: 3 }
+{...obj, foo: true}
+
+// { foo: true, bar: 2, baz: 3 }
+{foo: true, ...obj}
+```
+
+即使多个展开之间不存在同名属性情况，对象本身也记录了属性的顺序，字符串属性是按照**插入顺序**（Insertion Order）存储的，使用`Object.keys`输出查看。
+
+### 数组初始化
+
+用在数组初始化表达式（[Array Initializer](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-array-initializer)）中创建新的数组，比使用`concat/push/shift`等函数创建新数组更方便。
 
 ```js
 let array = [a, ...b, c, ...d]
@@ -417,9 +500,9 @@ const string = 'hello'
 const stringArray = [...string]
 ```
 
-**实参列表**
+### 实参列表
 
-用在函数调用表达式的参数列表（ArgumentList）中，可以替换`apply`函数的使用。
+用在函数调用表达式的参数列表（[Argument List Evaluation](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-runtime-semantics-argumentlistevaluation)）中，可以替换`apply`函数的使用。
 
 ```js
 const a = [1, 2, 3]
@@ -438,15 +521,44 @@ multiply(...numbers)
 multiply.apply(null, numbers)
 ```
 
-TODO: 展开任何实现了 iterable 协议的对象
+对于构造函数调用无法使用`apply`函数，只能使用展开语法。
 
-解构操作符是如何规定的，下面的表达式不会报错
-扩展语法忽略 null 和 undefined
+```js
+let dateFields = [1970, 0, 1] // 1 Jan 1970
+let d = new Date(...dateFields)
+```
+
+### 浅拷贝
+
+使用扩展语法进行对象拷贝是浅拷贝，和使用`Object.assign`的效果相同。如果存在多层嵌套的对象或者数组，嵌套的属性或者元素是多个拷贝共享的，这可能造成预期之外的问题。
+
+```js
+let a = [[1], [2], [3]]
+let b = [...a]
+
+b.shift().shift()
+//  1
+
+//  Oh no!  Now array 'a' is affected as well:
+a
+//  [[], [2], [3]]
+```
+
+### 可展开对象
+
+对象扩展语法中 null 和 undefined 被忽略而不是报错。
 
 ```js
 {...undefined}
 {...null}
 {...0}
+```
+
+数组中的展开元素要求被展开的值是 Iterable，否则会报错。
+
+```js
+let obj = { key1: 'value1' }
+let array = [...obj] // TypeError: obj is not iterable
 ```
 
 ## 规范解读
@@ -471,26 +583,18 @@ KeyedDestructuringAssignmentEvaluation
 [Destructuring Binding Patterns](https://262.ecma-international.org/6.0/#sec-destructuring-binding-patterns)
 
 1. 解构语句的静态错误、动态错误、和运行时机制
-
-解释为什么是 undefined？
-
 1. 结构对象的属性会在原型链上寻找，和普通的属性访问相同 obj.a
 
-```js
-function ownX({ ...properties }) {
-  return properties.x
-}
-ownX(Object.create({ x: 1 })) // undefined
-```
+### 展开语法
 
-## 问题与练习
+TODO: 拷贝属性顺序有先后
 
-Questions & Quiz
-
-通过问题来检验学习结果
+## 问题与练习 <span id="quiz"></span>
 
 1. 对象解构的目标值是`null`或者`undefined`时会发生什么？满足什么条件的值可以数组解构？
-1. 展开语法`...null`和`...undefined`运行结果如何？
+1. 对象解构中被结构对象的所有属性值都会被解构么？原型对象上的属性么会被解构么？
+1. 展开语法`{...null}`和`{...undefined}`运行结果如何？
+1. 展开语法会展开目标对象的所有属性么？
 
 ## 参考资料
 
@@ -506,7 +610,7 @@ Questions & Quiz
 1. [ES6 In Depth: Destructuring](https://hacks.mozilla.org/2015/05/es6-in-depth-destructuring/)
 1. 《Understanding ECMAScript 6》Chapter 5 Destructuring for Easier Data Access
 
-[Object Rest/Spread Properties for ECMAScript Rest](https://github.com/tc39/proposal-object-rest-spread/blob/main/Rest.md)是对象其余属性和展开属性的语法提案，已经进入正式的 ECMAScript 规范中。
+[Object Rest Properties for ECMAScript Rest](https://github.com/tc39/proposal-object-rest-spread/blob/main/Rest.md)是对象其余属性的语法提案，已经进入正式的 ECMAScript 2018 规范中。
 
 ECMAScript 规范中关于结构绑定、结构赋值、展开语法等特性的规定参考以下章节。
 
@@ -520,7 +624,7 @@ ECMAScript 规范中关于结构绑定、结构赋值、展开语法等特性的
 
 展开语法的介绍可以首先参考 MDN 文档 [Spread Syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)和[ES2018: Rest/Spread Properties](https://2ality.com/2016/10/rest-spread-properties.html#spreading-objects-versus-objectassign)的介绍。
 
-对象其余属性（Rest Property）和展开属性（Spread Property）的语法提案[Object Rest/Spread Properties for ECMAScript](https://github.com/tc39/proposal-object-rest-spread)，其中分别对[Rest](https://github.com/tc39/proposal-object-rest-spread/blob/main/Rest.md)和[Spread](https://github.com/tc39/proposal-object-rest-spread/blob/main/Spread.md)做说明。
+对象其余属性（Rest Property）和展开属性（Spread Property）的语法提案[Object Rest/Spread Properties for ECMAScript](https://github.com/tc39/proposal-object-rest-spread)，其中分别对[Rest](https://github.com/tc39/proposal-object-rest-spread/blob/main/Rest.md)和[Spread](https://github.com/tc39/proposal-object-rest-spread/blob/main/Spread.md)做说明，关于语法的各种使用情况的例子可以作为准确参考。
 
 ECMAScript 规范中关于展开语法的描述[Array Initializer](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-array-initializer)、[Object Initializer](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-object-initializer)、[Argument List Evaluation](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-runtime-semantics-argumentlistevaluation)。
 
