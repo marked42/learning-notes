@@ -1,7 +1,5 @@
 # 解构与展开（Destructuring & Spread）
 
-TODO: 替换结构
-
 ES6 开始引入了解构和展开的语法特性，使用起来非常方便。但是这些特性的用法还是非常丰富的，可能多数人平常并不太会注意到，本文对其进行了完整的剖析，以作参考。
 
 如果你对相关内容非常熟悉，不妨直接跳到[习题部分](#quiz)，测试一下自己的理解，或者你可以在阅读完本文之后使用习题作为回顾。
@@ -78,7 +76,7 @@ const { length } = 'string'
 
 ### 数组解构
 
-使用数组字面值类似的写法可以结构数组中元素。
+使用数组字面值类似的写法可以解构数组中元素。
 
 ```js
 const date = ['1970', '12', '01']
@@ -114,7 +112,7 @@ const arr = [1, 2, 3]
 console.log(arr) // [1,3,2]
 ```
 
-数组结构的目标值必须是[Iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#iterable_examples)，实现了迭代器协议[GetIterator](https://262.ecma-international.org/6.0/#sec-getiterator)，否则会报错。
+数组解构的目标值必须是[Iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#iterable_examples)，实现了迭代器协议[GetIterator](https://262.ecma-international.org/6.0/#sec-getiterator)，否则会报错。
 
 ```js
 // TypeError: {} is not iterable
@@ -185,6 +183,23 @@ const {
 console.log(date)
 ```
 
+一个比较特殊的用法是数组解构的其余元素位置可以直接再次使用对象解构形式，这样的语法设计也能够立即，数组其余元素收集得到值是数组类型，数组也是对象，也可以使用对象解构形式。
+
+```js
+// a = [2, 3]
+const [, ...a] = [1, 2, 3]
+
+// length:  2
+const [, ...{ length }] = [1, 2, 3]
+```
+
+反过来则不成立，对象解构的其余属性位置不能嵌套使用数组解构形式。
+
+```js
+// syntax error
+let { ...[ ] } = { a: 1, b: 2 }
+```
+
 ### 未匹配模式
 
 对象和数组解构形式中不存在匹配的元素或者属性时，解构得到的变量值为`undefined`。
@@ -214,9 +229,7 @@ var [a, b = 2] = [1]
 
 ### 其余元素/属性（Rest Element/Property）
 
-解构语法提取对象中指定的属性和数组中指定位置的元素，其余属性或者元素可以使用`...rest`的写法进行收集。
-
-对象解构中只能有一个其余属性（Rest Property），位置必须是最后一个。
+对象解构中可以使用`...rest`形式将未指定的属性统一收集到`rest`变量代表的对象中，称为对象的其余属性（Rest Property）。对象解构中只能有一个其余属性，位置必须是最后一个。
 
 ```js
 var { a, ...rest } = { a: 1, b: 2, c: 3}
@@ -228,7 +241,7 @@ var { ..rest, a } = { a: 1, b: 2, c: 3}
 let { x, ...y, ...z } = obj;
 ```
 
-数组解构中只能有一个其余元素（Rest Element），必须是最后一个。
+数组解构中可以使用`...rest`形式将未指定的数组元素统一收集到`rest`变量代表的数组中，称为数组的其余元素（Rest Element）。数组解构中只能有一个其余元素（Rest Element），必须是最后一个。
 
 ```js
 var [a, ...rest] = [1, 2, 3]
@@ -255,7 +268,7 @@ const {
 } = obj
 ```
 
-其余元素只能对对象本身的**未被指定的可枚举属性**进行收集，不包括不可枚举属性和原型对象的属性。
+其余元素只能对**对象本身**的未被指定的**可枚举属性**进行收集，不包括不可枚举属性和原型对象的属性。
 
 ```js
 const prototype = { a: 1 }
@@ -285,13 +298,16 @@ function f1(«pattern1», «pattern2») {
   // ···
 }
 
+// 等价于
 function f2(...args) {
   const [«pattern1», «pattern2»] = args;
   // ···
 }
 ```
 
-函数定义的单个参数可以使用对象解构形式，这种形式的好处在于参数顺序不影响结果，命名更加清晰。结合默认值的使用函数的调用形式更加简洁、准确。
+#### 命名参数
+
+函数定义中参数可以使用对象解构形式，来实现命名参数（Named Parameter）的效果。命名参数的好处在于参数顺序不影响结果，含义更加清晰，结合参数默认值使用更加灵活。
 
 ```js
 function drawChart({
@@ -302,7 +318,12 @@ function drawChart({
   console.log(size, coords, radius)
   // do some chart drawing
 }
+
+drawChart()
+drawChart({ size: 'small' })
 ```
+
+#### `forEach`
 
 数组的`forEach`函数也是一个典型的使用场景。
 
@@ -313,6 +334,8 @@ Object.entries(note).forEach(([key, value]) => {
 })
 ```
 
+#### 多返回值
+
 Javascript 函数只能返回一个值，但是可以返回数组或者对象包含多个值，配合解构语法可以方便的拿到单个数据。
 
 ```js
@@ -322,7 +345,9 @@ function mousePosition() {
 const [x, y] = mousePosition()
 ```
 
-正则表达式匹配返回类数组对象
+#### 正则匹配
+
+正则表达式匹配返回类数组对象，配合数组解构使用。
 
 ```js
 function parseProtocol(url) {
@@ -440,11 +465,34 @@ assert.throws(() => eval("{prop} = { prop: 'hello' };"), {
 
 这里使用了`eval`函数，因为这属于编译期语法错误，无法正常的直接运行，`eval`将编译期错误转换为运行时错误，配合测试代码正常运行。
 
+#### 语法差异
+
+解构绑定语法和解构赋值语法除了使用的位置不同，其本身都支持对象解构、数组解构、默认值、其余元素属性、嵌套支持等特性，二者的语法定义是非常类似的。
+
+差别在于解构绑定的语义是定义变量，所以递归语法定义的出口是绑定标识符（Binding Identifier），因为变量的定义是用某个值来初始化某个名字。但是解构赋值的语义是把某个值赋值给某个左值（LeftHandSideExpression），标识符代表的变量只是左值的一种形式，还有成员表达式等很多表达式都是合法的左值。
+
+```js
+const a = { b: 1 }
+
+// a.b是一个左值，所以可以使用在解构赋值形式中
+;[a.b] = [2]
+
+// 2
+console.log('a: ', a)
+```
+
+左值形式使用在解构绑定形式中是错误的。
+
+```js
+// syntax error
+const [a.b] = [2];
+```
+
 ## 展开语法（Spread Syntax）
 
-展开语法和结构中的其余元素都使用`...`的形式，二者都是特殊语法形式，不是表达式。其余元素是将多个属性或者值收集到一个值中，展开语法正好相反。
+展开语法和解构中的其余元素都使用`...`的形式，二者都是特殊语法形式，不是表达式。其余元素是将多个属性或者值收集到一个值中，展开语法正好相反。
 
-展开语法在同一个表达式中可以使用多次，而且不要求在最后一个，而且只能出现在三个固定的语法结构中。
+展开语法在同一个表达式中可以使用多次，而且不要求在最后一个，而且只能出现在三个固定的语法解构中。
 
 ### 对象初始化
 
@@ -460,16 +508,45 @@ let newObj = Object.assign(a, b)
 
 #### 与`Object.assign`的异同
 
-TODO:
-展开语法和使用`Object.assign`在语意上也有差别，可以参考[Spreading objects versus Object.assign()](<https://2ality.com/2016/10/rest-spread-properties.html#spreading-objects-versus-object.assign()>)。
+目标对象被展开或者使用`Object.assign`创建新对象时，二者都使用[Get](https://tc39.es/ecma262/multipage/abstract-operations.html#sec-get-o-p)操作来获取对象属性值，因此定义了 get 属性的对象得到的结果是 get 属性求值结果而不是 get 属性本身。
 
-都是使用[[Get]]拷贝获取值，所以无法拷贝 PropertyDescriptor
+```js
+const original = {
+  get foo() {
+    return 123
+  },
+}
 
-[[Define]]
-[[Set]]
+// { foo: 123 }
+const spread = { ...original }
+// { foo: 123 }
+const assign = Object.assign({}, original)
+```
 
-TODO:
-只展开可枚举属性
+展开语法和`Object.assign`都值处理对象的可枚举属性。
+
+```js
+const proto = {
+    inheritedEnumerable: 1,
+};
+const obj = Object.create(proto, {
+    ownEnumerable: {
+        value: 2,
+        enumerable: true,
+    },
+    ownNonEnumerable: {
+        value: 3,
+        enumerable: false,
+    },
+});
+
+// { ownEnumerable: 2 }
+{...obj}
+// { ownEnumerable: 2 }
+Object.assign({}, obj)
+```
+
+展开语法和`Object.assign`语意上的差别在于展开语法使用[Define](https://262.ecma-international.org/6.0/#sec-ordinary-object-internal-methods-and-internal-slots-defineownproperty-p-desc)语义定义属性，`Object.assign`使用[Set](https://262.ecma-international.org/6.0/#sec-ordinary-object-internal-methods-and-internal-slots-set-p-v-receiver)语义设置属性，二者的区别可以参考[Spreading objects versus Object.assign()](<https://2ality.com/2016/10/rest-spread-properties.html#spreading-objects-versus-object.assign()>)。
 
 #### 属性顺序问题
 
@@ -485,7 +562,7 @@ const obj = { foo: 1, bar: 2, baz: 3 }
 {foo: true, ...obj}
 ```
 
-即使多个展开之间不存在同名属性情况，对象本身也记录了属性的顺序，字符串属性是按照**插入顺序**（Insertion Order）存储的，使用`Object.keys`输出查看。
+即使多个展开之间不存在同名属性情况，对象本身也记录了属性的顺序，字符串属性是按照**插入顺序**（Insertion Order）存储的，`for-in`属性遍历和`Object.keys`遵循相同的顺序。
 
 ### 数组初始化
 
@@ -563,38 +640,43 @@ let array = [...obj] // TypeError: obj is not iterable
 
 ## 规范解读
 
-解构赋值 [Destructuring Assignment](https://262.ecma-international.org/6.0/#sec-destructuring-assignment)
-解构模式 Destructuring Pattern
+TODO:
 
-IsDestructuring
+### 解构绑定模式
 
-IsValidSimpleAssignmentTarget
+1. [Destructuring Binding Patterns](https://262.ecma-international.org/6.0/#sec-destructuring-binding-patterns)
+1. BindingInitialization
+1. PropertyBindingInitialization
+1. KeyedBindingInitialization
+1. IteratorBindingInitialization
 
-DestructuringAssignmentTarget
-AssignmentRestElement
+### 解构赋值
 
-三种求值策略
-
-DestructuringAssignmentEvaluation
-IteratorDestructuringAssignmentEvaluation
-KeyedDestructuringAssignmentEvaluation
-
-解构绑定模式
-[Destructuring Binding Patterns](https://262.ecma-international.org/6.0/#sec-destructuring-binding-patterns)
-
-1. 解构语句的静态错误、动态错误、和运行时机制
-1. 结构对象的属性会在原型链上寻找，和普通的属性访问相同 obj.a
+1. [Destructuring Assignment](https://262.ecma-international.org/6.0/#sec-destructuring-assignment)
+1. IsDestructuring
+1. IsValidSimpleAssignmentTarget
+1. DestructuringAssignmentTarget
+1. AssignmentRestElement
+1. DestructuringAssignmentEvaluation
+1. IteratorDestructuringAssignmentEvaluation
+1. KeyedDestructuringAssignmentEvaluation
 
 ### 展开语法
-
-TODO: 拷贝属性顺序有先后
 
 ## 问题与练习 <span id="quiz"></span>
 
 1. 对象解构的目标值是`null`或者`undefined`时会发生什么？满足什么条件的值可以数组解构？
-1. 对象解构中被结构对象的所有属性值都会被解构么？原型对象上的属性么会被解构么？
+1. 对象解构中被解构对象的所有属性值都会被解构么？原型对象上的属性么会被解构么？
+1. 解构语法中没有匹配的属性或者元素时如何处理？
+1. 解构语法中什么情况下会使用指定的默认值？
+1. 解构绑定和解构赋值的语法有哪些相同和差异的地方？
+1. 解构绑定和解构赋值的运行时语义上相同么？
+1. 解构语法支持对象、数组以及互相嵌套的形式，但是数组语法中使用其余元素时并不对称，为什么这样设计？
 1. 展开语法`{...null}`和`{...undefined}`运行结果如何？
 1. 展开语法会展开目标对象的所有属性么？
+1. 使用解构和展开语法实现对象拷贝是深拷贝还是浅拷贝？
+1. 展开语法不能拷贝哪些属性？
+1. 展开语法和`Object.assign`进行属性拷贝时有哪些相同和差异的地方？
 
 ## 参考资料
 
@@ -612,7 +694,7 @@ TODO: 拷贝属性顺序有先后
 
 [Object Rest Properties for ECMAScript Rest](https://github.com/tc39/proposal-object-rest-spread/blob/main/Rest.md)是对象其余属性的语法提案，已经进入正式的 ECMAScript 2018 规范中。
 
-ECMAScript 规范中关于结构绑定、结构赋值、展开语法等特性的规定参考以下章节。
+ECMAScript 规范中关于解构绑定、解构赋值、展开语法等特性的规定参考以下章节。
 
 1. [Binding Initialization](https://tc39.es/ecma262/multipage/syntax-directed-operations.html#sec-runtime-semantics-bindinginitialization)
 1. [Destructuring Assignment](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-destructuring-assignment)。

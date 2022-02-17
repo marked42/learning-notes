@@ -11,11 +11,11 @@
 1. var a = 1 声明了变量 a; 和 a = 1 只是隐式的在全局对象上增加了属性 a，没有声明变量。区别的例子。
 
 ```js
-alert(a); // undefined
-alert(b); // "b" is not defined
+alert(a) // undefined
+alert(b) // "b" is not defined
 
-b = 10;
-var a = 20;
+b = 10
+var a = 20
 ```
 
 EnvironmentRecord 类型
@@ -63,66 +63,66 @@ new Function('var a = 1')
 
 ```js
 var a = { n: 1 },
-	ref = a;
-a.x = a = { n: 2 };
-console.log(a.x); // --> undefined
-console.log(ref.x); // {n:2}
+  ref = a
+a.x = a = { n: 2 }
+console.log(a.x) // --> undefined
+console.log(ref.x) // {n:2}
 ```
 
 ```js
-(function out() {
-	var a = "out";
+;(function out() {
+  var a = 'out'
 
-	function test() {
-		console.log(a);
+  function test() {
+    console.log(a)
 
-		while (false) {
-			var a = "in";
-		}
-	}
-	test();
-})();
+    while (false) {
+      var a = 'in'
+    }
+  }
+  test()
+})()
 ```
 
 静态作用域 函数作为参数 downwards funarg problem
 
 ```js
-let x = 10;
+let x = 10
 
 function foo() {
-	console.log(x);
+  console.log(x)
 }
 
 function bar(funArg) {
-	let x = 20;
-	funArg(); // 10, not 20!
+  let x = 20
+  funArg() // 10, not 20!
 }
 
 // Pass `foo` as an argument to `bar`.
-bar(foo);
+bar(foo)
 ```
 
 upwards funarg problem
 
 ```js
 function foo() {
-	let x = 10;
+  let x = 10
 
-	// Closure, capturing environment of `foo`.
-	function bar() {
-		return x;
-	}
+  // Closure, capturing environment of `foo`.
+  function bar() {
+    return x
+  }
 
-	// Upward funarg.
-	return bar;
+  // Upward funarg.
+  return bar
 }
 
-let x = 20;
+let x = 20
 
 // Call to `foo` returns `bar` closure.
-let bar = foo();
+let bar = foo()
 
-bar(); // 10, not 20!
+bar() // 10, not 20!
 ```
 
 nonlocal variable
@@ -184,3 +184,43 @@ setTimeout(()=>console.log(i), 1000);
 也就是说，在语法上这里只需要两个“块级作用域”，而实际运行时却需要为其中的第二个块级作用域创建无数个副本。
 
 这就是 for 语句中使用“let/const”这种块级作用域声明所需要付出的代价。
+
+```js
+// syntax error
+let a = 1,
+  a = 2
+
+// syntax error
+let { let } = { let: 1 }
+
+
+// ok
+var a = 1,
+  a = 2
+```
+
+变量声明的语义和 with 有关系
+
+```js
+let obj = { a: 1 }
+with (obj) {
+  // 定义在了 obj上
+  var a = 2
+  // 定义在全局上
+  var b = 3
+
+  // 2
+  console.log(a)
+  // 3
+  console.log(b)
+  // { a: 2 }
+  console.log(obj)
+}
+
+// undefined
+console.log(a)
+// 3
+console.log(b)
+// { a: 2 }
+console.log(obj)
+```
