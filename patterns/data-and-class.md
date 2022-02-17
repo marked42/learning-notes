@@ -70,3 +70,15 @@ Liskov Principle
 composite inheritance
 Replace Subclass with delegate
 Replace Superclass with delegate
+
+## Object & Data Structure
+
+Clean Code Chapter 6 Objects & Data Structures
+
+1. Data Structure，关键在于所有 Field 都独立修改，不独立的话没法全部公开，必须带有修改函数，如果只是读函数的话是 Active Record 还属于是 Data Structure
+1. Object 关键在于抽象，
+1. Feature Envy
+1. Law of Demeter
+1. Dual Dispatch / Visitor Pattern
+
+Data Structure 方便添加新 behaviour，Object 方便添加新的 data

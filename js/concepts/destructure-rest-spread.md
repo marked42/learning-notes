@@ -640,7 +640,10 @@ let array = [...obj] // TypeError: obj is not iterable
 
 ## 规范解读
 
-TODO:
+ES6 规定了解构绑定、解构赋值等形式，
+
+object rest/spread property 提案增加了关于 Object 支持 rest/spread 语法，最终进入 ES2018 规范。
+TODO: Implement This
 
 ### 解构绑定模式
 
