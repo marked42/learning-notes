@@ -21,6 +21,8 @@ _文章_
 1. [How to Read the ECMAScript Specification](https://timothygu.me/es-howto/)
 1. [ES6 规范](https://www.ecma-international.org/publications-and-standards/standards/ecma-262/)
 1. [ES6 In Depth](https://hacks.mozilla.org/category/es6-in-depth/)
+1. [ECMA 262](https://github.com/tc39/ecma262#ecmascript)
+1. [ECMA 262 Proposals](https://github.com/tc39/proposals)
 
 _教程与书籍_
 

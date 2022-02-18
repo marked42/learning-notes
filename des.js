@@ -39,8 +39,10 @@
 
 // console.log(length)
 
-let a = 1
+// let a = 1
 
-;[a.b = 3] = [a]
+// ;[a = 2, a = 3] = [a]
 
-console.log('a: ', a)
+// console.log('a: ', a)
+
+;[{ a }]

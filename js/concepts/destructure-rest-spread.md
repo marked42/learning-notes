@@ -364,6 +364,17 @@ function parseProtocol(url) {
 }
 ```
 
+#### 其余元素
+
+函数参数和数组解构语法形式一样可以组合使用其余元素和对象解构语法。
+
+```js
+function test(...{ length }) {
+  console.log(length)
+}
+test(1, 2)
+```
+
 ### for-of 循环
 
 ```js
@@ -378,6 +389,18 @@ for ([a, b] of [
   [3, 4],
 ]) {
   console.log(a, b)
+}
+```
+
+### Catch 语句
+
+try 语句的 Catch 分支中也可以定义变量或者使用解构形式。
+
+```js
+try {
+  // ...
+} catch ({ message }) {
+  console.log(message)
 }
 ```
 
@@ -464,6 +487,27 @@ assert.throws(() => eval("{prop} = { prop: 'hello' };"), {
 ```
 
 这里使用了`eval`函数，因为这属于编译期语法错误，无法正常的直接运行，`eval`将编译期错误转换为运行时错误，配合测试代码正常运行。
+
+解构绑定中要求名称不能出现重复，属于变量定义本身的语法要求。解构赋值不要求名称唯一，可以出现重复。
+
+```js
+let a = 1
+
+;[a = 2, a = 3] = [a]
+// 3
+console.log(a)
+```
+
+但是赋值语义要求赋值表达式左侧的形式必须是左值表达式（LeftHandSideExpression），而且是合法的赋值目标。
+
+```js
+let a = { b: 1 };
+
+[a, a.b] = [2, 3];
+
+// a()是左值表达式，但不是合法赋值目标
+[ a() ] = [4]
+```
 
 #### 语法差异
 
@@ -640,31 +684,45 @@ let array = [...obj] // TypeError: obj is not iterable
 
 ## 规范解读
 
-ES6 规定了解构绑定、解构赋值等形式，
-
-object rest/spread property 提案增加了关于 Object 支持 rest/spread 语法，最终进入 ES2018 规范。
-TODO: Implement This
-
 ### 解构绑定模式
 
-1. [Destructuring Binding Patterns](https://262.ecma-international.org/6.0/#sec-destructuring-binding-patterns)
-1. BindingInitialization
-1. PropertyBindingInitialization
-1. KeyedBindingInitialization
-1. IteratorBindingInitialization
+解构绑定的语法分别定义在变量声明、函数参数、`for-in`语句、`catch`语句等可以使用的语法位置，参考变量定义语句处的语法定义（[Destructuring Binding Patterns](https://tc39.es/ecma262/#sec-destructuring-binding-patterns)）即可。
+
+#### 递归定义
+
+绑定模式（BindingPattern）的分为对象绑定（ObjectBindingPattern）和数组绑定模式（ArrayBindingPattern）两种。
+
+对象绑定模式中包括属性列表（BindingPropertyList）和其余属性（BindingRestProperty），属性列表由若干个单独的属性（BindingProperty）组成。单个属性有单名称绑定（SingleNameBinding）和键值对（PropertyName: BindingElement）的形式。其中绑定元素（BindingElement）和数组绑定语法使用的形式，这个定义使得对象绑定能够**嵌套**数组绑定形式。
+
+数组绑定中包含绑定元素列表（BindingElementList）、可忽略元素（Elision）和其余元素（RestBindingElement）。
+
+1. 绑定元素列表有若干个绑定元素组成，绑定元素包括单名称绑定（SingleNameBinding）和绑定模式（BidingPattern Initializer）形式，这里的**嵌套定义**使得数组绑定可以嵌套使用数组或者对象绑定形式。
+1. 可忽略元素代表单个逗号，表示忽略数组中的某个元素。
+1. 其余元素绑定有两种形式，绑定标识符（...BindingIdentifier）和绑定模式（...BindingPattern），这里的嵌套定义又使得其余元素可以嵌套的使用任意的绑定模式。
+
+#### 递归求值
+
+绑定的求值过程和绑定模式的定义解构对应，都是递归形式，整个求值过程就是递归的找到对应的对象属性或者数组元素，进行求值，然后使用名称和值的对在当前的语法环境（EnvironmentRecord）中定义变量。
+
+绑定初始化（[BindingInitialization](https://tc39.es/ecma262/#sec-runtime-semantics-bindinginitialization)）代表了绑定模式的整个初始化过程。首先会将绑定目标值转换为对象（RequireObjectCoercible），不能转换为对象的值会在运行时报错。属性绑定初始化（[PropertyBindingInitialization](https://tc39.es/ecma262/#sec-destructuring-binding-patterns-runtime-semantics-propertybindinginitialization)）对应绑定属性列表的初始化，然后进入到单个属性的初始化过程（[KeyedBindingInitialization](https://tc39.es/ecma262/#sec-runtime-semantics-keyedbindinginitialization)）。[RestBindingInitialization](https://tc39.es/ecma262/#sec-destructuring-binding-patterns-runtime-semantics-restbindinginitialization) 处理对象其余属性的绑定，首先创建一个全新的对象，然后使用（[CopyDataProperties](https://tc39.es/ecma262/#sec-copydataproperties)）操作将被解构对象的**可枚举属性**拷贝到新的对象上，被拷贝的对象属性排除了绑定模式的绑定名称（BoundNames）语义记录的名称列表。
+
+对于数组模式来说绑定初始化会进入迭代器绑定初始化（[IteratorBindingInitialization](https://tc39.es/ecma262/#sec-runtime-semantics-iteratorbindinginitialization)）的过程。首先会从被解构的目标获取迭代器，所以不可迭代的对象运行时会报错。对于数组中的每个元素进行初始化的过程会造成迭代器向前一步，如果元素嵌套了其他绑定模式，会再次进入绑定初始化过程。数组中其余元素的绑定会创建一个新数组，然后将迭代器中的剩余元素逐个添加到新数组中。
 
 ### 解构赋值
 
-1. [Destructuring Assignment](https://262.ecma-international.org/6.0/#sec-destructuring-assignment)
-1. IsDestructuring
-1. IsValidSimpleAssignmentTarget
-1. DestructuringAssignmentTarget
-1. AssignmentRestElement
-1. DestructuringAssignmentEvaluation
-1. IteratorDestructuringAssignmentEvaluation
-1. KeyedDestructuringAssignmentEvaluation
+解构赋值的语法定义和解构绑定类似，区别在于一个使用术语绑定（Binding），一个使用术语赋值（Assignment），这也是二者的运行时语义上的差别。
+
+需要注意的是赋值的语义要求被赋值目标形式合法，可以参考这个问题 [Are function calls with arguments valid left-Hand-Side-Expressions according to ECMAScript](https://stackoverflow.com/questions/62710902/are-function-calls-with-arguments-valid-left-hand-side-expressions-according-to)。
+
+简单的说就是只有左值才能作为合法的赋值目标，标准中规定了 LeftHandSideExpression 来表示能够出现在赋值语句左边的形式，但是其中有些形式运行时语义上也无法正确赋值，因此有赋值目标类型的概念（ [AssignmentTargetType](https://tc39.es/ecma262/#sec-static-semantics-assignmenttargettype)），将 LeftHandSideExpression 的所有可能类型进行划分，能够正确赋值的形式的赋值目标类型为简单（simple），不能正确赋值的形式的赋值目标类型为非法（invalid）。
 
 ### 展开语法
+
+对象初始化（[Object Initializer](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-object-initializer)）中展开语法的属性定义求值过程在属性定义求值（[PropertyDefinitionEvaluation](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-runtime-semantics-propertydefinitionevaluation)）中，同样使用[CopyDataProperties](https://tc39.es/ecma262/multipage/abstract-operations.html#sec-copydataproperties)将被展开值的属性拷贝定义到目标对象上。
+
+数组初始化语法中的展开元素（Spread Element）处理由[ArrayAccumulation](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-runtime-semantics-arrayaccumulation)过程规定，被展开的元素也必须满足迭代器协议，通过迭代过程将下标和元素的键值对拷贝定义到新的数组中。
+
+调用表达式参数列表（[Argument List Evaluation](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-runtime-semantics-argumentlistevaluation)）中的求值过程和数组初始化语法中类似。
 
 ## 问题与练习 <span id="quiz"></span>
 
@@ -695,11 +753,12 @@ TODO: Implement This
 1. [ES6 In Depth: Destructuring](https://hacks.mozilla.org/2015/05/es6-in-depth-destructuring/)
 1. 《Understanding ECMAScript 6》Chapter 5 Destructuring for Easier Data Access
 
-[Object Rest Properties for ECMAScript Rest](https://github.com/tc39/proposal-object-rest-spread/blob/main/Rest.md)是对象其余属性的语法提案，已经进入正式的 ECMAScript 2018 规范中。
+[Object Rest Properties for ECMAScript](https://github.com/tc39/proposal-object-rest-spread/blob/main/Rest.md)是对象其余属性的语法提案，已经进入正式的 ECMAScript 2018 规范中。
 
 ECMAScript 规范中关于解构绑定、解构赋值、展开语法等特性的规定参考以下章节。
 
-1. [Binding Initialization](https://tc39.es/ecma262/multipage/syntax-directed-operations.html#sec-runtime-semantics-bindinginitialization)
+1. [Binding Initialization](https://tc39.es/ecma262/#sec-runtime-semantics-bindinginitialization)
+1. [Destructuring Binding Patterns](https://tc39.es/ecma262/#sec-destructuring-binding-patterns)
 1. [Destructuring Assignment](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-destructuring-assignment)。
 1. [Parameter List](https://tc39.es/ecma262/multipage/ecmascript-language-functions-and-classes.html#sec-parameter-lists)
 
@@ -710,8 +769,6 @@ ECMAScript 规范中关于解构绑定、解构赋值、展开语法等特性的
 展开语法的介绍可以首先参考 MDN 文档 [Spread Syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)和[ES2018: Rest/Spread Properties](https://2ality.com/2016/10/rest-spread-properties.html#spreading-objects-versus-objectassign)的介绍。
 
 对象其余属性（Rest Property）和展开属性（Spread Property）的语法提案[Object Rest/Spread Properties for ECMAScript](https://github.com/tc39/proposal-object-rest-spread)，其中分别对[Rest](https://github.com/tc39/proposal-object-rest-spread/blob/main/Rest.md)和[Spread](https://github.com/tc39/proposal-object-rest-spread/blob/main/Spread.md)做说明，关于语法的各种使用情况的例子可以作为准确参考。
-
-ECMAScript 规范中关于展开语法的描述[Array Initializer](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-array-initializer)、[Object Initializer](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-object-initializer)、[Argument List Evaluation](https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-runtime-semantics-argumentlistevaluation)。
 
 其余元素（Rest Element）和其余属性（Rest Property）分别对应数组解构和对象解构，可以参考解构部分的规范描述。
 
