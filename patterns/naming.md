@@ -3,6 +3,10 @@
 1. 表达意图
 1. 尽量简短 brevity expressiveness 的矛盾，使用比喻 Metaphor 来寻找简短准确的命名，比喻的环境本身提供了丰富的信息。
 1. 同一个概念使用同一个名称
+1. 使用同一个层次的抽象 same level of abstraction，
+1. 使用抽象的概念，而不是具体的实现
+1. use long names for long scopes，使用范围越广泛，名字可以越长
+1. 函数名、类名、变量名，反应副作用
 
 父类的名称尽量简短，使用一到两个单词组成，子类
 
