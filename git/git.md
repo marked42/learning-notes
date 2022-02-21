@@ -72,13 +72,13 @@ Commit message style.
 Header (first line) includes type (required), scope (optional), a colon and subject (required).
 
 1. `type` specifies commit type.
-    1. `feat:` - feature
-    1. `fix:` - bug
-    1. `docs:` - documentation
-    1. `style:` - style change without affecting functions
-    1. `refactor:` - refactor without function change or bug fix
-    1. `test:` - new test
-    1. `chore:` - auxiliary changes
+   1. `feat:` - feature
+   1. `fix:` - bug
+   1. `docs:` - documentation
+   1. `style:` - style change without affecting functions
+   1. `refactor:` - refactor without function change or bug fix
+   1. `test:` - new test
+   1. `chore:` - auxiliary changes
 1. `scope` is used to specify a clearer range under commit type.
 1. `subject` - describes about this commit neatly, usually less than 50 characters
 
@@ -90,29 +90,31 @@ Body is a detailed description on current commit. It should be written as clear 
 Footer is normally empty and should be used two cases.
 
 1. Breaking change.
-    ```txt
-    BREAKING CHANGE: isolate scope bindings definition has changed.
 
-    To migrate the code follow the example below:
+   ```txt
+   BREAKING CHANGE: isolate scope bindings definition has changed.
 
-    Before:
+   To migrate the code follow the example below:
 
-    scope: {
-      myAttr: 'attribute',
-    }
+   Before:
 
-    After:
+   scope: {
+     myAttr: 'attribute',
+   }
 
-    scope: {
-      myAttr: '@',
-    }
+   After:
 
-    The removed `inject` wasn't generaly useful for directives so there should be no code using it.
-    ```
+   scope: {
+     myAttr: '@',
+   }
+
+   The removed `inject` wasn't generaly useful for directives so there should be no code using it.
+   ```
+
 1. Close issues.
-    ```txt
-    Closes #123, #456, #789
-    ```
+   ```txt
+   Closes #123, #456, #789
+   ```
 
 Special case is revert commit must start with revert.
 
@@ -189,55 +191,55 @@ Questions should be asked evaluating a workflow for a team.
 In centralized workflow, there exists a repository as central repository. Everyone makes their own copy of central repository and works on their own copy. After work is done on local copy, push their changes to central repository.
 
 1. Initialize central repository.
-    ```bash
-    ssh user@host
-    git init --bare /path/to/repo.git
-    ```
+   ```bash
+   ssh user@host
+   git init --bare /path/to/repo.git
+   ```
 1. Makes your own copy.
-    ```bash
-    git clone ssh://user@host/path/to/repo.git
-    ```
+   ```bash
+   git clone ssh://user@host/path/to/repo.git
+   ```
 1. Commit your work locally.
-    ```bash
-    git status
-    git add .
-    git commit
-    ```
+   ```bash
+   git status
+   git add .
+   git commit
+   ```
 1. Pull latest central repository. Use `--rebase` to move your commit to tip of master branch.
-    ```bash
-    git pull --rebase origin master
-    ```
+   ```bash
+   git pull --rebase origin master
+   ```
 1. Resolve conflicts one by one. Use `git rebase --abort` to go back where you started resolving conflicts.
-    ```bash
-    git status
-    git add <some-file> # edit <some-file>
-    git rebase --continue # continue resolving conflicts
-    ```
+   ```bash
+   git status
+   git add <some-file> # edit <some-file>
+   git rebase --continue # continue resolving conflicts
+   ```
 1. Push changes to central repository.
-    ```bash
-    git push origin master
-    ```
+   ```bash
+   git push origin master
+   ```
 
 ### Feature Branching Workflow
 
 Core idea is that every featured should be developed on single dedicated branch instead of master branch. This allows a feature to be developed without disturbing `master` branch. After feature is complete, a pull request from feature branch to master branch can be created to merge feature code into master branch. This ensures that master branch is always stable and it's easy to apply continuous integration on it.
 
 1. Create a new branch dedicated for specific feature.
-    ```bash
-    git checkout -b new-feature
-    ```
+   ```bash
+   git checkout -b new-feature
+   ```
 1. Develop and commit on local feature branch, maybe push it to central repository for to others to see.
-    ```bash
-    git push -u origin new-feature
-    ```
+   ```bash
+   git push -u origin new-feature
+   ```
 1. Start a pull request to merge new-feature branch in central repository to master branch in central repository.
 1. Somebody pulls latest master and new-feature branch in central repository. Merge new-feature branch to master branch, then push updated master branch to central repository.
-    ```bash
-    git checkout master
-    git pull
-    git pull origin new-feature
-    git push
-    ```
+   ```bash
+   git checkout master
+   git pull
+   git pull origin new-feature
+   git push
+   ```
 
 ### Gitflow
 
@@ -246,44 +248,47 @@ Gitflow introduces develop branch dedicated for development.
 1. master (permanant) - base branch.
 1. dev (permanant) - development.
 1. feature (temporary) - created from develop branch for certain feature, merged to develop branch when finished, then it's deleted
-    ```bash
-    git checkout -b some-feature develop
-    git pull origin develop
-    git checkout develop
-    git merge some-feature
-    git push
-    git branch -d some-feature
-    ```
+   ```bash
+   git checkout -b some-feature develop
+   git pull origin develop
+   git checkout develop
+   git merge some-feature
+   git push
+   git branch -d some-feature
+   ```
 1. release (temporary) - created from dev branch, after finished should be merged into master branch with tags, then it's deleted.
-    ```bash
-    git checkout -b release-0.1 develop
-    git checkout master
-    git merge release-0.1
-    git push
-    git checkout develop
-    git merge release-0.1
-    git push
-    git branch -d release-0.1
 
-    git tag -a 0.1 -m "Initial public release" master
-    git push --tags
-    ```
+   ```bash
+   git checkout -b release-0.1 develop
+   git checkout master
+   git merge release-0.1
+   git push
+   git checkout develop
+   git merge release-0.1
+   git push
+   git branch -d release-0.1
+
+   git tag -a 0.1 -m "Initial public release" master
+   git push --tags
+   ```
+
 1. issue (temporary) - created from master for a bug fix.
-    ```bash
-    # create new branch.
-    git checkout -b issue-#001 master
 
-    # fix the bug and merge to master
-    git checkout master
-    git merge issue-#001
-    git push
+   ```bash
+   # create new branch.
+   git checkout -b issue-#001 master
 
-    # merge to dev and delete hotfix branch
-    git checkout develop
-    git merge issue-#001
-    git push
-    git branch -d issue-#001
-    ```
+   # fix the bug and merge to master
+   git checkout master
+   git merge issue-#001
+   git push
+
+   # merge to dev and delete hotfix branch
+   git checkout develop
+   git merge issue-#001
+   git push
+   git branch -d issue-#001
+   ```
 
 There's extention tool for gitflow.
 
@@ -291,26 +296,28 @@ There's extention tool for gitflow.
 
 1. Developers fork central repository before start developing.
 1. Developers clone their forked repository.
-    ```bash
-    git clone https://user@bitbucket.org/user/repo.git
-    ```
+   ```bash
+   git clone https://user@bitbucket.org/user/repo.git
+   ```
 1. Set forked repository as origin of local repository. set central repository as upstream of local repository.
-    ```bash
-    # provide user and name if needed
-    git remote add upstream https://user@bitbucket.org/maintainer/repo.git
-    ```
+   ```bash
+   # provide user and name if needed
+   git remote add upstream https://user@bitbucket.org/maintainer/repo.git
+   ```
 1. Developers works on local repository normally.
-    ```bash
-    git checkout -b some-feature
-    # Edit some code
-    git commit -a -m "Add first draft of some feature"
 
-    # pull from central repository
-    git pull upstream master
+   ```bash
+   git checkout -b some-feature
+   # Edit some code
+   git commit -a -m "Add first draft of some feature"
 
-    # push to forked repository
-    git push origin feature-branch
-    ```
+   # pull from central repository
+   git pull upstream master
+
+   # push to forked repository
+   git push origin feature-branch
+   ```
+
 1. Create a merge request for project maintainers to receive or reject.
 
 Reference
@@ -419,3 +426,7 @@ You can always use `git merge --abort` or `git rebase --abort` to undo changes i
 References
 
 1. [Merging vs Rebasing](https://www.atlassian.com/git/tutorials/merging-vs-rebasing)
+
+## Submodule
+
+https://stackoverflow.com/questions/44366417/what-is-the-point-of-git-submodule-init

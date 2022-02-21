@@ -1,5 +1,10 @@
 # 基本
 
+为什么要写好代码？
+
+1. 应对更高的复杂度
+1. 开发成本和维护成本
+
 ## 原则（Principles）
 
 1. DRY
@@ -19,12 +24,15 @@ Implementation Patterns
 原则 Principle
 模式 Pattern
 
+模块与概念分层，抽象不依赖细节，所以细节可以随意变化，细节依赖抽象。
+
 ## 代码味道（Code Smell）
 
 Mysterious Name
 Global Data/Singleton
 Mutable Data
 
+1. Clean Code Chapter 17
 1. Bloaters
    1. Long Method
    1. Long Parameter List

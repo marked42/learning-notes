@@ -82,3 +82,7 @@ Clean Code Chapter 6 Objects & Data Structures
 1. Dual Dispatch / Visitor Pattern
 
 Data Structure 方便添加新 behaviour，Object 方便添加新的 data
+
+## Class
+
+1. Clean Code Ch 10

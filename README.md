@@ -247,6 +247,7 @@
    1. rollup
    1. bundling webpack/Vite
    1. CLI
+      1. command line argument parser Clean Code Ch14
       1. params parsing commander / yargs / minimist
       1. console ora/chalk/ansi code
       1. 错误处理 log 和 debug 设计
