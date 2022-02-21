@@ -69,6 +69,8 @@ if (aPlan.withinRange(low, high)) {
 
 1. Remove Flag Argument 不要使用参数控制函数内部不同逻辑，将函数拆分，单一责任原则。
 
+Clean Code 称为 Selector Argument，不一定是布尔类型，可能是枚举或者其他类型，关键是根据参数选择不同行为的问题
+
 ### 减少参数
 
 1. Preserve Whole Object

@@ -11,6 +11,7 @@
 1.  Consolidate Conditional
 1.  Replace Nested with Guard 使用 Guard Clause 语句简化条件，提早退出。
 1.  introduce assertion
+1.  avoid negative 尽量使用正向的条件
 
 ## Replace Conditional with Polymorphism
 

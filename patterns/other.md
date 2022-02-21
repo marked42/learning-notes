@@ -26,3 +26,7 @@ Axios 的 HTTP 请求 Adapter
 ## 单例模式
 
 初始实现不需要立即使用单例模式，只有在存在性能问题或者需要保证实例唯一的需求出现时再重构为单例模式。
+
+## Concurrency
+
+1. Clean Code Chapter 13 Concurrency
