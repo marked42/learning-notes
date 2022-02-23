@@ -101,6 +101,13 @@
 
 1. [雨滴特效](https://zhuanlan.zhihu.com/p/353616639) [CSS](https://zhuanlan.zhihu.com/p/80852343)
 1. 卡通渲染 https://zhuanlan.zhihu.com/p/25595069
+1. [文字渲染的那些事（一）字体是如何存储的？](https://zhuanlan.zhihu.com/p/142618127)
+1. [filter](https://zhuanlan.zhihu.com/p/125137964)
+
+1. chroma-keying https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Manipulating_video_using_canvas
+1. pixel manipulation
+1. https://github.com/mdn/dom-examples/tree/master/canvas
+1. https://codepo8.github.io/canvas-images-and-pixels/
 
 ## 安全
 
