@@ -8,6 +8,12 @@
 1. use long names for long scopes，使用范围越广泛，名字可以越长
 1. 函数名、类名、变量名，反应副作用
 
+pick one word for single concept
+
+概念配对
+
+accepted -> unaccepted
+
 父类的名称尽量简短，使用一到两个单词组成，子类
 
 程序是会发生变化的，因此需要一定的灵活性，引入灵活性需要对应的成本，同时某些变化是不可预测的，不希望在变化的可能性尚未出现时就引入灵活性。
