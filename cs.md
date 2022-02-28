@@ -4,12 +4,6 @@
 
 https://github.com/sindresorhus/awesome
 
-## 算法
-
-1. [leetcode](https://www.zhihu.com/question/280279208/answer/1118675237)
-
-- [ ] [Algorithms In JS](https://github.com/trekhleb/javascript-algorithms?utm_source=gold_browser_extension)
-
 ## OS
 
 1. ucore 清华大学课程
@@ -37,16 +31,6 @@ https://github.com/sindresorhus/awesome
 1. [Unix/Linux 编程实践教程]()
 
 ## 正则
-
-[藏在正则表达式里的陷阱](https://zhuanlan.zhihu.com/p/38278481)
-
-## File System
-
-https://www.sydney.edu.au/units/COMP2017 System Programming [课程 labs](https://www.zhihu.com/question/356351510/answer/1578302782)
-
-1. 文件系统
-1. SVC (git)
-1. 操作系统的锁实现
 
 ## Computer Graphics
 
@@ -93,22 +77,10 @@ https://github.com/ossu/computer-science
    1. http://www.pur3.co.uk/TinyJS
    1. https://hllvm-group.iteye.com/group/topic/37596
    1. https://zhuanlan.zhihu.com/p/25042028
-1. JSON parser
-   1. https://github.com/cheery/json-algorithm
-   1. [如何编写一个 JSON 解析器](https://www.liaoxuefeng.com/article/994977272296736)
-   1. [写一个 JSON、XML 或 YAML 的 Parser 的思路是什么？](https://www.zhihu.com/question/24640264)
-1. HTML Parser
-1. CSS Parser
-1. HTTP
-   1. [HTTP Parser](https://zhuanlan.zhihu.com/p/100660049)
 1. WebAssembly
    1. [Build your own WebAssembly Compiler](https://blog.scottlogic.com/2019/05/17/webassembly-compiler.html)
 1. LLVM
    1. [Kaleidoscope: Implementing a Language with LLVM](https://llvm.org/docs/tutorial/#kaleidoscope-implementing-a-language-with-llvm)
-1. regexp
-   1. [Build a Regex Engine in Less than 40 Lines of Code](https://nickdrane.com/build-your-own-regex/)
-   1. [HOW TO IMPLEMENT REGULAR EXPRESSIONS IN FUNCTIONAL JAVASCRIPT using Derivatives](http://dpk.io/dregs/toydregs)
-   1. [Implementing a Regular Expression Engine](https://deniskyashif.com/2019/02/17/implementing-a-regular-expression-engine/)
 1. C
    1. [C in 4 functions](https://github.com/rswier/c4)
    1. C4 https://www.zhihu.com/question/28249756/answer/84307453

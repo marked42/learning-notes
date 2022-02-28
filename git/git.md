@@ -4,6 +4,7 @@ TODO:
 
 1. https://zhuanlan.zhihu.com/p/34844206
 1. https://zhuanlan.zhihu.com/p/38245039
+1. [git 的基本架构欣赏](https://zhuanlan.zhihu.com/p/38245039)
 
 ## Setup
 

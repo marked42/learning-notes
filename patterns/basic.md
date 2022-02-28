@@ -147,3 +147,5 @@ Martin Fowler 关于重构流程的视频 [Workflows of Refactoring](https://www
 1. Test Driven Development By Example Kent Beck
 1. Domain Driven Design
 1. https://www.ooed.org/best-online-courses-to-learn-refactoring/
+
+1. [Refactoring Guru](https://refactoringguru.cn/design-patterns/builder)

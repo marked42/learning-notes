@@ -18,6 +18,7 @@ validators/isReferenced
 # 应用
 
 1. find all references
+1. go to definition https://zhuanlan.zhihu.com/p/100438617
 1. renamer
 1. deadcode elimination
 1. tree shaking identifier references pure effect
