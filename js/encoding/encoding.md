@@ -1,4 +1,4 @@
-# Encoding
+# 编码
 
 ## ASCII and ISO-8859-1
 
