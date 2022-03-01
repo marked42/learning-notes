@@ -40,3 +40,165 @@ Event Loop
 异步模型
 
 1. [async/await 异步模型是否优于 stackful coroutine 模型？](https://www.zhihu.com/question/65647171/answer/233495694)
+
+## 事件循环
+
+Reactor 模式
+
+Hollywood Principle Don't call us, we will call you.
+
+1. 核心是一个事件循环(Event Queue)，任务来源（IO、用户交互）等产生事件 Event，每个任务有对应的事件和回调函数（handler），一个事件可以对应一个或者多个 handler。
+1. 产生的事件添加到事件队列中（event queue），这些异步任务的集合通过多路复用机制（Event Demultiplexer 操作系统提供）可以**同步**的等待直到任何任务完成后触发对应事件，这个过程在另外一个线程？。
+1. 事件触发后控制权转移回主线程，依次处理所有被触发的事件，执行事件对应的回调函数，直到事件队列被清空。这个过程中回调函数可能产生新的任务并向事件队列中添加对应事件。
+1. 事件队列清空后进入空闲状态（idle），结束一次事件循环的处理。
+
+不同的操作系统提供各自不同的多路复用机制，linux 提供`epoll`，macos 使用`kqueue`，windows 使用 IO Completion Port API (IOCP)，同一个操作系统上不同类型的资源 I/O 行为也可能不一致，例如 macos 不支持非阻塞式的文件操作，所以必须使用另外一个线程来模拟，libuv 提供了同一个的抽象，屏蔽痛不同操作系统的细节。
+
+1. https://zhuanlan.zhihu.com/p/93612337
+1. pattern oriented Software Architecture
+1. https://github.com/ppizarro/coursera/tree/master/POSA/Books/Pattern-Oriented%20Software%20Architecture
+1. http://www.laputan.org/pub/sag/reactor.pdf
+1. [A introduction to libuv](http://nikhilm.github.io/uvbook/)
+
+## 异步模式
+
+### 场景
+
+1. 异步顺序执行 callback/promise/event emitter
+   ```js
+   // 利用递归函数的办法控制异步任务顺序执行callback
+   function iterate(index) {
+     if (index === tasks.length) {
+       return finish()
+     }
+     var task = tasks[index]
+     task(function () {
+       iterate(index + 1)
+     })
+   }
+   function finish() {
+     //iteration completed
+   }
+   iterate(0)
+   ```
+1. 并行执行
+   ```js
+   var tasks = []
+   var completed = 0
+   tasks.forEach(function (task) {
+     task(function () {
+       if (++completed === tasks.length) {
+         finish()
+       }
+     })
+   })
+   function finish() {
+     //all the tasks completed
+   }
+   ```
+1. 带有数量限制的并行
+
+   ```js
+   // 同时使用EventEmitter和callback
+   class ParallelTasks {
+     constructor() {
+       super()
+     }
+
+     // 每个任务开始，成功，失败可以触发像相应事件
+   }
+   ```
+
+代表一个异步过程的几种形式
+
+1. callback
+1. promise
+1. generator co
+1. 相关的库 async, tapable
+
+### callback
+
+1. callback 是最后一个参数
+1. callback 函数的第一个参数代表 error，如果没有错误发生，error 是 null。
+
+同步方式使用`throw`提升（propagating）错误到外层函数，异步的方式在回调函数中调用外层函数的回调函数`callback(err)`，直接抛出错误会导致错误提升到最外层，成为 UncaughtException。
+
+```js
+var fs = require('fs')
+function readJSON(filename, callback) {
+  fs.readFile(filename, 'utf8', function (err, data) {
+    var parsed
+    if (err)
+      //propagate the error and exit the current function
+      return callback(err)
+    try {
+      //parse the file contents
+      parsed = JSON.parse(data)
+    } catch (err) {
+      //catch parsing errors
+      return callback(err)
+    }
+    //no errors, propagate just the data
+    callback(null, parsed)
+  })
+}
+```
+
+可以使用
+
+```js
+process.on('uncaughtException', function (err) {
+  console.error(
+    'This will catch at last the ' + 'JSON parsing exception: ' + err.message
+  )
+  //without this, the application would continue
+  process.exit(1)
+})
+```
+
+### promise
+
+### EventEmitter
+
+### 不要混合使用同步与异步
+
+例如一个带有缓存的读取文件实现，有缓存时同步返回，无缓存时 callback 形式异步返回。使用者无法确定到底是同步还是异步，应该统一包装成异步的形式。
+
+参考 https://blog.izs.me/2013/08/designing-apis-for-asynchrony/
+
+```js
+var fs = require('fs')
+var cache = {}
+function inconsistentRead(filename, callback) {
+  if (cache[filename]) {
+    //invoked synchronously
+    callback(cache[filename])
+  } else {
+    //asynchronous function
+    fs.readFile(filename, 'utf8', function (err, data) {
+      cache[filename] = data
+      callback(data)
+    })
+  }
+}
+```
+
+统一成异步的形式
+
+```js
+var fs = require('fs')
+var cache = {}
+function consistentReadAsync(filename, callback) {
+  if (cache[filename]) {
+    process.nextTick(function () {
+      callback(cache[filename])
+    })
+  } else {
+    //asynchronous function
+    fs.readFile(filename, 'utf8', function (err, data) {
+      cache[filename] = data
+      callback(data)
+    })
+  }
+}
+```

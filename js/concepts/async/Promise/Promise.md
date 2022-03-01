@@ -1,5 +1,7 @@
 # Promise
 
+https://humanwhocodes.com/blog/2021/01/creating-javascript-promise-from-scratch-unhandled-rejection-tracking/
+
 ## 概念与应用
 
 ### 状态与命运
@@ -36,16 +38,16 @@ ES6 规范原文如下：
 
 ```js
 new Promise((resolve, reject) => {
-	setTimeout(resolve, 1000, "success");
-});
+  setTimeout(resolve, 1000, 'success')
+})
 ```
 
 1s 后失败的例子，失败结果等价于同步代码中抛出异常，推荐使用`Error`类型的数据代表错误信息。
 
 ```js
 new Promise((resolve, reject) => {
-	setTimeout(reject, 1000, new Error("failure"));
-});
+  setTimeout(reject, 1000, new Error('failure'))
+})
 ```
 
 一个根据其他`Promise`来决定最终状态的例子。`inner`是一个普通的定时器异步任务，`outer`构造函数中使用`resolve(inner)`锁定到`inner`因此`outer`的最终结果和`inner`一样。
@@ -54,13 +56,13 @@ new Promise((resolve, reject) => {
 
 ```js
 const outer = new Promise((resolve, reject) => {
-	const inner = new Promise((resolve) => {
-		setTimeout(resolve, 1000, "success");
-	});
+  const inner = new Promise((resolve) => {
+    setTimeout(resolve, 1000, 'success')
+  })
 
-	resolve(inner);
-	resolve(1);
-});
+  resolve(inner)
+  resolve(1)
+})
 ```
 
 `executor`函数的第一个参数叫做`resolve`而不是`fulfill`，原因就在于`resolve`的参数可以是另外的 Promise，而不仅仅是成功情况的结果。
@@ -72,19 +74,19 @@ const outer = new Promise((resolve, reject) => {
 ```js
 // 成功
 new Promise((resolve) => {
-	setTimeout(resolve, 1000, 1);
+  setTimeout(resolve, 1000, 1)
 }).then(
-	(value) => console.log(`[success]: ${value}`),
-	(reason) => console.log(`[failure]: ${reason}`)
-);
+  (value) => console.log(`[success]: ${value}`),
+  (reason) => console.log(`[failure]: ${reason}`)
+)
 
 // 失败
 new Promise((resolve) => {
-	setTimeout(reject, 1000, new Error("too late"));
+  setTimeout(reject, 1000, new Error('too late'))
 }).then(
-	(value) => console.log(`[success]: ${value}`),
-	(reason) => console.log(`[failure]: ${reason}`)
-);
+  (value) => console.log(`[success]: ${value}`),
+  (reason) => console.log(`[failure]: ${reason}`)
+)
 ```
 
 `then`函数的使用不用担心 Promise 是否已经完成（settle），未完成的 Promise 会在完成时触发回调函数，已完成的会立即触发回调函数。**触发**回调函数不是**立即执行**回调函数，而是注册一个微任务（microtask）来尽快的执行回调函数，ES6 规范中称之为 Job。
@@ -99,32 +101,30 @@ new Promise((resolve) => {
 
 ```js
 new Promise((resolve) => {
-	resolve(0);
+  resolve(0)
 })
-	.then((value) => {
-		console.log(`received 0: ${value === 0}`);
-		return 1;
-	})
-	.then((value) => {
-		console.log(`received 1: ${value === 1}`);
+  .then((value) => {
+    console.log(`received 0: ${value === 0}`)
+    return 1
+  })
+  .then((value) => {
+    console.log(`received 1: ${value === 1}`)
 
-		throw new Error("error");
-	})
-	.then(undefined, (reason) => {
-		console.log(`received error: ${reason instanceof Error}`);
+    throw new Error('error')
+  })
+  .then(undefined, (reason) => {
+    console.log(`received error: ${reason instanceof Error}`)
 
-		return new Promise((resolve) => setTimeout(resolve, 1000, 3));
-	})
-	.then((value) => {
-		console.log(`received 3: ${value === 3}`);
+    return new Promise((resolve) => setTimeout(resolve, 1000, 3))
+  })
+  .then((value) => {
+    console.log(`received 3: ${value === 3}`)
 
-		return new Promise((reject) =>
-			setTimeout(reject, 1000, new Error("error"))
-		);
-	})
-	.then(undefined, (value) => {
-		console.log(`received error: ${reason instanceof Error}`);
-	});
+    return new Promise((reject) => setTimeout(reject, 1000, new Error('error')))
+  })
+  .then(undefined, (value) => {
+    console.log(`received error: ${reason instanceof Error}`)
+  })
 ```
 
 需要注意的是如果`.then(onFulfilled, onRejected)`中的参数类型**不是函数**，参数将会被忽略而采取默认行为，将成功失败值及状态**原样透传**（fall through）给新的 Promise。
@@ -135,23 +135,23 @@ new Promise((resolve) => {
 
 ```js
 new Promise((resolve) => {
-	resolve(1);
+  resolve(1)
 }).then(
-	(value) => {
-		console.log(`value: ${value}`);
-		throw new Error("throw in then");
-	},
-	(reason) => console.error(`error: ${reason}`)
-);
+  (value) => {
+    console.log(`value: ${value}`)
+    throw new Error('throw in then')
+  },
+  (reason) => console.error(`error: ${reason}`)
+)
 
 new Promise((resolve) => {
-	resolve(1);
+  resolve(1)
 })
-	.then((value) => {
-		console.log(`value: ${value}`);
-		throw new Error("throw in then");
-	})
-	.catch((reason) => console.error(`error: ${reason}`));
+  .then((value) => {
+    console.log(`value: ${value}`)
+    throw new Error('throw in then')
+  })
+  .catch((reason) => console.error(`error: ${reason}`))
 ```
 
 ### `finally`进行清理
@@ -161,8 +161,8 @@ new Promise((resolve) => {
 ```js
 // 返回Promise代表异步读取文件的结果
 readFile().finally(() => {
-	closeFile();
-});
+  closeFile()
+})
 ```
 
 ### 统一同步异步
@@ -182,29 +182,29 @@ readFile().finally(() => {
 Node 中提供的异步函数约定最后一个参数是回调函数，第一个参数是函数失败时的错误原因（成功时为`undefined`），第二个参数是成功时的结果。
 
 ```js
-fs.readFile("/etc/passwd", (err, data) => {
-	if (err) throw err;
-	console.log(data);
-});
+fs.readFile('/etc/passwd', (err, data) => {
+  if (err) throw err
+  console.log(data)
+})
 ```
 
 利用`promisify`函数将这种约定的函数转换为一个返回`Promise`的异步函数。
 
 ```js
 function promisify(f) {
-	return function (...args) {
-		return new Promise((resolve, reject) => {
-			function callback(err, result) {
-				if (err) {
-					reject(err);
-				} else {
-					resolve(result);
-				}
-			}
+  return function (...args) {
+    return new Promise((resolve, reject) => {
+      function callback(err, result) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(result)
+        }
+      }
 
-			f.call(this, ...args, callback);
-		});
-	};
+      f.call(this, ...args, callback)
+    })
+  }
 }
 ```
 
@@ -217,22 +217,20 @@ function promisify(f) {
 ```js
 // 某个网络请求接口
 function fetch(url) {
-	return Promise.resolve();
+  return Promise.resolve()
 }
 
 function timeout(fun, ms) {
-	return function timeoutFun(...args) {
-		return Promise.race([
-			fun.call(this, ...args),
-			new Promise((_, reject) =>
-				setTimeout(reject, ms, new Error("timeout"))
-			),
-		]);
-	};
+  return function timeoutFun(...args) {
+    return Promise.race([
+      fun.call(this, ...args),
+      new Promise((_, reject) => setTimeout(reject, ms, new Error('timeout'))),
+    ])
+  }
 }
 
 // 设置3s超时
-const timeoutFetch = timeout(f, 3000);
+const timeoutFetch = timeout(f, 3000)
 ```
 
 #### `Promise.all(iterable)`
@@ -245,18 +243,18 @@ const timeoutFetch = timeout(f, 3000);
 
 ```js
 Promise.allSettled([
-	Promise.resolve(3),
-	new Promise((resolve, reject) => setTimeout(reject, 100, "foo")),
+  Promise.resolve(3),
+  new Promise((resolve, reject) => setTimeout(reject, 100, 'foo')),
 ]).then((results) => {
-	const expected = [
-		// 成功
-		{ status: "fulfilled", value: 3 },
-		// 失败
-		{ status: "rejected", reason: "foo" },
-	];
+  const expected = [
+    // 成功
+    { status: 'fulfilled', value: 3 },
+    // 失败
+    { status: 'rejected', reason: 'foo' },
+  ]
 
-	expect(results).toEqual(expected);
-});
+  expect(results).toEqual(expected)
+})
 ```
 
 #### `Promise.any(iterable)`
@@ -275,11 +273,11 @@ Promise.allSettled([
 [Node](https://nodejs.org/api/process.html#process_event_unhandledrejection)中从`async`函数中抛出异常或者`reject`一个没有错误处理函数的 Promise 会导致异常被全局捕获，打印在控制台中。这种行为在未来会被废弃，改变为导致 Node 进程以非 0 返回失败退出。使用`unhandleRejection`事件对这种情况自定义处理函数。
 
 ```js
-process.on("unhandledRejection", (reason, promise) => {
-	console.log("Unhandled Rejection at:", promise, "reason: ", reason);
-});
+process.on('unhandledRejection', (reason, promise) => {
+  console.log('Unhandled Rejection at:', promise, 'reason: ', reason)
+})
 
-Promise.reject(new Error("error"));
+Promise.reject(new Error('error'))
 ```
 
 浏览器环境的全局环境下(`window`或者`Worker`)使用`unhandledrejection`和`rejectionhandled`[事件](https://caniuse.com/#search=unhandled)对没有回调函数的 rejection 进行处理。
@@ -287,33 +285,33 @@ Promise.reject(new Error("error"));
 
 ```js
 function testUnhandledRejection() {
-	window.onunhandledrejection = (event) => {
-		console.log("[unhandledrejection]: ", event);
+  window.onunhandledrejection = (event) => {
+    console.log('[unhandledrejection]: ', event)
 
-		// Chrome, Safari中生效，Firefox无效
-		// 避免将未处理的rejected信息打印到控制台的默认行为是
-		event.preventDefault();
-	};
+    // Chrome, Safari中生效，Firefox无效
+    // 避免将未处理的rejected信息打印到控制台的默认行为是
+    event.preventDefault()
+  }
 
-	Promise.reject(new Error("unhandled error"));
+  Promise.reject(new Error('unhandled error'))
 }
 
 function testRejectionHandled() {
-	window.onrejectionhandled = (event) => {
-		console.log("[rejectionhandled]: ", event);
-	};
+  window.onrejectionhandled = (event) => {
+    console.log('[rejectionhandled]: ', event)
+  }
 
-	// reject时没有handler，这个未被handled的rejection错误信息会被打印到控制台
-	const p = Promise.reject(new Error("handled error"));
+  // reject时没有handler，这个未被handled的rejection错误信息会被打印到控制台
+  const p = Promise.reject(new Error('handled error'))
 
-	// 后来添加handler处理rejected的情况，此时触发rejectionhandled事件
-	setTimeout(() => {
-		p.catch((error) => console.log("catch: " + error));
-	}, 3000);
+  // 后来添加handler处理rejected的情况，此时触发rejectionhandled事件
+  setTimeout(() => {
+    p.catch((error) => console.log('catch: ' + error))
+  }, 3000)
 }
 
-testUnhandledRejection();
-testRejectionHandled();
+testUnhandledRejection()
+testRejectionHandled()
 ```
 
 1. [Promise Rejection Events Sample](https://googlechrome.github.io/samples/promise-rejection-events/)
@@ -331,16 +329,16 @@ testRejectionHandled();
 
 ```js
 new Promise((resolve) => {
-	resolve(1);
-	resolve(2);
-}).then(console.log);
+  resolve(1)
+  resolve(2)
+}).then(console.log)
 
 new Promise((resolve) => {
-	// 2s后执行
-	resolve(new Promise((resolve) => setTimeout(resolve, 2000, 2)));
-	// 1s后确定
-	resolve(new Promise((resolve) => setTimeout(resolve, 1000, 1)));
-}).then(console.log);
+  // 2s后执行
+  resolve(new Promise((resolve) => setTimeout(resolve, 2000, 2)))
+  // 1s后确定
+  resolve(new Promise((resolve) => setTimeout(resolve, 1000, 1)))
+}).then(console.log)
 ```
 
 #### 执行时机问题
@@ -349,20 +347,20 @@ new Promise((resolve) => {
 
 ```js
 doSomething()
-	.then(function () {
-		return doSomethingElse();
-	})
-	.then(finalHandler);
+  .then(function () {
+    return doSomethingElse()
+  })
+  .then(finalHandler)
 
 doSomething()
-	.then(function () {
-		doSomethingElse();
-	})
-	.then(finalHandler);
+  .then(function () {
+    doSomethingElse()
+  })
+  .then(finalHandler)
 
-doSomething().then(doSomethingElse()).then(finalHandler);
+doSomething().then(doSomethingElse()).then(finalHandler)
 
-doSomething().then(doSomethingElse).then(finalHandler);
+doSomething().then(doSomethingElse).then(finalHandler)
 ```
 
 #### 添加延迟
@@ -388,21 +386,21 @@ var p2 = addDelay("value", 1000);
 
 ```js
 // 0
-Promise.race([0, 1]).then(console.log);
+Promise.race([0, 1]).then(console.log)
 
 // 0
-Promise.race([Promise.resolve(0), 1]).then(console.log);
+Promise.race([Promise.resolve(0), 1]).then(console.log)
 
 // Promise.resolve()会返回原来的Promise，所以不管嵌套多少层，都能直接拿到最内层的Promise
-Promise.race([Promise.resolve(Promise.resolve(0)), 1]).then(console.log);
+Promise.race([Promise.resolve(Promise.resolve(0)), 1]).then(console.log)
 
-Promise.race([new Promise((resolve) => resolve(0)), 1]).then(console.log);
+Promise.race([new Promise((resolve) => resolve(0)), 1]).then(console.log)
 
 // new Promise一个代表一层异步嵌套
 Promise.race([
-	new Promise((resolve) => resolve(new Promise((resolve) => resolve(0)))),
-	1,
-]).then(console.log);
+  new Promise((resolve) => resolve(new Promise((resolve) => resolve(0)))),
+  1,
+]).then(console.log)
 ```
 
 #### Promise 与微任务
@@ -411,30 +409,30 @@ Promise 完成时回调函数被注册为微任务异步执行，说明下面运
 
 ```js
 let resolvePromise = new Promise((resolve) => {
-	let resolvedPromise = Promise.resolve();
-	resolve(resolvedPromise);
-});
+  let resolvedPromise = Promise.resolve()
+  resolve(resolvedPromise)
+})
 resolvePromise.then(() => {
-	console.log("resolvePromise resolved");
-});
+  console.log('resolvePromise resolved')
+})
 let resolvedPromiseThen = Promise.resolve().then((res) => {
-	console.log("promise1");
-});
+  console.log('promise1')
+})
 resolvedPromiseThen
-	.then(() => {
-		console.log("promise2");
-	})
-	.then(() => {
-		console.log("promise3");
-	});
+  .then(() => {
+    console.log('promise2')
+  })
+  .then(() => {
+    console.log('promise3')
+  })
 ```
 
 注意连续的`.then`函数注册微任务，每次都是一层异步嵌套，而`resolve(promise)`是多一层的嵌套异步任务。
 
 ```js
-resolve(resolvedPromise);
+resolve(resolvedPromise)
 //等同于：
-Promise.resolve().then(() => resolvedPromise.then(resolve));
+Promise.resolve().then(() => resolvedPromise.then(resolve))
 ```
 
 运行过程如下：
@@ -444,18 +442,18 @@ Promise.resolve().then(() => resolvedPromise.then(resolve));
 1. `resolvedPromiseThen`的构造是三层嵌套的异步微任务
 1. 脚本任务同步执行，注册了第一层微任务输出`promise1`和`resolvedPromise`
 1. 脚本任务执行完成，开始清空微任务队列，执行第一层微任务，同时`resolve`嵌套`Promise`执行一层。
-    ```txt
-    promise1
-    ```
+   ```txt
+   promise1
+   ```
 1. `.then`嵌套 Promise 执行第二层，`resolve`嵌套`Promise`执行第二层此时`resolvePromise`变成`resolved`状态。
-    ```txt
-    promise2
-    ```
+   ```txt
+   promise2
+   ```
 1. `resolvePromise.then`的微任务回调和第三个`.then`都位于第三层，根据前后顺序输出
-    ```txt
-    resolvePromise resolved
-    promise3
-    ```
+   ```txt
+   resolvePromise resolved
+   promise3
+   ```
 
 #### 顺序执行
 
@@ -463,15 +461,15 @@ Promise.resolve().then(() => resolvedPromise.then(resolve));
 
 ```js
 function executeSequentially(promiseFactories) {
-	var result = Promise.resolve();
-	promiseFactories.forEach(function (promiseFactory) {
-		result = result.then(promiseFactory);
-	});
-	return result;
+  var result = Promise.resolve()
+  promiseFactories.forEach(function (promiseFactory) {
+    result = result.then(promiseFactory)
+  })
+  return result
 }
 
 function myPromiseFactory() {
-	return somethingThatCreatesAPromise();
+  return somethingThatCreatesAPromise()
 }
 ```
 
@@ -479,11 +477,11 @@ function myPromiseFactory() {
 
 ```js
 function executeSequentially(promises) {
-	var result = Promise.resolve();
-	promises.forEach(function (promise) {
-		result = result.then(promise);
-	});
-	return result;
+  var result = Promise.resolve()
+  promises.forEach(function (promise) {
+    result = result.then(promise)
+  })
+  return result
 }
 ```
 
@@ -494,26 +492,26 @@ function executeSequentially(promises) {
 
 ```js
 const timeout = (time) =>
-	new Promise((resolve) => {
-		console.log("in timeout:", time);
-		setTimeout(resolve, time);
-	});
+  new Promise((resolve) => {
+    console.log('in timeout:', time)
+    setTimeout(resolve, time)
+  })
 
-const scheduler = new Scheduler();
+const scheduler = new Scheduler()
 
-const start = Date.now();
+const start = Date.now()
 const addTask = (time, order) => {
-	scheduler
-		.add(() => timeout(time))
-		.then(() => {
-			console.log((Date.now() - start) / 1000, "s: ", order);
-		});
-};
+  scheduler
+    .add(() => timeout(time))
+    .then(() => {
+      console.log((Date.now() - start) / 1000, 's: ', order)
+    })
+}
 
-addTask(1000, "1");
-addTask(500, "2");
-addTask(300, "3");
-addTask(400, "4");
+addTask(1000, '1')
+addTask(500, '2')
+addTask(300, '3')
+addTask(400, '4')
 ```
 
 总共添加了 4 个任务，输出是`2 3 1 4`。
@@ -529,54 +527,54 @@ addTask(400, "4");
 
 ```js
 class Scheduler {
-	constructor() {
-		this.runningCount = 0;
-		this.maxRunningCount = 1;
-		this.waitingList = [];
-	}
+  constructor() {
+    this.runningCount = 0
+    this.maxRunningCount = 1
+    this.waitingList = []
+  }
 
-	add(task) {
-		if (typeof task !== "function") {
-			throw new TypeError("task must be a function");
-		}
+  add(task) {
+    if (typeof task !== 'function') {
+      throw new TypeError('task must be a function')
+    }
 
-		let promiseResolve;
-		let promiseReject;
-		const promise = new Promise((resolve, reject) => {
-			promiseResolve = resolve;
-			promiseReject = reject;
-		});
+    let promiseResolve
+    let promiseReject
+    const promise = new Promise((resolve, reject) => {
+      promiseResolve = resolve
+      promiseReject = reject
+    })
 
-		this.waitingList.push({
-			task: task,
-			resolve: promiseResolve,
-			reject: promiseReject,
-		});
+    this.waitingList.push({
+      task: task,
+      resolve: promiseResolve,
+      reject: promiseReject,
+    })
 
-		this.runNextTask();
+    this.runNextTask()
 
-		return promise;
-	}
+    return promise
+  }
 
-	runNextTask() {
-		if (
-			this.runningCount >= this.maxRunningCount ||
-			this.waitingList.length === 0
-		) {
-			return;
-		}
+  runNextTask() {
+    if (
+      this.runningCount >= this.maxRunningCount ||
+      this.waitingList.length === 0
+    ) {
+      return
+    }
 
-		const { task, resolve, reject } = this.waitingList[0];
-		this.waitingList = this.waitingList.slice(1);
+    const { task, resolve, reject } = this.waitingList[0]
+    this.waitingList = this.waitingList.slice(1)
 
-		this.runningCount++;
-		return Promise.resolve(task())
-			.then(resolve, reject)
-			.finally(() => {
-				this.runningCount--;
-				this.runNextTask();
-			});
-	}
+    this.runningCount++
+    return Promise.resolve(task())
+      .then(resolve, reject)
+      .finally(() => {
+        this.runningCount--
+        this.runNextTask()
+      })
+  }
 }
 ```
 
@@ -603,7 +601,7 @@ Promises/A+规范主要规定了`.then`函数和 Promise 决议过程（Promise 
 `Promise`实例调用`.then`的形式
 
 ```js
-promise.then(onFulfilled, onRejected);
+promise.then(onFulfilled, onRejected)
 ```
 
 1. 2.1.1 - `onFulfilled`和`onRejected`参数不是函数时被忽略，采用默认透传行为。
@@ -616,7 +614,7 @@ promise.then(onFulfilled, onRejected);
 #### Promise 决议过程
 
 ```js
-[[Resolve]](promise, value);
+;[[Resolve]](promise, value)
 ```
 
 Promise 的决议过程就是之前讲到的将`promise`的命运确定一个普通值、另外一个`promise`、`thenable`对象的过程。`thenable`对象代表的就是其他符合 Promises/A+规范的实现对象实例，`thenable`对象导致了决议的过程是嵌套的。`thenable`对象上`then`函数的调用结果需要嵌套决议`[[Resolve]](thenResult, value)`直到递归结束。
@@ -701,10 +699,10 @@ function NewPromiseCapability(C) {
 // 一个普通的thenable对象的then函数是被包装成Job异步执行的
 // 输出 2 1
 Promise.resolve({
-	then: () => console.log("1"),
-});
+  then: () => console.log('1'),
+})
 
-console.log("2");
+console.log('2')
 ```
 
 另外注意`ResolvePromise(promise1, promise2)`将`promise1`确定到`promise2`上是通过将`promise1`的`resolve`和`reject`函数注册为`promise2`的接受和拒绝回调函数实现的，这样`promise2`完成后就会触发回调函数将`promise1`**以同样的值接受或者拒绝**，这个过程可能嵌套多层。这种方式用来实现返回一个新的 Promise 值的工具函数非常方便。
@@ -718,8 +716,8 @@ console.log("2");
 
 ```js
 // 结果不一样
-Promise.resolve(Promise.reject(1));
-Promise.reject(Promise.resolve(1));
+Promise.resolve(Promise.reject(1))
+Promise.reject(Promise.resolve(1))
 ```
 
 #### `Promise.race(iterable)`
@@ -748,14 +746,14 @@ When a promise is resolved or rejected, its `then()` callback is scheduled at ne
 Default fullfilment handler and rejection handler is used when needed.
 
 ```javascript
-var p = Promise.resolve(42);
-p.then(null, null);
+var p = Promise.resolve(42)
+p.then(null, null)
 
 // default handler used
 p.then(
-	(value) => Promise.resolve(value),
-	(err) => Promise.reject(err)
-);
+  (value) => Promise.resolve(value),
+  (err) => Promise.reject(err)
+)
 ```
 
 ### resolve
@@ -764,17 +762,17 @@ Promise can be resolved with normal object or a Promise asynchronously, but noti
 
 ```javascript
 var p3 = new Promise((resolve, reject) => {
-	resolve("B");
-});
+  resolve('B')
+})
 var p1 = new Promise((resolve, reject) => {
-	resolve(p3);
-});
+  resolve(p3)
+})
 var p2 = new Promise((resolve, reject) => {
-	resolve("A");
-});
+  resolve('A')
+})
 
-p1.then((v) => console.log(v));
-p2.then((v) => console.log(v));
+p1.then((v) => console.log(v))
+p2.then((v) => console.log(v))
 
 // A B <- not B A as you might expect
 ```
@@ -782,26 +780,26 @@ p2.then((v) => console.log(v));
 Promise is unwrapped if used as parameter of `resolve()` inside constructor or returned by `then()`. A new promise is created by promise constructor or `then()`. New promise adopts the state of unwrapped promise, thus creating a chain of asynchronous operations.
 
 ```javascript
-var p1 = Promise.resolve("1");
+var p1 = Promise.resolve('1')
 var p3 = p1.then((value) => {
-	var p2 = new Promise((resolve, reject) => {
-		setTimeout(resolve, 1000, "3");
-	});
-	return p2;
-});
-p3.then((value) => console.log("value: ", value));
+  var p2 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 1000, '3')
+  })
+  return p2
+})
+p3.then((value) => console.log('value: ', value))
 
 // unwrapping inside then() returns promise chain to be resolved in sequential order p1 -> p2 -> p3
 ```
 
 ```javascript
 var p2 = new Promise((resolve, reject) => {
-	var p1 = new Promise((resolve, reject) => {
-		setTimeout(resolve, 1000, "3");
-	});
-	resolve(p1);
-});
-p2.then((value) => console.log("value: ", value));
+  var p1 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 1000, '3')
+  })
+  resolve(p1)
+})
+p2.then((value) => console.log('value: ', value))
 
 // unwrapping inside constructor creates promise chain to be resolved in sequential order p1 -> p2
 ```
@@ -810,42 +808,42 @@ p2.then((value) => console.log("value: ", value));
 
 1. If received a normal object, it returns a promise object resolved with it.
 1. If received a promise, it returns that promise.
-    ```javascript
-    var p1 = Promise.resolve(42);
-    var p2 = Promise.resolve(p1);
-    console.log(p1 === p2); // true
-    ```
+   ```javascript
+   var p1 = Promise.resolve(42)
+   var p2 = Promise.resolve(p1)
+   console.log(p1 === p2) // true
+   ```
 1. If received a thenable object, it returns a trustable Promise wrapper.
 
-    ```javascript
-    var p = {
-    	then: function (cb, errcb) {
-    		cb(42);
-    		errcb("evil laugh");
-    	},
-    };
+   ```javascript
+   var p = {
+     then: function (cb, errcb) {
+       cb(42)
+       errcb('evil laugh')
+     },
+   }
 
-    // trustable issues
-    p.then(
-    	function fulfilled(val) {
-    		console.log(val); //42
-    	},
-    	function rejected(err) {
-    		// oops, shouldn't have run
-    		console.log(err); // evil laugh
-    	}
-    );
+   // trustable issues
+   p.then(
+     function fulfilled(val) {
+       console.log(val) //42
+     },
+     function rejected(err) {
+       // oops, shouldn't have run
+       console.log(err) // evil laugh
+     }
+   )
 
-    // safe Promise wrapper
-    Promise.resolve(p).then(
-    	function fulfilled(val) {
-    		console.log(val); // 42
-    	},
-    	function rejected(err) {
-    		// never gets here
-    	}
-    );
-    ```
+   // safe Promise wrapper
+   Promise.resolve(p).then(
+     function fulfilled(val) {
+       console.log(val) // 42
+     },
+     function rejected(err) {
+       // never gets here
+     }
+   )
+   ```
 
 ### Timeout Promise
 
@@ -853,18 +851,18 @@ Use a timeout promise to prevent it from hanging indefinitely and not called.
 
 ```javascript
 function delay(delayedMilliseconds) {
-	return new Promise((fullfill) => {
-		setTimeout(fullfill, delayedMilliseconds);
-	});
+  return new Promise((fullfill) => {
+    setTimeout(fullfill, delayedMilliseconds)
+  })
 }
 
 function timeoutPromise(promise, delayedMilliseconds) {
-	return Promise.race([
-		promise,
-		delay(time).then(() => {
-			throw new Error("Operation timed out.");
-		}),
-	]);
+  return Promise.race([
+    promise,
+    delay(time).then(() => {
+      throw new Error('Operation timed out.')
+    }),
+  ])
 }
 ```
 
@@ -873,26 +871,26 @@ function timeoutPromise(promise, delayedMilliseconds) {
 Unwrapping also happens when you return a thenable or Promise from fullfilment or rejection handler. This allows us to chain multiple asynchronous steps together using `then()`.
 
 ```javascript
-var p = Promise.resolve(21);
+var p = Promise.resolve(21)
 
 p.then((v) => {
-	console.log(v); // 21
+  console.log(v) // 21
 
-	return new Promise((resolve, reject) => {
-		resolve(v * 2); // fullfill with 42
-	});
-}).then((v) => console.log(v)); // 42
+  return new Promise((resolve, reject) => {
+    resolve(v * 2) // fullfill with 42
+  })
+}).then((v) => console.log(v)) // 42
 
 p.then((v) => {
-	console.log(v); // 21
+  console.log(v) // 21
 
-	// asynchronous
-	return new Promise((resolve, reject) => {
-		setTimeout(() => {
-			resolve(v * 2); // fullfill with 42
-		}, 100);
-	});
-}).then((v) => console.log(v)); // 42, runs after 100ms delay in previous step
+  // asynchronous
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(v * 2) // fullfill with 42
+    }, 100)
+  })
+}).then((v) => console.log(v)) // 42, runs after 100ms delay in previous step
 ```
 
 ### Thenable
@@ -901,11 +899,11 @@ Thenable is an object with `then()` method, it's a general label for promise-lik
 
 ```javascript
 function isThenable(p) {
-	return (
-		p !== null &&
-		(typeof p === "object" || typeof p === "function") &&
-		typeof p.then === "function"
-	);
+  return (
+    p !== null &&
+    (typeof p === 'object' || typeof p === 'function') &&
+    typeof p.then === 'function'
+  )
 }
 ```
 
@@ -919,30 +917,30 @@ function isThenable(p) {
 
 ```javascript
 // Promise.resolve()
-var fullfilledPromise = Promise.resolve(42);
+var fullfilledPromise = Promise.resolve(42)
 
 var rejectedThenable = {
-	then: (resolve, reject) => {
-		reject("Oops");
-	},
-};
-var rejectedPromise = Promise.resolve(rejectedThenable);
+  then: (resolve, reject) => {
+    reject('Oops')
+  },
+}
+var rejectedPromise = Promise.resolve(rejectedThenable)
 
-var rejectedPromise = Promise.resolve(Promise.reject("Oops"));
+var rejectedPromise = Promise.resolve(Promise.reject('Oops'))
 
 // Promise constructor
 var rejectedPromise = new Promise((resolve, reject) => {
-	resolve(Promise.reject("Oops"));
-});
+  resolve(Promise.reject('Oops'))
+})
 
 rejectedPromise.then(
-	function fullfilled() {
-		// never gets here
-	},
-	function rejected(err) {
-		console.log(err); // 'Oops'
-	}
-);
+  function fullfilled() {
+    // never gets here
+  },
+  function rejected(err) {
+    console.log(err) // 'Oops'
+  }
+)
 ```
 
 For `then(fullfilled, rejected)`, first parameter should be called `fullfilled` instead of `resolved` because it will always and only be called when promise is fullfilled.
@@ -950,11 +948,11 @@ For `then(fullfilled, rejected)`, first parameter should be called `fullfilled` 
 `reject` from `Promise.reject()` and `new Promise((resolve, reject) => {})` will not unwrap passed in parameters.
 
 ```javascript
-var p1 = Promise.resolve(42);
+var p1 = Promise.resolve(42)
 
 // p2 is a rejected promise and its value is p1
-var p2 = Promise.reject(p1);
-p2.catch((err) => console.log(err)); // err is p1 instead of 42
+var p2 = Promise.reject(p1)
+p2.catch((err) => console.log(err)) // err is p1 instead of 42
 ```
 
 1. [Promise A+ Standard](https://promisesaplus.com/)
@@ -990,18 +988,18 @@ Extended API
 ```javascript
 // doesn't support fn with default parameter
 const promisify =
-	(fn, context) =>
-	(...args) => {
-		return new Promise((resolve, reject) => {
-			fn.call(context, ...args, (err, value) => {
-				if (err) {
-					reject(err);
-				} else {
-					resolve(value);
-				}
-			});
-		});
-	};
+  (fn, context) =>
+  (...args) => {
+    return new Promise((resolve, reject) => {
+      fn.call(context, ...args, (err, value) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(value)
+        }
+      })
+    })
+  }
 ```
 
 ### 参考

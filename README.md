@@ -7,7 +7,6 @@
     1. [DOM 拖拽模型](https://zhuanlan.zhihu.com/p/103245540)
 1.  [帧动画](https://www.imooc.com/video/11812)
 1.  [code diff editor](https://fed.taobao.org/blog/taofed/do71ct/how-to-display-git-diff/?spm=taofed.blogs.blog-list.4.18be5ac8oJK4PP)
-1.  [Build Your Own Frontend Framework](https://github.com/danistefanovic/build-your-own-x#build-your-own-front-end-framework--library)
 
 1.  复杂场景数据设计
 
@@ -68,14 +67,6 @@
 1. timer 实现 https://zhuanlan.zhihu.com/p/26023420
 1. [为什么我说 C/C++程序员都要阅读 Redis 源码之：通过 Redis 学习事件驱动设计](https://github.com/guodongxiaren/Blog/issues/26)
 
-## JS & TS
-
-1.  vscode
-    1.  [VSCode TextBuffer Implementation](https://code.visualstudio.com/blogs/2018/03/23/text-buffer-reimplementation)
-    1.  vscode https://www.zhihu.com/question/374558844/answer/1051321547
-    1.  go to definition https://zhuanlan.zhihu.com/p/100438617
-    1.  https://zhuanlan.zhihu.com/p/337794496
-
 ## 浏览器
 
 1. [从输入 URL 到页面加载的过程？如何由一道题完善自己的前端知识体系！](https://zhuanlan.zhihu.com/p/34453198?group_id=957277540147056640)
@@ -134,71 +125,33 @@
 - [ ] [陈天](https://www.zhihu.com/people/tchen)
 - [ ] [颜海镜](https://yanhaijing.com/)
 - [ ] [dwb](http://dwbbb.com/)
-
-## TODO
-
-1. Language
-   1. Closure
-   1. crafting interpreters
-   1. Writing Compilers and Interpreters
-   1. Javascript Parser
-   1. LuaVM
-1. Recursion/Iteration
-1. API Design
-1. 编码
-1. Algorithm
-   1. Binary Tree
-   1. Hash Table
-   1. DP
-   1. string trie 树
-1. Javascript Spec
-   1. Module
-   1. Promise
-   1. Async/Await
-1. Frontend Tools 针对典型问题分析，了解要实现什么功能，进行设计，对比经典方案
-
-   1. DOM Diff Algorithm
-   1. 模块打包 webpack/rollup/vite
-      1. minipack
-      1. 模块依赖分析 对这个过程如何抽象设计才合理
-      1. javascript 的环境对象 process.env 如何处理？DefinePlugin？Javascript 的代码分为几部分，语言规范本身、host 环境、测试环境 describe 等 webpack 5 需要手动添加 node-polyfill-plugin
-         1. https://www.npmjs.com/package/node-polyfill-webpack-plugin
-         1. https://github.com/webpack/webpack/issues/11282
-         1. https://github.com/webpack/changelog-v5#automatic-nodejs-polyfills-removed
-         1. https://webpack.js.org/configuration/resolve/#resolvealias
-         1. fs 等浏览器不支持的功能无法 polyfill
-         1. 讲解 webpack 使用的 umd 模块格式
-      1. rollup 对于 process 的处理？
-   1. ESLint
-   1. CLI
-      1. command line argument parser Clean Code Ch14
-      1. params parsing commander / yargs / minimist
-      1. console ora/chalk/ansi code
-      1. 错误处理 log 和 debug 设计
-   1. monorepo lerna [version](https://cloud.tencent.com/developer/article/1883133),[publish](https://cloud.tencent.com/developer/article/1883132)
-
-      1. 添加删除依赖不要使用单独的 npm 命令，会破坏模块之间的软链接，造成问题。
-
-   1. Design of [Editor](https://viewsourcecode.org/snaptoken/kilo/) / VSCode
+- [ ] [刘未鹏](http://mindhacks.cn/2011/07/10/the-importance-of-knowing-why-part3/)
 
 ## 架构与设计
 
 JS 模式
 
+- [ ] Understanding Javascript 6
 - [ ] Maintainable Javascript [Nicholas C.Zakas Books](https://humanwhocodes.com/)
 - [ ] Testable Javascript
 - [ ] Effective Javascript
-- [ ] Javascript Ninja
-- [ ] Eloquent Ninja
-- [ ] Javascript For the Impatient Programmer
+- [ ] Secrets of the Javascript Ninja
+- [ ] Eloquent Javascript
 - [ ] Becoming Functional
+- [ ] Functional Javascript
 - [ ] High Performance Javascript
-- [ ] You dont know JS
-- [ ] how javascript works 书籍
-- [ ] Javascript twenty years
+- [ ] You don't know JS
+- [ ] Javascript For the Impatient Programmer
+- [ ] [JavaScript 是如何工作的](https://segmentfault.com/a/1190000018854431)
+- [ ] How Javascript Works Douglas Crockford
+- [ ] Javascript The Good Parts
+- [ ] [Javascript Twenty Years](https://cn.history.js.org/)
+- [ ] https://zh.javascript.info/
+- [ ] Javascript 核心原理解析 周爱民
 
 通用模式
 
+- [ ] Javascript Design Patterns
 - [ ] https://github.com/phodal/booktree
 - [ ] Refactoring 2
 - [x] Refactoring to Patterns

@@ -1,0 +1,8 @@
+1. [JavaScript. The Core: 2nd Edition](http://dmitrysoshnikov.com/ecmascript/javascript-the-core-2nd-edition/)
+1. Understanding ECMAScript [Part 1](https://v8.dev/blog/understanding-ecmascript-part-1) [Part 2](https://v8.dev/blog/understanding-ecmascript-part-2) [Part 3](https://v8.dev/blog/understanding-ecmascript-part-3) [Part 4](https://v8.dev/blog/understanding-ecmascript-part-4)
+1. [ECMAScript 规范阅读导引] [Part 1](https://fed.taobao.org/blog/taofed/do71ct/mlgtox) [Part 2](https://zhuanlan.zhihu.com/p/118140237)
+1. [How to Read the ECMAScript Specification](https://timothygu.me/es-howto/)
+1. [ES6 规范](https://www.ecma-international.org/publications-and-standards/standards/ecma-262/)
+1. [ES6 In Depth](https://hacks.mozilla.org/category/es6-in-depth/)
+1. [ECMA 262](https://github.com/tc39/ecma262#ecmascript)
+1. [ECMA 262 Proposals](https://github.com/tc39/proposals)
