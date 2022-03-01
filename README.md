@@ -167,6 +167,7 @@
          1. https://github.com/webpack/changelog-v5#automatic-nodejs-polyfills-removed
          1. https://webpack.js.org/configuration/resolve/#resolvealias
          1. fs 等浏览器不支持的功能无法 polyfill
+         1. 讲解 webpack 使用的 umd 模块格式
       1. rollup 对于 process 的处理？
    1. ESLint
    1. CLI
@@ -175,6 +176,8 @@
       1. console ora/chalk/ansi code
       1. 错误处理 log 和 debug 设计
    1. monorepo lerna [version](https://cloud.tencent.com/developer/article/1883133),[publish](https://cloud.tencent.com/developer/article/1883132)
+
+      1. 添加删除依赖不要使用单独的 npm 命令，会破坏模块之间的软链接，造成问题。
 
    1. Design of [Editor](https://viewsourcecode.org/snaptoken/kilo/) / VSCode
 
