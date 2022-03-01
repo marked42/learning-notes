@@ -158,14 +158,17 @@
 1. Frontend Tools 针对典型问题分析，了解要实现什么功能，进行设计，对比经典方案
 
    1. DOM Diff Algorithm
-   1. 模块打包
+   1. 模块打包 webpack/rollup/vite
       1. minipack
       1. 模块依赖分析 对这个过程如何抽象设计才合理
-      1. javascript 的环境对象 process.env 如何处理？DefinePlugin
-   1. Babel
+      1. javascript 的环境对象 process.env 如何处理？DefinePlugin？Javascript 的代码分为几部分，语言规范本身、host 环境、测试环境 describe 等 webpack 5 需要手动添加 node-polyfill-plugin
+         1. https://www.npmjs.com/package/node-polyfill-webpack-plugin
+         1. https://github.com/webpack/webpack/issues/11282
+         1. https://github.com/webpack/changelog-v5#automatic-nodejs-polyfills-removed
+         1. https://webpack.js.org/configuration/resolve/#resolvealias
+         1. fs 等浏览器不支持的功能无法 polyfill
+      1. rollup 对于 process 的处理？
    1. ESLint
-   1. rollup
-   1. bundling webpack/Vite
    1. CLI
       1. command line argument parser Clean Code Ch14
       1. params parsing commander / yargs / minimist
