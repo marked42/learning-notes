@@ -158,7 +158,10 @@
 1. Frontend Tools 针对典型问题分析，了解要实现什么功能，进行设计，对比经典方案
 
    1. DOM Diff Algorithm
-   1. 模块依赖分析 对这个过程如何抽象设计才合理
+   1. 模块打包
+      1. minipack
+      1. 模块依赖分析 对这个过程如何抽象设计才合理
+      1. javascript 的环境对象 process.env 如何处理？DefinePlugin
    1. Babel
    1. ESLint
    1. rollup
@@ -193,7 +196,6 @@ JS 模式
 - [ ] https://github.com/phodal/booktree
 - [ ] Refactoring 2
 - [x] Refactoring to Patterns
-- [ ] A Little Java, A Few Patterns
 - [ ] Working Effectively with Legacy Code
 - [ ] Design Pattern
 - [ ] TDD Kent Beck
@@ -207,3 +209,4 @@ JS 模式
 - [ ] Clean Architecture
 - [ ] Patterns of enterprise application architecture
 - [ ] Pattern-Oriented_Software_Architecture
+- [ ] A Little Java, A Few Patterns
