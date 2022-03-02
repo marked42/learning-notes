@@ -4,6 +4,11 @@ https://cjting.me/2018/07/22/js-and-unicode/
 
 源码规定使用 utf16 编码
 
+[JavaScript character escape sequences](https://mathiasbynens.be/notes/javascript-escapes)
+[JavaScript’s internal character encoding: UCS-2 or UTF-16? ](https://mathiasbynens.be/notes/javascript-encoding)
+
+1. [Unicode](https://mathiasbynens.be/notes#unicode)
+
 https://262.ecma-international.org/6.0/#sec-source-text
 
 ## 获取字符串对应的码点数组
