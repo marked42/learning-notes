@@ -135,7 +135,6 @@ Martin Fowler 关于重构流程的视频 [Workflows of Refactoring](https://www
 ## 参考材料
 
 1. Refactoring 2nd Edition
-1. https://www.martinfowler.com/articles/refactoring-pipelines.html
 1. https://refactoring.guru/store
 1. [Refactoring to Patterns](https://martinfowler.com/books/r2p.html)
 1. Refactoring Workbook [Wake]
