@@ -1,5 +1,7 @@
 # 值与类型
 
+Effective Javascript item 3/4/5
+
 ### 数据类型与值
 
 1. 基本数据类型（primitive type）string number boolean null undefined symbol
@@ -15,9 +17,9 @@
 
 1. typeof 12.5.6 /
 1. instanceof
-    1. InstanceofOperator 12.9.4
-    1. OrdinaryHasInstance 7.3.19
-    1. @@hasInstance
+   1. InstanceofOperator 12.9.4
+   1. OrdinaryHasInstance 7.3.19
+   1. @@hasInstance
 
 ### 对象与原型链
 
@@ -99,13 +101,13 @@ Extensible, seal, freeze
 #### sealed 和 frozen
 
 ```js
-Object.seal();
-Object.isSealed();
-Object.freeze();
-Object.isFrozen();
+Object.seal()
+Object.isSealed()
+Object.freeze()
+Object.isFrozen()
 
-SetIntegrityLevel();
-TestIntegrityLevel();
+SetIntegrityLevel()
+TestIntegrityLevel()
 ```
 
 sealed 将每一个属性设置为 configurable: false

@@ -89,7 +89,7 @@ Data Structure 方便添加新 behaviour，Object 方便添加新的 data
 
 ## 避免全局数据
 
-global 全局变量和 reference 一样非常可能误修改，使用了全局变量的函数都比较难以复用。
+尽量减少全局数据的使用 global 全局变量和 reference 一样非常可能误修改，使用了全局变量的函数都比较难以复用。
 
 如果是不可变数据（Immutable），可以使用全局数据
 

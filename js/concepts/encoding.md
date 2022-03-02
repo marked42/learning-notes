@@ -7,6 +7,16 @@ https://cjting.me/2018/07/22/js-and-unicode/
 [JavaScript character escape sequences](https://mathiasbynens.be/notes/javascript-escapes)
 [JavaScript’s internal character encoding: UCS-2 or UTF-16? ](https://mathiasbynens.be/notes/javascript-encoding)
 
+把 Javascript 的字符串当成 16 位的 code unit 和 Java 一样。
+
+An element of a JavaScript string is a 16-bit code unit
+
+Surrogate pairs throw off string element counts, affecting length,
+charAt, charCodeAt, and regular expression patterns such as “.”.
+
+Similarly, regular expressions operate at the level of code units. The
+single-character pattern (“.”) matches a single code unit:
+
 1. [Unicode](https://mathiasbynens.be/notes#unicode)
 
 https://262.ecma-international.org/6.0/#sec-source-text
