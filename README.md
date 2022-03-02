@@ -132,7 +132,6 @@
 JS 模式
 
 - [ ] Understanding Javascript 6
-- [ ] Maintainable Javascript [Nicholas C.Zakas Books](https://humanwhocodes.com/)
 - [ ] Testable Javascript
 - [ ] Effective Javascript
 - [ ] Secrets of the Javascript Ninja

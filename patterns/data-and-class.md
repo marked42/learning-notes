@@ -86,3 +86,32 @@ Data Structure 方便添加新 behaviour，Object 方便添加新的 data
 ## Class
 
 1. Clean Code Ch 10
+
+## 避免全局数据
+
+global 全局变量和 reference 一样非常可能误修改，使用了全局变量的函数都比较难以复用。
+
+如果是不可变数据（Immutable），可以使用全局数据
+
+全局数据、局部数据，根据数据的应用情况选择合适的范围。
+
+全局变量泄漏的情况，向一个未声明的变量赋值。
+
+```js
+function test() {
+  implicitGlobal = 1
+}
+
+// 或者使用 with
+with ({ a: 1 }) {
+  b = 3
+}
+```
+
+开启严格模式
+
+```js
+'use strict'
+// Reference Error
+foo = 1
+```

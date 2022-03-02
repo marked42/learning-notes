@@ -106,3 +106,14 @@ function getDOMNode() {}
 ```
 
 公开 API 命名倾向于使用抽象概念而不是具体实现，
+
+变量名称 名词开头
+
+函数名称
+
+```js
+can has is 返回boolean
+get set
+```
+
+常量 CONSTANCE 大写
