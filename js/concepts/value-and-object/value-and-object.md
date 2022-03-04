@@ -1,7 +1,5 @@
 # 值与类型
 
-Effective Javascript item 3/4/5
-
 ### 数据类型与值
 
 1. 基本数据类型（primitive type）string number boolean null undefined symbol
@@ -129,6 +127,19 @@ frozen 将每个属性设置为 configurable: false, writable: false
 ### 测试与比较操作
 
 7.2 Testing and comparison operations
+
+isNaN 判断前首先将参数转换为数字
+
+```js
+isNaN('foo') // true
+isNaN(undefined) // true
+isNaN({}) // true
+isNaN({ valueOf: 'foo' }) // true
+// Luckily there’s an idiom that is both
+
+// NaN是唯一一个不等于自身的值
+a !== a
+```
 
 ### 相等性
 

@@ -131,18 +131,20 @@
 
 JS 模式
 
-- [ ] Understanding Javascript 6
-- [ ] Testable Javascript
 - [ ] Effective Javascript
+- [ ] Testable Javascript
 - [ ] Secrets of the Javascript Ninja
 - [ ] Eloquent Javascript
-- [ ] Becoming Functional
-- [ ] Functional Javascript
-- [ ] High Performance Javascript
+
+- [ ] Understanding Javascript 6
 - [ ] You don't know JS
 - [ ] Javascript For the Impatient Programmer
 - [ ] [JavaScript 是如何工作的](https://segmentfault.com/a/1190000018854431)
 - [ ] How Javascript Works Douglas Crockford
+
+- [ ] Becoming Functional
+- [ ] Functional Javascript
+- [ ] High Performance Javascript
 - [ ] Javascript The Good Parts
 - [ ] [Javascript Twenty Years](https://cn.history.js.org/)
 - [ ] https://zh.javascript.info/

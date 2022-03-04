@@ -224,3 +224,23 @@ console.log(b)
 // { a: 2 }
 console.log(obj)
 ```
+
+# 命名函数
+
+that the latter binds its name as a local variable within
+the function. This can be used to write recursive function expressions:
+
+```js
+var f = function find(tree, key) {
+  if (!tree) {
+    return null
+  }
+  if (tree.key === key) {
+    return tree.value
+  }
+  return find(tree.left, key) || find(tree.right, key)
+}
+
+// 具名函数表达式名名称不能在函数外部使用
+find(myTree, 'foo') // error
+```
