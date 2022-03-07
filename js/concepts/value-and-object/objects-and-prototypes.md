@@ -5,9 +5,14 @@
 原型链的完整关系图
 
 ```js
-Object.getPrototypeOf
+function Test() {}
+
+null
+Object.prototype Object
+Test.prototype  Test
+new Test()
+
 Function.prototype
-Object.prototype
 
 function Person() {}
 
@@ -19,6 +24,8 @@ a.__proto__
 ```
 
 对象属性沿着原型链查找的过程
+
+Effective Javascript Item 30
 
 ## 对象属性
 

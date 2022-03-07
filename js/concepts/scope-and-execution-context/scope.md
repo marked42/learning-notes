@@ -1,5 +1,7 @@
 # 作用域
 
+1. 变量声明，hoisting 提升
+
 1. 作用域链
 1. Execution Context global、function、module，eval，new Function
 1. 全局作用域，使用变量可以访问全局对象上的属性，或者 global/window/globalThis 访问全局对象本身。
@@ -223,6 +225,22 @@ console.log(a)
 console.log(b)
 // { a: 2 }
 console.log(obj)
+```
+
+# 函数生命
+
+block-level function 位于块内的函数声明如何处理？
+
+# eval
+
+eval 函数执行代码使用其所在的作用域，可以动态定义变量，这种用法要避免。
+
+```js
+function test(x) {
+  eval('var y = x;') // dynamic binding
+  return y
+}
+test('hello') // "hello"
 ```
 
 # 命名函数

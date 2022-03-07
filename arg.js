@@ -1,3 +1,14 @@
-'use strict';
+function callMethod(obj, method) {
+  var shift = [].shift
+  shift.call(arguments)
+  shift.call(arguments)
 
-var arguments = 1;
+  return obj[method].apply(obj, arguments)
+}
+var obj = {
+  add: function (x, y) {
+    return x + y
+  },
+}
+callMethod(obj, 'add', 17, 25)
+// error: cannot read property "
