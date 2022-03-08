@@ -48,6 +48,21 @@ configurable 为 true 时，writable 可以任意设置，
 1. freeze
 1. [[Get]] / [[Put]] / [[Prototype]]
 
+## 对象属性顺序
+
+对象属性存储顺序， v8 cache class ?
+
+for in /for of
+
+```js
+var ratings = {
+  'Good Will Hunting': 0.8,
+  'Mystic River': 0.7,
+  21: 0.6,
+  Doubt: 0.9,
+}
+```
+
 ## 使用原型链模拟类
 
 ```js

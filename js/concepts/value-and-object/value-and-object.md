@@ -64,6 +64,11 @@ Object.keys()/Object.values()/Object.entries
 
 9.1.12 `[[OwnPropertyKeys]]`
 
+遍历过程添加新属性如何处理？
+
+If new properties are added to the object being enumerated
+during enumeration, the newly added properties are not guaranteed to be visited in the active enumeration.
+
 ### for in
 
 for in 9.1.11 `[[Enumerate]]`() 遍历属性
