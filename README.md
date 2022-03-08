@@ -30,9 +30,6 @@
 1.  JS/TS
     - [ ] [TS Type Challenge](https://github.com/type-challenges/type-challenges)
     - [ ] [有趣也有用的现代类型系统](https://zhuanlan.zhihu.com/p/33882384)
-    - [ ] [Winter 前端进阶课程](https://www.bilibili.com/video/BV1Hr4y1P7KE?p=41)
-    - [ ] Functional Programming in JavaScript by Luis Atencio (Manning, 2016),
-    - [ ] DOM Enlightenment [关于 JS 更新 input 元素的 value 属性引发的狗血讨论](https://zhuanlan.zhihu.com/p/62753879)
 
 ## HTTP
 
@@ -133,6 +130,7 @@ JS 模式
 
 - [ ] Testable Javascript
 - [ ] Functional Javascript
+- [ ] Functional Programming in JavaScript by Luis Atencio (Manning, 2016),
 - [ ] High Performance Javascript
 
 - [ ] You don't know JS
