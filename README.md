@@ -30,9 +30,6 @@
 1.  JS/TS
     - [ ] [TS Type Challenge](https://github.com/type-challenges/type-challenges)
     - [ ] [有趣也有用的现代类型系统](https://zhuanlan.zhihu.com/p/33882384)
-    - [ ] [Winter 前端进阶课程](https://www.bilibili.com/video/BV1Hr4y1P7KE?p=41)
-    - [ ] Functional Programming in JavaScript by Luis Atencio (Manning, 2016),
-    - [ ] DOM Enlightenment [关于 JS 更新 input 元素的 value 属性引发的狗血讨论](https://zhuanlan.zhihu.com/p/62753879)
 
 ## HTTP
 
@@ -131,24 +128,25 @@
 
 JS 模式
 
-- [ ] Effective Javascript
 - [ ] Testable Javascript
-- [ ] Secrets of the Javascript Ninja
-- [ ] Eloquent Javascript
+- [ ] Functional Javascript
+- [ ] Functional Programming in JavaScript by Luis Atencio (Manning, 2016),
+- [ ] High Performance Javascript
 
-- [ ] Understanding Javascript 6
 - [ ] You don't know JS
 - [ ] Javascript For the Impatient Programmer
 - [ ] [JavaScript 是如何工作的](https://segmentfault.com/a/1190000018854431)
 - [ ] How Javascript Works Douglas Crockford
-
-- [ ] Becoming Functional
-- [ ] Functional Javascript
-- [ ] High Performance Javascript
 - [ ] Javascript The Good Parts
 - [ ] [Javascript Twenty Years](https://cn.history.js.org/)
 - [ ] https://zh.javascript.info/
 - [ ] Javascript 核心原理解析 周爱民
+
+- [x] Effective Javascript
+- [x] Secrets of the Javascript Ninja
+- [x] Eloquent Javascript
+
+- [x] Understanding Javascript 6
 
 通用模式
 
