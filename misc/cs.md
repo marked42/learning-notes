@@ -115,6 +115,7 @@ https://github.com/ossu/computer-science
 1. [自制编程语言](https://book.douban.com/subject/25735333/)
 1. Crafting Interpreters 书籍
 1. language implementation patterns
+1. https://ruslanspivak.com/lsbasi-part1/
 1. Linker 《链接器和加载器》 《自己动手构造编译系统：编译、汇编与链接》 《自己动手写编译器、链接器》
 1. 异常机制
 1. [C++ exceptions under the hood](https://zhuanlan.zhihu.com/p/406894769)
