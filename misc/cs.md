@@ -84,6 +84,9 @@ https://github.com/ossu/computer-science
    1. Writing Compilers and Interpreters
    1. Javascript Parser
    1. LuaVM
+1. [Building an Interpreter from scratch](https://www.bilibili.com/video/BV1XZ4y1k7T7)
+1. [Essentials of Parsing](https://www.bilibili.com/video/BV1Uq4y1x7Sb)
+1. [Building a Parser from scratch](https://www.bilibili.com/video/BV1Z34y1C77r)
 1. [[资料合集] RednaxelaFX 写的文章/回答的导航帖（work in progress） ](https://zhuanlan.zhihu.com/p/25042028)
 1. [Build Your Own Language](https://github.com/danistefanovic/build-your-own-x#build-your-own-programming-language)
 1. Lisp

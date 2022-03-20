@@ -1,8 +1,6 @@
 # 为什么要使用 Monorepo
 
 volta
-commitlint
-vodeciso
 
 1. typescript [project references](https://www.typescriptlang.org/docs/handbook/project-references.html)
 1. monorepo lerna [version](https://cloud.tencent.com/developer/article/1883133),[publish](https://cloud.tencent.com/developer/article/1883132)
@@ -12,7 +10,11 @@ vodeciso
 
 # workspaces
 
-yarn
+包管理器
+
+yarn/pnpm/npm
+
+介绍 workspace 的概念
 
 ```json
 {
@@ -59,6 +61,20 @@ tsc --showConfig 显式当前路径下使用的 tsconfig.json 配置。
 
 # .gitignore
 
+https://github.com/lerna/lerna/tree/main/commands/version#--conventional-commits
+
+# 格式问题
+
+## EditorConfig
+
+## Prettier
+
+# 调试
+
+## VSCode Debugger
+
+调试技巧
+
 # ESLint
 
 安装一个 eslint 包，但是每个 package 使用的.eslintrc 配置不相同
@@ -68,6 +84,12 @@ tsc --showConfig 显式当前路径下使用的 tsconfig.json 配置。
 ```bash
 yarn add -WD eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser
 ```
+
+TODO:
+
+Parsing error: "parserOptions.project" has been set for @typescript-eslint/parser.
+The file does not match your project config: lerna.json.
+The extension for the file (.json) is non-standard. You should add "parserOptions.extraFileExtensions" to your config.eslint
 
 # prettier
 
@@ -83,7 +105,25 @@ https://jestjs.io/docs/next/configuration#projects-arraystring--projectconfig
 
 TODO: 如何配置 jest
 
+jest 对于 ts 文件默认使用 babel 进行处理
+
 1. babelrc + typescript-jest https://www.bilibili.com/video/BV1X34y1674y?p=6 而不是 ts-jest
+
+```bash
+yarn add -D @babel/preset-env @babel/preset-typescript
+```
+
+测试文件中最好使用`../src`相对路径的方式引用依赖包，这样包名发生变化不需要代码，使用绝对路径的方式引入需要当前源码包有打包产物，否则获取不到对应的 types 文件产生报错。
+
+```ts
+import { isChannel, isMessage, isTeam, isTypedArray } from '@shlack/types'
+```
+
+## 测试覆盖率
+
+code coverage
+
+https://egghead.io/lessons/javascript-releasing-a-version-to-github
 
 # scripty
 
@@ -91,9 +131,79 @@ TODO: 如何配置 jest
 
 packages workspace
 
-# changelog
+# 提交
 
-# commitlint
+commitlint
+
+使用[Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/)规范定义的提交规范，格式如下。
+
+```txt
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+命令行工具[commitlint](https://www.google.com/search?q=commitlint&oq=commitlint&aqs=chrome..69i57j69i59j69i60l2.3343j0j4&sourceid=chrome&ie=UTF-8)用来对提交信息的格式进行检查，使用库 husky 来注册`commit-msg`钩子，在提交时自动进行信息格式检查。
+
+```bash
+yarn add -W -D commitlint @commitlint/cli @commitlint/config-conventional @commitlint/config-lerna-scopes husky
+yarn add -W -D commitizen cz-conventional-changelog
+```
+
+配置文件
+
+```js
+// commmitlint.config.js
+module.exports = {
+  extends: [
+    "@commitlint/config-conventional"
+    // lerna monorepo增加每个包名作为合法的scope
+    "@commitlint/config-lerna-scopes"
+  ]
+};
+```
+
+根据官网的[指导](https://typicode.github.io/husky/#/?id=automatic-recommended)安装 husky 的钩子，[新版的配置方式有变化](https://blog.typicode.com/husky-git-hooks-javascript-config/)，不再使用 husky.config.js 或者 package.json 进行配置，而是使用.husky 文件夹。
+
+需要配置 husky hook
+
+```bash
+yarn add -WD husky
+npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
+```
+
+# 发布
+
+## 日志配置
+
+[conventional commits](https://www.conventionalcommits.org/en/v1.0.0/)
+[conventional changelog](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-cli)
+[lerna conventional commits](https://github.com/lerna/lerna/tree/main/commands/version#--conventional-commits)
+
+## 正式发布
+
+```bash
+# 手动选择版本
+lerna version
+
+# 自动选择版本
+lerna version --conventional-commits
+
+# 正式发布
+lerna publish
+```
+
+发布失败如何处理？
+
+```bash
+lerna publish from-git
+```
+
+lerna 并不支持[单独只发布一个包](https://github.com/lerna/lerna/issues/1691)因为这会破坏 lerna 判断哪些包应该发布的机制。
+
+## vodeciso
 
 # .npmrc
 
@@ -105,9 +215,61 @@ workspace level dependency
 
 rush/lerna
 
-# 包管理器
+```json
+{
+  // use workspaces by yarn
+  "useWorkspaces": true
+}
+```
 
-yarn/pnpm/npm
+## 启动环境
+
+```bash
+yarn install
+# 或者
+lerna bootstrap --npm-client yarn --use-workspaces
+```
+
+## 安装、删除依赖
+
+1. 但个包
+1. 所有包
+1. 根目录安装，一般是公共的开发依赖
+
+```sh
+yarn workspace packageB add packageA
+yarn workspaces add packageA
+yarn add -W -D packageA
+
+yarn workspace packageB remove packageA
+yarn workspaces remove lodash
+yarn remove -W -D typescript
+```
+
+## 清理环境
+
+删除掉所有的 node_modules 文件以及每个包的打包产物
+
+```bash
+lerna clean # 清理所有的node_modules
+yarn workspaces run clean # 执行所有package的clean操作
+```
+
+## 打包
+
+使用 lerna 按照包的依赖顺序打包
+
+```js
+lerna run --stream --sort build
+```
+
+# CI/CD
+
+# 文档编写
+
+## Badges
+
+https://shields.io/
 
 # 参考资料
 
@@ -117,6 +279,9 @@ TODO:
 1. monorepo typescript starter
 
 1. [All in one：项目级 monorepo 策略最佳实践](https://fed.taobao.org/blog/taofed/do71ct/uihagy/?spm=taofed.homepage.article-section.1.42c35ac8iKoJ2K)
+1. [Monorepos - A Beginner's Guide](https://www.bilibili.com/video/BV1vq4y1w7Qe)
 1. [Javascript and Typescript Monorepos](https://www.bilibili.com/video/BV1X34y1674y)
 1. [在 GitHub 上构建 Monorepos【中英字幕】](https://www.bilibili.com/video/BV1GL4y1G7Yg)
-1. [Monorepos - A Beginner's Guide](https://www.bilibili.com/video/BV1vq4y1w7Qe)
+1. [NPM Packages & Monorepos](https://www.bilibili.com/video/BV15b4y1J7o1)
+
+1. https://zhuanlan.zhihu.com/p/354649322
