@@ -2,7 +2,8 @@
 
 ## 没有模块时如何写代码，存在哪些问题
 
-[v8 Javascript Module](https://v8.dev/features/modules)
+1. https://auth0.com/blog/javascript-module-systems-showdown/
+1. [v8 Javascript Module](https://v8.dev/features/modules)
 
 举一个例子，这个例子涉及几个模块，表现出下面描述的问题，
 

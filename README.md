@@ -36,7 +36,6 @@
 1. https://github.com/ZhangBohan/http-api-design-ZH_CN
 1. 图解 HTTP
 1. HTTP 权威指南
-1. 缓存 https://www.cnblogs.com/lyzg/p/5125934.html
 1. [HTTP2.0](https://www.cnblogs.com/yingsmirk/p/5248506.html)
 1. HTTPS
    1. [握手过程](https://developers.weixin.qq.com/community/develop/article/doc/000046a5fdc7802a15f7508b556413)
@@ -70,6 +69,7 @@
 1. [从浏览器多进程到 JS 单线程，JS 运行机制最全面的一次梳理](https://juejin.im/post/5a6547d0f265da3e283a1df7)
 1. https://time.geekbang.org/column/intro/216
 1. [万字详文：深入理解浏览器原理](https://zhuanlan.zhihu.com/p/96986818)
+1. https://coolshell.cn/articles/9666.html%C3%A5
 1. [浅析前端页面渲染机制](https://zhuanlan.zhihu.com/p/26105913)
 1. Chrome HTTP2 https://zhuanlan.zhihu.com/p/34662800
 1. https://www.zhihu.com/question/271492607/answer/362737266

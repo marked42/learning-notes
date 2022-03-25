@@ -69,8 +69,7 @@ https://github.com/sindresorhus/awesome
 [Build you own git](https://kushagra.dev/blog/build-git-learn-git/)
 [Build Your Own Shell](https://brennan.io/2015/01/16/write-a-shell-in-c/)
 [实现一个 shell 解释器需要哪些编译原理方面的知识？](https://www.zhihu.com/question/28606292/answer/41478783)
-
-[实现一个 shell 解释器需要哪些编译原理方面的知识？](https://www.zhihu.com/question/28606292/answer/41478783)
+[The Bourne-Again Shell](http://aosabook.org/en/bash.html)
 
 ## Courses
 
@@ -87,6 +86,7 @@ https://github.com/ossu/computer-science
 1. [Building an Interpreter from scratch](https://www.bilibili.com/video/BV1XZ4y1k7T7)
 1. [Essentials of Parsing](https://www.bilibili.com/video/BV1Uq4y1x7Sb)
 1. [Building a Parser from scratch](https://www.bilibili.com/video/BV1Z34y1C77r)
+1. https://github.com/PacktPublishing/Build-Your-Own-Programming-Language
 1. [[资料合集] RednaxelaFX 写的文章/回答的导航帖（work in progress） ](https://zhuanlan.zhihu.com/p/25042028)
 1. [Build Your Own Language](https://github.com/danistefanovic/build-your-own-x#build-your-own-programming-language)
 1. Lisp
@@ -131,7 +131,13 @@ https://github.com/ossu/computer-science
 
 1. Foundations of Programming Languages
 1. https://www.zhihu.com/question/40787248/answer/88477685
+1. [A python Interpreter Written in Python](http://aosabook.org/en/500L/a-python-interpreter-written-in-python.html)
 1. [Generational GC in Python and Ruby](http://patshaughnessy.net/2013/10/30/generational-gc-in-python-and-ruby)
 1. [Faster CPython](https://faster-cpython.readthedocs.io/)
 1. [Inside The virtual Machine]()
 1. [Python Internal A Ten-hour codewalk through the Python interpreter source code](https://www.youtube.com/playlist?list=PLzV58Zm8FuBL6OAv1Yu6AwXZrnsFbbR0S)
+
+# Books
+
+1. [The Architecture of Open Source Applications](http://aosabook.org/en/index.html)
+   1. 500 Lines or Less

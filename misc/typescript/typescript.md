@@ -2,6 +2,23 @@
 
 1. [来玩 TypeScript 啊，机都给你开好了！](https://zhuanlan.zhihu.com/c_206498766)
 
+1. tsconfig.json target/module/references/composite/ incremental build
+1. import from an auto generate ES5 commonjs file, how to ignore type check
+
+默认不要开启 esModuleInterop: true，让 typescript 提醒用法错误
+
+1. 区分 default import 和 namespaced import
+
+```ts
+// 会报错，类型推断为any
+import path from 'path'
+
+// 使用这种形式，或者 tsconfig.json#esModuleInterOp: true
+import * as path from 'path'
+
+JSON.parse(path.dirname('name'))
+```
+
 ## terminology
 
 Ambient
@@ -999,8 +1016,7 @@ type Partial<T> = {
 ```ts
 // This is an error!
 type PartialWithNewMember<T> = {
-  [P in keyof T]?: T[P];
-  newMember: boolean;
+  [P in keyof T]?: T[P]
 }
 ```
 

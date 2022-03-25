@@ -1,3 +1,6 @@
+# Text Editor
+
+1.  https://github.com/danistefanovic/build-your-own-x#build-your-own-text-editor
 1.  Design of [Editor](https://viewsourcecode.org/snaptoken/kilo/) / VSCode
 
 1.  [VSCode TextBuffer Implementation](https://code.visualstudio.com/blogs/2018/03/23/text-buffer-reimplementation)

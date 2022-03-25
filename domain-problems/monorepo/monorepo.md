@@ -14,6 +14,11 @@ volta
 
 yarn/pnpm/npm
 
+1. pnpm https://zhuanlan.zhihu.com/p/404784010
+1. https://pnpm.io/motivation
+1. https://pnpm.io/npmrc
+1. https://zhuanlan.zhihu.com/p/448058464
+
 介绍 workspace 的概念
 
 ```json
@@ -59,6 +64,8 @@ tsc --showConfig 显式当前路径下使用的 tsconfig.json 配置。
 
 位于组合项目中的两个项目共享 type 信息
 
+使用 tsconfig.json#references 功能进行 incremental build？
+
 # .gitignore
 
 https://github.com/lerna/lerna/tree/main/commands/version#--conventional-commits
@@ -79,17 +86,44 @@ https://github.com/lerna/lerna/tree/main/commands/version#--conventional-commits
 
 安装一个 eslint 包，但是每个 package 使用的.eslintrc 配置不相同
 
-编辑器 vscode 要求.eslintrc 位于项目的根目录
+编辑器 vscode 要求.eslintrc 位于项目的根目录，对应的
 
 ```bash
 yarn add -WD eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser
 ```
 
-TODO:
+eslint 配置如下，其中@typescript-eslint/parser 会使用 ts 进行类型信息检查
 
-Parsing error: "parserOptions.project" has been set for @typescript-eslint/parser.
-The file does not match your project config: lerna.json.
-The extension for the file (.json) is non-standard. You should add "parserOptions.extraFileExtensions" to your config.eslint
+```json
+{
+  "env": {
+    "node": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "tsconfig.json",
+    "ecmaVersion": 12
+  },
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "prefer-const": "error",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "no-mixed-spaces-and-tabs": ["error", "smart-tabs"]
+  }
+}
+```
+
+vscode 的 ESLint 插件配置选项 eslint.validate 中不要包含.json，否则 package.json 文件被 eslint 检查并报错
+
+https://eslint.org/docs/user-guide/integrations#source-control
 
 # prettier
 
@@ -102,6 +136,8 @@ https://jestjs.io/docs/next/configuration#projects-arraystring--projectconfig
 如何只为`*.test.ts` 文件引入 jest 类型，全局禁用 jest
 
 为 test 文件夹和配置单独的 tsconfig，引入 types: jest
+
+1. jest 支持 typescript， @types/jest 包为提供类型声明，如何为指定文件添加类型声明，因为只有测试文件才需要，普通文件中不需要 test 相关的类型声明。
 
 TODO: 如何配置 jest
 
@@ -130,6 +166,8 @@ https://egghead.io/lessons/javascript-releasing-a-version-to-github
 两个 level 的 script
 
 packages workspace
+
+yarn lint ok, npm run lint error ? eva
 
 # 提交
 
@@ -262,6 +300,11 @@ yarn workspaces run clean # 执行所有package的clean操作
 ```js
 lerna run --stream --sort build
 ```
+
+# Rush
+
+1. https://github.com/microsoft/rushstack
+1. https://rushjs.io/
 
 # CI/CD
 
