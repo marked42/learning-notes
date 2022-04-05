@@ -8,6 +8,10 @@ volta
 选择一个包安装在 workspace level 还是 package level，尽量使用 workspace level，这样只需要安装一份。
 只在目标包可能每个包需要同时存在不同的版本时选择 package level。
 
+# jsonc
+
+配置文件的格式选取，JSON 文件不支持注释，可以修改 VSCode 的 file-association 选项，但是某些工具本身支持严格的 json 格式。
+
 # workspaces
 
 包管理器
@@ -103,7 +107,9 @@ eslint 配置如下，其中@typescript-eslint/parser 会使用 ts 进行类型�
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -124,6 +130,9 @@ eslint 配置如下，其中@typescript-eslint/parser 会使用 ts 进行类型�
 vscode 的 ESLint 插件配置选项 eslint.validate 中不要包含.json，否则 package.json 文件被 eslint 检查并报错
 
 https://eslint.org/docs/user-guide/integrations#source-control
+
+[eslint-config-prettier](https://github.com/prettier/eslint-config-prettier) 将 eslint 配置中与 prettier 冲突的规则关闭
+[eslint-plugin-prettier](https://github.com/prettier/eslint-plugin-prettier) 将 prettier 错误当成 eslint 错误
 
 # prettier
 
@@ -153,6 +162,23 @@ yarn add -D @babel/preset-env @babel/preset-typescript
 
 ```ts
 import { isChannel, isMessage, isTeam, isTypedArray } from '@shlack/types'
+```
+
+```js
+export default {
+  collectCoverageFrom: ['src/**/*.ts', '!src/index.ts'],
+  coverageThreshold: {
+    global: {
+      branches: 100,
+      functions: 100,
+      lines: 100,
+      statements: 100,
+    },
+  },
+  roots: ['<rootDir>/src'],
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+}
 ```
 
 ## 测试覆盖率
@@ -324,7 +350,6 @@ TODO:
 1. [All in one：项目级 monorepo 策略最佳实践](https://fed.taobao.org/blog/taofed/do71ct/uihagy/?spm=taofed.homepage.article-section.1.42c35ac8iKoJ2K)
 1. [Monorepos - A Beginner's Guide](https://www.bilibili.com/video/BV1vq4y1w7Qe)
 1. [Javascript and Typescript Monorepos](https://www.bilibili.com/video/BV1X34y1674y)
-1. [在 GitHub 上构建 Monorepos【中英字幕】](https://www.bilibili.com/video/BV1GL4y1G7Yg)
-1. [NPM Packages & Monorepos](https://www.bilibili.com/video/BV15b4y1J7o1)
+1. [在 GitHub 上构建 Monorepos【中英字幕】](https://www.bilibili.com/video/BV1GL4y1G7Yg) 使用 Rush
 
 1. https://zhuanlan.zhihu.com/p/354649322

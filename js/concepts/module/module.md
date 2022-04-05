@@ -31,6 +31,16 @@
 
 https://auth0.com/blog/javascript-module-systems-showdown/
 
+commonjs 规范`require.main`
+
+```js
+if (require.main === module) {
+  require('./lib/cli.js')(process)
+} else {
+  throw new Error('The programmatic API was removed in npm v8.0.0')
+}
+```
+
 ## 模块化机制的设计
 
 调研各种语言的模块机制
