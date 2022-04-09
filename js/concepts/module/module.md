@@ -24,6 +24,9 @@
 
 各种模块机制
 
+https://github.com/nodejs/node/blob/master/lib/internal/modules/cjs/loader.js
+https://juejin.cn/post/6929135927323262983
+
 1. CommonJS
 1. AMD
 1. UMD

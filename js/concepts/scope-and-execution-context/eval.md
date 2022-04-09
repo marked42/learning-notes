@@ -42,6 +42,8 @@ function global() {
 }
 ```
 
+1. [indirect-eval](https://es5.github.io/#x10.4.2)
+1. [vm.runInThisContext](https://nodejs.org/api/vm.html#vmruninthiscontextcode-options)
 1. [(1, eval)('this') vs eval('this') in JavaScript?](https://stackoverflow.com/questions/9107240/1-evalthis-vs-evalthis-in-javascript/9107491#9107491)
 1. [Why is (0,obj.prop)() not a method call?](https://2ality.com/2015/12/references.html)
 

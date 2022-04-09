@@ -1,6 +1,7 @@
 # 包管理器
 
 1. [Tiny Package Manager](https://github.com/g-plane/tiny-package-manager)
+1. https://juejin.cn/post/6929317820362653703
 
 # 树形结构
 
@@ -33,6 +34,10 @@ npm list
 
 将包尽可能提升到顶层以避免重复安装问题
 
+https://github.com/npm/npm/issues/6912
+
+https://github.com/npm/cli/blob/v3.0.0/lib/install/flatten-tree.js
+
 需要一个例子
 
 包提升的方法
@@ -60,6 +65,8 @@ npm-like-im-5 [Github](https://github.com/npm/npm-like-im-5) [GitBook](http://np
 [Why should we use pnpm?](https://www.kochan.io/nodejs/why-should-we-use-pnpm.html)
 
 [pnpm's strictness helps to avoid silly bugs](https://www.kochan.io/nodejs/pnpms-strictness-helps-to-avoid-silly-bugs.html)
+
+[Symlinked `node_modules` structure](https://pnpm.io/symlinked-node-modules-structure)
 
 # 同一个包同时依赖另外一个包的两个版本
 
@@ -92,3 +99,7 @@ alias 的做法
 
 1. tar
 1. log-update/progress
+
+NPM Creator & CEO [Isaac Z. Schlueter](https://izs.me/)
+
+[NPM first commit](https://github.com/npm/cli/commit/4626dfa73)

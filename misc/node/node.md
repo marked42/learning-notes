@@ -507,3 +507,9 @@ socket = IP + Port
 1. Ethernet Packet Receiver Mac + Sender Mac + Data
 1. IP Packet Receiver Address + Sender Address + Data
 1. TCP Packet Receiver Port + Sender Port + Data
+
+# Materials
+
+1. [child-process](https://jscomplete.com/learn/node-beyond-basics/child-processes)
+1. [event-driven](https://jscomplete.com/learn/node-beyond-basics/node-events)
+1. [stream](https://jscomplete.com/learn/node-beyond-basics/node-streams)
