@@ -24,3 +24,24 @@ ExportDeclaration : export default HoistableDeclaration
 2. If declarationNames does not include the element "_default_", append "_default_" to
    declarationNames.
 3. Return declarationNames.
+
+CommonJS
+
+1. 解释 module.exports/exports 几种不同用法的含义，应该禁用使用 exports 的方式避免落入陷阱
+
+```js
+module.exports = 1
+
+exports = 2
+
+module.exports.a = 1
+exports.a = 2
+```
+
+1. dependency hell 问题
+1. 在 Windows 系统中，文件路径最大长度为 260 个字符
+
+1. webpack resolve.modules ?
+1. https://nodejs.org/api/module.html#modulecreaterequirefilename
+
+1. 代码热更新 http://fex.baidu.com/blog/2015/05/nodejs-hot-swapping/
