@@ -173,3 +173,5 @@ GetBindingValue(N)
 在绑定对象 bindings 上查找名为 N 的属性，Get(bindings, N) 返回 Reference/undefined
 
 1. https://www.freecodecamp.org/news/javascript-execution-context-and-hoisting/
+1. [What really is a declarative environment record and how does it differ from an activation object?](https://stackoverflow.com/questions/20139050/what-really-is-a-declarative-environment-record-and-how-does-it-differ-from-an-a)
+1. [Understanding Execution Context and Execution Stack in Javascript](https://blog.bitsrc.io/understanding-execution-context-and-execution-stack-in-javascript-1c9ea8642dd0)

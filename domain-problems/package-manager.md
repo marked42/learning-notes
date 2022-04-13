@@ -3,6 +3,9 @@
 1. [Tiny Package Manager](https://github.com/g-plane/tiny-package-manager)
 1. https://juejin.cn/post/6929317820362653703
 
+1. dependency hell 问题
+1. 在 Windows 系统中，文件路径最大长度为 260 个字符
+
 # 树形结构
 
 [安装算法](https://docs.npmjs.com/cli/v6/commands/npm-install/#algorithm)

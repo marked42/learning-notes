@@ -1,0 +1,1 @@
+tsconfig.alias,interop

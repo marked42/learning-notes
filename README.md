@@ -123,6 +123,7 @@
 - [ ] [颜海镜](https://yanhaijing.com/)
 - [ ] [dwb](http://dwbbb.com/)
 - [ ] [刘未鹏](http://mindhacks.cn/2011/07/10/the-importance-of-knowing-why-part3/)
+- [ ] [Nicholas C. Zakas Human Who Codes](https://humanwhocodes.com/)
 
 ## 架构与设计
 
