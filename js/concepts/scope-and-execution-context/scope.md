@@ -263,3 +263,5 @@ var f = function find(tree, key) {
 // 具名函数表达式名名称不能在函数外部使用
 find(myTree, 'foo') // error
 ```
+
+1. Robert Nyman [Explaining Javascript Scope and Closures](https://robertnyman.com/2008/10/09/explaining-javascript-scope-and-closures/)
