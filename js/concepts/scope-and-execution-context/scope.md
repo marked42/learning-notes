@@ -2,6 +2,7 @@
 
 1. 变量声明，hoisting 提升
 
+1. 动态作用域，静态作用域
 1. 作用域链
 1. Execution Context global、function、module，eval，new Function
 1. 全局作用域，使用变量可以访问全局对象上的属性，或者 global/window/globalThis 访问全局对象本身。
