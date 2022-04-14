@@ -290,8 +290,6 @@ wrapper
 1. 加载后删除 cache，效率较低
 1. 导出函数，每次调用
 
-## ts-node 如何使用加载 ts 文件？
-
 ## webpack enhanced-resolve
 
 ## 虚拟模块

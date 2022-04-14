@@ -1,5 +1,6 @@
 # 用法
 
+1. [MDN ES Module](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Modules)
 1. [ES6 Module Loading More Complicated Than You Think](https://humanwhocodes.com/blog/2016/04/es6-module-loading-more-complicated-than-you-think/)
 1. [ES modules: A cartoon deep-dive](https://hacks.mozilla.org/2018/03/es-modules-a-cartoon-deep-dive/)
 1. [dynamic import 动态导入模块](https://github.com/tc39/proposal-dynamic-import)
