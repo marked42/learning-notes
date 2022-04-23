@@ -324,3 +324,5 @@ vm.runInThisContext
 1. [The Node.js Way - How `require()` Actually Works](http://fredkschott.com/post/2014/06/require-and-the-module-system/)
 1. [Requiring Modules](https://jscomplete.com/learn/node-beyond-basics/requiring-modules)
 1. [nodejs 模块机制深入浅出](https://juejin.cn/post/6929135927323262983)
+
+1. node modules CommonJS/ECMAScript/Module API/Packages https://nodejs.org/api/module.html

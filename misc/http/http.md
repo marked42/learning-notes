@@ -46,7 +46,7 @@
   - [Media Types](#media-types)
   - [Cookie](#cookie)
     - [完整流程](#%e5%ae%8c%e6%95%b4%e6%b5%81%e7%a8%8b)
-    - [创建Cookies](#%e5%88%9b%e5%bb%bacookies)
+    - [创建 Cookies](#%e5%88%9b%e5%bb%bacookies)
       - [Version 0 (Netscape) Cookies](#version-0-netscape-cookies)
     - [客户端存储格式](#%e5%ae%a2%e6%88%b7%e7%ab%af%e5%ad%98%e5%82%a8%e6%a0%bc%e5%bc%8f)
   - [Cache](#cache)
@@ -71,15 +71,7 @@
     - [Cache Topologies](#cache-topologies)
     - [Algorithm (TODO)](#algorithm-todo)
     - [Setting Caches in Apache Sever(TODO)](#setting-caches-in-apache-severtodo)
-    - [Cache and Advertising (TODO)](#cache-and-advertising-todo)
-  - [Connection Management (TODO:)](#connection-management-todo)
   - [Client Identification (TODO:)](#client-identification-todo)
-  - [HTTPS (TODO:)](#https-todo)
-  - [Authentication (TODO:)](#authentication-todo)
-  - [Architectural Components (TODO:)](#architectural-components-todo)
-    - [Web Servers (TODO:)](#web-servers-todo)
-    - [Proxies (TODO:)](#proxies-todo)
-    - [Gateways, Tunnels and Relays (TODO:)](#gateways-tunnels-and-relays-todo)
   - [HTTP-NG & HTTP2.0 (TODO:)](#http-ng--http20-todo)
   - [Lib & Tools](#lib--tools)
 
@@ -90,7 +82,17 @@
 ### Syntax
 
 ```html
-<scheme>://<user>:<password>@<host>:<port>/<path>;<params>?<query>#<frag>
+<scheme
+  >://<user
+    >:<password
+      >@<host
+        >:<port
+          >/<path
+            >;<params
+              >?<query
+                >#<frag
+                ></frag></query></params></path></port></host></password></user
+></scheme>
 ```
 
 <table>
@@ -165,14 +167,14 @@ Relative URL example below is interpreted as `http://www.joes-hardware.com/hamme
 Document(base): http://www.joes-hardware.com/tools.html
 Relative URL Below
 -->
-<a href="./hammers.html">
+<a href="./hammers.html"></a>
 ```
 
 Base URL can be specified implicitly or explicitly.
 
 1. Explicit Base URL - Use `<base>` tag `href` attribute to specify explicitly.
    ```html
-   <base target="_blank" href="http://www.example.com/page.html">
+   <base target="_blank" href="http://www.example.com/page.html" />
    ```
 1. Implicit Base URL - Use URL of current document or resource as base URL.
 
@@ -232,19 +234,22 @@ All messages flow downstream, intermediate nodes closer to message sender are up
 Both request and response message is composed of three parts: start line, headers and body.
 
 - Request
-    ```http
-    <method> <request-URL> <version>
-    <headers>
 
-    <entity-body>
-    ```
+  ```http
+  <method> <request-URL> <version>
+  <headers>
+
+  <entity-body>
+  ```
+
 - Response
-    ```http
-    <version> <status> <reason-phrase>
-    <headers>
 
-    <entity-body>
-    ```
+  ```http
+  <version> <status> <reason-phrase>
+  <headers>
+
+  <entity-body>
+  ```
 
 ![HTTP Message Example](./http_message_syntax.png)
 
@@ -326,7 +331,7 @@ HEAD method should be treated like **GET** method, only its response should not 
 
 1. Create or update specified resource on server.
 1. Create resource and return **201 (Created)** when resource doesn't exist, update resource and return **200 (OK)** or **204 (No Content)** if resource exist.
-1. `method` attribute of HTML `<form>` tag supports only **GET** and **POST**, not *PUT** method.
+1. `method` attribute of HTML `<form>` tag supports only **GET** and **POST**, not \*PUT\*\* method.
 
 #### DELETE
 
@@ -441,12 +446,12 @@ Most common use case is setting up a **S**ecure **S**ockets **L**ayer or **T**ra
 
 Some WebDAV extension methods.
 
-| Method | Description |
-| -- | -- |
-| LOCK | Allows user to lock a resource |
-| MKCOL | Allows user to create a resource |
-| COPY | Facilitates copying resources on a server |
-| MOVE | Moves a resource on a server |
+| Method | Description                               |
+| ------ | ----------------------------------------- |
+| LOCK   | Allows user to lock a resource            |
+| MKCOL  | Allows user to create a resource          |
+| COPY   | Facilitates copying resources on a server |
+| MOVE   | Moves a resource on a server              |
 
 ### Headers
 
@@ -1089,38 +1094,38 @@ When a TCP connection is closed, new connection with exact same parameter is not
 
 ## Cookie
 
-Cookie是存储在客户端（浏览器）中的一小段文字，包含若干个键值对。HTTP协议本身是无状态的，包括用户登陆态等信息的Cookie随着请求发送给服务器端可以用来识别用户身份。在识别用户身份的基础上可以实现会话管理、自动登陆、个性化设置、用户追踪、记录分析、针对性广告等功能。
+Cookie 是存储在客户端（浏览器）中的一小段文字，包含若干个键值对。HTTP 协议本身是无状态的，包括用户登陆态等信息的 Cookie 随着请求发送给服务器端可以用来识别用户身份。在识别用户身份的基础上可以实现会话管理、自动登陆、个性化设置、用户追踪、记录分析、针对性广告等功能。
 
-Cookie可以存储一小段信息，但是不鼓励用Cookie来作为单纯的存储使用，因为Cookie会跟随HTTP请求发送给服务器，这样会造成请求报文体积较大，减缓请求速度，浪费带宽。客户端存储推荐使用Web Storage API（`localStorage` and `sessionStorage`）和 `IndexedDB`。
+Cookie 可以存储一小段信息，但是不鼓励用 Cookie 来作为单纯的存储使用，因为 Cookie 会跟随 HTTP 请求发送给服务器，这样会造成请求报文体积较大，减缓请求速度，浪费带宽。客户端存储推荐使用 Web Storage API（`localStorage` and `sessionStorage`）和 `IndexedDB`。
 
 Cookies are divided as two types according to their lifetime.
-Cookies从生命周期上划分为两类：
+Cookies 从生命周期上划分为两类：
 
-1. 会话Cookie - 只在一个会话中有效的Cookie，会话结束（即网页tab关闭）后Cookie被清除。会话Cookie不包括`Expires`和`Max-Age`头。
-1. 永久性Cookie - 设置了有效时长的Cookie被存储在本地，可以在生命周期内横跨多个会话使用。
+1. 会话 Cookie - 只在一个会话中有效的 Cookie，会话结束（即网页 tab 关闭）后 Cookie 被清除。会话 Cookie 不包括`Expires`和`Max-Age`头。
+1. 永久性 Cookie - 设置了有效时长的 Cookie 被存储在本地，可以在生命周期内横跨多个会话使用。
 
 ### 完整流程
 
 1. 客户端首次发送请求到服务器，服务器为该客户端生成一个唯一标识并存储在服务器端。
-1. 服务器发送响应给客户端，客户端根据HTTP响应头`Set-Cookie`来创建Cookie。
-    ```http
-    Set-Cookie2: Coupon="handvac103"; Version="1"; Path="/tools/cordless"
-    ```
-1. 客户端再次请求相同网站时，和网站同源的Cookie会被附带在请求头`Cookie`，`Cookie2`中发送给服务器。
-    ```http
-    Cookie: session-id=002-1145265-8016838; session-id-time=1007884800
-    Cookie2: $Version="1"
-    ```
-1. 服务器接收到带有Cookie的请求后，根据Cookie中的信息识别客户端，并作出对应响应。
+1. 服务器发送响应给客户端，客户端根据 HTTP 响应头`Set-Cookie`来创建 Cookie。
+   ```http
+   Set-Cookie2: Coupon="handvac103"; Version="1"; Path="/tools/cordless"
+   ```
+1. 客户端再次请求相同网站时，和网站同源的 Cookie 会被附带在请求头`Cookie`，`Cookie2`中发送给服务器。
+   ```http
+   Cookie: session-id=002-1145265-8016838; session-id-time=1007884800
+   Cookie2: $Version="1"
+   ```
+1. 服务器接收到带有 Cookie 的请求后，根据 Cookie 中的信息识别客户端，并作出对应响应。
 
-### 创建Cookies
+### 创建 Cookies
 
-`Set-Cookie`和`Set-Cookie2`响应头用来指示客户端创建Cookie，多个`Set-Cookie`和`Set-Cookie2`头指示生成多个Cookie。
+`Set-Cookie`和`Set-Cookie2`响应头用来指示客户端创建 Cookie，多个`Set-Cookie`和`Set-Cookie2`头指示生成多个 Cookie。
 
 #### Version 0 (Netscape) Cookies
 
 Value of `Set-Cookie` header is multiple directives separated by semi-colon (;). Available `Set-Cookie` directives are listed below.
-`Set-Cookie`值是分号隔开的多个键值对或者关键字，关键字用来设置Cookie的属性信息。
+`Set-Cookie`值是分号隔开的多个键值对或者关键字，关键字用来设置 Cookie 的属性信息。
 
 ```http
 Set-Cookie: <cookie-name>=<cookie-value>; Domain=<domain-value>; Secure; HttpOnly
@@ -1233,7 +1238,7 @@ Set-Cookie: <cookie-name>=<cookie-value>; Domain=<domain-value>; Secure; HttpOnl
 
 ### 客户端存储格式
 
-客户端存储Cookie方式各有不同，Netscape浏览器存储在本地文本文件 _cookies.txt_ 中。
+客户端存储 Cookie 方式各有不同，Netscape 浏览器存储在本地文本文件 _cookies.txt_ 中。
 
 ```txt
 # Netscape HTTP Cookie File
@@ -1249,442 +1254,3 @@ www.reformamt.org TRUE  /forum FALSE   1033761379 UserName Guest
 
 1. [Simple cookie framework](https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie/Simple_document.cookie_framework)
 1. [HTTP Cookie](https://en.wikipedia.org/wiki/HTTP_cookie#Session_cookie)
-
-## Cache
-
-### Basic Terminology
-
-Caches are copies of visited resource stored on local machine or proxy server. It's used to save users from requesting same resource from server again.
-
-1. Prevent redundant resource request, reduce transport load, improve bandwidth bottleneck.
-1. Balance traffic spike by flash crowds using mutliple cache servers.
-1. Reduce distance delays by setting up multiple cache servers around the globe.
-
-### Cache Life Cycle
-
-Life cycle of cache includes several phases.
-
-1. Creation - When server first receives a resource request from client, if the resource is configured to be cached, server will send a response with cache related headers like `Expires`, `Cache-Control: max-age=1000`, `ETag`, to instruct client to store feedback response as cache.
-1. Serving - When client requests cached resource, browsers first check if cache expires. If cache doesn't expire, it's used directly as response of resource request without interacting with servers.
-1. Revalidation - If cache already expires, which means it's not fresh. Either one of conditional request headers `If-Modified-Since`, `If-Unmodified-Since`, `If-Match`, `If-None-Match` may be included in request to server for freshness check. If content of cache is still same with resource on server, resource cache information like `Last-Modified` and `ETag` is sent back to client and cache is updated.
-1. Deletion - If cached is no logner used, client should delete it on server instruction.
-
-There's an important notion of _cache hit_ and _cache miss_.
-
-1. Cache hit - A request arrives at a cache, and resource cache is served by server.
-1. Cache miss - A request arrives at a cache, but cache expires and latest resource is served by server.
-
-### Cache Storage Strategy
-
-Cache strategy control whether a resource should be stored as cache on client and proxy servers. HTTP header `Cache-Control` is used by server to apply different cache strategy for each resource. Each cache directive corresponds to a specific cache strategy. `Cache-Control` header accepts a list of comma separated cache directives as its value.
-
-<table>
-    <tr>
-        <th>Cache Directive</th>
-        <th>Explaination</th>
-        <th>Request/Response</th>
-    </tr>
-    <tr>
-        <td><code>public</code></td>
-        <td>Resource in response may be cached by client or proxy server</td>
-        <td>Response</td>
-    </tr>
-    <tr>
-        <td><code>private</code></td>
-        <td>Resource in response may be cached by client but not by proxy server</td>
-        <td>Response</td>
-    </tr>
-    <tr>
-        <td><code>no-store</code></td>
-        <td>Request and response are not allowed to be stored as cache, any existing ones should be delted. This header must be forwared by intermediary servers.</td>
-        <td>Both</td>
-    </tr>
-    <tr>
-        <td><code>no-cache</code></td>
-        <td>Request or response may be cached, but cache is always considered as expired and should request server for revalidation before serving cache. When request arrives at a proxy server, it must forward the header and revalidate the cache on behalf of client, otherwise an expired cache in intermediary server may be served inappropriately. Meaningfully equivalent to <code>Cache-Control: max-age=0, must-revalidate</code>. Header <code>Cache-Control</code> is defined by HTTP1.1, so in HTTP/1.0, use <code>Pragma</code> header for same effect, and it's also included in HTTP/1.1 for backward compatibility.</td>
-        <td>Both</td>
-    </tr>
-</table>
-
-Cache strategy can also be specified with HTML `<meta>` tag like below. But it's quite limited in usage because most proxy servers won't parse HTML document and only a few browsers support this. Even when it's supported, it has lower priority over HTTP header `Cache-Control`.
-
-```html
-<meta http-equiv='Cache-Control' content='no-cache'>
-```
-
-### Cache Expiration Strategy
-
-Cache for a server resource should obviously have a limited period of time during which it's considered valid, meaning the cached resource is same as or is a similiar enough representation of latest resource on server. Caches in this valid state is called _fresh_ cache and when cache _expires_, it's no longer fresh.
-
-There exist two expiration strategies that control whether a cache is considered fresh.
-
-1. Time Limit Expiration - Cache is assigned a determined period of time during which it's considered fresh.
-    1. Absolute date time - Cache is considered fresh until a fixed time point.
-    1. Relative Time Period (Explicit/Heuristic) - Cache is considered fresh until a period of time elapsed.
-1. Resource Content Expiration - Cache is considered fresh as long as it has same or similiar enough content with latest resource on server. A hash of resource content is calculated for identification and comparision with latest resource on server. If two hashes are not same or similar enough, cache is considered no longer fresh.
-
-#### Time Limit Expiration
-
-##### Explicit Expiration
-
-Specifies that cache is fresh before an absolute date or after a relative period of time.
-
-<table>
-    <tr>
-        <th>Header</th>
-        <th>Explaination</th>
-        <th>Request/Response</th>
-    </tr>
-    <tr>
-        <td><code>Cache-Control: max-age=&lt;seconds&gt;</code></td>
-        <td>Specifies maximum seconds a resource is considered fresh. Specify seconds as 0 to indicate that a cache should not be created or should be refreshed on every access by setting maximum age to zero.</td>
-        <td>Both</td>
-    </tr>
-    <tr>
-        <td><code>Cache-Control: s-maxage=&lt;seconds&gt;</code></td>
-        <td>Same as above, but only applies to public caches and ignored by a private cache.</td>
-        <td>Response</td>
-    </tr>
-    <tr>
-        <td><code>Expires: &lt;http-date&gt;</code></td>
-        <td>Specifies resource expiration date. Invalid date means that resource is already expired. It requires client and server clocks to be synchronized to work correctly. Ignored if <code>Cache-Control: max-age</code> or <code>Cache-Control: s-maxage</code> exist.</td>
-        <td>Response</td>
-    </tr>
-</table>
-
-##### Heuristic Expiration (Implicit Expiration)
-
-When response contains no `Cache-Control: max-age` or `Expires` header, a heuristic expiration strategy is used. Any heuristic expiration algorithm may be used, however it's required to add a `Warning` header if calculated maximum age is greater than 24 hours.
-
-A popular one is _LM-Factor_ algorithm, which utilizes last modfication date of a resource to determine appropriate expiration date.
-
-![LM-Factor Expiration Algorithm](lm_factor_heuristic_expiration_algorithm.png)
-
-```javascript
-const calculateFreshnessLimit = (
-  server_date,
-  server_last_modification_date
-) => {
-  // an hour or a day
-  const default_freshness_limit = 60 * 60;
-  if (
-    !Number.isInteger(server_date) &&
-    !Number.isInteger(server_last_modification_date)
-  ) {
-    return default_freshness_limit;
-  }
-
-  const seconds_since_last_modification = Math.max(
-    0,
-    server_date - server_last_modication_date
-  );
-
-  // a day or a week
-  const server_freshness_limit_upper_bound = 24 * 60 * 60;
-
-  const lm_factor = 0.2;
-  const server_freshness_limit_by_factor =
-    lm_factor * seconds_since_last_modification;
-
-  const server_freshness_limit = Math.min(
-    server_freshness_limit_upper_bound,
-    server_freshness_limit_by_factor
-  );
-
-  return server_freshness_limit;
-};
-```
-
-#### Resource Content Expiration
-
-Resource content expiration uses an _entity tag_(ETags), which is a unique hash of resource content, to check if resource has been changed. When resource is cached, `ETag` header with a hash value is included in response to instruct clients that this resource should be cached and uses ETag as revalidation method.
-
-`ETag` is normally used in cases where a bare time limit it not enough or suitable for expiration.
-
-1. Some documents may be rewritten periodically but contains same data.
-1. Some documents may have minor content change that isn't important enough to enforce a cache update.
-1. Some servers cannot determine last modification date accurately.
-1. For documents that may change within a second, its content changes but last modification date remains the same.
-
-`ETag` is a _response header_ used to represent resource content uniquely.
-
-```http
-ETag: [W/]"<etag_value>"
-```
-
-- `'W/'` (case-sensitive) means that this tag is a weak validator that remains the same when resource has minor content change. Strong validators are same when resource remains exactly same.
-- `<etag_value>` - an unique identification number of resource content
-
-Refer to [etag revalidation](#revalidation-by-etag) for details.
-
-#### Revalidation
-
-When a cache expires, client should send conditional requests to revalidate cache. There's also cache hit and miss concept related to cache revalidation as response to conditional requests.
-
-1. Revalidate hit - A request arrives at a cache, but not sure if cache is fresh, cache is confirmed by server to be fresh and resource is served with cache. A http response of status code **304(Not Modified)** will be sent back and cache freshness is updated.
-1. Revalidate miss - A request arrives at a cache, but not sure if cache is fresh, cache is confirmed by server to be unfresh and resource is served by server. A http response of status code **200(Ok)** with full content of resource is sent back and cache is updated.
-1. Resource deleted - A response of status code **404(Not Found)** is sent back and cache should be deleted.
-
-> The fraction of requests that are served from cache is called the cache hit rate (or cache hit ratio), or sometimes the document hit rate (or document hit ratio).
-> The byte hit rate represents the fraction of all bytes transferred that were served from cache.
-
-Cache can be revalidated by `ETag` or last modification date, `ETag` has higher priority over last modification date if both appears in request headers.
-
-##### Cache Revalidation Directives
-
-General header `Cache-Control` can be used by server and client to specify revalidation requirements for a cache.
-
-<table>
-    <tr>
-        <th>Header</th>
-        <th>Explaintion</th>
-        <th>Directive Type</th>
-    </tr>
-    <tr>
-        <td>
-            <code>Cache-Control: must-revalidate</code>
-        </td>
-        <td>A stale cache is not acceptable and must pass revalidation before being served.</td>
-        <td>Response</td>
-    </tr>
-    <tr>
-        <td>
-            <code>Cache-Control: proxy-revalidate</code>
-        </td>
-        <td>Same as above, only applies to public caches, ignored by private cache.</td>
-        <td>Response</td>
-    </tr>
-    <tr>
-        <td>
-            <code>Cache-Control: immutable</code>
-        </td>
-        <td>Indicates that a resource on server will not change before a cache expires and therefore the client should not send a condiational revalidation even when users refreshes the page. <a href="https://bitsup.blogspot.jp/2016/05/cache-control-immutable.html">See this blog</a></td>
-        <td>Response (<strong>Extension Header</strong>)</td>
-    </tr>
-    <tr>
-        <td>
-            <code>Cache-Control: no-transform</code>
-        </td>
-        <td>No transformations or convertions should be made to the resource. Content-Encoding, Content-Range, Content-Type headers should not be modfied by proxy. A non-transparent proxy migth convert between image formats to reduce network traffic, disallowed by <code>no-transform</code></td>
-        <td>Both</td>
-    </tr>
-</table>
-
-##### Revalidation By ETag
-
-When a cache uses `ETag` for resource content identification, `ETag` value is used with conditional request headers `If-Match`, `If-None-Match` for cache revalidation.
-
-<table>
-    <tr>
-        <th>Header</th>
-        <th>Explaintion</th>
-        <th>Request/Response</th>
-    </tr>
-    <tr>
-        <td>
-            <code>If-Match: &lt;tag&gt;</code>
-        </td>
-        <td>
-            <ul>
-                <li>
-                <strong>GET</strong> or <strong>HEAD</strong> method,
-                used in combination with <strong>Range</strong> header to ensure range request responded by same resource. If it doesn't match, a 416 (Range Not Satisfiable) response is returned.
-                </li>
-                <li>
-                <strong>PUT</strong> method,
-                '*' is used to ensure resource not existed when uploading a file.
-                </li>
-            </ul>
-        </td>
-        <td>Request</td>
-    </tr>
-    <tr>
-        <td>
-            <code>If-None-Match: &lt;tags&gt;</code>
-        </td>
-        <td>
-            <ul>
-                <li>
-                <strong>GET</strong> or <strong>HEAD</strong> method,
-                If no tag matches specified tags, new resource will be sent back from server and caches should be updated.
-                </li>
-                <li>
-                <strong>PUT</strong> method,
-                '*' is used to ensure resource not existed when uploading a file.
-                </li>
-            </ul>
-        </td>
-        <td>Request</td>
-    </tr>
-</table>
-
-1. [If-None-Match](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match)
-1. [Lost Update Problem](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match) (TODOS)
-
-##### Revalidation By Time
-
-_response header_ `Last-Modified` records last modification date of this resource. When cache expires, value of `Last-Modifcation` is used with conditional request headers `If-Modified-Since`, `If-Unmodified-Since` for cache revalidation.
-
-```http
-Last-Modifed: <day-name>, <day> <month> <year> <hour>:<minute>:<second> GMT
-```
-
-<table>
-    <tr>
-        <th>Header</th>
-        <th>Explaintion</th>
-        <th>Request/Response</th>
-    </tr>
-    <tr>
-        <td>
-            <code>If-Modified-Since: &lt;date&gt;</code>
-        </td>
-        <td>If resource is modified since specified date, modified version of resource will be sent back from server and cache content and expiration date should be updated. Otherwise, a 304 Not Modified response message without body is returned, only headers that need updating like expiration date are needed to be sent back.</td>
-        <td>Request</td>
-    </tr>
-    <tr>
-        <td>
-            <code>If-Unmodified-Since: &lt;date&gt;</code>
-        </td>
-        <td></td>
-        <td>Request</td>
-    </tr>
-</table>
-
-#### Request Stale Cache
-
-Client might tighten cache expiration constraint for applications that need the very freshest resource. On the other hand, client might loosen cache expiration date as comproimse to improve performance. When a cache is expired, client have the option to contact server to revalidate cache freshness. Several `Cache-Control` directives can be used to do this.
-
-<table>
-    <tr>
-        <th>Header</th>
-        <th>Explaination</th>
-        <th>Request/Response</th>
-    </tr>
-    <tr>
-        <td>
-            <code>Cache-Control: min-fresh=&lt;seconds&gt;</code>
-        </td>
-        <td>Specifies that client wants a cache that will still be fresh for at least specified number of seconds.</td>
-        <td>Request</td>
-    </tr>
-    <tr>
-        <td>
-            <code>Cache-Control: max-stale[=&lt;seconds&gt;]</code>
-        </td>
-        <td>Specifies that client is willing to accept a stale cache. When a number is provided, it indicates that a stale cache is acceptable if it's been expired for specified number of seconds at maximum.</td>
-        <td>Request</td>
-    </tr>
-    <tr>
-        <td><code>only-if-cached</code></td>
-        <td>Indicates that client only wishs to obtain a cached resource and should not contact origin-server and retrieve new data.</td>
-        <td>Request</td>
-    </tr>
-    <tr>
-        <td><code>stale-while-revalidate=&lt;seconds&gt;</code></td>
-        <td>Indicates that client is willing to accept a stale response while asynchronously revalidating cache. <code>seconds</code> indicates how long the client is willing accept a stale response</td>
-        <td>Request (<strong>Extension Header</strong>)</td>
-    </tr>
-    <tr>
-        <td><code>stale-if-error=&lt;seconds&gt;</code></td>
-        <td>Indicates that client is willing to accept a stale resource for <code>seconds</code> at maximum when request fails.</td>
-        <td>Request (<strong>Extension Header</strong>)</td>
-    </tr>
-</table>
-
-1. [Stale-While-Revalidate, Stale-If-Error Available Today](https://www.fastly.com/blog/stale-while-revalidate-stale-if-error-available-today/)
-
-#### Hitting Proxy Cache
-
-`Age`, `Date`, `Vary`
-
-#### Manual Page Refresh
-
-Browsers usually provides buttons or keyboard shortcuts for users to refresh page. Users can use **F5** or **Ctrl+F5** to force page refresh.
-
-- **F5**, force all local cache to expire with `Cache-Control: no-cache`, send conditional requests for cache revalidation. If cache is still fresh, **304 Not Modified** response without body is returned. Otherwise, **200 OK** response with latest resource is returned and cache data and expiration information like `Expires`, `Max-Age` or `Etag` are updated.
-- **Ctrl+F5**, force local cache to expire with `Cache-Control: no-cache`, send requests without conditional headers for latest resource. **200 OK** response with latest resource is returned.
-
-### Serving Request with Cache
-
-General process of serving request with cache resource is like below.
-
-![General Request Cache Process](./serving_request_with_cache.png)
-
-### Which Cache Strategy Should I Use
-
-![Cache Decision Tree](./http_cache_decision_tree.png)
-
-1. [HTTP Caching](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching?hl=zh-cn)
-
-### Resource Cache and Version (TODO:)
-
-[前端工程化]( https://www.zhihu.com/question/20790576/answer/32602154)
-
-### Cache Topologies
-
-Private caches refers to exclusive caches stored on single client, it's usually implemented by browsers. Public caches, also known as shared caches, refers to caches stored on intermediary proxy servers called _caching proxy server_. Public caches are accessible to multiple users.
-
-<table>
-    <tr><th>By Location</th><th>Explaination</th><th>public/private</th></tr>
-    <tr>
-        <td>Browser Caches</td>
-        <td>Implemented by browsers.</td>
-        <td>private</td>
-    </tr>
-    <tr>
-        <td>Proxy Caches</td>
-        <td>Also known as <em>intermediaries</em>. Specify proxy explicitly or use <em>interception proxy</em>.</td>
-        <td>public</td>
-    </tr>
-    <tr>
-        <td>Gateway Caches</td>
-        <td>Also known as <em>reverse proxy caches</em> or <em>surrogate caches</em>. Content delivery network (CDN) is typical one.</td>
-        <td>public</td>
-    </tr>
-</table>
-
-Multiple levels of public caches could build _cache hirarchies_, inside which cache request will be forward to parent _caching proxy server_ when it's not found in current _caching proxy server_.
-
-![Cache Hirarchy](./cache_hirarchy.png)
-
-Mulitple caches could build complex _cache mesh_ instead of tree-shaped _cache hirarchy_ in practice. It's much more complicated and effective for storing cache. [Internet Cache Protocol (ICP)](https://en.wikipedia.org/wiki/Internet_Cache_Protocol) and HyperText [Caching Protocol (HTCP)](https://en.wikipedia.org/wiki/Hypertext_caching_protocol) extends HTTP protocol involving _sibling cache_ support.
-
-![Cache Processing Flowchart](./cache_processing_flowchart.png)
-
-> 1. Receiving—Cache reads the arriving request message from the network.
-> 1. Parsing—Cache parses the message, extracting the URL and headers.
-> 1. Lookup—Cache checks if a local copy is available and, if not, fetches a copy (and stores it locally).
-> 1. Freshness check—Cache checks if cached copy is fresh enough and, if not, asks server for any updates.
-> 1. Response creation—Cache makes a response message with the new headers and cached body.
-> 1. Sending—Cache sends the response back to the client over the network.
-> 1. Logging—Optionally, cache creates a log file entry describing the transaction.
-
-### Algorithm (TODO)
-
-### Setting Caches in Apache Sever(TODO)
-
-### Cache and Advertising (TODO)
-
-## Connection Management (TODO:)
-
-## Client Identification (TODO:)
-
-## HTTPS (TODO:)
-
-## Authentication (TODO:)
-
-## Architectural Components (TODO:)
-
-### Web Servers (TODO:)
-
-### Proxies (TODO:)
-
-### Gateways, Tunnels and Relays (TODO:)
-
-## HTTP-NG & HTTP2.0 (TODO:)
-
-## Lib & Tools
-
-1. Libs: minihttpd
-1. Tools: whois, telnet, [httpie](https://httpie.org/)
