@@ -131,6 +131,7 @@ JS 模式
 
 - [ ] https://docs.npmjs.com/cli/v8/configuring-npm/package-json#private
 - [ ] Testable Javascript
+- [ ] testing https://testingjavascript.com/
 - [ ] Functional Javascript
 - [ ] Functional Programming in JavaScript by Luis Atencio (Manning, 2016),
 - [ ] High Performance Javascript

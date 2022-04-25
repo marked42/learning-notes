@@ -42,3 +42,14 @@ iife 和 umd 模块形式在不存在 module-loader 的环境下使用，通过�
 interopDefaultLegacy
 
 webpack 和 rollup 分别是如何处理的？
+
+# rollup webpack 的差异
+
+[The cost of all small modules](https://nolanlawson.com/2016/08/15/the-cost-of-small-modules/)
+
+# 参考
+
+1. [Rollup Interview Rich Harris](https://survivejs.com/blog/rollup-interview/)
+1. [Webpack and Rollup: the same but different](https://medium.com/webpack/webpack-and-rollup-the-same-but-different-a41ad427058c)
+
+[Rich Harris Blog](https://medium.com/@Rich_Harris)
