@@ -1,5 +1,8 @@
 # 为什么要使用 Monorepo
 
+TODO:
+all things about monorepo https://monorepo.tools/
+
 volta
 
 1. typescript [project references](https://www.typescriptlang.org/docs/handbook/project-references.html)

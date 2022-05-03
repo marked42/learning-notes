@@ -309,6 +309,9 @@ node-gyp
 alias
 
 webpack/typescript
+[module-alias](https://www.youtube.com/watch?v=EuOFn4csz7I)
+typescript paths
+@rollup/plugin-alias
 
 # debug node.js source
 

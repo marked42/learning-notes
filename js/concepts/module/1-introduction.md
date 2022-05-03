@@ -156,3 +156,86 @@ define(function (require) {
 1. [ECMAScript 6 modules: the final syntax](https://2ality.com/2014/09/es6-modules-final.html)
 1. Books About Module YDNJS/Ninja
 1. 模块化 js ninja ch11
+1. [ECMAScript Modules: Past, Present, and Future - Georg Neis](https://www.youtube.com/watch?v=F0K9jbw1T08)
+
+Invalid Cycles
+
+```js
+// foo.js
+export { x } from './foo.js'
+```
+
+```js
+// foo1.js
+export { x2 as x1 } from './foo2.js'
+
+// foo2.js
+export { x1 as x2 } from './foo1.js'
+```
+
+Valid Cycles
+
+```js
+// foo.js
+import from './foo.js' // noop
+```
+
+```js
+// foo.js
+console.log(1)
+export var f = () => 42
+import './bar.js'
+
+// bar.js
+import { f } from './foo.js'
+console.log(f())
+
+// main.js
+import './bar.js' // correct
+```
+
+```js
+// foo.js
+console.log(1)
+export var f = () => 42
+import './bar.js'
+
+// bar.js
+import { f } from './foo.js'
+console.log(f()) // f 声明但是没有初始化，读取获得值undefined
+
+// main.js
+import './foo.js' // throws TypeError
+```
+
+```js
+// foo.js
+console.log(1)
+export const f = () => 42
+import './bar.js'
+
+// bar.js
+import { f } from './foo.js'
+console.log(f()) // f声明但是没有初始化，const/let 变量位于TDZ
+
+// main.js
+import './foo.js' // throws ReferenceError TDZ
+```
+
+```js
+// foo.js
+console.log(1)
+export function f() {
+  return 42
+}
+import './bar.js'
+
+// bar.js
+import { f } from './foo.js'
+console.log(f()) // f声明但是没有初始化，const/let 变量位于TDZ
+
+// main.js
+import './foo.js' // correct print 1 then 42
+```
+
+[import-maps](https://github.com/WICG/import-maps)

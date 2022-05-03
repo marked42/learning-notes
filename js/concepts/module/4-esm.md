@@ -137,6 +137,15 @@ Highcharts.default.chart('container', { ... }); // Notice `.default`
 
 https://nodejs.org/api/packages.html#determining-module-system
 
+Pure ESM Package
+
+CommonJS 只能异步加载 ESM，require() ESM 会出报错
+
+https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+https://blog.sindresorhus.com/get-ready-for-esm-aa53530b3f77
+https://twitter.com/bradleymeck/status/1346824835494719490
+https://devblogs.microsoft.com/typescript/announcing-typescript-4-7-beta/#esm-nodejs
+
 # V8 ESM
 
 1. [v8 Javascript Module](https://v8.dev/features/modules)

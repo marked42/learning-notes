@@ -1,6 +1,7 @@
 # Promise
 
 https://humanwhocodes.com/blog/2021/01/creating-javascript-promise-from-scratch-unhandled-rejection-tracking/
+https://web.dev/i18n/en/promises/
 
 ## 概念与应用
 

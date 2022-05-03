@@ -376,3 +376,8 @@ rollup
 1. [ESBuild](https://esbuild.github.io/)
 1. [SWC](https://swc.rs/)
 1. [ninja](https://www.aosabook.org/en/posa/ninja.html)
+
+1. [Writing build plugins](https://www.youtube.com/watch?v=mr67QkDfkoQ)
+
+1. https://bundlers.tooling.report/
+1. web.dev

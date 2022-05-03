@@ -8,6 +8,9 @@
    1. 递归的解法
    1. 从左上角到又下角，按步迭代的方式求解 广度优先搜索的思路
    1. 求所有路径
+1. 汉明距离 https://leetcode-cn.com/problems/convert-integer-lcci/
+   两种解法，每次操作一位 (r & 1) === 1; r >> 1
+   或者 每次消除二进制为最右边的 1， n = n & (n - 1)
 1. levensten distance
 1. myers algorithm
    1. 同样的字符串 diff 有多种，那种算是最直观的？编辑距离最短，先删除后添加，批量删除批量添加优于删除添加交替出现
