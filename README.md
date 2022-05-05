@@ -124,6 +124,8 @@
 - [ ] [dwb](http://dwbbb.com/)
 - [ ] [刘未鹏](http://mindhacks.cn/2011/07/10/the-importance-of-knowing-why-part3/)
 - [ ] [Nicholas C. Zakas Human Who Codes](https://humanwhocodes.com/)
+- [ ] [2ality](https://2ality.com/)
+- [ ] [Kent C Dodds](https://kentcdodds.com/blog/how-i-built-a-modern-website-in-2021)
 
 ## 架构与设计
 

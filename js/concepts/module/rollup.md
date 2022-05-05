@@ -112,3 +112,5 @@ rollup-plugin-vue 配合 rollup-plugin-typescript2 vue 3.0 会报错 module has 
 [pure ESM Package](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c)
 
 https://antfu.me/posts/publish-esm-and-cjs
+
+[rollup 初版](https://github.com/woai3c/copy-rollup)
