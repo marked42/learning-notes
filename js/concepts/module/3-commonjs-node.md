@@ -21,13 +21,30 @@ fs.readFile('/etc/passwd', (err, data) => {
 https://github.com/nodejs/node/blob/master/lib/internal/modules/cjs/loader.js
 
 1. 支持单纯的模块 模块 id
-   1. 核心模块
+   1. 核心模块 node:fs 形式
    1. 相对路径（`./`、`../`）、绝对路径（`/a`）、文件模块，文件存在时默认为 js 模块，否则依次尝试不同后缀.js/.json/.node
    1. 文件夹模块、软链接 package.json#main 或者 index.js/index.json/index.node
    1. 用法 require 可以接受的模块标识 node:?，、、 ，
    1. 支持不同的扩展名 json 模块，.js 模块，node 模块
 1. 加载失败处理
 1. 导出对象
+
+```js
+const assert = require('node:assert')
+const realFs = require('node:fs')
+
+const fakeFs = {}
+require.cache.fs = { exports: fakeFs }
+
+// false
+console.log(require('node:fs') === fakeFs)
+// true
+console.log(require('fs') === fakeFs)
+// true
+console.log(require('node:fs') === realFs)
+```
+
+[All Together](https://nodejs.org/api/modules.html#all-together)
 
 Module.paths
 
@@ -102,8 +119,12 @@ Node 有四种类型路径
 1. 可能找到一个文件
 1. 目录 -> 尝试查找 package.json 文件的 main 字段指定的入口文件，不存在的话依次使用`index.js`，`index.json`，`index.node`。
    1. 使用本地 node_modules，逐层向上，
-   1. 使用 NODE_PATH 环境变量指定的全局 node_modules 目录
+   1. 使用 NODE_PATH 环境变量指定的[全局 node_modules 目录](https://nodejs.org/api/modules.html#loading-from-the-global-folders)
 1. 不存在的情况抛出错误
+
+TODO:
+对于 `require('module/sub/path')` 这种如何处理？
+https://nodejs.org/api/modules.html#folders-as-modules
 
 [require](http://nodejs.cn/api/modules.html#modules_all_together)
 
@@ -182,7 +203,10 @@ node.js NativeModule.wrap
 
 [The module wrapper](https://nodejs.org/api/modules.html#the-module-wrapper)
 
-1. 如何将 `module/exports/require/filename/dirname` 等变量传递给模块
+两个作用
+
+1. 模块代码封装到单独的作用域中，这个作用域中的 this 就是 模块实例本身，this 和 module 的关系？
+1. 提供 `module/exports/require/filename/dirname` 等变量
 
 导出的 module.exports/exports 是值拷贝形式，
 
@@ -200,8 +224,6 @@ function loadModule(filename, module, require) {
 
 # 求值 Evaluating
 
-# 缓存 caching
-
 # 缓存
 
 ```js
@@ -211,6 +233,11 @@ require.cache
 1. 添加缓存支持，添加循环依赖支持
 1. 模块缓存，模块加载失败需要从缓存中删除
 1. [invalidate cache](https://stackoverflow.com/questions/9210542/node-js-require-cache-possible-to-invalidate)
+
+[缓存细节](https://nodejs.org/api/modules.html#module-caching-caveats)
+缓存使用 resolve 得到的文件路径作为 key，同一个 key 对应的模块只会加载一次，同一个`require('foo')`根据位置不同可能指向不同文件，同一个文件也可以对应不同的 key。
+
+> Modules are cached based on their resolved filename.
 
 ## 缓存与循环依赖
 

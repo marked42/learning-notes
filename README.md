@@ -127,6 +127,9 @@
 - [ ] [2ality](https://2ality.com/)
 - [ ] [Kent C Dodds](https://kentcdodds.com/blog/how-i-built-a-modern-website-in-2021)
 
+[Modern Site](https://kentcdodds.com/blog/how-i-built-a-modern-website-in-2021)
+https://www.youtube.com/watch?v=owOZMwNPAyc
+
 ## 架构与设计
 
 JS 模式

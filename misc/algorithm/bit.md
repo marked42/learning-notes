@@ -11,6 +11,18 @@ TODO: 为什么这么设计？
 Javascript 中左移操作，移位数会对首先 32 取余，参考 Java/C/CPP 有这样的情况么？
 [Left Shift](https://tc39.es/ecma262/#sec-numeric-types-number-leftShift)
 
+右移操作，不生效
+
+```js
+// 0x80000000 -> 0x40000000
+// 32 位，有符号右移，无符号右移
+// 0x4000
+;(0x8000 >> 1).toString(2)
+;('100000000000000')
+
+预期是
+```
+
 参考题目 https://leetcode-cn.com/problems/insert-into-bits-lcci/
 
 ```js
