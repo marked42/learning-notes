@@ -1,7 +1,115 @@
 # 分类
 
+https://nodejs.org/en/docs/guides/
+https://nodesource.com/blog/five-great-talks-from-node-js-interactive-2016/
+
 1. 核心模块和文件模块，核心模块直接编译执行。
-1. 其他模块
+1. 文件路径模块 `./`、`../`和`/`。
+1. `#`开头的模块
+1. package self
+
+1. main module 入口
+1. 其他模块入口
+1. require 的入口
+1. repl 入口
+
+回答以下问题
+
+```js
+// 解释每个字段的作用
+function Module(id = '', parent) {
+  // 普通文件模块使用filename用作id，核心模快使用名称字符串，虚拟模块'.'作为模块id
+  this.id = id
+  this.path = path.dirname(id)
+  this.exports = {}
+  moduleParentCache.set(this, parent)
+  updateChildren(parent, this, false)
+  this.filename = null
+  this.loaded = false
+  this.children = []
+}
+```
+
+```bash
+# 一个module对象的例子
+Module {
+  id: '/Users/penghui/coding/learning-notes/module/a.js',
+  path: '/Users/penghui/coding/learning-notes/module',
+  exports: { a: 1 },
+  filename: '/Users/penghui/coding/learning-notes/module/a.js',
+  loaded: false,
+  children: [],
+  # 只包含当前模块文件关联的node_modules目录
+  paths: [
+    '/Users/penghui/coding/learning-notes/module/node_modules',
+    '/Users/penghui/coding/learning-notes/node_modules',
+    '/Users/penghui/coding/node_modules',
+    '/Users/penghui/node_modules',
+    '/Users/node_modules',
+    '/node_modules'
+  ]
+}
+```
+
+1. parent/children relationship 用来干吗的？
+1. 核心模块 require('node:fs') 会被缓存么？ 这样 require('fs') 会被缓存么？
+1. node 的模块分类？ 内部模块 internal/核心模块 built-in/用户自定义模块
+1. relativeResolveCache 什么用途？ parent/children 的缓存？多级缓存设计？
+1. 使用代理拦截了 module.exports 循环引用的情况
+1. 模块存在，但是没有 loaded，说明发生了循环引用
+1. 为什么设计 `Module._load` 和 `module.load` 两个 API
+1. 解释 `require('node:fs') === require('node:fs') === require('fs')` 都是加载核心模块
+1. 'file:name' 模块
+1. Module.id 是什么 `_resolveFileName`。
+1. `_.nodeModulePaths` 寻找从指定目录 from 出发，寻找 node_modules 的一组路径
+1. findLongestRegisteredExtension 对于后缀名称的处理？找到注册的后缀名中与文件名后缀符合的，没有的话回退为.js
+1. 模块文件读取的 cache 处理，使用 cjsParseCache
+1. 使用 Native 方法 `ArrayPrototypePush`替换`array.push`提高性能
+1. 查找 node 模块的路径，按顺序来
+   1. node_modules 指定目录下的 node_modules 子目录，递归向根目录寻找
+   1. 用户 home 目录下的 .node_modules/.node_libraries 目录
+   1. node 安装目录下 lib/node
+   1. NODE_PATH 环境变量指定的若干目录，linux 系统上':'分隔。
+1. `#`开头的模块，imports map
+1. `_findPath`顺序遍历给定的目录列表（paths）尝试寻找第一个包 file module/folder module
+1. `_.compile` 真正去编译执行 js 模块
+1. `makeRequireFunction` require 函数
+1. `exports`字段，目录别名、main 字段别名'.'，条件加载
+
+在指定的 paths 中去寻找模块，
+
+main
+
+```bash
+node index.js
+
+Error: error
+    at Object.<anonymous> (/Users/penghui/coding/learning-notes/module/node.js:6:7)
+    at Module._compile (node:internal/modules/cjs/loader:1103:14)
+    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1157:10)
+    at Module.load (node:internal/modules/cjs/loader:981:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:822:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:77:12)
+    at node:internal/main/run_main_module:17:47
+```
+
+执行入口 eval
+
+```bash
+node -e 'throw 3' --trace-uncaught
+[eval]:1
+throw 3
+               ^
+3
+Thrown at:
+    at [eval]:1:16
+    at runInThisContext (node:vm:129:12)
+    at runInThisContext (node:vm:305:38)
+    at node:internal/process/execution:76:19
+    at [eval]-wrapper:6:22
+    at evalScript (node:internal/process/execution:75:60)
+    at node:internal/main/eval_string:27:3
+```
 
 # 特性
 

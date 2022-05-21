@@ -1,26 +1,29 @@
 # 二分查找
 
+1. 元素都不相同最简单的二分查找
+1. 有相同元素
+
 ## 目标元素是否存在
 
 使用闭区间`[low, high]`记录二分查找目标区间的边界，在区间为空时停止查找。
 
 ```js
 function binarySearch(arr, value) {
-    let low = 0
-    let high = arr.length - 1
+  let low = 0
+  let high = arr.length - 1
 
-    while (low <= high) {
-        const mid = Math.floor(low + (high - low) / 2)
-        if (arr[mid] === value) {
-            return true
-        } else if (arr[mid] > value) {
-            high = mid - 1
-        } else {
-            low = mid + 1
-        }
+  while (low <= high) {
+    const mid = Math.floor(low + (high - low) / 2)
+    if (arr[mid] === value) {
+      return true
+    } else if (arr[mid] > value) {
+      high = mid - 1
+    } else {
+      low = mid + 1
     }
+  }
 
-    return false
+  return false
 }
 ```
 
@@ -36,22 +39,22 @@ function binarySearch(arr, value) {
 
 ```js
 function lowerBound(arr, predicate) {
-    // 左闭右开初始化对应值
-    let low = 0;
-    let high = arr.length
+  // 左闭右开初始化对应值
+  let low = 0
+  let high = arr.length
 
-    while (low < high) {
-        const mid = Math.floor(low + (high - low) / 2)
-        if (predicate(arr[mid])) {
-            // 收缩区间到左侧
-            high = mid
-        } else {
-            // 收缩区间到右侧
-            low = mid + 1
-        }
+  while (low < high) {
+    const mid = Math.floor(low + (high - low) / 2)
+    if (predicate(arr[mid])) {
+      // 收缩区间到左侧
+      high = mid
+    } else {
+      // 收缩区间到右侧
+      low = mid + 1
     }
+  }
 
-    return low
+  return low
 }
 ```
 
@@ -61,8 +64,8 @@ function lowerBound(arr, predicate) {
 
 1. 循环开始时`[0, low)`和`[high, arr.length)`都是空区间，可以认为条件成立。
 1. 进行一次循环
-    1. 当中间值`predicate(arr[mid])`条件为真时，`high = mid`将待定的区间`[low, high)`收缩到`[low, mid)`，左侧区间`[0, low)`不变，右侧区间扩大为`[high, arr.length - 1)`，不变量同样成立
-    1. 反之当`predicate(arr[mid])`为假时，`low = mid + 1`，将左边界扩大到`[0, mid + 1)`，右边界不变，不变量同样成立。
+   1. 当中间值`predicate(arr[mid])`条件为真时，`high = mid`将待定的区间`[low, high)`收缩到`[low, mid)`，左侧区间`[0, low)`不变，右侧区间扩大为`[high, arr.length - 1)`，不变量同样成立
+   1. 反之当`predicate(arr[mid])`为假时，`low = mid + 1`，将左边界扩大到`[0, mid + 1)`，右边界不变，不变量同样成立。
 1. 当循环结束的时候`low == high`，根据前面的推理此时不变量同样成立，因此`[0, low)`映射到`false`，`[high, arr.length)`映射到`true`，所以`low`、`high`的值就是条件`f(x)`的对应的`true`值的下边界。
 
 这种解法下`low`是条件`f(x)`对应的`true`值的下边界，同时`low - 1`就是`false`值的上边界。
@@ -73,22 +76,22 @@ function lowerBound(arr, predicate) {
 
 ```js
 function lowerBound(arr, predicate) {
-    // 左闭右开初始化对应值
-    let low = 0;
-    let high = arr.length - 1
+  // 左闭右开初始化对应值
+  let low = 0
+  let high = arr.length - 1
 
-    while (low <= high) {
-        const mid = Math.floor(low + (high - low) / 2)
-        if (predicate(arr[mid])) {
-            // 收缩区间到左侧
-            high = mid - 1
-        } else {
-            // 收缩区间到右侧
-            low = mid + 1
-        }
+  while (low <= high) {
+    const mid = Math.floor(low + (high - low) / 2)
+    if (predicate(arr[mid])) {
+      // 收缩区间到左侧
+      high = mid - 1
+    } else {
+      // 收缩区间到右侧
+      low = mid + 1
     }
+  }
 
-    return low
+  return low
 }
 ```
 
@@ -99,36 +102,37 @@ function lowerBound(arr, predicate) {
 下边界函数`lowerBound`可以用来解决有序数组中二分查找元素的几个经典问题。
 
 1. 大于等于某个值`value`的数组元素中最小的（下边界问题），对应的映射函数如下
-    ```js
-    // 注意映射函数接受一个数组元素作为参数，返回boolean
-    function predicate(arrayElement) {
-        return arrayElement >= value
-    }
-    ```
+   ```js
+   // 注意映射函数接受一个数组元素作为参数，返回boolean
+   function predicate(arrayElement) {
+     return arrayElement >= value
+   }
+   ```
 1. 小于某个值`value`的数组元素中最大的（上边界问题），条件小于取反的条件是大于等于所以对应函数
-    ```js
-    // 注意映射函数接受一个数组元素作为参数，返回boolean
-    function predicate(arrayElement) {
-        return arrayElement >= value
-    }
-    ```
+   ```js
+   // 注意映射函数接受一个数组元素作为参数，返回boolean
+   function predicate(arrayElement) {
+     return arrayElement >= value
+   }
+   ```
 
 这两个问题就是一个问题的两个部分，所以使用的`predicate`函数是同一个。
 
 1. 大于某个值`value`的数组元素中最小的（下边界问题）
-    ```js
-    // 注意映射函数接受一个数组元素作为参数，返回boolean
-    function predicate(arrayElement) {
-        return arrayElement > value
-    }
-    ```
+
+   ```js
+   // 注意映射函数接受一个数组元素作为参数，返回boolean
+   function predicate(arrayElement) {
+     return arrayElement > value
+   }
+   ```
 
 1. 小于等于某个值`value`的数组元素中最大的（上边界问题），条件小于等于取反的条件是大于所以对应函数
-    ```js
-    function predicate(arrayElement) {
-        return arrayElement > value
-    }
-    ```
+   ```js
+   function predicate(arrayElement) {
+     return arrayElement > value
+   }
+   ```
 
 这两个问题同样也是。
 
@@ -137,7 +141,7 @@ function lowerBound(arr, predicate) {
 ```js
 // 下边界超出数组右侧，数组中的元素都小于value，所以不肯能有等于value的
 if (low === arr.length) {
-    return -1
+  return -1
 }
 
 // 下边界存在但是low对应的元素可能是大于value的，需要额外判断下
@@ -147,6 +151,13 @@ return arr[low] === value ? low : value
 ### C++
 
 C++中的库函数[lower_bound](https://en.cppreference.com/w/cpp/algorithm/lower_bound)、[upper_bound](https://en.cppreference.com/w/cpp/algorithm/upper_bound)、[equal_range](https://en.cppreference.com/w/cpp/algorithm/equal_range)、[binary_search](https://en.cppreference.com/w/cpp/algorithm/binary_search)和上述边界函数类似，区别在于其映射函数是一个二元函数`binaryPredicate: (a, b) => boolean`，由唯一一个小于运算符可以确定两个值`(a, b)`之间的三种关系。
+
+```js
+// 全序序列 对于 x = 4来说
+// --------lower_bound >= 4
+;[1, 2, 3, 4, 4, 4, 5, 6]
+// -----------------upper_bound > 4
+```
 
 1. `a`小于`b`，`a < b`
 1. `a`大于`b`，`b < a`
@@ -172,19 +183,22 @@ bool binary_search(ForwardIt first, ForwardIt last, const T& value)
 
 ### 递归形式
 
-1. 递归版本
+1. https://github.com/labuladong/fucking-algorithm/blob/master/%E7%AE%97%E6%B3%95%E6%80%9D%E7%BB%B4%E7%B3%BB%E5%88%97/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E8%AF%A6%E8%A7%A3.md
+1. https://www.youtube.com/watch?v=v57lNF2mb_s
 
-1. John Bentley的经典书里有大概第4章，第9章进行了讨论 编程珠玑
-When Jon Bentley assigned binary search as a problem in a course for professional programmers, he found that ninety percent failed to provide a correct solution after several hours of working on it, mainly because the incorrect implementations failed to run or returned a wrong answer in rare edge cases.
+1. 递归版本
+1. John Bentley 的经典书里有大概第 4 章，第 9 章进行了讨论 编程珠玑
+   When Jon Bentley assigned binary search as a problem in a course for professional programmers, he found that ninety percent failed to provide a correct solution after several hours of working on it, mainly because the incorrect implementations failed to run or returned a wrong answer in rare edge cases.
 1. Knuth
-Although the basic idea of binary search is comparatively straightforward, the details can be surprisingly tricky...
+   Although the basic idea of binary search is comparatively straightforward, the details can be surprisingly tricky...
 1. 代码之美有两章涉及
-1. https://www.quora.com/What-is-the-simplification-of-Although-the-basic-idea-of-binary-search-is-comparatively-straightforward-the-details-can-be-surprisingly-tricky
-1.http://pvk.ca/Blog/2012/07/30/binary-search-is-a-pathological-case-for-caches/
+1. [What are the pitfalls in implementing binary search?](https://stackoverflow.com/questions/504335/what-are-the-pitfalls-in-implementing-binary-search)
+1. [Binary search is a pathological case for caches](http://pvk.ca/Blog/2012/07/30/binary-search-is-a-pathological-case-for-caches/)
+1. [Extra, Extra - Read All About It: Nearly All Binary Searches and Mergesorts are Broken](https://ai.googleblog.com/2006/06/extra-extra-read-all-about-it-nearly.html)
 
 1. 35 插入位置
 1. 34 求上下边界 equal_range
-1. 69求开方
+1. 69 求开方
 1. 744,
 1. 典型应用 第一个错误的版本 278
 1. 544 寻找条件将数组二分转换
@@ -192,4 +206,4 @@ Although the basic idea of binary search is comparatively straightforward, the d
 1. 寻找峰值 162
 1. 山峰索引 852
 
-1. 两个数组的交集，二分查找作为log n判定值是否存在的方法应用到其他问题中。
+1. 两个数组的交集，二分查找作为 log n 判定值是否存在的方法应用到其他问题中。

@@ -6,6 +6,10 @@
 
 异步 IO 的机制 libuv
 
+node EventLoop
+https://www.youtube.com/watch?v=zphcsoSJMvM
+https://www.youtube.com/watch?v=P9csgxBgaZ8
+
 轮询技术
 
 1. read
