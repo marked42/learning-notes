@@ -27,3 +27,20 @@ var lengthOfLIS = function (nums) {
   return Math.max(...counts)
 }
 ```
+
+## 最长子串/子数组/子序列
+
+[3. 无重复字符的最长子串](https://leetcode.cn/problems/longest-substring-without-repeating-characters/)
+
+## 前缀和
+
+1. [724. 寻找数组的中心下标](https://leetcode.cn/problems/find-pivot-index)
+
+## 合并区间
+
+1. [56. 合并区间](https://leetcode.cn/problems/merge-intervals/)
+
+## 矩阵题目
+
+1. [48. 旋转图像](https://leetcode.cn/problems/rotate-image/)
+1. [矩阵遍历](https://leetcode.cn/leetbook/read/array-and-string/cuxq3/)
