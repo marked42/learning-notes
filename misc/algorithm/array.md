@@ -1,30 +1,125 @@
 # 数组题目
 
-[300. 最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence/)
+## 最长子序列问题
 
-思路是子序列必须以元素 i 结尾，考虑 dp[i]和 dp[0~i-1]之间的关系 dp[i] = max(dp[0 ~ i- ]) + 1。
+最长子串/子数组/子序列
 
-最终的答案是 dp 中最大的。
+### [300. 最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence/)
+
+考虑数组`[0, i]`的最长上升子序列和子数组`[0, i-1]`的最长上升子序列之间的关系，假设子数组`[0, i-1]`中的最长上升子序列是结尾元素是`j`，
+如果`nums[i] > nums[j]`，那么元素`i`和`[0, i-1]`中的最长上升子序列构成了更长的子序列，也就是`[0, i]`中的最长上升子序列。但是如果`nums[i] <= nums[j]`，那么不能从`[0, i-1]`的最长上升子序列得到`[0, i]`的最长上升子序列。也就是对于最长上升子序列问题，子问题`[0, i-1]`的答案和`[0, i]`没有直接关系。
+
+组成一个新的更长的子序列需要比较当前子序列结尾元素和下一个元素的大小，如果将子序列按照结尾元素来划分，那么结尾元素为`nums[i]`的最长子序列就与子问题`[0, j] (0 <= j < i)`有关系了。
 
 ```js
-/**
- * @param {number[]} nums
- * @return {number}
- */
+// length[i] 是其中最大值
+length[i] = nums[i] > nums[j] ? length[j] + 1 : 1
+```
+
+这样能求得数组中每个元素结尾的最长上升子序列长度，整个数组的最长上升子序列就是其中最大值。
+
+```js
 var lengthOfLIS = function (nums) {
-  // 以每个下标元素结尾的最长子序列
-  const counts = new Array(nums.length).fill(1)
+  // 这里使用初始值为1，意思是每个元素默认组成一个长度为1的子序列
+  const length = new Array(nums.length).fill(1)
 
   for (let i = 1; i < nums.length; i++) {
-    // 这个循环中存在优化的空间
-    for (let j = i - 1; j >= 0; j--) {
-      if (nums[j] < nums[i]) {
-        counts[i] = Math.max(counts[j] + 1, counts[i])
+    for (let j = 0; j < i; j++) {
+      if (nums[i] > nums[j]) {
+        length[i] = Math.max(length[j] + 1, length[i])
       }
     }
   }
 
-  return Math.max(...counts)
+  return Math.max(...length)
+}
+```
+
+这种方法使用双层循环，时间复杂度是`O(N ^ 2)`，使用了一个长度为的数组，空间复杂度为`O(N)`。
+
+考虑第二种时间复杂度为`O(N logN)`的方法。元素`i`如何从`[0, i-1]`中组成最长递增子序列，用`(j, i)`表示下标`j`的最长递增子序列与`i`组成的最长递增子序列，`0 <= j < i`。这其中存在重复的计算，如果两个下标`j1/j2`的最长子序列长度一样，那么只需要将`nums[i]`与`nums[j1]/nums[j2]`中较小的做比较，就能知道是否能构成更长的子序列了。
+
+下标`j`对应的子问题信息包括对应序列长度`length`和序列最后一个元素`nums[j]`两个信息，如果使用`length`作为键，同一个长度只保留对应`nums[j]`中最小值，就对子问题的可能情况进行了减枝。以数组`min[len]`记录长度`len`的最长递增子序列的末尾元素最小值，由于数组严格递增，那么`min[len+1]`对应的序列末尾元素必然大于`min[len]`，也就是`min`是一个严格递增的数组。
+
+假设已经知道了`[0, i-1]`对应的`min`数组，来分析到下一个元素`i`时如何更新数组`min`，有两种情况。
+
+如果`nums[i] > min[len]`，那么组成了更长的子序列，`len`长度加一，末尾元素就是`nums[i]`；否则的话`nums[i]`**小于**`min[1, len]`中的某些元素，可以将对应下标代表的末尾元素值更新为更小的`nums[i]`，也就是需要在`min[1, len]`中查找元素`nums[i]`的上界。上界的下标取值范围是`[1, len + 1]`，其中取值在`[1, len]`的范围内时更新元素为`nums[i]`。`len + 1`时不要更新元素为`nums[i]`，这会造成脏数据，下一轮循环`len + 1`时如果对应的最小值大于这个`nums[i]`，就会造成`len + 1`对应的数据比正确值更小，出现错误。
+
+对于整个数组来说，`min`数组对应的最大`len`值就是数组中最长递增子序列的长度。外层循环嵌套内层有序数组的二分查找操作，时间复杂度是`O(N logN)`，空间复杂度仍然是`O(N)`。
+
+```js
+var lengthOfLIS = function (nums) {
+  const min = []
+
+  // 初始条件，数组至少有一个元素，不用检查空数组的情况
+  let len = 1
+  min[len] = nums[0]
+
+  // 第二个元素开始
+  for (let i = 1; i < nums.length; i++) {
+    // 能组成更长的序列，尾元素是nums[i]
+    if (nums[i] > min[len]) {
+      len++
+      min[len] = nums[i]
+    } else {
+      // 在[1, len]范围内寻找上界
+      let upper = upperBound(min, 1, len, nums[i])
+      // 如果找到 upper在范围内，进行更新
+      // upper === len + 1 不要更新，这会导致脏数据，造成下一轮的更新错误。
+      if (upper <= len) {
+        min[upper] = nums[i]
+      }
+    }
+  }
+
+  function upperBound(nums, start, end, value) {
+    let low = start
+    let high = end
+
+    // 使用闭合区间的写法
+    while (low <= high) {
+      const mid = Math.floor((low + high) / 2)
+
+      // 下界条件 >
+      if (nums[mid] > value) {
+        high = mid - 1
+      } else {
+        low = mid + 1
+      }
+    }
+
+    return low
+  }
+
+  return len
+}
+```
+
+上面更新的操作中只能更新`[1, len]`内的元素，上界取值可能是`len + 1`超出这个范围导致错误。可以改用下界（`>=`）,下界的取值最大只能为`len`，因为第
+二种情况下`nums[i] <= min[len]`必然成立，而等号成立的情况，更新`min`数组值为相同值不影响程序正确性，这样程序省略了额外判断的逻辑，看起来更简单。
+
+```js
+// 在[1, len]范围内寻找下界
+let upper = lowerBound(min, 1, len, nums[i])
+
+// 使用下界
+function lowerBound(nums, start, end, value) {
+  let low = start
+  let high = end
+
+  // 使用闭合区间的写法
+  while (low <= high) {
+    const mid = Math.floor((low + high) / 2)
+
+    // 下界条件 >=
+    if (nums[mid] >= value) {
+      high = mid - 1
+    } else {
+      low = mid + 1
+    }
+  }
+
+  return low
 }
 ```
 
@@ -210,9 +305,7 @@ var lenLongestFibSubseq = function (arr) {
 }
 ```
 
-## 最长子串/子数组/子序列
-
-[3. 无重复字符的最长子串](https://leetcode.cn/problems/longest-substring-without-repeating-characters/)
+## [3. 无重复字符的最长子串](https://leetcode.cn/problems/longest-substring-without-repeating-characters/)
 
 ## 前缀和
 
