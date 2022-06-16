@@ -2,7 +2,35 @@
 
 ## 最长子序列问题
 
+TODO: 可以积累更多 https://leetcode.cn/problemset/all/?search=longest+subsequence&page=1
+
 最长子串/子数组/子序列
+
+### [674. Longest Continuous Increasing Subsequence](https://leetcode.cn/problems/longest-continuous-increasing-subsequence/)
+
+使用双指针记录连续的子序列，序列递增时`end`增加`1`，直到不满足递增或者数组结束，这样找到一个连续递增序列，记录其长度。
+更新`start`等于`end`，开始下一轮循环，`start`代表子序列的起点，也小于数组长度`nums.length`。
+
+```js
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findLengthOfLCIS = function (nums) {
+  let len = 0
+  for (let start = 0; start < nums.length; ) {
+    let end = start + 1
+    while (end < nums.length && nums[end] > nums[end - 1]) {
+      end++
+    }
+
+    len = Math.max(end - start, len)
+    start = end
+  }
+
+  return len
+}
+```
 
 ### [300. 最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence/)
 
@@ -307,6 +335,40 @@ var lenLongestFibSubseq = function (arr) {
 
 ## [3. 无重复字符的最长子串](https://leetcode.cn/problems/longest-substring-without-repeating-characters/)
 
+字符子串个数是`N * (N - 1)`个，判断每个子串是否包含重复字符时间为`O(L)`，`L`是字符串长度，暴力情况下搜索下最坏时间复杂度`O(N ^ 3)`。
+
+用`length[i]`记录以下标`i`结尾的不重复字符子串最大长度，那么`[i - length[i - 1], i - 1]`范围根据定义是`i - 1`位置对应的最长不重复子串，如果`i`的字符不重复就组成了更长的不重复子串；如果重复，可以从`i - 1`到`i - length[i - 1]`范围内寻找第一个重复字符下标`j`，这样`length[i] = i - j`。整个字符串对应的最长不重复子串是`length[i]`中的最大值。
+
+外层是元素遍历，内层操作是线性扫描，最差情况是`O(N)`，整体是`O(N ^ 2)`时间复杂度。
+
+```js
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var lengthOfLongestSubstring = function (s) {
+  if (s.length === 0) {
+    return 0
+  }
+
+  const length = new Array(s.length)
+  length[0] = 1
+
+  for (let i = 1; i < s.length; i++) {
+    let j = i - 1
+    while (j >= i - length[i - 1] && s[j] !== s[i]) {
+      j--
+    }
+
+    length[i] = i - j
+  }
+
+  return Math.max(...length)
+}
+```
+
+TODO: 滑动窗口解法，时间复杂度`O(N)`
+
 ## 前缀和
 
 1. [724. 寻找数组的中心下标](https://leetcode.cn/problems/find-pivot-index)
@@ -444,5 +506,49 @@ var findDiagonalOrder = function (mat) {
 
     return [Math.min(...rows), Math.max(...rows)]
   }
+}
+```
+
+# 动态规划
+
+## [1143. Longest Common Subsequence](https://leetcode.cn/problems/longest-common-subsequence/)
+
+二维动态规划，状态转移方程。
+
+```js
+f(i, j) = f(i - 1, j - 1) + 1  if text[i] === text[j]
+f(i, j) = Math.max(f(i - 1, j), f(i, j - 1))  if text[i] !== text[j]
+```
+
+边界条件是其中一个字符串是空串，长度为 0，二维数组定义为`(M + 1) * (N + 1)`的大小，第一行第一列初始化为 0。
+
+```js
+/**
+ * @param {string} text1
+ * @param {string} text2
+ * @return {number}
+ */
+var longestCommonSubsequence = function (text1, text2) {
+  const M = text1.length
+  const N = text2.length
+
+  const dp = new Array(M + 1)
+  for (let i = 0; i < M + 1; i++) {
+    dp[i] = new Array(N + 1)
+    dp[i][0] = 0
+  }
+  dp[0].fill(0)
+
+  for (let i = 1; i < M + 1; i++) {
+    for (let j = 1; j < N + 1; j++) {
+      const same = text1[i - 1] === text2[j - 1]
+
+      dp[i][j] = same
+        ? dp[i - 1][j - 1] + 1
+        : Math.max(dp[i - 1][j], dp[i][j - 1])
+    }
+  }
+
+  return dp[M][N]
 }
 ```
