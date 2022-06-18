@@ -30,17 +30,16 @@ interface AddEventListenerOptions : EventListenerOptions {
 }
 ```
 
-
 #### Event Handler
 
 Add handler for `click` event using DOM property `onclick`
 
 ```html
-<input id="elem" type="button" value="Click me">
+<input id="elem" type="button" value="Click me" />
 <script>
-  elem.onclick = function() {
-    alert('Thank you');
-  };
+  elem.onclick = function () {
+    alert('Thank you')
+  }
 </script>
 ```
 
@@ -53,8 +52,8 @@ Add handler for `click` event in html element attribute.
 Under the background, `onclick` attribute is actually transformed to an event and added to corresponding DOM property.
 
 ```javascript
-let handler = new Function("alert(this.value)");
-elem.onclick = handler;
+let handler = new Function('alert(this.value)')
+elem.onclick = handler
 ```
 
 Add event handler using `addEventListener(event, handler[, phase])`, remove event handlers with `removeEventListener(event, handler[, phase])`. Exact event handler must be passed to remove it. A event handler is distinguished from another by three factors.
@@ -71,13 +70,13 @@ function handler(e) {
 }
 
 element.addEventHandler('click', handler, { capture: true })
-element.addEventHandler('click', handler, { capture: true })  // no effect
+element.addEventHandler('click', handler, { capture: true }) // no effect
 ```
 
 ```javascript
-elem.addEventListener("click", () => alert("Thanks!"));
+elem.addEventListener('click', () => alert('Thanks!'))
 // Not working, two different arrow function.
-elem.removeEventListener("click", () => alert("Thanks!"));
+elem.removeEventListener('click', () => alert('Thanks!'))
 ```
 
 Multiple handlers can be added with `addEventListener()`, and they are called in the same order when they are added.
@@ -85,9 +84,9 @@ Multiple handlers can be added with `addEventListener()`, and they are called in
 Some event handlers only work with `addEventListener` like `transitioned` event (CSS animation finished).
 
 ```javascript
-button.addEventListener("click", () => alert("1"));
-button.removeEventListener("click", () => alert("1"));
-button.onclick = () => alert(2);
+button.addEventListener('click', () => alert('1'))
+button.removeEventListener('click', () => alert('1'))
+button.onclick = () => alert(2)
 
 // triggers 1 and 2
 ```
@@ -100,17 +99,17 @@ Dispatch an event.
 
 ```javascript
 /*
-* throws {UNSPECIFIED_EVENT_TYPE_ERR} if event type is null, empty string or not specified in constructor.
-* returns {boolean} false if event is cancelable and at least one of corresponding event handlers called `event.preventDefault()`, `true` otherwise.
-*/
-cancelled = !target.dispatchEvent(event);
+ * throws {UNSPECIFIED_EVENT_TYPE_ERR} if event type is null, empty string or not specified in constructor.
+ * returns {boolean} false if event is cancelable and at least one of corresponding event handlers called `event.preventDefault()`, `true` otherwise.
+ */
+cancelled = !target.dispatchEvent(event)
 ```
 
 ### Event Bubbling and Capturing
 
 When an event happens, it goes through 3 phases of event processing.
 
-| Phase          | Explanation                                               |
+| Phase          | Explanation                                                |
 | -------------- | ---------------------------------------------------------- |
 | Capture Phase  | Events passed downward from root element to target element |
 | Target Phase   | Events on target element                                   |
@@ -188,11 +187,15 @@ Statistics show that over 80% of touch events never cancel scrolling, so it's me
 Passive event is introduced to instructs browsers to scroll instantly without waiting and saves us from scroll jank in most cases. `touchstart`, `touchmove` and `wheel` event supports passive event handler.
 
 ```js
-element.addEventListener('touchmove', () => {
-  console.log('touchmove called')
-}, {
-  passive: false,
-})
+element.addEventListener(
+  'touchmove',
+  () => {
+    console.log('touchmove called')
+  },
+  {
+    passive: false,
+  }
+)
 ```
 
 `addEventListener` accepts a third argument that specifies registered event handler is passive, which promises to not call `e.preventDefault()` inside event handler to cancel scrolling behavior. In this case, scrolling happens instantly without waiting. Actually, any invocation of `e.preventDefault()` is ignored inside passive event handler.
@@ -212,7 +215,7 @@ Reference:
 1. [DOM Spec](https://dom.spec.whatwg.org/#dom-addeventlisteneroptions-passive)
 1. [Observing event listeners](https://dom.spec.whatwg.org/#observing-event-listeners)
 1. [New APIs to help developers improve scroll performance](https://blog.chromium.org/2016/05/new-apis-to-help-developers-improve.html)
-1. [passive的事件监听](https://www.cnblogs.com/ziyunfei/p/5545439.html)
+1. [passive 的事件监听](https://www.cnblogs.com/ziyunfei/p/5545439.html)
 
 #### Feature Detection
 
@@ -220,19 +223,23 @@ Since passive event is not supported universally, it's best that we can detect w
 
 ```js
 // Test via a getter in the options object to see if the passive property is accessed
-var supportsPassive = false;
+var supportsPassive = false
 try {
   var opts = Object.defineProperty({}, 'passive', {
-    get: function() {
-      supportsPassive = true;
-    }
-  });
-  window.addEventListener("testPassive", null, opts);
-  window.removeEventListener("testPassive", null, opts);
+    get: function () {
+      supportsPassive = true
+    },
+  })
+  window.addEventListener('testPassive', null, opts)
+  window.removeEventListener('testPassive', null, opts)
 } catch (e) {}
 
 // Use our detected result, passive applied if supported, capture will be false either way.
-elem.addEventListener('touchstart', fn, supportsPassive ? { passive: true } : false);
+elem.addEventListener(
+  'touchstart',
+  fn,
+  supportsPassive ? { passive: true } : false
+)
 ```
 
 #### Disable Rubber Band Effect
@@ -240,7 +247,7 @@ elem.addEventListener('touchstart', fn, supportsPassive ? { passive: true } : fa
 Rubber band effect is a special scrolling behavior of `document.body` element implemented on IOS safari, other browsers don't support this. Previously, `e.preventDefault()` can be used to prevent scrolling behavior, including rubber band effect.
 
 ```js
-document.body.addEventListener('touchmove', function(e) {
+document.body.addEventListener('touchmove', function (e) {
   e.preventDefault()
 })
 ```
@@ -248,9 +255,13 @@ document.body.addEventListener('touchmove', function(e) {
 But on IOS safari 11, passive event is introduced and defaults to `true` which ignores `e.preventDefault()`, so that code above no longer works, we have to specify `passive` as `false` explicitly to cancel rubber band effect.
 
 ```js
-document.body.addEventListener('touchmove', function(e) {
-  e.preventDefault()
-}, { passive: false })
+document.body.addEventListener(
+  'touchmove',
+  function (e) {
+    e.preventDefault()
+  },
+  { passive: false }
+)
 ```
 
 Reference:
@@ -281,31 +292,31 @@ Use `element.dispatchEvent(event)` to dispatch Synthetic event on an element. `e
 Note that general event constructor doesn't accept data except `bubbles`, `cancelable` and `composed`, choose an appropriate sub event constructor if extra data are required.
 
 ```javascript
-let event = new MouseEvent("click", {
+let event = new MouseEvent('click', {
   bubbles: true,
   cancelable: true,
   clientX: 100, // ignored in general event constructor
-  clientY: 100 // ignored in general event constructor
-});
+  clientY: 100, // ignored in general event constructor
+})
 ```
 
 Synthetic events are often used to simulate user actions in automatic testing.
 
 ```javascript
 function simulateClick() {
-  var event = new MouseEvent("click", {
+  var event = new MouseEvent('click', {
     view: window,
     bubbles: true,
-    cancelable: true
-  });
-  var cb = document.getElementById("checkbox");
-  var cancelled = !cb.dispatchEvent(event);
+    cancelable: true,
+  })
+  var cb = document.getElementById('checkbox')
+  var cancelled = !cb.dispatchEvent(event)
   if (cancelled) {
     // A handler called preventDefault.
-    alert("cancelled");
+    alert('cancelled')
   } else {
     // None of the handlers called preventDefault.
-    alert("not cancelled");
+    alert('not cancelled')
   }
 }
 ```
@@ -319,9 +330,9 @@ There exists an old-fashioned way of constructing events using `initEvent(type, 
 Use `CustomEvent` to generate customized event with an event type different from any built-in events. `CustomEvent` is same as `Event` with one exception that it accepts a property `detail` in second argument of constructor. `detail` property avoids clash with built-in event type and passes data required by custom event.
 
 ```javascript
-let event = new CustomEvent("unique-type", {
-  detail: { name: "John" }
-});
+let event = new CustomEvent('unique-type', {
+  detail: { name: 'John' },
+})
 ```
 
 `element.dispatch(customEvent)` returns `false` and `customEvent.defaultPrevented` is `true` if custom event is cancelable and `event.preventDefault()` is called. Check it to apply some default actions for custom event.
@@ -338,25 +349,24 @@ let event = new CustomEvent("unique-type", {
 <script>
   // hide() will be called automatically in 2 seconds
   function hide() {
-    let event = new CustomEvent("hide", {
-      cancelable: true // without that flag preventDefault doesn't work
-    });
+    let event = new CustomEvent('hide', {
+      cancelable: true, // without that flag preventDefault doesn't work
+    })
     if (!rabbit.dispatchEvent(event)) {
-      alert('the action was prevented by a handler');
+      alert('the action was prevented by a handler')
     } else {
-      rabbit.hidden = true;
+      rabbit.hidden = true
     }
   }
 
-  rabbit.addEventListener('hide', function(event) {
-    if (confirm("Call preventDefault?")) {
-      event.preventDefault();
+  rabbit.addEventListener('hide', function (event) {
+    if (confirm('Call preventDefault?')) {
+      event.preventDefault()
     }
-  });
+  })
 
   // hide in 2 seconds
-  setTimeout(hide, 2000);
-
+  setTimeout(hide, 2000)
 </script>
 ```
 
@@ -368,7 +378,7 @@ TODO:
 1. multiple identical listener
 1. `this` in listener
 
-`this`指向回调函数注册的DOM元素，`event.target`指向事件发生的元素，`event.relativeTarget`指向事件相关的DOM元素。
+`this`指向回调函数注册的 DOM 元素，`event.target`指向事件发生的元素，`event.relativeTarget`指向事件相关的 DOM 元素。
 
 Usually events are processed asynchronously. If during the process of one event, other events are triggered by users, browsers will first finish handling current event and then keep handling newly triggered events in a sequential order.
 
@@ -379,16 +389,18 @@ However, if other event is dispatched inside an event handler, browser will firs
 
 <script>
   // 1 -> nested -> 2
-  menu.onclick = function() {
-    alert(1);
+  menu.onclick = function () {
+    alert(1)
 
     // alert("nested")
-    menu.dispatchEvent(new CustomEvent("menu-open", {
-      bubbles: true
-    }));
+    menu.dispatchEvent(
+      new CustomEvent('menu-open', {
+        bubbles: true,
+      })
+    )
 
-    alert(2);
-  };
+    alert(2)
+  }
 
   document.addEventListener('menu-open', () => alert('nested'))
 </script>
@@ -401,16 +413,22 @@ Dispatch event at the end of handler function or use `setTimeout(..., 0)` for an
 
 <script>
   // 1 -> 2 -> nested
-  menu.onclick = function() {
-    alert(1);
+  menu.onclick = function () {
+    alert(1)
 
     // alert(2)
-    setTimeout(() => menu.dispatchEvent(new CustomEvent("menu-open", {
-      bubbles: true
-    })), 0);
+    setTimeout(
+      () =>
+        menu.dispatchEvent(
+          new CustomEvent('menu-open', {
+            bubbles: true,
+          })
+        ),
+      0
+    )
 
-    alert(2);
-  };
+    alert(2)
+  }
 
   document.addEventListener('menu-open', () => alert('nested'))
 </script>

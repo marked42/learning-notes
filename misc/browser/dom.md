@@ -1,5 +1,8 @@
 # DOM
 
+1. https://juejin.im/entry/590801780ce46300617c89b8
+1. http://taobaofed.org/blog/2016/04/25/performance-composite/
+
 ## HTML
 
 html parsing model https://html.spec.whatwg.org/multipage/parsing.html#overview-of-the-parsing-model
