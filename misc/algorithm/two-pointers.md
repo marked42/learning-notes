@@ -1,6 +1,38 @@
 # 双指针
 
-双指针，滑动窗口
+求一个数组的所有子数组中具有某个极值的子数组，暴力解法是枚举所有子数组，假设单个子数组的耗时是常量，则总的时间复杂度是`O(N ^ 2)`。
+
+使用双指针，滑动窗口方法记录子数组，根据极值的相关特性，排除一部分不符合条件的双指针对，更新双指针对为可能的值，从而在线性时间内遍历所有子数组，时间复杂度是`O(N)`。
+
+## [11. Container With Most Water](https://leetcode.cn/problems/container-with-most-water/)
+
+使用双指针，容量等于宽度乘以两侧最小高度，初始化双指针指向数组头尾元素，此时宽度最大。调整双指针位置，左侧指针向右移动，右侧指针向左移动，宽度只会越来越小。容量只有在两侧最小高度值增加的情况下才可能增大，因此每次移动两侧高度较小的指针，左右指针重合时整个遍历过程结果，记录遍历过程中的容量最大值即可。
+
+```js
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
+var maxArea = function (height) {
+  let left = 0
+  let right = height.length - 1
+  let amount = 0
+
+  while (left < right) {
+    amount = Math.max(
+      amount,
+      (right - left) * Math.min(height[left], height[right])
+    )
+    if (height[left] <= height[right]) {
+      left++
+    } else {
+      right--
+    }
+  }
+
+  return amount
+}
+```
 
 ## [209. Minimum Size Subarray Sum](https://leetcode.cn/problems/minimum-size-subarray-sum/solution/)
 

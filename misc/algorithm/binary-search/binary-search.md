@@ -1275,6 +1275,13 @@ var countSmaller = function (nums) {
 }
 ```
 
+#### HIndex
+
+1. https://leetcode.cn/problems/h-index/
+1. https://leetcode.cn/problems/h-index-ii/submissions/
+
+二分查找
+
 #### [300. 最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence/)
 
 思路是子序列必须以元素 i 结尾，考虑 dp[i]和 dp[0~i-1]之间的关系 dp[i] = max(dp[0 ~ i-1]) + 1。
@@ -1549,3 +1556,4 @@ function canSplitArray(nums, max, m) {
 
 1. [花花酱 LeetCode 1760. Minimum Limit of Balls in a Bag - 刷题找工作 EP384](https://www.youtube.com/watch?v=yEHgt1UZo7A&list=PLLuMmzMTgVK74vqU7Ukaf70a382dzF3Uo&index=1)
 1. [LeetBook 二分查找](https://leetcode.cn/leetbook/detail/binary-search/)
+1. [How to avoid pitfalls in Binary Search?](https://www.bilibili.com/video/BV1EW4y1C7vA)

@@ -4,6 +4,7 @@
 
 1. [Introduction to HTML](https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML)
 1. HTML 标签分类 空标签、自闭合、标签的嵌套关系、标签语法容错
+1. [a11y](https://scottaohara.github.io/accessibility_interview_questions/)
 
 ### DOM
 
@@ -38,6 +39,9 @@
 1. [Box Sizing Module Level 3](https://drafts.csswg.org/css-sizing-3/#valdef-width-max-content)
 
 ## HTTP
+
+1. [Transfer-encoding](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Transfer-Encoding)
+1. [X-Frame-Options](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/X-Frame-Options)
 
 ## Performance
 

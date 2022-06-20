@@ -1,7 +1,11 @@
 # Promise
 
-https://humanwhocodes.com/blog/2021/01/creating-javascript-promise-from-scratch-unhandled-rejection-tracking/
-https://web.dev/i18n/en/promises/
+1. https://levelup.gitconnected.com/understand-javascript-promises-by-building-a-promise-from-scratch-84c0fd855720
+1. https://www.mauriciopoppe.com/notes/computer-science/computation/promises/
+1. https://www.bilibili.com/video/BV1Sb4y1v7Ye/
+   https://humanwhocodes.com/blog/2021/01/creating-javascript-promise-from-scratch-unhandled-rejection-tracking/
+   https://web.dev/i18n/en/promises/
+1. https://www.bilibili.com/video/BV1ri4y1y7PE
 
 ## 概念与应用
 

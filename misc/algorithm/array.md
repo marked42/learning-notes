@@ -509,6 +509,164 @@ var findDiagonalOrder = function (mat) {
 }
 ```
 
+## Boyer-Moore 投票算法
+
+https://leetcode.cn/problems/majority-element/
+
+https://www.cs.ou.edu/~rlpage/dmtools/mjrty.pdf
+
+## 重复元素
+
+判断数组中是否出现[重复元素](https://leetcode.cn/problems/contains-duplicate/)，只需要对数组进行遍历，同时记录已经出现的元素，即可判断当前元素是否重复出现。
+
+### [问题 2](https://leetcode.cn/problems/contains-duplicate-ii/)
+
+滑动窗口方法，记录子串`[i, i + k]`中的元素集合`set`，集合中出现重复元素时返回`true`，窗口向右移动时维护这个集合，去掉最早的元素，加入最新的元素。
+
+```js
+var containsNearbyDuplicate = function (nums, k) {
+  const set = new Set()
+
+  for (let i = 0; i < nums.length; i++) {
+    if (i >= k + 1) {
+      set.delete(nums[i - k - 1])
+    }
+
+    if (set.has(nums[i])) {
+      return true
+    } else {
+      set.add(nums[i])
+    }
+  }
+
+  return false
+}
+```
+
+Hash 表方法，遇到元素`i`时，为了判断是否存在`j < i && j >= i - k && nums[i] === nums[j]`，需要记录数组`[0, i-1]`中`nums[i]`出现的最大元素值，也就是`j`，如果`i - j <= k`则返回`true`。
+
+```js
+const indexMap = new Map()
+
+for (let i = 0; i < nums.length; i++) {
+  const num = nums[i]
+  if (indexMap.has(num) && Math.abs(indexMap.get(num) - i) <= k) {
+    return true
+  } else {
+    indexMap.set(num, i)
+  }
+}
+
+return false
+```
+
+### [问题 3](https://leetcode.cn/problems/contains-duplicate-iii/)
+
+同样使用滑动窗口，需要一个有序集合来记录长度为`k+1`的窗口中的所有元素，窗口向右移动时需要从集合中删除最早的元素，集合需要支持寻找与指定元素`nums[i]`最接近的元素，判断最接近的距离是否小于`t`。这里使用升序数组作为有序集合。
+
+```js
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @param {number} t
+ * @return {boolean}
+ */
+var containsNearbyAlmostDuplicate = function (nums, k, t) {
+  let ascending = []
+
+  for (let i = 0; i < nums.length; i++) {
+    // 有序数组删除最早的元素
+    if (i >= k + 1) {
+      ascending = ascending.filter((e) => e !== nums[i - k - 1])
+    }
+
+    // 二分查找，找到最接近的两个元素，条件是 >= nums[i]
+    let low = 0
+    let high = ascending.length - 1
+    while (low <= high) {
+      const mid = low + Math.floor((high - low) / 2)
+
+      if (ascending[mid] >= nums[i]) {
+        high = mid - 1
+      } else {
+        low = mid + 1
+      }
+    }
+    const lowWithRange =
+      low < ascending.length && Math.abs(ascending[low] - nums[i]) <= t
+    const highWithRange = high >= 0 && Math.abs(ascending[high] - nums[i]) <= t
+    if (lowWithRange || highWithRange) {
+      return true
+    }
+
+    // 新元素nums[i]插入到有序数组合适的位置
+    let j = 0
+    for (; j < ascending.length; j++) {
+      if (ascending[j] > nums[i]) {
+        break
+      }
+    }
+    ascending.splice(j, 0, nums[i])
+  }
+
+  return false
+}
+```
+
+同样使用滑动窗口，但是这次使用桶排序法将数字`nums[i]`划分为大小为`t + 1`的桶，其中`[0, t]`桶编号为`0`，`[t + 1, 2t + 1]`编号为`1`，`[-t-1, -1]`编号为`-1`，其他桶编号以此类推。
+
+```js
+// ... [-t-1, -1] [0, t] [t+1, 2t + 1] ...
+// ... -1,        0,     1,            ...
+// 桶编号计算方法
+const id =
+  nums[i] >= 0
+    ? // 非负数
+      Math.floor(nums[i] / (t + 1))
+    : // 负数
+      Math.floor((-nums[i] - 1) / (t + 1)) * -1 - 1
+```
+
+滑动窗口移动的时候，记录滑动窗口中元素的桶编号，对于新的元素`nums[i]`来说，如果窗口中存在相同编号的桶，条件符合`Math.abs(nums[i] - nums[j]) <= t && i - j <= k`；如果存在与`nums[i]`所在桶相邻的桶，两个元素**可能**满足条件`Math.abs(nums[i] - nums[j]) <= t`；不在相邻桶的元素肯定不满足条件。
+
+```js
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @param {number} t
+ * @return {boolean}
+ */
+var containsNearbyAlmostDuplicate = function (nums, k, t) {
+  const getBucketId = (val, width) =>
+    val < 0 ? Math.floor((-val - 1) / width) * -1 - 1 : Math.floor(val / width)
+
+  const buckets = new Map()
+
+  for (let i = 0; i < nums.length; i++) {
+    if (i >= k + 1) {
+      buckets.delete(getBucketId(nums[i - k - 1], t + 1))
+    }
+
+    const id = getBucketId(nums[i], t + 1)
+    if (buckets.has(id)) {
+      return true
+    }
+    if (buckets.has(id - 1) && Math.abs(nums[i] - buckets.get(id - 1)) <= t) {
+      return true
+    }
+    if (buckets.has(id + 1) && Math.abs(nums[i] - buckets.get(id + 1)) <= t) {
+      return true
+    }
+
+    buckets.set(id, nums[i])
+  }
+
+  return false
+}
+```
+
+桶排序中判断元素是否符合条件耗费常量时间，所以整体的时间复杂度只跟遍历操作有关，是`O(N)`，空间复杂度是`O(min(n, k + 1)`。
+
 # 动态规划
 
 ## [1143. Longest Common Subsequence](https://leetcode.cn/problems/longest-common-subsequence/)
