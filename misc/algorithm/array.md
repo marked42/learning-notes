@@ -6,6 +6,78 @@ TODO: 可以积累更多 https://leetcode.cn/problemset/all/?search=longest+subs
 
 最长子串/子数组/子序列
 
+### [53. Maximum Subarray](https://leetcode.cn/problems/maximum-subarray/)
+
+状态转移方程$dp[i] = Math.max(dp[i-1] + nums[i], nums[i])$，当前元素`nums[i]`要么跟之前的最大连续数组组成更大的，要么自己单独一个。
+
+```js
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxSubArray = function (nums) {
+  const dp = new Array(nums.length)
+  dp[0] = nums[0]
+
+  for (let i = 1; i < nums.length; i++) {
+    dp[i] = Math.max(dp[i - 1] + nums[i], nums[i])
+  }
+
+  return Math.max(...dp)
+}
+```
+
+时间复杂度和空间复杂度都是`O(N)`，可以使用滚动数组方式只用一个变量记录`dp[i-1]`，将空间复杂度降低为`O(1)`。
+
+TODO:
+方法二，使用分治的策略。
+
+使用`[l, r]`表示数组闭区间，`f(l, r)`表示`[l,r]`范围内连续子数组最大和。选中其中一个元素下标为`m`将数组拆分为左右两半`[l, m] [m+1, r]`，
+考虑子问题和原问题的关系。
+
+```js
+f(l, r) = Math.max(f(l, m), f(m+1, r), f_left(m) + f_right(m+1))
+```
+
+其中`f_left(m)`表示下标`m`对应元素向左的连续数组最大和，`f_right(m+1)`代表下标`m+1`的元素向右的连续数组最大和。数组`[l,r]`的连续数组最大和可能出现在左半边，也可能是右半边，或者横跨中间元素`[m,m+1]`，分别对应三种情况，其中最大者就是等于`f(l, r)`。
+
+同样对于`f_left(l, r)`进行分析，右侧元素的`f_left(r)`有两种情况，要是连续数组位于`[m+1, r]`范围内，要么跨过`[m+1, r]`并包含了`[l, m]`中右侧的一部分元素。
+
+```js
+f_left(r) = Math.max(f_left(r), f_left(m) + sum(m+1, r))
+```
+
+```js
+function Status(l, r, m, i) {
+  this.lSum = l
+  this.rSum = r
+  this.mSum = m
+  this.iSum = i
+}
+
+const pushUp = (l, r) => {
+  const iSum = l.iSum + r.iSum
+  const lSum = Math.max(l.lSum, l.iSum + r.lSum)
+  const rSum = Math.max(r.rSum, r.iSum + l.rSum)
+  const mSum = Math.max(Math.max(l.mSum, r.mSum), l.rSum + r.lSum)
+  return new Status(lSum, rSum, mSum, iSum)
+}
+
+const getInfo = (a, l, r) => {
+  if (l === r) {
+    return new Status(a[l], a[l], a[l], a[l])
+  }
+  const m = (l + r) >> 1
+  const lSub = getInfo(a, l, m)
+  const rSub = getInfo(a, m + 1, r)
+  return pushUp(lSub, rSub)
+}
+
+var maxSubArray = function (nums) {
+  return getInfo(nums, 0, nums.length - 1).mSum
+}
+```
+
 ### [674. Longest Continuous Increasing Subsequence](https://leetcode.cn/problems/longest-continuous-increasing-subsequence/)
 
 使用双指针记录连续的子序列，序列递增时`end`增加`1`，直到不满足递增或者数组结束，这样找到一个连续递增序列，记录其长度。
