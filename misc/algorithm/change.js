@@ -16,4 +16,24 @@ var coinChange = function (coins, amount) {
   return amount === 0 ? count : -1
 }
 
-console.log(coinChange([186, 419, 83, 408], 6249))
+// console.log(coinChange([186, 419, 83, 408], 6249))
+
+/**
+ * @param {number} amount
+ * @param {number[]} coins
+ * @return {number}
+ */
+var change = function (amount, coins) {
+  const dp = new Array(amount + 1).fill(0)
+  dp[0] = 1
+
+  for (let i = 1; i <= amount; i++) {
+    for (const coin of coins) {
+      dp[i] += i < coin ? 0 : dp[i - coin]
+    }
+  }
+
+  return dp[amount]
+}
+
+console.log(change(5, [1, 2, 5]))

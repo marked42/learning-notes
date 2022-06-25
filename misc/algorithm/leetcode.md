@@ -10,3 +10,5 @@
 1. 算法之美
 1. 剑指 offer
 1. [花花刷题](https://space.bilibili.com/9880352)
+
+1. [前缀和](https://leetcode.cn/tag/prefix-sum/problemset/)
