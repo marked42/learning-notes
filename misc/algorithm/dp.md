@@ -115,6 +115,81 @@ const multiply = (a, b) => {
 }
 ```
 
+## 一维 DP
+
+[279. Perfect Squares](https://leetcode.cn/problems/perfect-squares/)
+
+$K = \lfloor\sqrt{n}\rfloor$
+
+```js
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var numSquares = function (n) {
+  const dp = new Array(n + 1)
+  dp[0] = 0
+
+  for (let i = 1; i <= n; i++) {
+    let min = n + 1
+    for (let k = 1; k * k <= i; k++) {
+      min = Math.min(min, dp[i - k * k] + 1)
+    }
+    dp[i] = min
+  }
+
+  return dp[n]
+}
+```
+
+从`1`遍历到`n`计算了所有子问题，但是`n`实际上只依赖于部分`n-1/.../n-k^2`等子问题，其中有些问题不必要计算，可以使用记忆化方法只计算必要的子问题。
+
+## 二维 DP
+
+[64. Minimum Path Sum](https://leetcode.cn/problems/minimum-path-sum/)
+[72. Edit Distance](https://leetcode.cn/problems/edit-distance/)
+
+编辑距离是典型的二维 DP 问题。
+
+```js
+/**
+ * @param {string} word1
+ * @param {string} word2
+ * @return {number}
+ */
+var minDistance = function (word1, word2) {
+  const M = word1.length
+  const N = word2.length
+
+  const dp = new Array(M + 1)
+  for (let i = 0; i < dp.length; i++) {
+    dp[i] = new Array(N + 1)
+  }
+
+  // 初始化第一行
+  for (let i = 0; i < dp[0].length; i++) {
+    dp[0][i] = i
+  }
+
+  // 初始化第一列
+  for (let i = 0; i < dp.length; i++) {
+    dp[i][0] = i
+  }
+
+  for (let row = 1; row <= M; row++) {
+    for (let col = 1; col <= N; col++) {
+      const left = dp[row][col - 1] + 1
+      const top = dp[row - 1][col] + 1
+      const diagonal =
+        dp[row - 1][col - 1] + (word1[row - 1] === word2[col - 1] ? 0 : 1)
+      dp[row][col] = Math.min(left, top, diagonal)
+    }
+  }
+
+  return dp[M][N]
+}
+```
+
 ## 背包问题
 
 Divide and Conquer
@@ -410,7 +485,7 @@ var subarraysDivByK = function (nums, k) {
 }
 ```
 
-### (525. Contiguous Array)[https://leetcode.cn/problems/contiguous-array/]
+### [525. Contiguous Array](https://leetcode.cn/problems/contiguous-array/)
 
 前缀和加哈希表的方法，与求解子数组和相同。如果子数组`[i, j]`中有着相同数量的 0 和 1，可以记录前缀数组`dp[i]`表示数组`[0, i]`内 0 和 1 的个数。
 
