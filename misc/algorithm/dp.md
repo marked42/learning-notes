@@ -190,6 +190,68 @@ var minDistance = function (word1, word2) {
 }
 ```
 
+### [120. Triangle](https://leetcode.cn/problems/triangle/)
+
+三角形，状态转移方程式`dp[i][j] = min(dp[i-1][j-1], dp[i-1][j]) + triangle[i][j]`，使用滚动数组的方法可以将空间复杂度从`O(N^2)`降低到`O(N)`，但是注意因为`dp[i][j]`依赖于`dp[i-1][j-1]`，所以内层循环需要反向遍历，这样`dp[i-1][j-1]`不会被`dp[i][j-1]`覆盖，这两者都滚动数组中的`dp[j-1]`。
+
+```js
+/**
+ * @param {number[][]} triangle
+ * @return {number}
+ */
+var minimumTotal = function (triangle) {
+  const N = triangle.length
+  const dp = new Array(N)
+  dp[0] = triangle[0][0]
+
+  // dp[i][j] = min(dp[i-1][j-1], dp[i-1][j]) + triangle[i][j]
+  for (let i = 1; i < N; i++) {
+    for (let j = i; j >= 0; j--) {
+      const top = j === i ? Number.MAX_SAFE_INTEGER : dp[j]
+      const diag = j === 0 ? Number.MAX_SAFE_INTEGER : dp[j - 1]
+      dp[j] = Math.min(top, diag) + triangle[i][j]
+    }
+  }
+
+  return Math.min(...dp)
+}
+```
+
+### [62. Unique Paths](https://leetcode.cn/problems/unique-paths/)
+
+状态转移方程`dp[i][j] = dp[i-1][j] + dp[i][j-1]`。考虑问题`dp[i][j] === dp[j][i]`是对称的，使用二维数组时存在重复，所以采用缓存方式，调整`i`和`j`的顺序，让`i <= j`。另外`i === 1`的时候，是递归的出口，长度为 1 的矩形只有一条路径。
+
+```js
+const memo = new Map()
+
+/**
+ * @param {number} m
+ * @param {number} n
+ * @return {number}
+ */
+var uniquePaths = function (m, n) {
+  // dp[i][j] = dp[i][j-1] + dp[i-1][j]
+  if (m > n) {
+    return uniquePaths(n, m)
+  }
+
+  if (m === 1) {
+    return 1
+  }
+
+  const key = `${m}-${n}`
+  if (memo.has(key)) {
+    return memo.get(key)
+  }
+
+  const count = uniquePaths(m - 1, n) + uniquePaths(m, n - 1)
+
+  memo.set(key, count)
+
+  return count
+}
+```
+
 ## 背包问题
 
 Divide and Conquer
