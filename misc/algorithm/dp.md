@@ -144,6 +144,38 @@ var numSquares = function (n) {
 
 从`1`遍历到`n`计算了所有子问题，但是`n`实际上只依赖于部分`n-1/.../n-k^2`等子问题，其中有些问题不必要计算，可以使用记忆化方法只计算必要的子问题。
 
+### [343. Integer Break](https://leetcode.cn/problems/integer-break/)
+
+状态转移方程 $dp[i] = max{j * (i - j), j * dp[i - j]}$
+
+<!-- dp[i]= 1≤j<i max ​ {max(j×(i−j),j×dp[i−j])} -->
+
+### [96. Unique Binary Search Trees](https://leetcode.cn/problems/unique-binary-search-trees/)
+
+一维 DP，卡特兰数，n 个节点每次选取一个节点做根节点，剩余`n-1`个节点分给两个子树，左子树可能的个数是`dp[0] ... dp[n-1]`，右子树是`dp[n-1] ... dp[0]`，配对乘积之和得到`dp[n]`。注意初始化条件`dp[0] = dp[1] = 1`。
+
+```js
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var numTrees = function (n) {
+  const dp = new Array(n + 1)
+  dp[0] = 1
+  dp[1] = 1
+
+  for (let i = 2; i <= n; i++) {
+    let sum = 0
+    for (let j = 0; j < i; j++) {
+      sum += dp[j] * dp[i - 1 - j]
+    }
+    dp[i] = sum
+  }
+
+  return dp[n]
+}
+```
+
 ## 二维 DP
 
 [64. Minimum Path Sum](https://leetcode.cn/problems/minimum-path-sum/)
@@ -249,6 +281,55 @@ var uniquePaths = function (m, n) {
   memo.set(key, count)
 
   return count
+}
+```
+
+### [63. Unique Paths II](https://leetcode.cn/problems/unique-paths-ii/)
+
+具有障碍物的最小路径个数，当前位置有障碍物时，不能达到，可以将个数取 0，加法运算中相当于不参与贡献，该子问题不对更大子问题参与贡献。
+注意第一行第一列的初始化，默认路径个数是 1，从遇到第一个障碍物开始是 0。
+
+```js
+/**
+ * @param {number[][]} obstacleGrid
+ * @return {number}
+ */
+var uniquePathsWithObstacles = function (obstacleGrid) {
+  const M = obstacleGrid.length
+  const N = obstacleGrid[0].length
+
+  const dp = new Array(M)
+  for (let i = 0; i < M; i++) {
+    dp[i] = new Array(N)
+  }
+
+  // 初始化第一行
+  let col = 0
+  for (; col < N && obstacleGrid[0][col] === 0; col++) {
+    dp[0][col] = 1
+  }
+  for (; col < N; col++) {
+    dp[0][col] = 0
+  }
+
+  // 初始化第一例
+  let row = 0
+  for (; row < M && obstacleGrid[row][0] === 0; row++) {
+    dp[row][0] = 1
+  }
+  for (; row < M; row++) {
+    dp[row][0] = 0
+  }
+
+  for (row = 1; row < M; row++) {
+    for (col = 1; col < N; col++) {
+      const top = dp[row - 1][col]
+      const left = dp[row][col - 1]
+      dp[row][col] = obstacleGrid[row][col] === 1 ? 0 : left + top
+    }
+  }
+
+  return dp[M - 1][N - 1]
 }
 ```
 
