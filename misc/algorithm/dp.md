@@ -333,7 +333,164 @@ var uniquePathsWithObstacles = function (obstacleGrid) {
 }
 ```
 
+### [718. Maximum Length of Repeated Subarray](https://leetcode.cn/problems/maximum-length-of-repeated-subarray/)
+
+暴力解法下需要比较每个可能的下表对`(i, j)`，时间复杂度是`O(N ^ 3)`，利用动态规划可以将单个坐标对`(i, j)`的处理从线性时间降低到常数时间。
+
+`dp[i][j]`表示下表对`(i, j)`开头的最长公共子串的长度，根据`nums1[i]`是否等于`nums[2]`分为两种情况，状态转移方程如下。
+
+```js
+dp[i][j] = nums1[i] === nums2[j] ? dp[i + 1][j + 1] : 0
+```
+
+和普通的二维动态规划不同，这里行列方向要逆向递减处理。边界条件的情况是行列坐标超出范围，相当于公共子串长度为`0`。考虑到缓存的局部性，可以使用正向迭代，对应的`(i, j)`含义需要做调整。
+
+```js
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number}
+ */
+var findLength = function (nums1, nums2) {
+  const M = nums1.length
+  const N = nums2.length
+  const dp = new Array(M)
+  for (let i = 0; i < M; i++) {
+    dp[i] = new Array(N)
+  }
+
+  let max = 0
+  for (let row = M - 1; row >= 0; row--) {
+    for (let col = N - 1; col >= 0; col--) {
+      const outside = row === M - 1 || col === N - 1
+      const prev = outside ? 0 : dp[row + 1][col + 1]
+      dp[row][col] = nums1[row] === nums2[col] ? prev + 1 : 0
+
+      max = Math.max(dp[row][col], max)
+    }
+  }
+
+  return max
+}
+```
+
+## [416. Partition Equal Subset Sum](https://leetcode.cn/problems/partition-equal-subset-sum/)
+
+划分两个子集和相等等价于能够选出一个子集的和是整个集合和的一半，这意味着集合必须包含至少两个元素，而且和是偶数。使用`dp[i][target]`来表示从
+子数组`[0, i]`中找出一个子集和等于`target`。根据是否使用元素`nums[i]`将问题拆分为两种情况，状态转移方程如下。
+
+```js
+dp[i][target] =
+  // 不使用nums[i]
+  dp[i - 1][target] ||
+  // 使用nums[i]
+  dp[i - 1][target - nums[i]]
+```
+
+考虑边界情况，`target = 0`第一列的情况，相当于在数组中划分出一个空集和等于 0，初始化为`true`。`i=0`第一行的情况，从`i = 1`开始，`dp[0][0]`已经被第一列覆盖了，使用`nums[0]`能够构成的和只有`nums[0]`，其他的应该设置为`false`。
+
+```js
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var canPartition = function (nums) {
+  const N = nums.length
+
+  if (N < 2) {
+    return false
+  }
+
+  const total = nums.reduce((acc, val) => acc + val, 0)
+  if (total % 2 === 1) {
+    return false
+  }
+  const target = total / 2.0
+
+  const dp = new Array(N)
+  for (let i = 0; i < N; i++) {
+    dp[i] = new Array(target + 1)
+  }
+
+  // 初始化第一列
+  for (let i = 0; i < N; i++) {
+    dp[i][0] = true
+  }
+
+  // 初始化第一行
+  for (let i = 1; i <= target; i++) {
+    dp[0][i] = false
+  }
+  dp[0][nums[0]] = true
+
+  for (let i = 1; i < N; i++) {
+    for (let j = 1; j <= target; j++) {
+      dp[i][j] = dp[i - 1][j] || !!dp[i - 1][j - nums[i]]
+    }
+  }
+
+  return dp[N - 1][target]
+}
+```
+
+### [494. Target Sum](https://leetcode.cn/problems/target-sum/)
+
+总共组合的情况有`2 ^ n`种，使用回溯方法检查所有组合的和是否等于目标值时间复杂度是`O(2^n)`。使用动态规划`dp[i][j]`表示数组`[0, i]`可以组成和为`j`的情况，`i`有正负两种情况，因此状态转移方程。
+
+```js
+// i的个数等于 i-1两种情况个数的和
+dp[i][j] = dp[i - 1][j - nums[i]] + dp[i - 1][j + nums[i]]
+```
+
+初始化条件是第一个数组元素能组成和的情况，`dp[0][nums[0]] = dp[0][-nums[0]]`都是`1`，如果`nums[0]`等于 0 的话，`dp[0][0]`初始化为 2。`i`的取值范围是`[0, n-1]`，`j`的取值范围是和的范围`[-sum, sum]`。超出这个范围的`dp[i][j]`的值都可以当做 0，不参与结果贡献。
+
+注意我们这里使用了负数作为下标，数组中的话要对负数列下标做偏移处理。也可以使用滚动数组的方法优化空间复杂度。
+
+```js
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var findTargetSumWays = function (nums, target) {
+  const M = nums.length
+
+  const sum = nums.reduce((acc, val) => acc + val, 0)
+  const N = 2 * sum + 1
+
+  const dp = new Array(M)
+  for (let i = 0; i < M; i++) {
+    // 所有都初始化为0
+    dp[i] = new Array(N).fill(0)
+  }
+
+  // 初始化第一行，组成正负nums[0]两种情况，nums[0]可能为0，这时dp[0] = 2
+  set(0, nums[0], get(0, nums[0]) + 1)
+  set(0, -nums[0], get(0, -nums[0]) + 1)
+
+  function get(i, j) {
+    return dp[i][j + sum] || 0
+  }
+  function set(i, j, val) {
+    dp[i][j + sum] = val
+  }
+
+  for (let i = 1; i < M; i++) {
+    for (let j = -sum; j <= sum; j++) {
+      const val = get(i - 1, j - nums[i]) + get(i - 1, j + nums[i])
+      set(i, j, val)
+    }
+  }
+
+  return get(M - 1, target)
+}
+```
+
+上面的动态规划方法时间复杂度是`O(N * SUM)`，我们计算了二维数组中所有值，如果只是为了计算`dp[i][target]`，可以使用记忆化方法避免重复子问题计算的同时又只递归计算需要的子问题的答案。
+
 ## 背包问题
+
+https://leetcode.cn/problems/last-stone-weight-ii/solution/yi-pian-wen-zhang-chi-tou-bei-bao-wen-ti-5lfv/
 
 Divide and Conquer
 

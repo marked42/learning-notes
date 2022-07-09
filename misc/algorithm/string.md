@@ -23,6 +23,8 @@ https://www.youtube.com/watch?v=fZ8nkk220M4&list=PLLuMmzMTgVK49Hph4vV8DAzGZpj4az
 
 KMP [28. 实现 strStr()](https://leetcode.cn/problems/implement-strstr/)
 
+Rabin Karpe https://www.geeksforgeeks.org/rabin-karp-algorithm-for-pattern-searching/
+
 ## 回文子串
 
 1. 647. 回文子串
