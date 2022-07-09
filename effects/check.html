@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        flex-direction: column;
+      }
+
+      h2 {
+        font-size: 36px;
+        font-family: Helvetica;
+        margin-top: 40px;
+        color: #333;
+        opacity: 0;
+      }
+
+      .circle {
+        stroke-dasharray: 1194;
+        stroke-dashoffset: 1194;
+        stroke-linecap: round;
+      }
+      .tick {
+        stroke-dasharray: 350;
+        stroke-dashoffset: 350;
+        stroke-linecap: round;
+      }
+
+      input[type='checkbox']:checked + svg .circle {
+        animation: 1s circle ease-in-out;
+        animation-fill-mode: forwards;
+      }
+      input[type='checkbox']:checked + svg .tick {
+        animation: 0.8s tick ease-in-out;
+        animation-delay: 0.95s;
+        animation-fill-mode: forwards;
+      }
+      input[type='checkbox']:checked ~ h2 {
+        animation: 0.6s title ease-in-out;
+        animation-delay: 1.2s;
+        animation-fill-mode: forwards;
+      }
+
+      @keyframes circle {
+        from {
+          stroke-dashoffset: 1194;
+        }
+        to {
+          stroke-dashoffset: 2388;
+        }
+      }
+
+      @keyframes tick {
+        from {
+          stroke-dashoffset: 350;
+        }
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @keyframes title {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <input type="checkbox" />
+    <svg width="400" height="400">
+      <circle
+        class="circle"
+        fill="none"
+        cx="200"
+        cy="200"
+        r="190"
+        stroke-width="20"
+        stroke="#68e534"
+        transform="rotate(-90 200 200)"
+      ></circle>
+
+      <polyline
+        class="tick"
+        fill="none"
+        stroke-width="20"
+        stroke="#68e534"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        points="88,214 173,284 304,138"
+      ></polyline>
+    </svg>
+    <h2 class="title">Payment Success</h2>
+  </body>
+</html>
