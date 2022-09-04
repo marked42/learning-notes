@@ -374,7 +374,110 @@ var findLength = function (nums1, nums2) {
 }
 ```
 
-## [416. Partition Equal Subset Sum](https://leetcode.cn/problems/partition-equal-subset-sum/)
+## 背包问题
+
+https://leetcode.cn/problems/last-stone-weight-ii/solution/yi-pian-wen-zhang-chi-tou-bei-bao-wen-ti-5lfv/
+https://leetcode.cn/problems/last-stone-weight-ii/solution/gong-shui-san-xie-xiang-jie-wei-he-neng-jgxik/
+https://www.youtube.com/watch?v=LPIvL-jvGdA&list=PLLuMmzMTgVK5DkeNodml9CHCW4BGxpci7&index=2
+
+Divide and Conquer
+
+背包问题分类
+
+1. 0/1 背包
+1. 完全背包
+1. 多重背包
+1. 组合背包
+
+1. 极值问题 最大最小
+1. 存在问题
+1. 组合问题
+
+初始化条件
+
+### 0/1 背包问题
+
+#### [1049. Last Stone Weight II](https://leetcode.cn/problems/last-stone-weight-ii/)
+
+```js
+/**
+ * @param {number[]} stones
+ * @return {number}
+ */
+var lastStoneWeightII = function (stones) {
+  const sum = stones.reduce((acc, val) => acc + val, 0)
+  const volume = Math.floor(sum / 2)
+
+  const dp = new Array(volume + 1).fill(0)
+  const n = stones.length
+
+  // 0/1 背包问题
+  for (let i = 0; i < n; i++) {
+    for (let j = volume; j >= stones[i]; j--) {
+      dp[j] = Math.max(dp[j], dp[j - stones[i]] + stones[i])
+    }
+  }
+
+  return sum - 2 * dp[volume]
+}
+```
+
+#### [494. Target Sum](https://leetcode.cn/problems/target-sum/)
+
+总共组合的情况有`2 ^ n`种，使用回溯方法检查所有组合的和是否等于目标值时间复杂度是`O(2^n)`。使用动态规划`dp[i][j]`表示数组`[0, i]`可以组成和为`j`的情况，`i`有正负两种情况，因此状态转移方程。
+
+```js
+// i的个数等于 i-1两种情况个数的和
+dp[i][j] = dp[i - 1][j - nums[i]] + dp[i - 1][j + nums[i]]
+```
+
+初始化条件是第一个数组元素能组成和的情况，`dp[0][nums[0]] = dp[0][-nums[0]]`都是`1`，如果`nums[0]`等于 0 的话，`dp[0][0]`初始化为 2。`i`的取值范围是`[0, n-1]`，`j`的取值范围是和的范围`[-sum, sum]`。超出这个范围的`dp[i][j]`的值都可以当做 0，不参与结果贡献。
+
+注意我们这里使用了负数作为下标，数组中的话要对负数列下标做偏移处理。也可以使用滚动数组的方法优化空间复杂度。
+
+```js
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var findTargetSumWays = function (nums, target) {
+  const M = nums.length
+
+  const sum = nums.reduce((acc, val) => acc + val, 0)
+  const N = 2 * sum + 1
+
+  const dp = new Array(M)
+  for (let i = 0; i < M; i++) {
+    // 所有都初始化为0
+    dp[i] = new Array(N).fill(0)
+  }
+
+  // 初始化第一行，组成正负nums[0]两种情况，nums[0]可能为0，这时dp[0] = 2
+  set(0, nums[0], get(0, nums[0]) + 1)
+  set(0, -nums[0], get(0, -nums[0]) + 1)
+
+  function get(i, j) {
+    return dp[i][j + sum] || 0
+  }
+  function set(i, j, val) {
+    dp[i][j + sum] = val
+  }
+
+  for (let i = 1; i < M; i++) {
+    for (let j = -sum; j <= sum; j++) {
+      const val = get(i - 1, j - nums[i]) + get(i - 1, j + nums[i])
+      set(i, j, val)
+    }
+  }
+
+  return get(M - 1, target)
+}
+```
+
+上面的动态规划方法时间复杂度是`O(N * SUM)`，我们计算了二维数组中所有值，如果只是为了计算`dp[i][target]`，可以使用记忆化方法避免重复子问题计算的同时又只递归计算需要的子问题的答案。
+
+#### [416. Partition Equal Subset Sum](https://leetcode.cn/problems/partition-equal-subset-sum/)
 
 划分两个子集和相等等价于能够选出一个子集的和是整个集合和的一半，这意味着集合必须包含至少两个元素，而且和是偶数。使用`dp[i][target]`来表示从
 子数组`[0, i]`中找出一个子集和等于`target`。根据是否使用元素`nums[i]`将问题拆分为两种情况，状态转移方程如下。
@@ -433,72 +536,7 @@ var canPartition = function (nums) {
 }
 ```
 
-### [494. Target Sum](https://leetcode.cn/problems/target-sum/)
-
-总共组合的情况有`2 ^ n`种，使用回溯方法检查所有组合的和是否等于目标值时间复杂度是`O(2^n)`。使用动态规划`dp[i][j]`表示数组`[0, i]`可以组成和为`j`的情况，`i`有正负两种情况，因此状态转移方程。
-
-```js
-// i的个数等于 i-1两种情况个数的和
-dp[i][j] = dp[i - 1][j - nums[i]] + dp[i - 1][j + nums[i]]
-```
-
-初始化条件是第一个数组元素能组成和的情况，`dp[0][nums[0]] = dp[0][-nums[0]]`都是`1`，如果`nums[0]`等于 0 的话，`dp[0][0]`初始化为 2。`i`的取值范围是`[0, n-1]`，`j`的取值范围是和的范围`[-sum, sum]`。超出这个范围的`dp[i][j]`的值都可以当做 0，不参与结果贡献。
-
-注意我们这里使用了负数作为下标，数组中的话要对负数列下标做偏移处理。也可以使用滚动数组的方法优化空间复杂度。
-
-```js
-/**
- * @param {number[]} nums
- * @param {number} target
- * @return {number}
- */
-var findTargetSumWays = function (nums, target) {
-  const M = nums.length
-
-  const sum = nums.reduce((acc, val) => acc + val, 0)
-  const N = 2 * sum + 1
-
-  const dp = new Array(M)
-  for (let i = 0; i < M; i++) {
-    // 所有都初始化为0
-    dp[i] = new Array(N).fill(0)
-  }
-
-  // 初始化第一行，组成正负nums[0]两种情况，nums[0]可能为0，这时dp[0] = 2
-  set(0, nums[0], get(0, nums[0]) + 1)
-  set(0, -nums[0], get(0, -nums[0]) + 1)
-
-  function get(i, j) {
-    return dp[i][j + sum] || 0
-  }
-  function set(i, j, val) {
-    dp[i][j + sum] = val
-  }
-
-  for (let i = 1; i < M; i++) {
-    for (let j = -sum; j <= sum; j++) {
-      const val = get(i - 1, j - nums[i]) + get(i - 1, j + nums[i])
-      set(i, j, val)
-    }
-  }
-
-  return get(M - 1, target)
-}
-```
-
-上面的动态规划方法时间复杂度是`O(N * SUM)`，我们计算了二维数组中所有值，如果只是为了计算`dp[i][target]`，可以使用记忆化方法避免重复子问题计算的同时又只递归计算需要的子问题的答案。
-
-## 背包问题
-
-https://leetcode.cn/problems/last-stone-weight-ii/solution/yi-pian-wen-zhang-chi-tou-bei-bao-wen-ti-5lfv/
-
-Divide and Conquer
-
-https://www.youtube.com/watch?v=LPIvL-jvGdA&list=PLLuMmzMTgVK5DkeNodml9CHCW4BGxpci7&index=2
-
-## 凑硬币
-
-### [322 Coin Change](https://leetcode.cn/problems/coin-change/)
+#### [322 Coin Change](https://leetcode.cn/problems/coin-change/)
 
 硬币面值个数假设为`n`，总钱数为`S`，$S = \sum_{i=0}^{n-1}x_i c_i$，其中$c_i$是第`i`中硬币的面值，$x_i$是第`i`中硬币的数量。
 
@@ -616,6 +654,49 @@ var trap = function (height) {
 ```
 
 TODO: 还有单调栈的解法
+
+## [174. Dungeon Game](https://leetcode.cn/problems/dungeon-game/)
+
+困难，逆向 dp。
+
+```js
+/**
+ * @param {number[][]} dungeon
+ * @return {number}
+ */
+var calculateMinimumHP = function (dungeon) {
+  const M = dungeon.length
+  const N = dungeon[0].length
+
+  const dp = new Array(M + 1)
+  for (let i = 0; i <= M + 1; i++) {
+    dp[i] = new Array(N + 1)
+  }
+
+  // row = M
+  for (let col = 0; col <= N - 1; col++) {
+    dp[M][col] = Number.MAX_SAFE_INTEGER
+  }
+  // col = N
+  for (let row = 0; row <= M - 1; row++) {
+    dp[row][N] = Number.MAX_SAFE_INTEGER
+  }
+
+  dp[M][N - 1] = 1
+  dp[M - 1][N] = 1
+
+  for (let row = M - 1; row >= 0; row--) {
+    for (let col = N - 1; col >= 0; col--) {
+      dp[row][col] = Math.min(
+        Math.max(dp[row + 1][col] - dungeon[row][col], 1),
+        Math.max(dp[row][col + 1] - dungeon[row][col], 1)
+      )
+    }
+  }
+
+  return dp[0][0]
+}
+```
 
 ## 子数组和
 
