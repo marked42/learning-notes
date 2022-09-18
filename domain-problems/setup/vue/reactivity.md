@@ -237,6 +237,22 @@ Vue 的设计中 reverse 函数为甚么不是变动性方法，没有被禁用�
 
 即使副作用函数不允许触发自身，还是可能通过间接方式递归调用自己
 
+处理这个
+
+```js
+const { watchEffect, reactive } = Vue
+
+const arr = reactive([])
+
+watchEffect(() => {
+  arr.push(1)
+})
+
+watchEffect(() => {
+  arr.push(2)
+})
+```
+
 ### 集合
 
 能否抽象出统一的机制表示上面的过程
