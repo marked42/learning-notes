@@ -422,18 +422,3 @@ if (
 
 1. `value !== this.value` - 基础类型值发生变化，或者`this.value`引用的对象发生了变化
 1. `isObject(value)` - `this.value`引用的对象没变，但是对象内部的属性值发生了变化
-
-## Proxy 实现响应式数据
-
-ES6 提供了 Proxy API 来监听对象更多类型的变化。
-
-```js
-const p = new Proxy(data, prop, {
-  get() {},
-  set() {},
-  has() {},
-  deleteProperty() {},
-})
-```
-
-TODO:

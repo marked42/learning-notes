@@ -71,6 +71,17 @@ Effect
 
 ### 对象
 
+Reactive 对象使用起来应该跟原来的对象行为一致，只多出来的响应式的特性。
+
+行为一致
+
+1. 拥有的属性相同，对应属性值也相同
+1. in operator
+1. Object.keys()
+1. 不改变原型，`__proto__`
+
+对于原对象的修改，应该反应到 Reactive 对象；对于 Reactive 对象的修改，应该应用到原始对象。
+
 收集依赖
 触发
 几种类型的变化
@@ -79,9 +90,55 @@ Effect
 1. 属性新增
 1. 属性删除
 
+依赖单个属性
+
+```js
+obj[prop]
+obj.prop
+prop in obj
+```
+
+依赖整体变化的情况
+
+```js
+// console.log('nums: ', Object.getOwnPropertySymbols(nums))
+// console.log('nums: ', Object.getOwnPropertyNames(nums))
+// console.log('nums: ', JSON.stringify(nums))
+// 模板插值内部使用了JSON.stringify
+// {{a}}
+// toString 不是
+// console.log('nums: ', nums.toString())
+// for (let name in nums.tom) {
+//   console.log('nums: ', name)
+// }
+// console.log('nums', Object.keys(nums.tom))
+// console.log('nums', Object.entries(nums.tom))
+```
+
 ### 数组
 
 新增属性的问题，新增的属性之前没有被收集依赖，如何触发 effect？使用一个 key 表示集合整体，数组使用 length 属性
+
+数组与对象的差异之处
+
+1. 有 length 属性，length 属性和单个数组下标操作相关
+
+数组属性
+
+1. integer index
+1. 已有
+1. 新增
+1. length 属性 set / delete
+1. other
+
+1. 其他用法
+
+#### 数字下标
+
+#### length
+
+// for-in 使用了 Object.keys，没有使用 length 属性，也没有使用单个元素值
+// for-of 的语法隐式遍历所有元素，隐式的使用了 length 属性和每一个元素
 
 ```js
 // in 语法触发 has trap，收集单个属性 name
@@ -145,6 +202,41 @@ for (const value of array) {
 
 数组的 length 不能被删除，只能 SET
 
+#### 稀疏数组
+
+empty-slot 数组
+
+#### 其余属性
+
+数组的其余属性处理跟普通对象相同，但是属性的新增、删除不会触发对象整体变化，因为这个变化已经使用了 length 代表
+
+#### 普通数组方法
+
+以 Array.prototype.at(0) 方法为例分析调用流程，proxy 对象会被保持，所以 正常触发下标 0 的依赖收集，这个函数不需要特殊处理
+
+#### identity-sensitive 方法
+
+#### 变动性方法
+
+终止依赖收集，手动触发，避免循环
+
+副作用函数中包含 push
+
+push 方法访问了 length 属性，又触发数组 length 变化，如果允许 push 方法进行依赖收集，触发的 length 变化会造成 push 被递归调用
+
+这里又两个点造成递归调用死循环
+
+1. 允许 push 触发依赖收集
+1. 允许了当前副作用函数执行时，再次触发自身
+
+上面两个条件任意禁用一个即可避免递归死循环
+
+Vue 的设计中 reverse 函数为甚么不是变动性方法，没有被禁用依赖收集？
+
+但是用户代码中可能编写相同的逻辑，这种情况如何处理。
+
+即使副作用函数不允许触发自身，还是可能通过间接方式递归调用自己
+
 ### 集合
 
 能否抽象出统一的机制表示上面的过程
@@ -171,6 +263,8 @@ watch(source, callback)
 ## Ref
 
 1. oldValue/rawValue 为什么
+
+[Array ref unwrapping](https://github.com/vuejs/core/issues/737)
 
 ObjectRef
 
@@ -260,6 +354,22 @@ function isRef(obj) {
   return value
 }
 ```
+
+## Other
+
+数组的构造函数
+Array
+new Array()
+new Array(length) 0 ~ 32 sparse-array
+Object.keys(array) 不返回 empty slot 对应的 key
+mapforEach respects [sparse array](https:developer.mozilla.orgen-USdocsWebJavaScriptGuideIndexed_collections#sparse_arrays)
+findIndex 仍然访问 empty slot
+for-of 语法 iteration protocol 和 spread 等新的语法
+Array.from({ length: 31 }) 不是 sparse 的默认值是 undefined
+anti-pattern .map 函数的返回值没有被使用的话，推荐用 .forEach TODO: eslint-rule
+
+property-accessor a.b 如何触发 proxy 的 get handler 和 getter method 的
+delete property / set property
 
 ## 参考
 
