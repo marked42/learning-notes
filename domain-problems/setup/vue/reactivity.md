@@ -387,6 +387,16 @@ anti-pattern .map 函数的返回值没有被使用的话，推荐用 .forEach T
 property-accessor a.b 如何触发 proxy 的 get handler 和 getter method 的
 delete property / set property
 
+相等性判断
+
+same-value, same-value-zero, ==, ===
+
+Set 中使用的规则，Map 中使用的规则
+
+1. [Object.is](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is)
+1. 真值表
+1. hasChanged
+
 ## 参考
 
 1. Vue Docs
