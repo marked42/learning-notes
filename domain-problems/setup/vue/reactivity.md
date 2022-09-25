@@ -503,6 +503,23 @@ WeakMap key 只能是对象，key 不能枚举 读写 O(n)
 [WeakMap](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap)
 [WeakSet](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/WeakSet)
 
+### iteration
+
+https://262.ecma-international.org/6.0/#sec-getiterator
+
+```js
+const proxy = new Proxy(new Map())
+
+// 必须拦截[Symbol.iterator]: entries 的实现
+// 原生实现 会报错 TypeError: Method Map.prototype.entries called on incompatible receiver #<Map>
+for (const v of proxy) {
+}
+```
+
+at Proxy.entries (<anonymous>) 要求 entries 的 object 参数必须是 Map, 实际是 proxy
+
+prop === Symbol.iterator ? target : receiver,
+
 ## 参考
 
 1. Vue Docs
