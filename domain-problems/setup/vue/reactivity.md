@@ -2,6 +2,17 @@
 
 Vue 2 / Vue3 响应式系统的区别
 
+几大部分内容
+
+1. 响应式对象的例子 和 核心概念
+1. 对象
+1. 数组
+1. 集合
+1. 副作用函数
+1. 计算数据
+1. readonly 和 shallow
+1. 副作用作用域
+
 ## 响应式代码是应该是什么样子
 
 考虑一个简单的例子，下面是计算平均分数的一段代码，`average`函数从分数数组`score`中求得总和除以数组长度得到平均分数，然后输出。
@@ -133,6 +144,20 @@ prop in obj
 
 1. 其他用法
 
+严格模式下 delete 操作会报错
+
+````js
+      'use strict'
+      const observed = new Proxy([1], {
+        deleteProperty() {
+          return false
+        },
+      })
+
+      // @ts-ignore
+      delete observed.length
+      ```
+
 #### 数字下标
 
 #### length
@@ -143,7 +168,7 @@ prop in obj
 ```js
 // in 语法触发 has trap，收集单个属性 name
 'name' in obj
-```
+````
 
 ```js
 // 隐式的访问了 length 属性，所以不用手动收集 track(arr, TrackOpTypes.GET, 'length')
@@ -204,6 +229,8 @@ for (const value of array) {
 
 #### 稀疏数组
 
+sparse array
+
 empty-slot 数组
 
 #### 其余属性
@@ -256,6 +283,52 @@ watchEffect(() => {
 ### 集合
 
 能否抽象出统一的机制表示上面的过程
+
+Map/WeakMap WeakMap 的功能是 Map 实现的子集，只包括 get/has/set/delete，应该确保使用其他 Map 独有方法的情况报错处理，set/delete 操作不应该触发 size,keys,values 的变动。
+
+/Set/WeakSet
+
+1.  add / set / delete / clear
+1.  收集单个属性 key map.has(key) / map.get(key)
+1.  size map.size
+1.  keys map.keys() map.entries() map.forEach() for-of(Symbol.iterator)
+1.  values map.values() map.entries() map.forEach for-of(Symbol.iterator)
+
+1.  元素 identity 特性考虑 reactive 作为 key/value 的情况，倾向于使用 rawValue，但是依赖追踪时使用 value
+1.  Map 不对 customProperty 做反应
+
+set.add/map.set 函数的实现需要注意返回值，返回的是 proxy，这样能保持链式调用的写法。
+
+对于 map 中不存在的 key，map.set('key', undefined) 虽然增加了新的 key，但是得到的 key 值并不会变化。
+
+```js
+const observed = reactive(new Map())
+
+let count = 0
+effect(() => {
+  observed.key
+  count++
+})
+
+// 1
+console.log(count)
+
+observed.set('key', 1)
+// 2
+console.log(count)
+```
+
+```js
+// https://262.ecma-international.org/6.0/#sec-getiterator
+// 必须拦截[Symbol.iterator]: entries的实现
+// 原生实现 会报错
+// TypeError: Method Map.prototype.entries called on incompatible receiver #<Map>
+// at Proxy.entries (<anonymous>)
+// 参考for-of语法的过程
+// https://262.ecma-international.org/6.0/#sec-runtime-semantics-forin-div-ofheadevaluation-tdznames-expr-iterationkind
+// 要求entries的object参数必须是Map, 实际是proxy
+// prop === Symbol.iterator ? target : receiver,
+```
 
 ## 副作用函数（effect）
 
@@ -338,38 +411,32 @@ shallowRef/triggerRef/shallowReadonly/shallowReactive
 1. https://vuejs.org/api/reactivity-advanced.html#effectscope
 1. https://github.com/vuejs/rfcs/blob/master/active-rfcs/0041-reactivity-effect-scope.md
 
-## readonly
-
-## shallow
+## 性能优化 (readonly & shallow)
 
 external
 
-## reactivity transform
+1. readonly(reactive(new Map)) 内部的 reactive(new Map)应该正常收集依赖，readonly 的表示只读，不收集依赖。
 
-[Reactivity Transform](https://vuejs.org/guide/extras/reactivity-transform.html)
+Readonly + Shallow
 
-## 闭包运用
+Map/Set 中 key 和 value 都可能是 Reactive Object
 
-运用闭包的封闭性，其他代码无法获取闭包变量
+Map ---> Reactive read wrap
+Map <--- Reactive unwrap
+原则是读方法从原始 Map 中获取对象，并将其**包装**为适合的 reactive 值，尊重 readonly/shallow 的配置。
 
-```js
-const ref = Symbol()
+写方法，接受的参数 key/value 可能是 reactive 值，需要将其展开（unwrap）之后将原始值写入 Map 对象。
 
-let inIsRef = false
+1. get 方法 接受 key 和 value，key 可能是 Reactive 对象，也可能是普通值，首先判断值是否存在
 
-const obj = Object.defineProperty(obj, '__v_ref', {
-  get() {
-    return inIsRef ? mark : void 0
-  },
-})
+rawTarget.has(key)
+rawTarget.has(rawKey)
 
-function isRef(obj) {
-  inIsRef = true
-  const value = obj.__v_ref === ref
-  inIsRef = false
-  return value
-}
-```
+这时候要保证 readonly(reactive(new Map))正常收集以来
+
+依赖收集使用 rawTarget
+
+[Effect don't work when use reactive to proxy a Map which has reactive object as member's key. #919](https://github.com/vuejs/core/issues/919)
 
 ## Other
 
@@ -396,6 +463,45 @@ Set 中使用的规则，Map 中使用的规则
 1. [Object.is](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is)
 1. 真值表
 1. hasChanged
+
+### 闭包运用
+
+运用闭包的封闭性，其他代码无法获取闭包变量
+
+```js
+const ref = Symbol()
+
+let inIsRef = false
+
+const obj = Object.defineProperty(obj, '__v_ref', {
+  get() {
+    return inIsRef ? mark : void 0
+  },
+})
+
+function isRef(obj) {
+  inIsRef = true
+  const value = obj.__v_ref === ref
+  inIsRef = false
+  return value
+}
+```
+
+### Proxy / Reflect
+
+```js
+// 机制如何？
+Reflect.get(target, prop, receiver)
+```
+
+### WeakMap / WeakSet
+
+这两者的内部原理
+
+WeakMap key 只能是对象，key 不能枚举 读写 O(n)
+
+[WeakMap](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap)
+[WeakSet](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/WeakSet)
 
 ## 参考
 
