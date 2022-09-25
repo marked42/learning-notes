@@ -90,6 +90,9 @@ Reactive 对象使用起来应该跟原来的对象行为一致，只多出来�
 1. in operator
 1. Object.keys()
 1. 不改变原型，`__proto__`
+1. 对象类型适合用什么 object/ Record<any, any>
+1. reactive 函数的返回值类型
+1. isReactive 的类型
 
 对于原对象的修改，应该反应到 Reactive 对象；对于 Reactive 对象的修改，应该应用到原始对象。
 
@@ -100,6 +103,7 @@ Reactive 对象使用起来应该跟原来的对象行为一致，只多出来�
 1. 属性更新
 1. 属性新增
 1. 属性删除
+1. well known symbol 需要排除，不做监听，还有一些特殊属性。
 
 依赖单个属性
 
@@ -133,6 +137,8 @@ prop in obj
 数组与对象的差异之处
 
 1. 有 length 属性，length 属性和单个数组下标操作相关
+
+拦截数组下标是字符串类型，进行长度对比需要注意。
 
 数组属性
 
@@ -340,6 +346,8 @@ scheduler 机制
 1. 触发时机调度 sync/pre/post
 1. 其他自定义 CustomRef
 
+dep re-tracking optimization https://github.com/vuejs/core/pull/4017
+
 ```ts
 watch(source, callback)
 ```
@@ -350,10 +358,6 @@ watch(source, callback)
    1. 变动之后触发了什么？Effect
 
 ## Ref
-
-1. oldValue/rawValue 为什么
-
-[Array ref unwrapping](https://github.com/vuejs/core/issues/737)
 
 ObjectRef
 
@@ -371,17 +375,92 @@ ObjectRef
 
 isRef
 
-### customRef
+## Ref
 
-1. 自定义 track 和 trigger 时机
+### ref/isRef/unref
 
-shallowRef/triggerRef/shallowReadonly/shallowReactive
+1. should hold primitive/non-primitive value
+1. should be reactive
+1. deep by default
+1. should unwrap nested ref
+1. work with reactive, nested in reactive or reactive nested in ref
+1. Type declaration for ref function vue source implementation is different
+1. ref 的单独的 dep 字段，使用 depMap 的设计？
+1. `UnwrapRef`接受类型参数 T，应该从 T 中提取单纯的非 Ref 类型
+
+```ts
+// 普通类型
+number -> number
+// Ref嵌套类型
+Ref<number> -> number
+Ref<Ref<number>> -> number
+
+// 对象嵌套Ref
+{
+    a: number,
+    b: Ref<number>
+}
+
+->
+{
+    a: number,
+    b: number
+}
+
+// 数组嵌套Ref
+[number, Ref<number>]
+
+-> [number, number]
+```
+
+数组的形式的`[T] extends [Ref]`什么作用，和`T extends Ref`有什么区别？
+
+数组内的 Ref 不进行 Unwrap，与集合的处理类似
+
+```ts
+export function ref<T extends object>(
+  value: T
+): [T] extends [Ref] ? T : Ref<UnwrapRef<T>>
+```
+
+1. 标志位`__is_ref` 该如何设计
+   1. 只读、不可枚举、不可写、不可配置、不可伪造
+   1. getter prop only is not writable but may be slower
+1. 类属性写法如何标记 enumerable/configurable/writable
+
+1. unref
+
+```ts
+// v1的类型推导为1 而不是number，为什么
+const v1 = unref(1)
+// v2 符合预期，推导为 number
+const v2 = unref(ref(1))
+```
+
+### ref unwrapping
+
+[Array ref unwrapping](https://github.com/vuejs/core/issues/737)
+[unwrapping](https://vuejs.org/guide/essentials/reactivity-fundamentals.html#ref-unwrapping-in-templates)
 
 ### toRef/proxyRef/toRefs
 
-## ref unwrapping
+1.  toRef [#1900](https://github.com/vuejs/core/pull/1900)为什么提升了性能？
+1.  toRef 的类型函数类型如何处理 返回值的类型使用 if any
+1.  toRefs warn on non-reactive object cause toRefs is designed to work with reactive one
 
-[unwrapping](https://vuejs.org/guide/essentials/reactivity-fundamentals.html#ref-unwrapping-in-templates)
+```
+// If the the type T accepts type "any", output type Y, otherwise output type N.
+// https://stackoverflow.com/questions/49927523/disallow-call-with-any/49928360#49928360
+export type IfAny<T, Y, N> = 0 extends 1 & T ? Y : N
+```
+
+### customRef
+
+1. customRef track/trigger
+
+### shallowRef/triggerRef
+
+/shallowReadonly/shallowReactive
 
 ## 计算数据
 
@@ -502,6 +581,30 @@ WeakMap key 只能是对象，key 不能枚举 读写 O(n)
 
 [WeakMap](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap)
 [WeakSet](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/WeakSet)
+
+### iteration
+
+https://262.ecma-international.org/6.0/#sec-getiterator
+
+```js
+const proxy = new Proxy(new Map())
+
+// 必须拦截[Symbol.iterator]: entries 的实现
+// 原生实现 会报错 TypeError: Method Map.prototype.entries called on incompatible receiver #<Map>
+for (const v of proxy) {
+}
+```
+
+at Proxy.entries (<anonymous>) 要求 entries 的 object 参数必须是 Map, 实际是 proxy
+
+prop === Symbol.iterator ? target : receiver,
+
+OBJECT_ITERATE_KEY
+
+1. [Symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol)
+1. Proxy Reflect https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/ownKeys
+
+1. isIntegerKey 数组本身是如何判断的？ property accessor
 
 ## 参考
 
