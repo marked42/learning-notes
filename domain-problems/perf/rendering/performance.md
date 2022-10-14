@@ -1,17 +1,28 @@
 # 浏览器
 
+[Web Performance](https://www.bilibili.com/video/BV1s34y1r7hB)
+[Web Performance MDN](https://developer.mozilla.org/en-US/docs/Learn/Performance/What_is_web_performance)
+
+[Web Performance In Action](https://livebook.manning.com/book/web-performance-in-action/chapter-1/23)
+
+https://developers.google.com/speed
+https://www.youtube.com/watch?v=YJGCZCaIZkQ
+https://www.youtube.com/watch?v=bkwWe0BYWVg
+
+[Critical Rendering Path](https://www.bilibili.com/video/BV1V84y1F7py)
+
 1 Page building—Set up the user interface.
 2 Event handling —Enter a loop F waiting for events to occur G, and start invoking event handlers.
 
 浏览器构建页面的过程包括两个步骤：
 
-1. 解析HTML源码构建DOM树
-1. 执行HTML源码中的Javascript代码，`<script>`标签中的全局Javascript代码是同步执行的，浏览器在解析到`script`标签时会停止构建DOM树，转而去执行Javascript代码。
+1. 解析 HTML 源码构建 DOM 树
+1. 执行 HTML 源码中的 Javascript 代码，`<script>`标签中的全局 Javascript 代码是同步执行的，浏览器在解析到`script`标签时会停止构建 DOM 树，转而去执行 Javascript 代码。
 
 浏览器在构建页面的过程中可以在这两个过程根据需要切换执行，直到页面构建完成。
 
 1. [浏览器渲染机制](https://www.html5rocks.com/zh/tutorials/internals/howbrowserswork/)
-https://developers.google.cn/web/fundamentals/performance/critical-rendering-path/render-tree-construction
+   https://developers.google.cn/web/fundamentals/performance/critical-rendering-path/render-tree-construction
 
 2. https://developers.google.cn/web/fundamentals/performance/critical-rendering-path/render-tree-construction
 
@@ -26,32 +37,32 @@ https://developers.google.com/web/fundamentals/performance/rendering#the_pixel_p
 
 ![Frame](./frame-full.jpg)
 
-重排(relayout,reflow), 重绘(repaint),分层合成（GPU加速，渲染更快，缺点：占用更多内存)
+重排(relayout,reflow), 重绘(repaint),分层合成（GPU 加速，渲染更快，缺点：占用更多内存)
 
 1. 什么情况下元素形成单独的层？
-  1. z-index， opacity
-  1. overflow截断
-  1. translate2d 二维变换不会形成单独的层，所以trick的方式使用`translateZ()`或者`translate3d(0, 0, 0)`来迫使元素单独一层，`will-change`
+1. z-index， opacity
+1. overflow 截断
+1. translate2d 二维变换不会形成单独的层，所以 trick 的方式使用`translateZ()`或者`translate3d(0, 0, 0)`来迫使元素单独一层，`will-change`
 
-#### GPU加速
+#### GPU 加速
 
-GPU被设计用来快速进行渲染相关的复杂的几何数学运算，将这些运算从CPU转移到GPU能够提高渲染速度。GPU加速依赖于分层渲染机制，页面中某些元素发生变化（如`transform3d()`）时，该元素被提升到单独的层中进行渲染，其他元素不必重新渲染，只需要重新进行合成操作即可，GPU执行合成操作相比于CPU快很多。
+GPU 被设计用来快速进行渲染相关的复杂的几何数学运算，将这些运算从 CPU 转移到 GPU 能够提高渲染速度。GPU 加速依赖于分层渲染机制，页面中某些元素发生变化（如`transform3d()`）时，该元素被提升到单独的层中进行渲染，其他元素不必重新渲染，只需要重新进行合成操作即可，GPU 执行合成操作相比于 CPU 快很多。
 
-DOM元素样式的变化可能触发渲染流水线布局、绘制、合成等不同阶段的变化，触发变化的阶段在渲染流水线中越晚，生成下一帧需要的计算越少，速度越快。
+DOM 元素样式的变化可能触发渲染流水线布局、绘制、合成等不同阶段的变化，触发变化的阶段在渲染流水线中越晚，生成下一帧需要的计算越少，速度越快。
 参考[CSS Triggers](https://csstriggers.com/)查看不同属性变换触发的渲染阶段。常见的如下：
 
-1. 布局阶段 - 尺寸相关的CSS `width` `height` `margin` `border`
-1. 渲染阶段 - 不影响尺寸样式的CSS `color` `visibility` `border-style` `outline` `background`
-1. 合成阶段 - 造成元素单独分层的CSS `opacity` `transform`
+1. 布局阶段 - 尺寸相关的 CSS `width` `height` `margin` `border`
+1. 渲染阶段 - 不影响尺寸样式的 CSS `color` `visibility` `border-style` `outline` `background`
+1. 合成阶段 - 造成元素单独分层的 CSS `opacity` `transform`
 
-属性值变化只影响到合成层的CSS属性(`opacity`, `transform`)
+属性值变化只影响到合成层的 CSS 属性(`opacity`, `transform`)
 
 只触发合成操作的属性变化渲染成本最低，因此浏览器能够非常[高效的实现相关动画效果](https://www.html5rocks.com/en/tutorials/speed/high-performance-animations/)。
 
 ![Cheap Operations](./cheap-operations.jpg)
 ![Safe Operations](./safe-properties.jpg)
 
-因为分层渲染的性能优势，所以存在一种Hack优化方法，使用`translateZ(0)`或者`translate3d(0,0,0)`强制使元素提升到单独的层进行分层渲染。但是这种分层本身也是有初始成本的，如果很多元素被强制分层可能造成动画开始阶段卡顿，参考这个[案列](https://wesleyhales.com/blog/2013/10/26/Jank-Busting-Apples-Home-Page/)。
+因为分层渲染的性能优势，所以存在一种 Hack 优化方法，使用`translateZ(0)`或者`translate3d(0,0,0)`强制使元素提升到单独的层进行分层渲染。但是这种分层本身也是有初始成本的，如果很多元素被强制分层可能造成动画开始阶段卡顿，参考这个[案列](https://wesleyhales.com/blog/2013/10/26/Jank-Busting-Apples-Home-Page/)。
 
 [FLIP](https://aerotwist.com/blog/flip-your-animations/)
 [Stick to Compositor-Only Properties and Manage Layer Count](https://developers.google.com/web/fundamentals/performance/rendering/stick-to-compositor-only-properties-and-manage-layer-count)
@@ -67,17 +78,16 @@ DOM元素样式的变化可能触发渲染流水线布局、绘制、合成等�
 
 1. 不要在太多元素和属性属性上使用`will-change`，如果较少元素的属性变化频繁，此时直接使用`will-change`带来的渲染速度提升是合适的。
 1. 在属性变化开始前的合适时机使用`will-change`属性，给浏览器一个提前量（200ms）执行分层操作，这样在属性开始变化时已经完成分层，就可以高效的重新渲染。
-    1. 在元素`click`时变化的属性可以在元素或者父元素`hover`时添加`will-change`.
-    1. 或者使用Javascript在合适时机添加`will-change`.
+   1. 在元素`click`时变化的属性可以在元素或者父元素`hover`时添加`will-change`.
+   1. 或者使用 Javascript 在合适时机添加`will-change`.
 1. 动画或者样式变化结束后及时移除`will-change`属性
-
 
 [Everything You Need to Know About the CSS will-change Property](https://dev.opera.com/articles/css-will-change-property/)
 [CSS Will Change Module Level 1](https://drafts.csswg.org/css-will-change/)
 
-#### RAIL模型
+#### RAIL 模型
 
-[RAIL模型](https://developers.google.com/web/fundamentals/performance/rail)将网页性能划分为四个方面，并对每个方面提出性能衡量标准和优化指导，以期带给用户丝滑的体验。
+[RAIL 模型](https://developers.google.com/web/fundamentals/performance/rail)将网页性能划分为四个方面，并对每个方面提出性能衡量标准和优化指导，以期带给用户丝滑的体验。
 
 ![RAIL](./rail.png)
 
@@ -87,13 +97,13 @@ DOM元素样式的变化可能触发渲染流水线布局、绘制、合成等�
 
 这里的相应针对按钮点击、表单组件勾选、触发动画等大多数用户输入，但是不包括拖拽和滚动。
 
-为了达到用户输入在100ms内完成，响应事件应该在**50ms**内执行完成，因为用户响应事件可能在空闲阶段的任务中触发，然后等待空闲阶段任务执行完成后才能执行，这样的话空闲阶段任务和响应事件两个任务的总时间不能超过**100ms**。如果响应事件响应事件能非常快的完成的话，那么空闲阶段的时间越长，可以在这个阶段执行其他的任务，并且不影响用户体验。
+为了达到用户输入在 100ms 内完成，响应事件应该在**50ms**内执行完成，因为用户响应事件可能在空闲阶段的任务中触发，然后等待空闲阶段任务执行完成后才能执行，这样的话空闲阶段任务和响应事件两个任务的总时间不能超过**100ms**。如果响应事件响应事件能非常快的完成的话，那么空闲阶段的时间越长，可以在这个阶段执行其他的任务，并且不影响用户体验。
 
-对于超过50ms的事件响应，最好提供动画等用户可感知的反馈效果。
+对于超过 50ms 的事件响应，最好提供动画等用户可感知的反馈效果。
 
 #### 动画（Animation）
 
-顺畅的页面交互要求至少60FPS的刷新频率，这样一帧只有约16ms时间，而且每一帧从浏览器渲染完成到转移给GPU进行合成并显示在屏幕上需要6ms左右的时间，所以一帧动画应该在10ms或者更少的时间内完成。
+顺畅的页面交互要求至少 60FPS 的刷新频率，这样一帧只有约 16ms 时间，而且每一帧从浏览器渲染完成到转移给 GPU 进行合成并显示在屏幕上需要 6ms 左右的时间，所以一帧动画应该在 10ms 或者更少的时间内完成。
 
 动画效果:
 
@@ -105,7 +115,7 @@ https://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
 
 #### 空闲（IDLE）
 
-尽可能扩大空闲阶段，空闲阶段执行的任务在50ms内完成，这样用户能保证用户响应事件有50ms的执行时间。
+尽可能扩大空闲阶段，空闲阶段执行的任务在 50ms 内完成，这样用户能保证用户响应事件有 50ms 的执行时间。
 
 可以将执行时间较长的任务拆分成多段，在分散的空闲阶段执行，或者在后台执行这些任务。
 
@@ -113,13 +123,13 @@ https://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
 
 https://web.dev/vitals/
 
-在移动设备和3G网络上，首次页面加载完成并且可交互的总时间应该在**5s**以内，后续页面加载应该在**2s**内完成。
+在移动设备和 3G 网络上，首次页面加载完成并且可交互的总时间应该在**5s**以内，后续页面加载应该在**2s**内完成。
 
 text
 
 1. minify code [Kangax HTML Minifier](https://kangax.github.io/html-minifier/)
 1. compress gzip 对于文本文件压缩效果较好，对于图片等自带压缩的格式效果的不明显。
-https://betterexplained.com/articles/how-to-optimize-your-site-with-gzip-compression/
+   https://betterexplained.com/articles/how-to-optimize-your-site-with-gzip-compression/
 1.
 
 [You might not need jQuery](http://youmightnotneedjquery.com/#toggle_class)
@@ -130,12 +140,12 @@ https://betterexplained.com/articles/how-to-optimize-your-site-with-gzip-compres
 
 Metrics:
 
-1. DOMContentLoaded 最初的HTML页面加载和解析完成后再`document`对象上触发
-1. onload 最初的HTML页面其所依赖的相关资源（CSS样式文件、图片等）完成加载后，在`window`上触发；在`<img>`，`<embed>`等元素上在资源下载完成时出发。
+1. DOMContentLoaded 最初的 HTML 页面加载和解析完成后再`document`对象上触发
+1. onload 最初的 HTML 页面其所依赖的相关资源（CSS 样式文件、图片等）完成加载后，在`window`上触发；在`<img>`，`<embed>`等元素上在资源下载完成时出发。
 
 1. First Paint
 1. First Meaningful Paint https://web.dev/first-meaningful-paint/
-1. First Contentful Paint https://web.dev/fcp/  https://web.dev/first-contentful-paint/
+1. First Contentful Paint https://web.dev/fcp/ https://web.dev/first-contentful-paint/
 1. Largest Contentful Paint https://web.dev/lcp/
 1. First Input Delay https://web.dev/fid/
 1. Cumulative Layout Shift
@@ -171,7 +181,7 @@ https://classroom.udacity.com/courses/ud884/lessons/1469569174/concepts/15577986
 
 ### 渲染性能优化
 
-事件回调函数应该在**3ms~4ms**内完成，这样才能保证60FPS的帧率。
+事件回调函数应该在**3ms~4ms**内完成，这样才能保证 60FPS 的帧率。
 
 使用`requestAnimationFrame`替代`setTimeout`/`setInterval`执行会触发页面重新渲染的操作。因为定时器函数的任务执行时机不确定，很可能在本来应该下一帧渲染的时机触发，从而造成下一帧被错过，造成卡顿。而`requestAnimationFrame`只在一帧渲染前执行，且不会造成该帧被错过。
 
@@ -180,32 +190,31 @@ https://classroom.udacity.com/courses/ud884/lessons/1469569174/concepts/15577986
 #### WebWorker
 
 TODO:
-对于不涉及到DOM的长时间计算可以使用WebWorker在后台运行
+对于不涉及到 DOM 的长时间计算可以使用 WebWorker 在后台运行
 
 #### 任务拆分
 
 对于长时间执行的任务可以拆分成多段短任务执行，每段任务在**3ms~4ms**内完成，这样的任务最好提供进度提示动画。
 
 ```js
-var taskList = breakBigTaskIntoMicroTasks(monsterTaskList);
-requestAnimationFrame(processTaskList);
+var taskList = breakBigTaskIntoMicroTasks(monsterTaskList)
+requestAnimationFrame(processTaskList)
 
 function processTaskList(taskStartTime) {
-  var taskFinishTime;
+  var taskFinishTime
 
   do {
     // Assume the next task is pushed onto a stack.
-    var nextTask = taskList.pop();
+    var nextTask = taskList.pop()
 
     // Process nextTask.
-    processTask(nextTask);
+    processTask(nextTask)
 
     // Go again if there’s enough time to do the next task.
-    taskFinishTime = window.performance.now();
-  } while (taskFinishTime - taskStartTime < 3);
+    taskFinishTime = window.performance.now()
+  } while (taskFinishTime - taskStartTime < 3)
 
-  if (taskList.length > 0)
-    requestAnimationFrame(processTaskList);
+  if (taskList.length > 0) requestAnimationFrame(processTaskList)
 }
 ```
 
@@ -216,10 +225,10 @@ function processTaskList(taskStartTime) {
 #### 滚动事件
 
 1. input change
-1. scroll事件
+1. scroll 事件
 1. debounce throttle
 
-列表滚动时，如果没有相关事件（scroll，touchstart, touchmove, touchend)被监听，那么只需要GPU重新合成生成新滚动位置对应的帧。如果相关事件被监听，那么必须等待事件回调函数执行完成，因为在回调函数中修改样式等操作会触发重新渲染或者调用`preventDefault()`停止滚动。
+列表滚动时，如果没有相关事件（scroll，touchstart, touchmove, touchend)被监听，那么只需要 GPU 重新合成生成新滚动位置对应的帧。如果相关事件被监听，那么必须等待事件回调函数执行完成，因为在回调函数中修改样式等操作会触发重新渲染或者调用`preventDefault()`停止滚动。
 
 1. 避免在滚动相关回调函数中修改样式，触发重新渲染。
 1. 使用`passive`回调函数，手动保证不调用`preventDefault()`
@@ -228,11 +237,11 @@ Command: Scroll Performance
 
 ![ontouchmove](./ontouchmove.jpg)
 
-#### 降低CSS选择器复杂度
+#### 降低 CSS 选择器复杂度
 
-页面DOM变动时（添加、删除元素、修改元素属性、类等）浏览器重新计算元素的样式（Computed Style Calculation），对应渲染管线中Style阶段。这个阶段包括两部分：
+页面 DOM 变动时（添加、删除元素、修改元素属性、类等）浏览器重新计算元素的样式（Computed Style Calculation），对应渲染管线中 Style 阶段。这个阶段包括两部分：
 
-1. 为每个元素筛选出匹配的CSS规则
+1. 为每个元素筛选出匹配的 CSS 规则
 1. 为每个元素计算出匹配的规则中最终生效的规则。
 
 这两个部分大概各占样式计算阶段一半时间。[Style Invalidation in Blink](https://docs.google.com/document/d/1vEW86DaeVs4uQzNFI5R-_xS9TcS1Cs_EUsHRSgCHGu8/view)
@@ -242,12 +251,12 @@ Command: Scroll Performance
 
 #### 避免布局抖动（Layout Thrashing）
 
-计算元素尺寸与位置的阶段Chrome称之为布局（Layout），Firefox称之为重排（Reflow）。布局通常针对整个文档，即单个元素的尺寸变化会造成整个文档进行重新布局。
+计算元素尺寸与位置的阶段 Chrome 称之为布局（Layout），Firefox 称之为重排（Reflow）。布局通常针对整个文档，即单个元素的尺寸变化会造成整个文档进行重新布局。
 
 1. 在可能的情况下避免重新布局
-1. flexbox布局性能比老式布局好
+1. flexbox 布局性能比老式布局好
 
-使用Javascript代码修改了元素尺寸后，如果在正常的渲染管线中下次布局之前再次查询元素尺寸，会造成浏览器**强制同步布局 forced synchronous layout**以获得正确的尺寸，布局操作代价比较高，很可能造成帧率达不到60FPS。
+使用 Javascript 代码修改了元素尺寸后，如果在正常的渲染管线中下次布局之前再次查询元素尺寸，会造成浏览器**强制同步布局 forced synchronous layout**以获得正确的尺寸，布局操作代价比较高，很可能造成帧率达不到 60FPS。
 
 将所有尺寸属性写操作先全部完成，然后再读取最新的尺寸，这样将多次强制同步布局降低为一次。连续多次快速发生的**强制同步布局**被称为**布局抖动**。
 
@@ -255,29 +264,29 @@ Command: Scroll Performance
 // 读 -> 写 -> 读 -> 写 循环造成布局抖动
 function resizeAllParagraphsToMatchBlockWidth() {
   for (var i = 0; i < paragraphs.length; i++) {
-    paragraphs[i].style.width = box.offsetWidth + 'px';
+    paragraphs[i].style.width = box.offsetWidth + 'px'
   }
 }
 
 // 修改为首先读一次，然后多次写
-var width = box.offsetWidth;
+var width = box.offsetWidth
 
 function resizeAllParagraphsToMatchBlockWidth() {
   for (var i = 0; i < paragraphs.length; i++) {
-    paragraphs[i].style.width = width + 'px';
+    paragraphs[i].style.width = width + 'px'
   }
 }
 ```
 
 [FastDOM](https://github.com/wilsonpage/fastdom)
 
-#### Paint阶段
+#### Paint 阶段
 
-Chrome -> Rendering 标签下勾选**Paint Flashing**选项，界面渲染时触发Paint的部分绿色前景展示。
+Chrome -> Rendering 标签下勾选**Paint Flashing**选项，界面渲染时触发 Paint 的部分绿色前景展示。
 
 ![Paint Flash](./paintflash.png)
 
-将频繁重复Paint的元素提升到单独的层中，减小Paint发生的区域。
+将频繁重复 Paint 的元素提升到单独的层中，减小 Paint 发生的区域。
 
 # 首屏时间优化
 
@@ -285,11 +294,10 @@ Chrome -> Rendering 标签下勾选**Paint Flashing**选项，界面渲染时触
 
 1. 构建页面请求
 1. 查找缓存 https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Caching_FAQ
-1. DNS解析，DNS也有缓存策略
-1. 等待TCP队列， 同一个域名最多有6个TCP连接
-1. 建立TCP链接
-1. 发送HTTP请求
-
+1. DNS 解析，DNS 也有缓存策略
+1. 等待 TCP 队列， 同一个域名最多有 6 个 TCP 连接
+1. 建立 TCP 链接
+1. 发送 HTTP 请求
 
 ## 避免重定向
 
@@ -307,11 +315,11 @@ curl -I http://time.geekbang.org/
 
 ## 图片压缩
 
-## html压缩
+## html 压缩
 
-## js压缩
+## js 压缩
 
-## css压缩
+## css 压缩
 
 1. https://zhuanlan.zhihu.com/p/67134654
 1. https://juejin.im/post/5c4418006fb9a049c043545e
@@ -326,7 +334,7 @@ curl -I http://time.geekbang.org/
 1. https://zhuanlan.zhihu.com/p/34585166
 1. https://zhuanlan.zhihu.com/p/38548289
 
-高性能响应式Web开发实战
+高性能响应式 Web 开发实战
 
 https://www.youtube.com/watch?v=thNyy5eYfbc
 
@@ -336,4 +344,4 @@ https://www.youtube.com/watch?v=thNyy5eYfbc
 
 ### 解析渲染过程
 
-css不阻塞js的加载，但阻塞js的执行
+css 不阻塞 js 的加载，但阻塞 js 的执行
