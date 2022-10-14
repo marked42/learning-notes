@@ -15,6 +15,10 @@ Questions
 1. Trampoline 蹦床函数
 1. continuation passing style
 
+1. Functional
+   1. [谈递归（一）：递归的五种定式](https://zhuanlan.zhihu.com/p/84452538)
+   1. [函数式编程](https://www.bilibili.com/video/BV1Mh411Z7LC)
+
 References
 
 1. https://blog.moertel.com/tags/recursion-to-iteration%20series.html

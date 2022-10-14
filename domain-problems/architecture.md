@@ -54,8 +54,6 @@ http://aosabook.org/en/500L/making-your-own-image-filters.html
 
 http://aosabook.org/en/500L/a-continuous-integration-system.html
 
-### Semver
-
 ### Static Site Generator
 
 https://www.webdevdrops.com/en/build-static-site-generator-nodejs-8969ebe34b22/
