@@ -5,6 +5,7 @@ Parsing 技术
 1. [.npmrc](https://docs.npmjs.com/cli/v8/configuring-npm/npmrc) [npm/ini](https://github.com/npm/ini)
 1. HTML Parser
 1. CSS Parser
+1. Semver
 1. XML http://aosabook.org/en/posa/parsing-xml-at-the-speed-of-light.html
 1. regexp
    1. [Build a Regex Engine in Less than 40 Lines of Code](https://nickdrane.com/build-your-own-regex/)

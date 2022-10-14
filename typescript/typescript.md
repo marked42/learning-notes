@@ -1,9 +1,197 @@
 # Typescript
 
+1. Effective Typescript
+1. [Typescript Evolution 前 19 篇 Done](https://mariusschulz.com/blog/series/typescript-evolution) [Course](https://mariusschulz.com/blog/series/typescript-evolution)
+1. [type challenge](https://github.com/type-challenges/type-challenges)
+1. [solutions](https://ghaiklor.github.io/type-challenges-solutions/en/)
 1. [来玩 TypeScript 啊，机都给你开好了！](https://zhuanlan.zhihu.com/c_206498766)
+1. https://www.bilibili.com/video/BV1fy4y1v74P
+1. https://www.bilibili.com/video/BV14Y41187iG
 
+1. [图灵完备](https://github.com/Microsoft/TypeScript/issues/14833)
+1. [Type Thoery](https://en.wikipedia.org/wiki/Type_theory) [Structural Type System](https://en.wikipedia.org/wiki/Structural_type_system) [Nominal Type System](https://en.wikipedia.org/wiki/Nominal_type_system)
+1. https://en.wikipedia.org/wiki/Covariance_and_contravariance_%28computer_science%29#Covariant_arrays_in_Java_and_C.23
+1. https://github.com/Microsoft/TypeScript/wiki/FAQ#faqs
+
+1. [pattern matching for Typescript ts-pattern](https://www.youtube.com/watch?v=vGVvJuazs84)
+1. [Ultility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html)
+1. [TypeScript is more than you think](https://dev.to/macsikora/typescript-is-more-than-you-think-2nbf)
+
+## 工程问题
+
+1. [Typescript 内置的类型声明文件](https://mariusschulz.com/blog/built-in-type-declarations-in-typescript)
+1. [代码生成 Helper 工具函数](https://mariusschulz.com/blog/external-helpers-library-in-typescript)
+1. [untyped import](https://mariusschulz.com/blog/untyped-imports-in-typescript)
+1. [导入 JSON 模块](https://mariusschulz.com/blog/importing-json-modules-in-typescript)
 1. tsconfig.json target/module/references/composite/ incremental build
 1. import from an auto generate ES5 commonjs file, how to ignore type check
+1. TSConfig.json
+   1. noImplictAny
+   1. [--showConfig](https://mariusschulz.com/blog/the-showconfig-compiler-option-in-typescript)
+   1. [--strict](https://mariusschulz.com/blog/the-strict-compiler-option-in-typescript)
+   1. [--downLevelIteration](https://mariusschulz.com/blog/downlevel-iteration-for-es3-es5-in-typescript)
+
+## Types
+
+1. 从基础类型介绍，逐步构建起整个 Typescript 的类型系统？ null/undefined/string/number/symbol/boolean/bigint/void/object/any/unknown/never
+1. [literal types](https://mariusschulz.com/blog/more-literal-types-in-typescript)
+1. string literal/boolean literal/numeric literal/enum literal
+1. [literal type intference](https://mariusschulz.com/blog/improved-inference-for-literal-types-in-typescript) [Const Contexts](https://github.com/Microsoft/TypeScript/pull/29510)
+1. 类型推导 as const
+1. type widening / type narrowing
+   1. type guard / user defined type guard
+   1. tagged union/discriminated union
+1. 可以类型推导(type inference)的地方，不要使用类型标注(type annotation)。
+1. 使用类型标注(type annotation)优先于类型转换(type conversion) as
+1. 在自动类型推到知道的信息不足时，使用类型标注声明更准确的信息；函数返回值使用类型标注，内部实现返回类型不对时可以快速报错。
+
+```ts
+// 字面量类型推导增强
+// 1. 初始化常量 2. 初始化 readonly属性
+let baseUrl = 'https://example.com/'
+const baseUrl = 'https://example.com/'
+```
+
+字面量赋值给 const 变量的话，变量值无法修改，所以可以将类型推断为字面量本身。如果赋值给 var/let 变量，变量后续可以改变，
+将类型推断为对应的集合类型 string/number/boolean/enum 更合适。
+
+[literal type non-widening](https://mariusschulz.com/blog/literal-type-widening-in-typescript#non-widening-literal-types)
+
+```ts
+const stringLiteral: 'https' = 'https' // Type "https" (non-widening)
+const numericLiteral: 42 = 42 // Type 42 (non-widening)
+
+let widenedStringLiteral = stringLiteral // Type "https" (non-widening)
+let widenedNumericLiteral = numericLiteral // Type 42 (non-widening)
+```
+
+PRS
+
+1. https://github.com/Microsoft/TypeScript/pull/10676
+1. https://github.com/Microsoft/TypeScript/pull/1112
+1. https://github.com/Microsoft/TypeScript/issues/10938#issuecomment-247476364
+
+## Key Points
+
+1. [infer 关键字使用](https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#inferring-within-conditional-types)
+1. [infer ](https://github.com/Microsoft/TypeScript/pull/21496)
+1. [Type Manipulation](https://www.typescriptlang.org/docs/handbook/2/types-from-types.html)
+1. [Conditional Type](https://zhuanlan.zhihu.com/p/47590228)
+1. https://mariusschulz.com/blog/conditional-types-in-typescript
+1. [unknown](https://mariusschulz.com/blog/the-unknown-type-in-typescript) [PR](https://github.com/Microsoft/TypeScript/pull/24439)
+
+### Null
+
+https://mariusschulz.com/blog/series/typescript-evolution
+https://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare/
+
+1. [null check](https://mariusschulz.com/blog/null-checking-for-expression-operands-in-typescript)
+1. [nullish](https://mariusschulz.com/blog/nullish-coalescing-the-operator-in-typescript)
+1. [optional chaining](https://mariusschulz.com/blog/optional-chaining-the-operator-in-typescript)
+
+map 函数中的类型问题
+
+```ts
+const jackson5 = ['Jackie', 'Tito', 'Jermaine', 'Marlon', 'Michael']
+const members = ['Janet', 'Michael'].map((who) =>
+  jackson5.find((n) => n === who)
+) // Type is (string | undefined)[]
+
+// 返回类型还是包含undefined
+const members = ['Janet', 'Michael']
+  .map((who) => jackson5.find((n) => n === who))
+  .filter((who) => who !== undefined) // Type is (string | undefined)[]
+
+// 使用type guard
+function isDefined<T>(x: T | undefined): x is T {
+  return x !== undefined
+}
+const members = ['Janet', 'Michael']
+  .map((who) => jackson5.find((n) => n === who))
+  .filter(isDefined) // Type is string[]
+```
+
+### any
+
+尽量避免使用 any
+
+### Object
+
+1. Object Structural Typing Pick/Record/Omit Readonly/DeepReadonly
+1. [可选属性](https://zhuanlan.zhihu.com/p/43206436)
+1. https://mariusschulz.com/blog/read-only-properties-in-typescript
+1. https://mariusschulz.com/blog/null-checking-for-expression-operands-in-typescript
+1. [Object Rest Spread](https://mariusschulz.com/blog/object-rest-and-spread-in-typescript)
+1. [keyof ](https://mariusschulz.com/blog/keyof-and-lookup-types-in-typescript) `PropertyKey`
+1. [object/Object/{}](https://mariusschulz.com/blog/the-object-type-in-typescript)
+1. [index](https://mariusschulz.com/blog/dotted-properties-and-string-index-signatures-in-typescript)
+1. structural typing, type is not sealed, 具有更多属性 property 的值可以赋值给 type
+
+```ts
+import type { Equal, Expect } from '@type-challenges/utils'
+Equal 函数，判断两个类型相同
+```
+
+```ts
+type User = {
+  id: number
+  kind: string
+}
+
+function makeCustomer<T extends User>(u: T): T {
+  // Below error, why?
+  return {
+    id: u.id,
+    kind: 'customer',
+  }
+}
+```
+
+空对象 https://dev.to/macsikora/advanced-typescript-exercises-answer-7-3k5e
+
+使用 never type，利用任何类型都与 never 不兼容的特性创造出 error，进行类型约束。
+
+```ts
+// 7.1 Create type which will allow only for a empty object value
+
+type EmptyObject = {
+  [K in PropertyKey]: never
+} // empty object only, 🔥 change the type to be exclusive for any field
+
+// test cases
+const shouldPass: EmptyObject = {} // this should be ok 🟢
+const shouldFail: EmptyObject = {
+  prop: 1, // here we should have compile error 🛑
+}
+
+// 7.2 Change function type to be exlusive for its argument
+
+type SomeType = {
+  prop: string
+}
+
+type Exclusive<T, S> = {
+  [K in keyof T | keyof S]: K extends keyof S ? S[K] : never
+}
+
+// change below function type definition 🔥 in order to allow only strict SomeType value
+function takeSomeTypeOnly<T>(x: Exclusive<T, SomeType>) {
+  return x
+}
+
+const x = { prop: 'a' }
+takeSomeTypeOnly(x) // this should be ok 🟢
+
+// 报错
+const y = { prop: 'a', addditionalProp: 'x' }
+takeSomeTypeOnly(y) // here we should have compile error 🛑
+
+// 报错
+// const y = { prop: 'a', addditionalProp: 'x' };
+takeSomeTypeOnly({}) // here we should have compile error 🛑
+```
+
+Excessive Check
 
 默认不要开启 esModuleInterop: true，让 typescript 提醒用法错误
 
@@ -18,6 +206,81 @@ import * as path from 'path'
 
 JSON.parse(path.dirname('name'))
 ```
+
+### Array & Tuple
+
+Head/Tail/First/Last//Include/Concat/Length/Push/Pop/Shift/Unshift/DropN
+
+[Tuple](https://zhuanlan.zhihu.com/p/38687656)
+[Fixed Length Tuple](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-7.html#fixed-length-tuples)
+
+TODO:
+
+1. [Include](https://github.com/type-challenges/type-challenges/blob/main/questions/00898-easy-includes/README.md)
+
+```ts
+// 典型的错误写法 infer关键字的类型只能在条件为真的分支使用
+type Includes<T extends readonly any[], U> = T extends []
+  ? false
+  : T extends [infer A, ...infer B]
+  ? Equal<A, U>
+  : Includes<B, U>
+
+type Includes<T extends readonly any[], U> = T extends []
+  ? false
+  : T extends [infer A, ...infer B]
+  ? // 借助Equal判断类型相同
+    Equal<A, U> extends true
+    ? true
+    : // 使用类型B只能在true为真的分支
+      Includes<B, U>
+  : never
+
+// 更简单的实现
+type Includes<T extends readonly any[], U> = T extends [
+  infer First,
+  ...infer Rest
+]
+  ? Equal<First, U> extends true
+    ? true
+    : Includes<Rest, U>
+  : false
+```
+
+### never
+
+1. 标记函数不会正常返回的情况，死循环/抛出异常等
+1. 标记变量类型不可能存在的情况 `const val : string & number;`相当于空集
+
+1. https://www.typescriptlang.org/docs/handbook/release-notes/overview.html#the-never-type
+
+never 变量任何属性访问都会报错, never 是[bottom type](https://en.wikipedia.org/wiki/Bottom_type), void 是[unit type](https://en.wikipedia.org/wiki/Unit_type)
+
+1. https://mariusschulz.com/blog/the-never-type-in-typescript
+1. https://stackoverflow.com/questions/40251524/typescript-never-type-inference
+
+### other
+
+1. recursive type
+1. [Tagged Union](https://mariusschulz.com/blog/tagged-union-types-in-typescript)
+
+### Function
+
+1. Function Overloads & Conditional Types is Better Item 50 Paramters/ReturnType/ThisType
+
+1. [Function Flexibility Considered Harmful](https://dev.to/macsikora/function-flexibility-considered-harmful-447n)
+
+## Advanced Exercises
+
+1. TDD test types
+1. https://dev.to/macsikora/advanced-typescript-exercises-question-1-45k4
+1. [JSON](https://www.bilibili.com/video/BV14Y41187iG) JSON Parser
+1. Curry [Curry for Ramda](https://medium.com/free-code-camp/typescript-curry-ramda-types-f747e99744ab)
+1. [Patient](https://dev.to/macsikora/typescript-exercises-bonus-type-of-pandemia-1fd0)
+1. [用 TypeScript 类型体操实现 Base64 编解码](https://zhuanlan.zhihu.com/p/525186722)
+1. [用 TypeScript 类型体操实现大整数计算](https://zhuanlan.zhihu.com/p/558338467)
+1. [TypeScript 类型体操天花板，用类型运算写一个 Lisp 解释器](https://zhuanlan.zhihu.com/p/427309936)
+1. [用 TypeScript 模板字面类型来制作 URL parser](https://zhuanlan.zhihu.com/p/213985834)
 
 ## terminology
 
@@ -1431,9 +1694,20 @@ type M3 = {
 }
 ```
 
-#### 元组（Tuple）
+#### Array & 元组（Tuple）
 
 元组类型元素个数固定，且每个位置的类型独立。元组类型用来准确推导函数参数类型。
+
+```ts
+T[number] 获取 Tuple 和数组 的值类型
+// T[0]
+type First<T extends any[]> = T extends [infer F, ...(infer R)] ? F : never
+type Last<T extends any[]> = T extends [...(infer F), infer R] ? R : never
+type Length<T extends readonly any[]> = T['length'];
+// T[T.length]
+```
+
+[Awaited](https://github.com/type-challenges/type-challenges/blob/main/questions/00189-easy-awaited/README.md)
 
 获取一个元组类型的第一个元素类型
 
@@ -1946,16 +2220,14 @@ const key = 'first'
 a[key]
 ```
 
-#### 图灵完备
+## Readonly & Mapped Type
 
-https://github.com/Microsoft/TypeScript/issues/14833
-https://mariusschulz.com/blog/series/typescript-evolution
+```ts
+// 标准实现
+type Readonly<T> = { readonly [K in keyof T]: T[K] }
+// 下面结果为什么等同于number
+Readonly<number>
 
-https://www.coursera.org/learn/programming-languages
-
-https://en.wikipedia.org/wiki/Covariance_and_contravariance_%28computer_science%29#Covariant_arrays_in_Java_and_C.23
-
-https://github.com/Microsoft/TypeScript/wiki/FAQ#faqs
-
-1. this https://zhuanlan.zhihu.com/p/104565681?utm_source=wechat_session&utm_medium=social&utm_oi=32148677459968
-1. https://zhuanlan.zhihu.com/p/38555715
+// 标准 Readonly 的实现为什么不约束 T 必须是对象？不是对象readonly没有意义
+type Readonly<T extends object> = { readonly [K in keyof T]: T[K] }
+```
