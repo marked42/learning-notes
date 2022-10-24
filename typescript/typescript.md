@@ -58,7 +58,7 @@ Blogs
 1. [literal types](https://mariusschulz.com/blog/more-literal-types-in-typescript)
 1. string literal/boolean literal/numeric literal/enum literal
 1. [Every Day Types](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html)
-1. [literal type intference](https://mariusschulz.com/blog/improved-inference-for-literal-types-in-typescript) [Const Contexts](https://github.com/Microsoft/TypeScript/pull/29510)
+1. [literal type inference](https://mariusschulz.com/blog/improved-inference-for-literal-types-in-typescript) [Const Contexts](https://github.com/Microsoft/TypeScript/pull/29510)
 1. 类型推导 as const
 1. type widening / type narrowing
    1. type guard / user defined type guard
@@ -554,28 +554,6 @@ function double(x) {
 使用条件类型能更加准确
 
 1. [Function Flexibility Considered Harmful](https://dev.to/macsikora/function-flexibility-considered-harmful-447n)
-
-```ts
-function testThrow() {
-  throw new Error('un')
-
-  // 因为上边抛出了异常，这里的代码不可到达
-  console.log('unreachable code')
-}
-
-function testThrowWrapper() {
-  function panic() {
-    throw 1
-  }
-
-  // 这里抛出异常
-  panic()
-  // return panic()
-
-  // TODO: 控制流分析没有检测出这里的代码不可到达
-  console.log('unreachable code')
-}
-```
 
 ### Promise
 
@@ -1758,8 +1736,6 @@ const HTTPRequestMethod: {
   PUT: "PUT",
   TRACE: "TRACE"
 ```
-
-control flow analysis https://github.com/microsoft/TypeScript/pull/32695
 
 this parameter
 function
