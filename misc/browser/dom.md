@@ -25,6 +25,8 @@ The reasons are:
 
 HTML 规范中的[解析算法](https://html.spec.whatwg.org/multipage/parsing.html)
 
+1. [HTML Syntax](https://html.spec.whatwg.org/#syntax)
+
 HTML 解析库
 
 1. 分词 Data State -> Tag Open State -> Tag Name State
@@ -63,3 +65,13 @@ Nodes ->
 [Parsing HTML](https://html.spec.whatwg.org/multipage/parsing.html#parse-state)
 [html5 parsing test](https://github.com/html5lib/html5lib-tests)
 [Constructing the Object Model](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/constructing-the-object-model?hl=en#document-object-model-dom)
+
+## Attribute & DOM Properties
+
+1.  https://github.com/justjavac/the-front-end-knowledge-you-may-not-know/blob/master/archives/015-dom-attributes-and-properties.md
+1.  https://juejin.cn/post/6844903874143191047
+1.  https://joji.me/zh-cn/blog/html-attribute-vs-dom-property/
+1.  https://dotnettutorials.net/lesson/html-attribute-vs-dom-property/
+1.  https://stackoverflow.com/questions/6003819/what-is-the-difference-between-properties-and-attributes-in-html
+1.  https://www.geeksforgeeks.org/html-dom-attributes-property/
+1.  https://reactjs.org/docs/dom-elements.html
