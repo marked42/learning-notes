@@ -15,7 +15,6 @@ parsers & engines
 1. typescript
 1. esprima
 1. acorn/[acorn-jsx](https://github.com/acornjs/acorn-jsx)
-1. eslint
 1. prettier
 1. https://github.com/v8/v8/blob/6.4.286/src/parsing/scanner.cc
 1. https://github.com/mozilla/narcissus/
@@ -50,8 +49,8 @@ ECMAScript 规定数字属性按照索引值大小升序排列，字符串属性
 
 ```js
 // 顺序不同隐藏类不同
-let point1 = { x: 100, y: 200 };
-let point2 = { y: 100, x: 200 };
+let point1 = { x: 100, y: 200 }
+let point2 = { y: 100, x: 200 }
 
 // 一次初始化完整对象属性
 // 尽量不使用delete删除对象属性
@@ -117,15 +116,15 @@ garbage collection
 1.  [microtask 队列与 async/await 源码分析](https://zhuanlan.zhihu.com/p/134647506)
 1.  [Promise V8 源码分析(一)](https://zhuanlan.zhihu.com/p/264944183)
 
--   [ ] [深入 V8 引擎-第 01 课：上手开始看 V8 Ignition 解释器的字节码（Bytecodes）](https://www.bilibili.com/video/BV1FJ411E7Sf)
--   [ ] [v8 引擎是如何知道 js 数据类型的？](https://www.zhihu.com/question/62732293/answer/201723301)
--   [ ] [如何在 V8 源码里找到某个 JS 方法是如何实现的？](https://www.zhihu.com/question/59792274/answer/168987086)
--   [ ] [从 Chrome 源码看 JS Array 的实现](https://zhuanlan.zhihu.com/p/26388217)
--   [ ] [lazy parsing](https://zhuanlan.zhihu.com/p/63326335)
--   [ ] [理解 V8 的字节码「译」](https://zhuanlan.zhihu.com/p/28590489)
--   [ ] [JS 在引擎级别的执行过程@周爱民](https://www.bilibili.com/video/BV1Wy4y1b7PG)
--   [ ] 新手上路学习 JavaScript 引擎实现——路线图 https://zhuanlan.zhihu.com/p/20505562
--   [ ] [新手应该如何读 Google V8 引擎源代码？](https://www.zhihu.com/question/39014659)
--   [ ] [JavaScript engine fundamentals: Shapes and Inline Caches](https://mathiasbynens.be/notes/shapes-ics)
--   [ ] [JavaScript engine fundamentals: optimizing prototypes](https://mathiasbynens.be/notes/prototypes)
--   [ ] [解读 V8 GC Log（二）: 堆内外内存的划分与 GC 算法](https://developer.aliyun.com/article/592880)
+- [ ] [深入 V8 引擎-第 01 课：上手开始看 V8 Ignition 解释器的字节码（Bytecodes）](https://www.bilibili.com/video/BV1FJ411E7Sf)
+- [ ] [v8 引擎是如何知道 js 数据类型的？](https://www.zhihu.com/question/62732293/answer/201723301)
+- [ ] [如何在 V8 源码里找到某个 JS 方法是如何实现的？](https://www.zhihu.com/question/59792274/answer/168987086)
+- [ ] [从 Chrome 源码看 JS Array 的实现](https://zhuanlan.zhihu.com/p/26388217)
+- [ ] [lazy parsing](https://zhuanlan.zhihu.com/p/63326335)
+- [ ] [理解 V8 的字节码「译」](https://zhuanlan.zhihu.com/p/28590489)
+- [ ] [JS 在引擎级别的执行过程@周爱民](https://www.bilibili.com/video/BV1Wy4y1b7PG)
+- [ ] 新手上路学习 JavaScript 引擎实现——路线图 https://zhuanlan.zhihu.com/p/20505562
+- [ ] [新手应该如何读 Google V8 引擎源代码？](https://www.zhihu.com/question/39014659)
+- [ ] [JavaScript engine fundamentals: Shapes and Inline Caches](https://mathiasbynens.be/notes/shapes-ics)
+- [ ] [JavaScript engine fundamentals: optimizing prototypes](https://mathiasbynens.be/notes/prototypes)
+- [ ] [解读 V8 GC Log（二）: 堆内外内存的划分与 GC 算法](https://developer.aliyun.com/article/592880)
