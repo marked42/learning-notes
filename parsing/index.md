@@ -19,6 +19,8 @@ Parsing 技术
 
 ## language design
 
+[Three Things I Wish I Knew When I Started Designing Languages](https://www.youtube.com/watch?v=oa0qq75i9oc)
+
 功能列表
 
 1. 基础的值与表达式类型 数字、字符串、布尔值

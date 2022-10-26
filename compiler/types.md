@@ -6,8 +6,14 @@
 1. [dependent types without the sugar](http://www.cs.nott.ac.uk/~psztxa/publ/pisigma-new.pdf)
 1. [你的类型，0：基本的合一](https://zhuanlan.zhihu.com/p/24181997)
 1. [简评: The Little Typer(可能是最容易理解的关于 Dependent Type 的书)](https://zhuanlan.zhihu.com/p/54532349)
-1. types and programs language
 1. type inheritance & relational theory
 
-1. Concepts of Programming Language Chapter 6
 1. Programming Language Pragmatics Chapter 7/8
+1. Concepts of Programming Language Chapter 6
+1. Types and Programming Languages
+1. Programming with Types
+
+1. [Covariance & Contra-variance](<https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)>)
+1. [Gradual Typing](https://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/)
+1. Unreachable code analysis/Dead code elimination/tree shaking
+1. eslint code path analysis

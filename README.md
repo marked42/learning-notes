@@ -27,9 +27,6 @@
 1.  智能化方向
     1. [前端智能化实践从需求文档生成代码@桑世龙（狼叔） @李帅（卓风](https://www.bilibili.com/video/BV13b4y1D7Bp)
 1.  [Typescript 重构 Axios](https://www.bilibili.com/video/BV1f54y1L7PV)
-1.  JS/TS
-    - [ ] [TS Type Challenge](https://github.com/type-challenges/type-challenges)
-    - [ ] [有趣也有用的现代类型系统](https://zhuanlan.zhihu.com/p/33882384)
 
 ## HTTP
 
@@ -149,12 +146,6 @@ JS 模式
 - [ ] [Javascript Twenty Years](https://cn.history.js.org/)
 - [ ] https://zh.javascript.info/
 - [ ] Javascript 核心原理解析 周爱民
-
-- [x] Effective Javascript
-- [x] Secrets of the Javascript Ninja
-- [x] Eloquent Javascript
-
-- [x] Understanding Javascript 6
 
 通用模式
 

@@ -55,6 +55,7 @@ Blogs
 ## Types
 
 1. 从基础类型介绍，逐步构建起整个 Typescript 的类型系统？ null/undefined/string/number/symbol/boolean/bigint/void/object/any/unknown/never
+1. [Type Compatibility](https://www.typescriptlang.org/docs/handbook/type-compatibility.html)
 1. [literal types](https://mariusschulz.com/blog/more-literal-types-in-typescript)
 1. string literal/boolean literal/numeric literal/enum literal
 1. [Every Day Types](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html)
