@@ -1759,8 +1759,6 @@ const HTTPRequestMethod: {
   TRACE: "TRACE"
 ```
 
-control flow analysis https://github.com/microsoft/TypeScript/pull/32695
-
 this parameter
 function
 constructor
