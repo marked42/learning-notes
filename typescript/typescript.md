@@ -15,6 +15,7 @@ Blogs
 1. [Typescript Evolution](https://mariusschulz.com/blog/series/typescript-evolution) [Course](https://mariusschulz.com/blog/series/typescript-evolution)
 1. [type challenge](https://github.com/type-challenges/type-challenges)
 1. [solutions](https://ghaiklor.github.io/type-challenges-solutions/en/)
+1. [推荐解法 Recommend](https://github.com/type-challenges/type-challenges/labels/recommended)
 1. [来玩 TypeScript 啊，机都给你开好了！](https://zhuanlan.zhihu.com/c_206498766)
 1. [Typescript - Advanced Types](https://www.bilibili.com/video/BV1fy4y1v74P)
    [TypeScript Fundamentals](https://www.bilibili.com/video/BV14Y41187iG)
@@ -47,7 +48,7 @@ Blogs
 1. tsconfig.json target/module/references/composite/ incremental build
 1. import from an auto generate ES5 commonjs file, how to ignore type check
 1. TSConfig.json
-   1. noImplictAny
+   1. noImplicitAny
    1. [--showConfig](https://mariusschulz.com/blog/the-showconfig-compiler-option-in-typescript)
    1. [--strict](https://mariusschulz.com/blog/the-strict-compiler-option-in-typescript)
    1. [--downLevelIteration](https://mariusschulz.com/blog/downlevel-iteration-for-es3-es5-in-typescript)
@@ -56,13 +57,15 @@ Blogs
 
 1. 从基础类型介绍，逐步构建起整个 Typescript 的类型系统？ null/undefined/string/number/symbol/boolean/bigint/void/object/any/unknown/never
 1. [Type Compatibility](https://www.typescriptlang.org/docs/handbook/type-compatibility.html)
+1. 函数的 compatibility 参数类型、返回值类型、参数个数、逆变、协变
 1. [literal types](https://mariusschulz.com/blog/more-literal-types-in-typescript)
 1. string literal/boolean literal/numeric literal/enum literal
 1. [Every Day Types](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html)
-1. [literal type intference](https://mariusschulz.com/blog/improved-inference-for-literal-types-in-typescript) [Const Contexts](https://github.com/Microsoft/TypeScript/pull/29510)
+1. [literal type inference](https://mariusschulz.com/blog/improved-inference-for-literal-types-in-typescript) [Const Contexts](https://github.com/Microsoft/TypeScript/pull/29510)
 1. 类型推导 as const
 1. type widening / type narrowing
-   1. type guard / user defined type guard
+   1. if/switch 语句
+   1. built-in type guard (typeof/instanceof/Array.isArray/in)/ user defined type guard
    1. tagged union/discriminated union
 1. 可以类型推导(type inference)的地方，不要使用类型标注(type annotation)。
 1. 使用类型标注(type annotation)优先于类型转换(type conversion) as
@@ -140,6 +143,30 @@ panTo(loc)
 // and cannot be assigned to the mutable type '[number, number]'
 ```
 
+数组的类型推导
+
+```ts
+// any[]
+const arr1 = []
+
+arr1.push(123)
+// number[]
+arr1
+
+arr1.push('abc')
+// (string | number)[]
+arr1
+```
+
+数组下标默认为在范围内，不做检查。
+
+```ts
+const message: string[] = ['hello']
+
+// string
+const message = messages[3]
+```
+
 回调处的类型推导
 
 ```ts
@@ -164,6 +191,8 @@ PRS
 ## Key Points
 
 1. [infer 关键字使用](https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#inferring-within-conditional-types)
+   [infer ](https://dev.to/aexol/typescript-tutorial-infer-keyword-2cn)
+   [infer](https://jkchao.github.io/typescript-book-chinese/tips/infer.html)
 1. [Type inference in conditional types #21496](https://github.com/Microsoft/TypeScript/pull/21496)
 1. [Type Manipulation](https://www.typescriptlang.org/docs/handbook/2/types-from-types.html)
 1. [Tail-Recursion Elimination on Conditional Types](https://devblogs.microsoft.com/typescript/announcing-typescript-4-5/#tailrec-conditional)
@@ -279,6 +308,14 @@ type V2 = T extends true ? '1' : '2'
 
 [Conditional Types](https://mariusschulz.com/blog/conditional-types-in-typescript)
 
+[Lookup](https://github.com/type-challenges/type-challenges/blob/main/questions/00062-medium-type-lookup/README.md)
+
+```ts
+type LookUp<T extends { type: string }, U extends string> = T['type'] extends U
+  ? T
+  : never
+```
+
 ### Indexed Type
 
 ### Null
@@ -350,7 +387,7 @@ function extent(nums: number[]) {
 }
 ```
 
-### any
+### any & unknown
 
 尽量避免使用 any
 
@@ -524,6 +561,25 @@ for (const k in obj) {
 Object.entries(obj).forEach(([key, value]) => {})
 ```
 
+### interface
+
+Members
+
+```ts
+interface ExampleInterface {
+  // Property signature
+  myProperty: boolean
+  // Method signature
+  myMethod(str: string): number
+  // Index signature
+  [key: string]: any
+  // Call signature
+  (num: number): string
+  // Construct signature
+  new (str: string): ExampleInstance
+}
+```
+
 ### never
 
 1. 标记函数不会正常返回的情况，死循环/抛出异常等
@@ -544,6 +600,7 @@ never 变量任何属性访问都会报错, never 是[bottom type](https://en.wi
 ### Function
 
 1. Function Overloads & Conditional Types is Better Item 50 Parameters/ReturnType/ThisType
+1. overloading
 
 ```ts
 // 为下面的函数添加合适的类型声明，需要支持数字相加和字符串拼接
@@ -577,64 +634,6 @@ function testThrowWrapper() {
   console.log('unreachable code')
 }
 ```
-
-### Promise
-
-TODO: Promise 相关函数的类型标注
-
-```ts
-// 注意这里标记为Promise<never>
-function timeout(ms: number): Promise<never> {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => reject('timeout'), ms)
-  })
-}
-
-// 正确返回类型为 Promise<Response>
-function fetchWithTimeout(url: string, ms: number) {
-  return Promise.race([timeout(ms), fetch(url)])
-}
-```
-
-[Promise.all](https://ghaiklor.github.io/type-challenges-solutions/en/medium-promise-all.html)
-
-```ts
-// Type instantiation is excessively deep and possibly infinite.(2589)
-type AwaitedArray<T> = T extends [...infer H, ...infer Tail]
-  ? [Awaited<H>, ...AwaitedArray<Tail>]
-  : never
-
-declare function PromiseAll<T extends any[]>(
-  values: readonly [...T]
-): Promise<AwaitedArray<T>>
-
-// type Awaited<T> = T extends Promise<infer V> ? V : T;
-// type AwaitedArray<T> = T extends [infer F, ...(infer R)] ? [Awaited<F>, ...AwaitedArray<R>] : Awaited<T>;
-// declare function PromiseAll<T extends any[]>(values: readonly [...T]): Promise<AwaitedArray<T>>
-
-import type { Equal, Expect } from '@type-challenges/utils'
-
-type Includes<T extends readonly any[], U> = T extends [
-  infer First,
-  ...infer Rest
-]
-  ? Equal<First, U> extends true
-    ? true
-    : Includes<Rest, U>
-  : false
-
-const promiseAllTest1 = PromiseAll([1, 2, 3] as const)
-const promiseAllTest2 = PromiseAll([1, 2, Promise.resolve(3)] as const)
-const promiseAllTest3 = PromiseAll([1, 2, Promise.resolve(3)])
-
-type cases = [
-  Expect<Equal<typeof promiseAllTest1, Promise<[1, 2, 3]>>>,
-  Expect<Equal<typeof promiseAllTest2, Promise<[1, 2, number]>>>,
-  Expect<Equal<typeof promiseAllTest3, Promise<[number, number, number]>>>
-]
-```
-
-因为直接使用 Promise 函数容易写出同步异步混用的函数，优先使用 async/await 语法能避免这种情况。
 
 ## test types
 

@@ -1,5 +1,17 @@
 # 作用域
 
+1. JS 的 scope 作用域分析/引用分析/读引用/写引用，哪些节点会声明引用
+
+   1. 一个名称的变量(var)可能多次声明，let/const 重复声明的处理？
+   1. TDZ
+   1. rules no-var.js / prefer-const / no-const-assign / no-delete-var / no-inner-declarations / no-undef / no-unused-vars / no-user-before-define / init-declarations / no-delete-var / no-global-assign/no-label-var / no-shadow / no-undef-init / one-var / one-var-declaration-per-line / sort-vars / vars-on-top
+   1. var/let 的区别 在全局声明的效果、重复声明、变量名称（let 禁止）、TDZ、作用域范围 block(for/switch)/function
+   1. 调试 eslint 源码
+   1. [eslint-scope](https://github.com/eslint/eslint-scope)
+   1. [ESTools](https://github.com/orgs/estools/repositories)
+   1. http://estools.github.io/escope/index.html
+   1. rename 的功能
+
 1. 变量声明，hoisting 提升
 
 1. 动态作用域，静态作用域
