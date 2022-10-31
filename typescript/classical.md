@@ -166,4 +166,72 @@ type Bar = {
   b: number
   c: boolean
 }
+
+type WS = ' ' | '\t' | '\n'
+// ' Hello' | '\tHello' | '\nHello'
+type Union = `${WS}Hello`
+```
+
+## Chainable
+
+TODO: 函数的参数类型是如何匹配推导的？
+这里第一个参数似乎是直接推导为 K，知道了 K 是"name"，然后通过 ChainableKeys 得到 never
+
+1. 参考 ts-pattern 库
+
+```ts
+type Chainable<T = {}> = {
+  option<K extends string, V>(
+    key: ChainableKeys<T, K, V>,
+    value: V
+  ): Chainable<Record<K, V> & Omit<T, K>>
+  get(): T
+}
+
+type ChainableKeys<T, K, V> = K extends keyof T
+  ? V extends T[K]
+    ? never
+    : K
+  : K
+
+/* _____________ Test Cases _____________ */
+import type { Alike, Expect } from '@type-challenges/utils'
+
+declare const a: Chainable
+
+const result1 = a
+  .option('foo', 123)
+  .option('bar', { value: 'Hello World' })
+  .option('name', 'type-challenges')
+  .get()
+
+const result2 = a
+  .option('name', 'another name')
+  // @ts-expect-error
+  .option('name', 'last name')
+  .get()
+
+const result3 = a.option('name', 'another name').option('name', 123).get()
+
+type cases = [
+  Expect<Alike<typeof result1, Expected1>>,
+  Expect<Alike<typeof result2, Expected2>>,
+  Expect<Alike<typeof result3, Expected3>>
+]
+
+type Expected1 = {
+  foo: number
+  bar: {
+    value: string
+  }
+  name: string
+}
+
+type Expected2 = {
+  name: string
+}
+
+type Expected3 = {
+  name: number
+}
 ```
