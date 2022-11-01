@@ -2,6 +2,10 @@
 
 ## 入门
 
+1. [语法高亮功能](https://mp.weixin.qq.com/s/hZtiTGUJjLKaxb2PIr4Zag)
+
+## Debug ES6 javascript
+
 创建 Extension 项目
 
 [创建一个插件](https://code.visualstudio.com/api/get-started/your-first-extension)
