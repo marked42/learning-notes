@@ -9,3 +9,5 @@ Deep dive Into Javascript
 1. 语言特性的应用，并且从规范中剖析其原理
 1. JS 的典型问题场景与模式
 1. 从实现 JS 引擎的角度进行解读
+
+[33-js-concepts](https://github.com/leonardomso/33-js-concepts)

@@ -39,7 +39,7 @@ Firefox 会在有样式表在下载或者解析时阻塞所有脚本的执行，
 1. [W3C Build Your Own Browser](https://www.w3.org/blog/2008/09/build-your-own-browser/)
 1. [Webkit for Developers](https://www.paulirish.com/2013/webkit-for-developers/)
 1. [Life of a Pixel](https://docs.google.com/presentation/d/1boPxbgNrTU0ddsc144rcXayGA_WF53k96imRH8Mp34Y/edit#slide=id.ga884fe665f_64_6)
-   1. [Life of a Pixel](https://zhuanlan.zhihu.com/p/44737615)
+1. [Life of a Pixel](https://zhuanlan.zhihu.com/p/44737615)
 1. [How Blink Works](https://docs.google.com/document/d/1aitSOucL0VHZa9Z2vbRJSyAIsAz24kX8LFByQ5xQnUg/edit?pli=1#)
    1. [How Blink Works 中文译文](https://zhuanlan.zhihu.com/p/52918538)
    1. [DOM](https://chromium.googlesource.com/chromium/src/+/refs/heads/main/third_party/blink/renderer/core/dom/README.md)
@@ -51,3 +51,11 @@ Firefox 会在有样式表在下载或者解析时阻塞所有脚本的执行，
    1. [中文简体](https://zhuanlan.zhihu.com/p/47407398)
 1. [How Browsers Work: Behind the scenes of modern web browsers](https://www.html5rocks.com/en/tutorials/internals/howbrowserswork/)
 1. [浏览器布局](https://zhuanlan.zhihu.com/p/25445527)
+
+1. [浏览器工作原理与实践](https://time.geekbang.org/column/intro/216)
+1. [Let's Build A Browser Engine](https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html)
+1. [浏览器渲染详细过程：重绘、重排和 composite 只是冰山一角](https://juejin.im/entry/590801780ce46300617c89b8)
+
+1. [从 Chrome 源码看 WebSocket](https://zhuanlan.zhihu.com/p/37350346)
+1. [websocket](https://zhuanlan.zhihu.com/p/25592934)
+1. [WebSocket 与 TCP/IP](https://zhuanlan.zhihu.com/p/27021102)

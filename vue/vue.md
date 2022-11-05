@@ -1,11 +1,14 @@
 # Vue
 
 1. vue
+
    1. 类似 vue template 解析
    1. [Vue 的模板编译](https://www.bilibili.com/video/BV1Rf4y1S7RN?from=search&seid=12773308433329510711)
    1. vue publisher/subscriber
    1. [vue 的 nextTick 批量更新](https://zhuanlan.zhihu.com/p/36553258)
    1. https://zhuanlan.zhihu.com/p/24435564
+   1. [Vue3 Compiler 优化细节，如何手写高性能渲染函数](https://zhuanlan.zhihu.com/p/150732926)
+
 1. 虚拟 DOM 算法
    1. https://zhuanlan.zhihu.com/p/36500459
    1. https://zhuanlan.zhihu.com/p/101176821

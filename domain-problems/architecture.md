@@ -27,6 +27,10 @@
 1. https://github.com/petkaantonov/bluebird/wiki/Promise-anti-patterns#the-deferred-anti-pattern
 1. http://pinkyjie.com/2015/07/20/promise-actually-i-really-do-not-know-you/
 
+1. twitter https://zhuanlan.zhihu.com/p/29732224
+1. https://www.zhihu.com/question/65624888/answer/236561676
+1. [前端应用开发：从数据流到真实应用之间，隔了些什么东西？](https://zhuanlan.zhihu.com/p/61451331)
+
 ### error handling
 
 错误处理与日志，如何组织
@@ -37,14 +41,8 @@
 
 1. [IM](https://www.bilibili.com/video/BV1yW4y1r7Tz)
 
-### Printer
-
-对所罗列的资料做梳理，推荐先后顺序
-
-Prettier
-
-1. [A Prettier Formatter](https://archive.jlongster.com/A-Prettier-Formatter)
-1. [a prettier printer](https://homepages.inf.ed.ac.uk/wadler/papers/prettier/prettier.pdf)
+1. [现代 IM 系统中消息推送和存储架构的实现](https://zhuanlan.zhihu.com/p/31143916)
+1. [使用 Node.js 实现文件流转存服务](https://zhuanlan.zhihu.com/p/25367269)
 
 ### Image filter
 

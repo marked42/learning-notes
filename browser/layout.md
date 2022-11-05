@@ -173,17 +173,27 @@ Skia: https://mp.weixin.qq.com/s/gs1CBWpnPpbK2fD9tQKEKw
 （Relayout Reflow）
 
 1. [Preventing 'layout thrashing'](http://blog.wilsonpage.co.uk/preventing-layout-thrashing/)
+1. [Stacking Context](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context)
+
+1. [Box Sizing Module Level 3](https://drafts.csswg.org/css-sizing-3/#valdef-width-max-content)
+
+1. [Layout Thrashing](https://devhints.io/layout-thrashing)
+1. 布局 https://eloquentjavascript.net/14_dom.html#h_lyrY2KUDl7
 
 ## Flexbox & Grid
 
-TODO:
+### Flex
+
+1. [CSS Flexible Box Layout](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout)
+1. CSS The Definitive Guide, 4th Edition Chapter 12
+1. [Specification](http://www.w3.org/TR/css-flexbox-1/)
+1. https://philipwalton.github.io/solved-by-flexbox/
 
 1. bfc https://zhuanlan.zhihu.com/p/52426569
 1. [从 Chrome 源码看浏览器如何 layout 布局](https://www.zhihu.com/collection/144350453)
 1. [Web Layout History](http://grid-layout.com/history.html) [中文简体](https://zhuanlan.zhihu.com/p/104927765)
 1. layoutNG https://zhuanlan.zhihu.com/p/37847490
-1. [深入了解 CSS 字体度量，行高和 vertical-align](https://www.w3cplus.com/css/css-font-metrics-line-height-and-vertical-align.html)
-1. [Deep dive CSS: font metrics, line-height and vertical-align](https://iamvdo.me/en/blog/css-font-metrics-line-height-and-vertical-align)
+
 1. [Blink Layout](https://www.youtube.com/watch?v=Y5Xa4H2wtVA)
 
 1. [WebCore Rendering](https://webkit.org/blog/115/webcore-rendering-ii-blocks-and-inlines/)
@@ -197,3 +207,10 @@ TODO:
 1. [Efficiently Rendering CSS](https://css-tricks.com/efficiently-rendering-css/)
 1. [Rendering: repaint, reflow/relayout, restyle](https://www.phpied.com/rendering-repaint-reflowrelayout-restyle/)
 1. http://www.nowamagic.net/academy/part/48/115/#
+
+### Font
+
+1. [深入了解 CSS 字体度量，行高和 vertical-align](https://www.w3cplus.com/css/css-font-metrics-line-height-and-vertical-align.html)
+1. [Deep dive CSS: font metrics, line-height and vertical-align](https://iamvdo.me/en/blog/css-font-metrics-line-height-and-vertical-align)
+1. [line-height vertical-align](https://zhuanlan.zhihu.com/p/51189193)
+1. [What is vertical align](https://css-tricks.com/what-is-vertical-align/)
