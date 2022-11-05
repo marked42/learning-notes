@@ -133,6 +133,8 @@ type Combination<
 
 ## TS2589
 
+Why ?
+
 ```ts
 type RepeatX<N extends number, T extends any[] = []> = T['length'] extends N
   ? T
@@ -146,6 +148,25 @@ type T2 = RepeatX<50> // => any
 它是由泛型实例化递归嵌套过深造成的。
 因为泛型 RepeatX 接收了一个数字类型入参 N，并返回了一个长度为 N、元素都是 'X' 的数组类型，所以第 1 个类型 T1 包含了 5 个 "X" 的数组类型。但是第 2 个类型 T2 的类型却是 any，并且提示了 TS2589 类型错误。这是因为 TypeScript 在处理递归类型的时候，最多实例化 50 层，如果超出了递归层数的限制，TypeScript 便不会继续实例化，并且类型会变为 top 类型 any。
 对于上面的错误，我们使用 @ts-ignore 注释忽略即可。
+
+```ts
+// Type instantiation is excessively deep and possibly infinite.(2589)
+// Expression produces a union type that is too complex to represent.(2590)
+type InorderTraversal1<T extends TreeNode | null> = T extends TreeNode
+  ? [
+      ...InorderTraversal1<T['left']>,
+      T['val'],
+      ...InorderTraversal1<T['right']>
+    ]
+  : T extends null
+  ? []
+  : never
+
+// 改成这样不报错
+type InorderTraversal<T extends TreeNode | null> = [T] extends [TreeNode]
+  ? [...InorderTraversal<T['left']>, T['val'], ...InorderTraversal<T['right']>]
+  : []
+```
 
 ## Union 类型的分配式处理
 
@@ -234,4 +255,40 @@ type Expected2 = {
 type Expected3 = {
   name: number
 }
+```
+
+IsTuple
+
+```ts
+type IsTuple<T> =
+  // exclude bottom type never
+  [T] extends [never]
+    ? false
+    : // otherwise it satifies this branch
+    [T] extends [readonly unknown[]]
+    ? number extends T['length']
+      ? false
+      : true
+    : false
+
+/* _____________ Test Cases _____________ */
+import type { Equal, Expect } from '@type-challenges/utils'
+
+type cases = [
+  Expect<Equal<IsTuple<[]>, true>>,
+  Expect<Equal<IsTuple<[number]>, true>>,
+  Expect<Equal<IsTuple<readonly [1]>, true>>,
+  Expect<Equal<IsTuple<{ length: 1 }>, false>>,
+  Expect<Equal<IsTuple<number[]>, false>>,
+  Expect<Equal<IsTuple<never>, false>>
+]
+```
+
+## Recursive
+
+```ts
+export type Last<T extends any[]> = {
+  0: Last<Tail<T>>
+  1: Head<T>
+}[HasTail<T> extends true ? 0 : 1]
 ```

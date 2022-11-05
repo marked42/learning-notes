@@ -151,3 +151,85 @@ type cases = [
   >
 ]
 ```
+
+kebab-case
+
+```ts
+/* _____________ Your Code Here _____________ */
+type IsUpperCase<C extends string> = C extends Lowercase<C> ? false : true
+type KebabCase<S extends string> = S extends `${infer H}${infer Rest}`
+  ? `${Lowercase<H>}${KebabCaseHelper<Rest>}`
+  : S
+
+type KebabCaseHelper<S extends string> = S extends `${infer H}${infer Rest}`
+  ? IsUpperCase<H> extends true
+    ? `-${Lowercase<H>}${KebabCaseHelper<Rest>}`
+    : `${H}${KebabCaseHelper<Rest>}`
+  : S
+
+type T = KebabCase<'foo-bar'>
+
+/* _____________ Test Cases _____________ */
+import type { Equal, Expect } from '@type-challenges/utils'
+
+type cases = [
+  Expect<Equal<KebabCase<'FooBarBaz'>, 'foo-bar-baz'>>,
+  Expect<Equal<KebabCase<'fooBarBaz'>, 'foo-bar-baz'>>,
+  Expect<Equal<KebabCase<'foo-bar'>, 'foo-bar'>>,
+  Expect<Equal<KebabCase<'foo_bar'>, 'foo_bar'>>,
+  Expect<Equal<KebabCase<'Foo-Bar'>, 'foo--bar'>>,
+  Expect<Equal<KebabCase<'ABC'>, 'a-b-c'>>,
+  Expect<Equal<KebabCase<'-'>, '-'>>,
+  Expect<Equal<KebabCase<''>, ''>>,
+  Expect<Equal<KebabCase<'😎'>, '😎'>>
+]
+```
+
+CamelCase
+
+```ts
+type PascalCase<S extends string> = S extends `${infer F}_${infer Rest}`
+  ? `${Capitalize<Lowercase<F>>}${PascalCase<Rest>}`
+  : Capitalize<Lowercase<S>>
+
+type CamelCase<S extends string> = Uncapitalize<PascalCase<S>>
+
+/* _____________ Test Cases _____________ */
+import type { Equal, Expect } from '@type-challenges/utils'
+
+type cases = [
+  Expect<Equal<CamelCase<'foobar'>, 'foobar'>>,
+  Expect<Equal<CamelCase<'FOOBAR'>, 'foobar'>>,
+  Expect<Equal<CamelCase<'foo_bar'>, 'fooBar'>>,
+  Expect<Equal<CamelCase<'foo_bar_hello_world'>, 'fooBarHelloWorld'>>,
+  Expect<Equal<CamelCase<'HELLO_WORLD_WITH_TYPES'>, 'helloWorldWithTypes'>>,
+  Expect<Equal<CamelCase<'-'>, '-'>>,
+  Expect<Equal<CamelCase<''>, ''>>,
+  Expect<Equal<CamelCase<'😎'>, '😎'>>
+]
+```
+
+StartsWith
+
+```ts
+type StartsWith<T extends string, U extends string> = T extends `${U}${string}`
+  ? true
+  : false
+
+type EndsWith<T extends string, U extends string> = T extends `${string}${U}`
+  ? true
+  : false
+
+/* _____________ Test Cases _____________ */
+import type { Equal, Expect } from '@type-challenges/utils'
+
+type cases = [
+  Expect<Equal<StartsWith<'abc', 'ac'>, false>>,
+  Expect<Equal<StartsWith<'abc', 'ab'>, true>>,
+  Expect<Equal<StartsWith<'abc', 'abc'>, true>>,
+  Expect<Equal<StartsWith<'abc', 'abcd'>, false>>,
+  Expect<Equal<StartsWith<'abc', ''>, true>>,
+  Expect<Equal<StartsWith<'abc', ' '>, false>>,
+  Expect<Equal<StartsWith<'', ''>, true>>
+]
+```

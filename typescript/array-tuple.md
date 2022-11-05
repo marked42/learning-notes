@@ -432,3 +432,40 @@ type cases = [
   Expect<Equal<GreaterThan<111, 11>, true>>
 ]
 ```
+
+Reverse
+
+```ts
+type Reverse<T> = T extends [infer F, ...infer L] ? [...Reverse<L>, F] : T
+
+/* _____________ Test Cases _____________ */
+import type { Equal, Expect } from '@type-challenges/utils'
+
+type cases = [
+  Expect<Equal<Reverse<[]>, []>>,
+  Expect<Equal<Reverse<['a', 'b']>, ['b', 'a']>>,
+  Expect<Equal<Reverse<['a', 'b', 'c']>, ['c', 'b', 'a']>>
+]
+```
+
+Zip
+
+```ts
+type Zip<T extends unknown[], U extends unknown[]> = [T, U] extends [
+  [infer T1, ...infer Rest],
+  [infer U1, ...infer R1]
+]
+  ? [[T1, U1], ...Zip<Rest, R1>]
+  : []
+
+/* _____________ Test Cases _____________ */
+import type { Equal, Expect } from '@type-challenges/utils'
+
+type cases = [
+  Expect<Equal<Zip<[], []>, []>>,
+  Expect<Equal<Zip<[1, 2], [true, false]>, [[1, true], [2, false]]>>,
+  Expect<Equal<Zip<[1, 2, 3], ['1', '2']>, [[1, '1'], [2, '2']]>>,
+  Expect<Equal<Zip<[], [1, 2, 3]>, []>>,
+  Expect<Equal<Zip<[[1, 2]], [3]>, [[[1, 2], 3]]>>
+]
+```

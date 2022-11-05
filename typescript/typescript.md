@@ -12,17 +12,23 @@ Books
 
 Blogs
 
+1. https://artsy.github.io/blog/2018/11/21/conditional-types-in-typescript/
 1. [Typescript Evolution](https://mariusschulz.com/blog/series/typescript-evolution) [Course](https://mariusschulz.com/blog/series/typescript-evolution)
 1. [type challenge](https://github.com/type-challenges/type-challenges)
+   1. [Fill](https://github.com/type-challenges/type-challenges/blob/main/questions/04518-medium-fill/README.md)
+   1. [NumberRange](https://github.com/type-challenges/type-challenges/blob/main/questions/08640-medium-number-range/README.md)
 1. [solutions](https://ghaiklor.github.io/type-challenges-solutions/en/)
-1. [推荐解法 Recommend](https://github.com/type-challenges/type-challenges/labels/recommended)
-1. [来玩 TypeScript 啊，机都给你开好了！](https://zhuanlan.zhihu.com/c_206498766)
+
+## Videos
+
+1. [TypeScript Fundamentals](https://www.bilibili.com/video/BV14Y41187iG)
+
 1. [Typescript - Advanced Types](https://www.bilibili.com/video/BV1fy4y1v74P)
-   [TypeScript Fundamentals](https://www.bilibili.com/video/BV14Y41187iG)
+1. https://www.youtube.com/watch?v=MbZoQlmQaWQ
 1. [TSConf 2021](https://www.youtube.com/watch?v=V5OnAN63vls&list=PL2z7rCjEG2kubUfEAHu-08-aK3Tyn9Zxe)
-   [TSConf 2020](https://www.youtube.com/watch?v=OZGBdh2KRrg&list=PL2z7rCjEG2ks2G0dcBmXuROUnDJP0ivAH)
-   [TSConf 2019](https://www.youtube.com/watch?v=jmPZztKIFf4&list=PL2z7rCjEG2kumYQw0tl-afLYWUk-kKREB)
-   [TSConf 2018](https://www.youtube.com/watch?v=wpgKd-rwnMw&list=PL2z7rCjEG2ksF0rJ8Qwp1y5eTjqiPIRfT)
+1. [TSConf 2020](https://www.youtube.com/watch?v=OZGBdh2KRrg&list=PL2z7rCjEG2ks2G0dcBmXuROUnDJP0ivAH)
+1. [TSConf 2019](https://www.youtube.com/watch?v=jmPZztKIFf4&list=PL2z7rCjEG2kumYQw0tl-afLYWUk-kKREB)
+1. [TSConf 2018](https://www.youtube.com/watch?v=wpgKd-rwnMw&list=PL2z7rCjEG2ksF0rJ8Qwp1y5eTjqiPIRfT)
 
 1. [TypeType](https://github.com/mistlog/typetype)
 1. [Type Gymnastics](https://github.com/g-plane/type-gymnastics)
@@ -70,6 +76,7 @@ Blogs
 1. 可以类型推导(type inference)的地方，不要使用类型标注(type annotation)。
 1. 使用类型标注(type annotation)优先于类型转换(type conversion) as
 1. 在自动类型推到知道的信息不足时，使用类型标注声明更准确的信息；函数返回值使用类型标注，内部实现返回类型不对时可以快速报错。
+1. [Trade-offs in Control Flow Analysis](https://github.com/microsoft/TypeScript/issues/9998)
 
 ```ts
 // 字面量类型推导增强
@@ -297,6 +304,84 @@ type cases = [
 ]
 ```
 
+ReplaceKeys Mapped Type 对于 U 的处理也遵循分配律
+
+```ts
+type ReplaceKeys<U, T, Y> = {
+  [P in keyof U]: P extends T ? (P extends keyof Y ? Y[P] : never) : U[P]
+}
+```
+
+keyof 对于对象的处理 Members
+
+```ts
+type TypeLiteralOnly<T> = string extends T
+  ? never
+  : number extends T
+  ? never
+  : symbol extends T
+  ? never
+  : T
+
+type RemoveIndexSignature<T> = {
+  [P in keyof T as TypeLiteralOnly<P>]: T[P]
+}
+
+/* _____________ Test Cases _____________ */
+import type { Equal, Expect } from '@type-challenges/utils'
+
+type Foo = {
+  [key: string]: any
+  foo(): void
+}
+
+type Bar = {
+  [key: number]: any
+  bar(): void
+  0: string
+}
+
+const foobar = Symbol('foobar')
+type FooBar = {
+  [key: symbol]: any
+  [foobar](): void
+}
+
+type Baz = {
+  bar(): void
+  baz: string
+}
+
+type cases = [
+  Expect<Equal<RemoveIndexSignature<Foo>, { foo(): void }>>,
+  Expect<Equal<RemoveIndexSignature<Bar>, { bar(): void; 0: string }>>,
+  Expect<Equal<RemoveIndexSignature<FooBar>, { [foobar](): void }>>,
+  Expect<Equal<RemoveIndexSignature<Baz>, { bar(): void; baz: string }>>
+]
+```
+
+Flip
+
+```ts
+type AllowedTypes = string | number | boolean
+
+type Flip<T> = {
+  [P in keyof T as T[P] extends AllowedTypes ? `${T[P]}` : never]: P
+}
+
+/* _____________ Test Cases _____________ */
+import type { Equal, Expect, NotEqual } from '@type-challenges/utils'
+
+type cases = [
+  Expect<Equal<{ a: 'pi' }, Flip<{ pi: 'a' }>>>,
+  Expect<NotEqual<{ b: 'pi' }, Flip<{ pi: 'a' }>>>,
+  Expect<Equal<{ 3.14: 'pi'; true: 'bool' }, Flip<{ pi: 3.14; bool: true }>>>,
+  Expect<
+    Equal<{ val2: 'prop2'; val: 'prop' }, Flip<{ prop: 'val'; prop2: 'val2' }>>
+  >
+]
+```
+
 ### Conditional Type
 
 ```ts
@@ -314,6 +399,13 @@ type V2 = T extends true ? '1' : '2'
 type LookUp<T extends { type: string }, U extends string> = T['type'] extends U
   ? T
   : never
+```
+
+IsUnion 利用 Union 的分配特性
+
+```ts
+// T是Union的话，在true分支中代表单个类型 [C] extends [T] 不成立
+type IsUnion<T, C = T> = T extends C ? ([C] extends [T] ? false : true) : never
 ```
 
 ### Indexed Type
@@ -633,6 +725,7 @@ never 变量任何属性访问都会报错, never 是[bottom type](https://en.wi
 ### Function
 
 1. Function Overloads & Conditional Types is Better Item 50 Parameters/ReturnType/ThisType
+1. [This ](https://zhuanlan.zhihu.com/p/104565681)
 1. overloading
 
 ```ts
@@ -668,6 +761,35 @@ function testThrowWrapper() {
 }
 ```
 
+## 类型推断问题
+
+1. use never to specify a function throws error
+1. assert function
+
+```ts
+// number
+function getNumber(val: number) {
+  if (val === 1) {
+    return 1
+  }
+
+  throw new Error('invalid')
+}
+
+const error = () => {
+  throw new Error('invalid')
+}
+
+// number | undefined
+function getNumber1(val: number) {
+  if (val === 1) {
+    return 1
+  }
+
+  error()
+}
+```
+
 ## test types
 
 1. TDD test types 如何测试类型？
@@ -689,9 +811,6 @@ function testThrowWrapper() {
 1. [JSON](https://www.bilibili.com/video/BV14Y41187iG) JSON Parser
 1. Curry [Curry for Ramda](https://medium.com/free-code-camp/typescript-curry-ramda-types-f747e99744ab)
 1. [Patient](https://dev.to/macsikora/typescript-exercises-bonus-type-of-pandemia-1fd0)
-1. [用 TypeScript 类型体操实现 Base64 编解码](https://zhuanlan.zhihu.com/p/525186722)
-1. [用 TypeScript 类型体操实现大整数计算](https://zhuanlan.zhihu.com/p/558338467)
-1. [TypeScript 类型体操天花板，用类型运算写一个 Lisp 解释器](https://zhuanlan.zhihu.com/p/427309936)
 1. [用 TypeScript 模板字面类型来制作 URL parser](https://zhuanlan.zhihu.com/p/213985834)
 
 ## terminology
@@ -2062,6 +2181,76 @@ type same1 = NestedReadonly<typeof a> extends ExpectedType ? true : false
 }
 ```
 
+[Mapping Modifiers](https://www.typescriptlang.org/docs/handbook/2/mapped-types.html#mapping-modifiers)
+
+```ts
+type MyMerge<T> = { [P in keyof T]: T[P] }
+type RequiredByKeys<T, K = keyof T> = MyMerge<
+  { [P in keyof T as P extends K ? P : never]-?: T[P] } & {
+    [P in keyof T as P extends K ? never : P]: T[P]
+  }
+>
+
+/* _____________ Test Cases _____________ */
+import type { Equal, Expect } from '@type-challenges/utils'
+
+interface User {
+  name?: string
+  age?: number
+  address?: string
+}
+
+interface UserRequiredName {
+  name: string
+  age?: number
+  address?: string
+}
+
+interface UserRequiredNameAndAge {
+  name: string
+  age: number
+  address?: string
+}
+type cases = [
+  Expect<Equal<RequiredByKeys<User, 'name'>, UserRequiredName>>,
+  Expect<Equal<RequiredByKeys<User, 'name' | 'unknown'>, UserRequiredName>>,
+  Expect<Equal<RequiredByKeys<User, 'name' | 'age'>, UserRequiredNameAndAge>>,
+  Expect<Equal<RequiredByKeys<User>, Required<User>>>
+]
+```
+
+Mutable
+
+```ts
+type Mutable<T extends object> = { -readonly [P in keyof T]: T[P] }
+
+/* _____________ Test Cases _____________ */
+import type { Equal, Expect } from '@type-challenges/utils'
+
+interface Todo1 {
+  title: string
+  description: string
+  completed: boolean
+  meta: {
+    author: string
+  }
+}
+
+type List = [1, 2, 3]
+
+type cases = [
+  Expect<Equal<Mutable<Readonly<Todo1>>, Todo1>>,
+  Expect<Equal<Mutable<Readonly<List>>, List>>
+]
+
+type errors = [
+  // @ts-expect-error
+  Mutable<'string'>,
+  // @ts-expect-error
+  Mutable<0>
+]
+```
+
 使用条件类型手动处理递归到基本类型的情况。
 
 ```ts
@@ -2366,6 +2555,8 @@ type T30 = ReturnType<typeof foo> // string | number
 #### UnionToIntersection
 
 利用条件类型推导和函数参数逆变实现 [UnionToIntersection](https://github.com/Microsoft/TypeScript/issues/27907?utm_source=wechat_session&utm_medium=social&utm_oi=32148677459968)，在同一个类型参数`I`受到多个分配条件类型的约束，所以被推导成多个类型的交集类型。
+
+https://stackoverflow.com/questions/50374908/transform-union-type-to-intersection-type
 
 ```ts
 type UnionToIntersection<U> =
