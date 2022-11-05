@@ -1,5 +1,8 @@
 # HTML
 
+[Parsing HTML](https://html.spec.whatwg.org/multipage/parsing.html#parse-state)
+[html5 parsing test](https://github.com/html5lib/html5lib-tests)
+
 1. HTML 标签分类 空标签、自闭合、标签的嵌套关系、标签语法容错
 
 html parsing model https://html.spec.whatwg.org/multipage/parsing.html#overview-of-the-parsing-model
