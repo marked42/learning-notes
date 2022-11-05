@@ -367,3 +367,9 @@ Regular Expression
 1. unicode property name
    https://tc39.es/ecma262/#table-binary-unicode-properties
    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Unicode_Property_Escapes
+
+JSON compatible string
+jsesc
+punycode
+
+https://mothereff.in/js-escapes#1%F0%9D%8C%86
