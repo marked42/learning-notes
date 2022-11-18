@@ -2,6 +2,8 @@
 
 元素的绘制是[分层的](https://www.w3.org/TR/CSS21/zindex.html)
 
+1. [Let's build a render tree | Rubber Duck Engineering | Episode #60](https://www.youtube.com/watch?v=VsYbFnucHsU)
+
 一个 block renderer 的顺序是
 
 1. 背景色
