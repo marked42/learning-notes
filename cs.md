@@ -80,13 +80,16 @@ https://github.com/ossu/computer-science
 1. [资料集合](https://github.com/shining1984/PL-Compiler-Resource)
 1. Language
    1. Closure
-   1. crafting interpreters
+   1. crafting interpreters Robert Nystrom
+      1. [CppCast Episode 317: Dart and Crafting Interpreters with Bob Nystrom](https://www.youtube.com/watch?v=rwwsfQ2tl3g)
+      1. [Robert Nystrom, Crafting Code | Rubber Duck Engineering | Episode #73](https://www.youtube.com/watch?v=MQufOH8bL98)
    1. Writing Compilers and Interpreters
    1. Javascript Parser
    1. LuaVM
 1. [Building an Interpreter from scratch](https://www.bilibili.com/video/BV1XZ4y1k7T7)
 1. [Essentials of Parsing](https://www.bilibili.com/video/BV1Uq4y1x7Sb)
 1. [Building a Parser from scratch](https://www.bilibili.com/video/BV1Z34y1C77r)
+1. [Writing a PEG Parser For Fun and Profit](https://www.youtube.com/watch?v=7MuQQQWVzU4)
 1. https://github.com/PacktPublishing/Build-Your-Own-Programming-Language
 1. [[资料合集] RednaxelaFX 写的文章/回答的导航帖（work in progress） ](https://zhuanlan.zhihu.com/p/25042028)
 1. [Build Your Own Language](https://github.com/danistefanovic/build-your-own-x#build-your-own-programming-language)

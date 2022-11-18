@@ -139,3 +139,16 @@ Expecting a `"` over here, eg:
 ```
 
 [Compiler Errors for Humans](https://elm-lang.org/news/compiler-errors-for-humans)
+[Parsing JSON Really Quickly: Lessons Learned](https://www.youtube.com/watch?v=wlvKAT7SZIQ)
+
+1. 分析 VScode 对于 JSON 语言的功能支持 json-schema-store
+
+```
+{
+  a: 1,
+}
+Property keys must be doublequoted
+Trailing comma json(519)
+```
+
+https://github.com/microsoft/vscode-json-languageservice
