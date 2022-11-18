@@ -1,6 +1,7 @@
 # 浏览器原理
 
 1. [自制浏览器](https://github.com/marked42/jsjs/tree/main/browser)
+1. [Web Browser Engineering](https://browser.engineering/index.html)
 
 ## 页面渲染流程
 

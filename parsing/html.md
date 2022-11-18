@@ -1,5 +1,11 @@
 # HTML
 
+## quirks mode
+
+1. https://hsivonen.fi/doctype/
+1. [HTML Syntax](https://htmlparser.info/syntax/)
+1. [Web Browser Engineering](https://browser.engineering/index.html)
+
 [Parsing HTML](https://html.spec.whatwg.org/multipage/parsing.html#parse-state)
 [html5 parsing test](https://github.com/html5lib/html5lib-tests)
 
@@ -66,6 +72,8 @@ Nodes ->
 [html5 parsing test](https://github.com/html5lib/html5lib-tests)
 [Constructing the Object Model](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/constructing-the-object-model?hl=en#document-object-model-dom)
 
+[speculative parsing](https://developer.mozilla.org/en-US/docs/Glossary/speculative_parsing)
+
 ## Attribute & DOM Properties
 
 1.  https://github.com/justjavac/the-front-end-knowledge-you-may-not-know/blob/master/archives/015-dom-attributes-and-properties.md
@@ -75,3 +83,10 @@ Nodes ->
 1.  https://stackoverflow.com/questions/6003819/what-is-the-difference-between-properties-and-attributes-in-html
 1.  https://www.geeksforgeeks.org/html-dom-attributes-property/
 1.  https://reactjs.org/docs/dom-elements.html
+
+Web 参考资料
+
+1. [Constructing a Document Tree](https://browser.engineering/html.html)
+1. [HTML 6 | Rubber Duck Engineering](https://www.youtube.com/watch?v=sWZ9HooKwjI)
+1. https://htmlparser.info/bibliography/
+1. https://browser.engineering/bibliography.html
