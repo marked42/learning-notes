@@ -80,7 +80,9 @@ https://github.com/ossu/computer-science
 1. [资料集合](https://github.com/shining1984/PL-Compiler-Resource)
 1. Language
    1. Closure
-   1. crafting interpreters
+   1. crafting interpreters Robert Nystrom
+      1. [CppCast Episode 317: Dart and Crafting Interpreters with Bob Nystrom](https://www.youtube.com/watch?v=rwwsfQ2tl3g)
+      1. [Robert Nystrom, Crafting Code | Rubber Duck Engineering | Episode #73](https://www.youtube.com/watch?v=MQufOH8bL98)
    1. Writing Compilers and Interpreters
    1. Javascript Parser
    1. LuaVM
