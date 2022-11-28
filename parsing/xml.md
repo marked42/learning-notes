@@ -10,21 +10,67 @@
 1. [XML 1.1 Second Edition](https://www.w3.org/TR/xml11/)
 
 1. [Using XML](https://alistapart.com/article/usingxml/)
+1. [Test Suite](https://www.w3.org/XML/Test/)
 
 1. 数据交换
 1. Meta Language
 
 1. XML 文档结构
 
-1. 结构上正确 well-formed
-1. 语意上正确 syntactically valid
+## 文档结构
 
-对比 HTML
+1. 结构上正确 [well-formed](https://www.w3.org/TR/xml11/#dt-wellformed)
+1. 语意上正确 syntactically [valid](https://www.w3.org/TR/xml11/#dt-valid)
 
-1. 结构不正确，规范要求抛错
-1. 没有预定义的标签
+Logical Structure declarations, elements, comments, character references, and processing instructions
+Physical Structure entities document entity
 
-Parser 的两种类型
+## Well-formed
+
+1. 文档结构符合 document 展开
+1. 结构约束 well-formedness constraints
+1. 使用的 parsed entity 也是 well-formed
+
+1. 开始标签和闭合标签成对出现，
+   1. 名称一致
+   1. 正确嵌套
+
+只有一个根元素 （root element）
+
+## 字符
+
+合法字符，Unicode 中除去代理对的其他字符
+控制字符如何处理？
+
+换行符如何处理？ https://www.w3.org/TR/xml11/#sec-line-ends
+
+[Character Data](https://www.w3.org/TR/xml11/#dt-chardata)
+
+## 注释
+
+comment 中由于与 SGML 兼容的原因，不允许包含"--"，语法设计如下
+
+Comment ::= '<!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
+
+不允许以`--->`结尾。
+
+```
+<!-- B+, B, or B--->
+```
+
+## 名称
+
+xml 开头的名称被标准保留，名称字符允许一些标点`:-_.`，也允许其他未禁止的 Unicode 字符。
+
+('X'|'x') ('M'|'m') ('L'|'l'))
+
+## 编码
+
+UTF-8/UTF-16
+
+https://www.w3.org/TR/xml11/#charencoding
+
+## Parser 的两种类型
 
 1. DOM Parser 对应结构，需要建立完整的 DOM 树，在内存中存储完整的文档内容，内存要求与文档长度相关
 1. **S**imple **A**PI for **X**ML 事件式的 API，内存使用为常数
@@ -35,3 +81,6 @@ Parser 的两种类型
 1. [XPath](https://developer.mozilla.org/en-US/docs/Web/XPath)
 
 1. [xml.com](https://www.xml.com/)
+
+1. [XML Parser In C](https://www.youtube.com/watch?v=kPFYfTvMRs8)
+1. Pugxixml

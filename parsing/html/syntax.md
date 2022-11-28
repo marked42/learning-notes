@@ -205,6 +205,17 @@ unexpected-question-mark-instead-of-tag-name
 
 <! declaration >
 
+### Processing Instruction
+
+Bogus Comment
+
+在HTML中不支持，只在XML中支持，出现的话会被当做注释。
+
+https://developer.mozilla.org/en-US/docs/Web/API/ProcessingInstruction
+https://developer.mozilla.org/en-US/docs/Web/API/Document/createProcessingInstruction
+https://www.w3.org/TR/xml/#sec-pi
+
+
 ## CDATA Sections
 
 只能用在 foreign element 中，格式如下
