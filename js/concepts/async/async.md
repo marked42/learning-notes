@@ -8,7 +8,7 @@
 1.  setTimeout/setInterval 如何实现的
 1.  [web worker](https://www.html5rocks.com/en/tutorials/workers/basics/) 是 HTML 规范的内容
     agent pattern/ [actor pattern](https://en.wikipedia.org/wiki/Actor_model)
-
+1.  [Advanced Asynchronous JavaScript](https://www.bilibili.com/video/BV1aa411676p/)
 1.  [异步编程那些事（深入）](https://zhuanlan.zhihu.com/p/28315360)
 1.  [Understanding Async Await](https://css-tricks.com/understanding-async-await/)
 1.  [异步复杂度要到什么程度才需要用到 Rxjs？](https://www.zhihu.com/question/303073602/answer/542179409)

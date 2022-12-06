@@ -29,13 +29,17 @@ https://github.com/sindresorhus/awesome
 1. [MIT6.828-神级 OS 课程-要是早遇到，我还会是这种 five 系列](https://zhuanlan.zhihu.com/p/74028717)
 1. Operating Systems: Three Easy Pieces
 1. 操作系统真象还原
+1. [从零开始自制操作系统](https://www.bilibili.com/video/BV1m14y1E7Xm/)
 1. https://www.zhihu.com/question/265653828/answer/480126552
 1. [【更新完毕】操作系统与系统编程 CS162 伯克利大学 英文字幕](https://www.bilibili.com/video/BV1SW411q7yp)
 1. [【CS 公开课】计算机程序的构造和解释（SICP）【中英字幕】【FoOTOo&HITPT&Learning-SICP】](https://www.bilibili.com/video/BV1Xx41117tr)
-1. [CSAPP 深入理解计算机系统 课程视频含英文字幕（精校字幕视频见 av31289365！！！）](https://www.bilibili.com/video/BV1XW411A7fB)
-1. [CSAPP](https://www.zhihu.com/question/20402534/answer/223555103)
-1. [CSAPP--配套实验(Bomblab)记录](https://www.jianshu.com/p/479333cbccc4)
+1. CSAPP
+   1. [CSAPP 深入理解计算机系统 课程视频含英文字幕（精校字幕视频见 av31289365！！！）](https://www.bilibili.com/video/BV1XW411A7fB)
+   1. [深入理解计算机系统](https://www.bilibili.com/video/BV17K4y1N7Q2)
+   1. [CSAPP](https://www.zhihu.com/question/20402534/answer/223555103)
 1. [如何评价斯坦福的新操作系统课程 CS140e？ ](https://www.zhihu.com/question/265653828/answer/477165288)
+1. [如何用 6000 行代码编写多进程的 x86 Linux 操作系统](https://www.bilibili.com/video/BV1jV4y1H7Gj)
+1. [每个程序员都应该知道的内存知识](https://www.bilibili.com/video/BV1Xy4y1b7SK/)
 
 1. [随机数](https://zhuanlan.zhihu.com/p/205359984)
 
@@ -45,31 +49,48 @@ https://github.com/sindresorhus/awesome
 1. [在读 APUE 的过程中，可以做哪些小项目练手，帮助快速掌握书本上的知识？](https://www.zhihu.com/question/25303808)
 1. Unix/Linux 编程实践教程
 
+## Rendering
+
+1. [两端对齐，空格，和 TeX 背后的断行算法](https://www.bilibili.com/video/BV1Zd4y1M75r)
+1. [字体引擎的核心原理](https://www.bilibili.com/video/BV12Y4y1q7zY/)
+
+## Functional
+
 ## Computer Graphics
 
 1. [零基础如何学习计算机图形学？](https://www.zhihu.com/question/41468803/answer/1811541335)
+1. [计算机图形学入门学习路线（游戏向）](https://www.bilibili.com/video/BV1x34y1p7HL/)
 1. https://www.zhihu.com/question/41468803/answer/1333138937
+1. [如何在终端上绘制 3d 甜甜圈？](https://www.bilibili.com/video/BV1te4y1671n/)
 1. Games101
    1. [GAMES101:现代计算机图形学入门](http://games-cn.org/intro-graphics/)
    1. https://www.bilibili.com/video/av90798049
    1. https://sites.cs.ucsb.edu/~lingqi/teaching/games101.html
    1. Fundamentals of Computer Graphics
    1. C++ 编程我也只推荐一本书：C++ Primer
+1. [使用 WebGL 和 Shaders 进行高级创意编码](https://www.bilibili.com/video/BV1km4y197Uw/)
 1. [Geometric Processing 数字几何处理-中国科学技术大学-傅孝明](https://www.bilibili.com/video/BV1B54y1B7Uc?from=search&seid=13085399300730920132)
+1. [【计算机图形学】麻省理工学院公开课](https://www.bilibili.com/video/BV13K4y1d7Ev)
 1. [GAMES201：高级物理引擎实战指南 2020](https://www.bilibili.com/video/BV1ZK411H7Hc?from=search&seid=5195290021208890151)
 
 ## TCP
 
 1. [CS144: 什么，你学不会 TCP？那就来自己写一个吧！](https://zhuanlan.zhihu.com/p/175998415)
+1. [速通 cs144 手撕 tcp 协议](https://www.bilibili.com/video/BV1vB4y1S7v7/)
 
 ## 项目实战
 
 [Project Base Learning](https://github.com/tuvtran/project-based-learning)
 [Build Your Own](https://github.com/danistefanovic/build-your-own-x)
 [Build you own git](https://kushagra.dev/blog/build-git-learn-git/)
+
+### Shell
+
 [Build Your Own Shell](https://brennan.io/2015/01/16/write-a-shell-in-c/)
 [实现一个 shell 解释器需要哪些编译原理方面的知识？](https://www.zhihu.com/question/28606292/answer/41478783)
 [The Bourne-Again Shell](http://aosabook.org/en/bash.html)
+[用 C 语言从零实现一个 shell 终端](https://www.bilibili.com/video/BV17W4y1H7GC)
+[(【深入理解计算机系统 实验 4 CSAPP】Shell Lab 实现 CMU 详细讲解 shelllab)](https://www.bilibili.com/video/BV1EF411h791)
 
 ## Courses
 
@@ -78,9 +99,14 @@ https://github.com/ossu/computer-science
 ## Language
 
 1. [资料集合](https://github.com/shining1984/PL-Compiler-Resource)
+1. [So You Want to Build a Language VM](https://blog.subnetzero.io/post/building-language-vm-part-00/)
+1. [Essentials of Interpretation](https://dmitrysoshnikov.teachable.com/p/essentials-of-interpretation)
+   1. [Building an Interpreter from scratch](https://www.bilibili.com/video/BV1XZ4y1k7T7)
+   1. [从头开始构建类型检查器](https://www.bilibili.com/video/BV1u14y1e78u)
+   1. [Essentials of Parsing](https://www.bilibili.com/video/BV1Uq4y1x7Sb)
 1. Language
    1. Closure
-   1. crafting interpreters Robert Nystrom
+   1. [Crafting interpreters Robert](https://craftinginterpreters.com/contents.html)
       1. [CppCast Episode 317: Dart and Crafting Interpreters with Bob Nystrom](https://www.youtube.com/watch?v=rwwsfQ2tl3g)
       1. [Robert Nystrom, Crafting Code | Rubber Duck Engineering | Episode #73](https://www.youtube.com/watch?v=MQufOH8bL98)
    1. Writing Compilers and Interpreters
@@ -90,14 +116,19 @@ https://github.com/ossu/computer-science
 1. [Essentials of Parsing](https://www.bilibili.com/video/BV1Uq4y1x7Sb)
 1. [Building a Parser from scratch](https://www.bilibili.com/video/BV1Z34y1C77r)
 1. [Writing a PEG Parser For Fun and Profit](https://www.youtube.com/watch?v=7MuQQQWVzU4)
+1. [Precedence Climbing](https://www.bilibili.com/video/BV1jf4y1n7Mb/)
+1. [V8 引擎中 RegExp 处理过程的介绍](https://www.bilibili.com/video/BV12L411t7qH/)
 1. https://github.com/PacktPublishing/Build-Your-Own-Programming-Language
 1. [[资料合集] RednaxelaFX 写的文章/回答的导航帖（work in progress） ](https://zhuanlan.zhihu.com/p/25042028)
 1. [Build Your Own Language](https://github.com/danistefanovic/build-your-own-x#build-your-own-programming-language)
+1. [Building Your Own Programming Language](https://www.bilibili.com/video/BV1N44y1L7EN/)
 1. Lisp
    1. [Little Lisp Interpreter](https://maryrosecook.com/blog/post/little-lisp-interpreter)
    1. [Write Yourself a Scheme in 48 Hours](https://upload.wikimedia.org/wikipedia/commons/a/aa/Write_Yourself_a_Scheme_in_48_Hours.pdf)
+   1. [Scheme 解释器的 C++ 实现回忆录](https://www.bilibili.com/video/BV1qv4y1A79A/)
    1. [Write You A Scheme, Version 2.0](https://wespiser.com/writings/wyas/00_overview.html)
    1. [Build Your Own Lisp](http://buildyourownlisp.com/)
+   1. [SICP 视频讲解](https://www.bilibili.com/video/BV1um4y1P7pX/)
 1. Javascript
    1. [How to implement a programming language in JavaScript](http://lisperator.net/pltut/)
    1. [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
@@ -107,8 +138,12 @@ https://github.com/ossu/computer-science
    1. https://zhuanlan.zhihu.com/p/25042028
 1. WebAssembly
    1. [Build your own WebAssembly Compiler](https://blog.scottlogic.com/2019/05/17/webassembly-compiler.html)
+   1. [WebAssembly 入门指南](https://www.bilibili.com/video/BV1S3411v7dh/)
+1. OCaml
+   1. [世界顶级券商 Jane Street 是如何使用 OCaml 完成工作的？](https://www.bilibili.com/video/BV1244y1D7JQ/)
 1. LLVM
    1. [Kaleidoscope: Implementing a Language with LLVM](https://llvm.org/docs/tutorial/#kaleidoscope-implementing-a-language-with-llvm)
+   1. [如何使用 LLVM 和 MLIR 来构建一个编译器？](https://www.bilibili.com/video/BV1h14y1J7Gm)
 1. C
    1. [C in 4 functions](https://github.com/rswier/c4)
    1. C4 https://www.zhihu.com/question/28249756/answer/84307453
@@ -118,18 +153,25 @@ https://github.com/ossu/computer-science
    1. [OTCC](https://bellard.org/otcc/otccn.c)
    1. [Tiny C Compiler](https://bellard.org/tcc/)
    1. https://compilers.iecc.com/crenshaw/
-1. 两周自制脚本语言
-1. [自制编程语言](https://book.douban.com/subject/25735333/)
-1. Crafting Interpreters 书籍
 1. language implementation patterns
-1. https://ruslanspivak.com/lsbasi-part1/
+1. [Let's Build a Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
 1. Linker 《链接器和加载器》 《自己动手构造编译系统：编译、汇编与链接》 《自己动手写编译器、链接器》
 1. 异常机制
 1. [C++ exceptions under the hood](https://zhuanlan.zhihu.com/p/406894769)
 
+#### Courses
+
+1. [Stanford Compilers](https://www.bilibili.com/video/BV1Ms411A7EP/)
+1. [CS151 Compiler Construction](https://www.bilibili.com/video/BV1Ms411A7EP/)
+1. [Harvard CS153 Compilers](https://www.bilibili.com/video/BV1cT4y197hW/)
+1. [南京大学《软件分析》课程 03（Data Flow Analysis I）](https://www.bilibili.com/video/BV1oE411K79d/)
+1. [Static Program Analysis](https://www.bilibili.com/video/BV1Eu41167bV)
+1. [ASPLOS Keynote: The Golden Age of Compiler Design in an Era of HW/SW Co-design by Dr. Chris Lattner](https://www.youtube.com/watch?v=4HgShra-KnY)
+1. [301 Organization of Programming Languages 2020](https://www.bilibili.com/video/BV1GZ4y1T71V)
+1. [深入 V8 引擎](https://www.bilibili.com/video/BV1FJ411E7Sf/)
+1. [QuickJS 架构及源代码分析](https://www.bilibili.com/video/BV1bt4y1y79L/)
+
 1. [Software foundations](https://softwarefoundations.cis.upenn.edu/)
-1. 书单 https://www.douban.com/doulist/138361510/
-1. [So You Want to Build a Language VM](https://blog.subnetzero.io/post/building-language-vm-part-00/)
 
 ### Python
 
@@ -143,5 +185,7 @@ https://github.com/ossu/computer-science
 
 # Books
 
-1. [The Architecture of Open Source Applications](http://aosabook.org/en/index.html)
-   1. 500 Lines or Less
+# x86
+
+1. https://github.com/QNYX3/pdr
+1. https://aaronbloomfield.github.io/pdr/book/x86-64bit-ccc-chapter.pdf

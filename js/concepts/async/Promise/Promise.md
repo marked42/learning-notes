@@ -6,6 +6,7 @@
    https://humanwhocodes.com/blog/2021/01/creating-javascript-promise-from-scratch-unhandled-rejection-tracking/
    https://web.dev/i18n/en/promises/
 1. https://www.bilibili.com/video/BV1ri4y1y7PE
+1. [We have a problem with promises](https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html)
 
 ## 概念与应用
 

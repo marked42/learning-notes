@@ -372,6 +372,7 @@ rollup
 1. [前端历史项目的 Vite 迁移实践总结](https://zhuanlan.zhihu.com/p/391077878)
 1. [vite 多久后能干掉 webpack？](https://www.zhihu.com/question/477139054/answer/2156019180)
 1. [HMR](https://github.com/withastro/esm-hmr/issues/7)
+1. [如何阅读 Webpack 源码](https://www.bilibili.com/video/BV1vD4y1v7ok/?)
 
 1. [ESBuild](https://esbuild.github.io/)
 1. [SWC](https://swc.rs/)
