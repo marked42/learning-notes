@@ -12,6 +12,7 @@ Books
 
 Blogs
 
+1. [如何使用 TypeScript 编译器 API](https://www.bilibili.com/video/BV1E34y1E7rR/)
 1. https://artsy.github.io/blog/2018/11/21/conditional-types-in-typescript/
 1. [Typescript Evolution](https://mariusschulz.com/blog/series/typescript-evolution) [Course](https://mariusschulz.com/blog/series/typescript-evolution)
 1. [type challenge](https://github.com/type-challenges/type-challenges)
@@ -22,6 +23,7 @@ Blogs
 ## Videos
 
 1. [TypeScript Fundamentals](https://www.bilibili.com/video/BV14Y41187iG)
+1. [Production-Grade TypeScript](https://www.bilibili.com/video/BV1qb4y1n76K/)
 
 1. [Typescript - Advanced Types](https://www.bilibili.com/video/BV1fy4y1v74P)
 1. https://www.youtube.com/watch?v=MbZoQlmQaWQ

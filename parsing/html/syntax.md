@@ -177,8 +177,11 @@ reference code
 ```
 // 最小注释
 <!-->
+<<<<<<< HEAD
 <!-- ->
 <!-- - -->
+=======
+>>>>>>> 304c4b93bf7fefb238822f7891ebae810abc410e
 ```
 
 注释的内容不能以`>` or `->` or contain `--!>`开头，这时候认为注释结束
@@ -199,9 +202,12 @@ reference code
 commentLike
 
 <? processing-instruction >
+<<<<<<< HEAD
 <? >
 bogus-comment
 unexpected-question-mark-instead-of-tag-name
+=======
+>>>>>>> 304c4b93bf7fefb238822f7891ebae810abc410e
 
 <! declaration >
 
@@ -224,7 +230,10 @@ https://www.w3.org/TR/xml/#sec-pi
 <![CDATA[ (case-sensitive), text not containing ]]>, then ]]>.
 ```
 
+<<<<<<< HEAD
 ## Character References
 
+=======
+>>>>>>> 304c4b93bf7fefb238822f7891ebae810abc410e
 1. [The HTML Syntax](https://htmlparser.info/syntax/)
 1. [WHATWG The HTML Syntax](https://html.spec.whatwg.org/multipage/syntax.html)

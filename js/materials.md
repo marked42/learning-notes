@@ -8,6 +8,7 @@ _其他_
 
 1. [深入 javascript](https://juejin.im/post/59278e312f301e006c2e1510)
 1. [JavaScript 深入之执行上下文](https://github.com/mqyqingfeng/Blog/issues/8)
+1. [JavaScript: Understanding the Weird Parts](https://www.bilibili.com/video/BV1jB4y1972X/)
 
 pioneers
 

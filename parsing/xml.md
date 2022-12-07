@@ -25,6 +25,14 @@
 Logical Structure declarations, elements, comments, character references, and processing instructions
 Physical Structure entities document entity
 
+# <<<<<<< HEAD
+
+1. Markup vs Content
+1. Tag Start-Tag/End-Tag/Empty Element Tag
+1. Element start-tag content end-tag / child element
+
+> > > > > > > 304c4b93bf7fefb238822f7891ebae810abc410e
+
 ## Well-formed
 
 1. 文档结构符合 document 展开
@@ -34,8 +42,31 @@ Physical Structure entities document entity
 1. 开始标签和闭合标签成对出现，
    1. 名称一致
    1. 正确嵌套
+      <<<<<<< HEAD
 
 只有一个根元素 （root element）
+
+=======
+The start-tag, end-tag, and empty-element tag that delimit elements are correctly nested, with none missing and none overlapping.
+Tag names are case-sensitive; the start-tag and end-tag must match exactly.
+
+只有一个根元素 （root element）
+
+## namespace
+
+[Namespace](https://developer.mozilla.org/en-US/docs/Web/SVG/Namespaces_Crash_Course)
+
+## Physical Structure
+
+1. Entity 包含 name 和 content
+
+   1. parsed entity replacement text 就是 content
+   1. unparsed entity
+
+1. general parsed Entity Reference `&quot;`
+1. parameter entity reference `%quot;`
+
+> > > > > > > 304c4b93bf7fefb238822f7891ebae810abc410e
 
 ## 字符
 
@@ -46,9 +77,27 @@ Physical Structure entities document entity
 
 [Character Data](https://www.w3.org/TR/xml11/#dt-chardata)
 
+<<<<<<< HEAD
+
 ## 注释
 
-comment 中由于与 SGML 兼容的原因，不允许包含"--"，语法设计如下
+=======
+[Valid Characters](https://en.wikipedia.org/wiki/Valid_characters_in_XML)
+
+## 注释
+
+Comments cannot appear before the XML declaration.
+
+```xml
+<!-- comment -->
+<?xml version="1.1" encoding="UTF-8"?>
+<root>
+fuck
+</root>
+```
+
+> > > > > > > 304c4b93bf7fefb238822f7891ebae810abc410e
+> > > > > > > comment 中由于与 SGML 兼容的原因，不允许包含"--"，语法设计如下
 
 Comment ::= '<!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
 
@@ -57,6 +106,14 @@ Comment ::= '<!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
 ```
 <!-- B+, B, or B--->
 ```
+
+# <<<<<<< HEAD
+
+```xml
+<!--no need to escape <code> & such in comments-->
+```
+
+> > > > > > > 304c4b93bf7fefb238822f7891ebae810abc410e
 
 ## 名称
 
@@ -70,6 +127,12 @@ UTF-8/UTF-16
 
 https://www.w3.org/TR/xml11/#charencoding
 
+# <<<<<<< HEAD
+
+[Encoding](https://www.w3.org/TR/xml11/#sec-guessing)
+
+> > > > > > > 304c4b93bf7fefb238822f7891ebae810abc410e
+
 ## Parser 的两种类型
 
 1. DOM Parser 对应结构，需要建立完整的 DOM 树，在内存中存储完整的文档内容，内存要求与文档长度相关
@@ -81,6 +144,12 @@ https://www.w3.org/TR/xml11/#charencoding
 1. [XPath](https://developer.mozilla.org/en-US/docs/Web/XPath)
 
 1. [xml.com](https://www.xml.com/)
+   <<<<<<< HEAD
 
 1. [XML Parser In C](https://www.youtube.com/watch?v=kPFYfTvMRs8)
+1. # Pugxixml
 1. Pugxixml
+1. [Designing XML API for Modern C++](https://www.youtube.com/watch?v=AuamDUrG5ZU)
+1. [What XML parser should I use in C++?](https://stackoverflow.com/questions/9387610/what-xml-parser-should-i-use-in-c/9387612#9387612)
+1. https://www.npmjs.com/package/sax
+   > > > > > > > 304c4b93bf7fefb238822f7891ebae810abc410e
