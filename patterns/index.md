@@ -18,6 +18,8 @@ The goal of both is to separate components that change for different reasons, an
 
 ## Books
 
+1. [books collection](https://github.com/ahmedfarhat/software-development-ebooks-1)
+
 1. Clean Code
 1. Clean Architecture
 1. The Clean Coder
@@ -26,6 +28,7 @@ The goal of both is to separate components that change for different reasons, an
 1. Data Intensive Applications
 1. DDD
 1. Joe on Software
+1. xUnit Patterns
 1. Software Architecture in practice
 1. Patterns of Enterprise Application Architecture
 1. Code Complete
