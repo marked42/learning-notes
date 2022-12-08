@@ -48,6 +48,8 @@ no-quirks mode.
 
 The pre and textarea elements have a special rule: they may begin with a newline that will be ignored by the HTML parser. To have content that actually starts with a newline, two newlines thus have to be used. (A newline in HTML is a line feed, a carriage return, or a CRLF pair.) For example, the following is equivalent to <pre>Use the force</pre> (without a newline):
 
+特殊标签`<title>/<script>/<style>`处理，内部不能包含子节点，只能是文本
+
 ### 开始标签
 
 标签名称大小写不敏感 case-insensitive 会统一转换成小写
@@ -175,6 +177,11 @@ reference code
 ```
 // 最小注释
 <!-->
+<<<<<<< HEAD
+<!-- ->
+<!-- - -->
+=======
+>>>>>>> 304c4b93bf7fefb238822f7891ebae810abc410e
 ```
 
 注释的内容不能以`>` or `->` or contain `--!>`开头，这时候认为注释结束
@@ -195,6 +202,12 @@ reference code
 commentLike
 
 <? processing-instruction >
+<<<<<<< HEAD
+<? >
+bogus-comment
+unexpected-question-mark-instead-of-tag-name
+=======
+>>>>>>> 304c4b93bf7fefb238822f7891ebae810abc410e
 
 <! declaration >
 
@@ -217,5 +230,10 @@ https://www.w3.org/TR/xml/#sec-pi
 <![CDATA[ (case-sensitive), text not containing ]]>, then ]]>.
 ```
 
+<<<<<<< HEAD
+## Character References
+
+=======
+>>>>>>> 304c4b93bf7fefb238822f7891ebae810abc410e
 1. [The HTML Syntax](https://htmlparser.info/syntax/)
 1. [WHATWG The HTML Syntax](https://html.spec.whatwg.org/multipage/syntax.html)
