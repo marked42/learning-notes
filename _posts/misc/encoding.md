@@ -8,6 +8,8 @@ tags:
   - Unicode
 ---
 
+https://manishearth.github.io/blog/2017/01/14/stop-ascribing-meaning-to-unicode-code-points/
+
 # ASCII and ISO-8859-1
 
 ASCII 全称为 **A**merican **S**tandard **C**ode for **I**nformation **I**nterchange(美国标准信息交换码), 字符集中每个字符使用 7 个二进制位(bit)表示, 因此能够表示 128 个字符. 其中有 0 ~ 31 与 127 总共 33 个控制字符(control character), 32 ~ 126 包括空格(32), 字母, 数字以及英文标点符号.

@@ -7,6 +7,8 @@ https://github.com/sindresorhus/awesome
 ## Rescript
 
 1. https://dusty.phillips.codes/rescript/
+1. [程序语言理论与实现 using Rescript](https://zhuanlan.zhihu.com/p/571911419)
+1. [用 ReScript 实现词法分析器](https://zhuanlan.zhihu.com/p/576627167)
 
 ## Rust
 
@@ -21,6 +23,7 @@ https://github.com/sindresorhus/awesome
 1. [Rust 源码分析：std::sync::Mutex](https://zhuanlan.zhihu.com/p/50006335)
 
 1. [使用 Rust + WebAssembly 编写 crc32](https://zhuanlan.zhihu.com/p/39003377)
+1. [geektime Rust](https://www.zhihu.com/question/522418148/answer/2784468240)
 
 ## OS
 
@@ -48,6 +51,7 @@ https://github.com/sindresorhus/awesome
 
 1. [在读 APUE 的过程中，可以做哪些小项目练手，帮助快速掌握书本上的知识？](https://www.zhihu.com/question/25303808)
 1. Unix/Linux 编程实践教程
+1. [coreutils](https://github.com/coreutils/coreutils/tree/master/src)
 
 ## Rendering
 
@@ -86,11 +90,14 @@ https://github.com/sindresorhus/awesome
 
 ### Shell
 
-[Build Your Own Shell](https://brennan.io/2015/01/16/write-a-shell-in-c/)
-[实现一个 shell 解释器需要哪些编译原理方面的知识？](https://www.zhihu.com/question/28606292/answer/41478783)
-[The Bourne-Again Shell](http://aosabook.org/en/bash.html)
-[用 C 语言从零实现一个 shell 终端](https://www.bilibili.com/video/BV17W4y1H7GC)
-[(【深入理解计算机系统 实验 4 CSAPP】Shell Lab 实现 CMU 详细讲解 shelllab)](https://www.bilibili.com/video/BV1EF411h791)
+1. [Build Your Own Shell](https://brennan.io/2015/01/16/write-a-shell-in-c/)
+1. [实现一个 shell 解释器需要哪些编译原理方面的知识？](https://www.zhihu.com/question/28606292/answer/41478783)
+1. [The Bourne-Again Shell](http://aosabook.org/en/bash.html)
+1. [用 C 语言从零实现一个 shell 终端](https://www.bilibili.com/video/BV17W4y1H7GC)
+1. [(【深入理解计算机系统 实验 4 CSAPP】Shell Lab 实现 CMU 详细讲解 shelllab)](https://www.bilibili.com/video/BV1EF411h791)
+1. [Anatomy of a terminal emulator](https://poor.dev/blog/terminal-anatomy/)
+1. [The TTY demystified](https://www.linusakesson.net/programming/tty/)
+1. [Terminal under the hood](https://yakout.io/blog/terminal-under-the-hood/)
 
 ## Courses
 
@@ -98,7 +105,7 @@ https://github.com/ossu/computer-science
 
 ## Language
 
-1. [资料集合](https://github.com/shining1984/PL-Compiler-Resource)
+1. [The Resources about PL and Compiler](https://github.com/shining1984/PL-Compiler-Resource)
 1. [So You Want to Build a Language VM](https://blog.subnetzero.io/post/building-language-vm-part-00/)
 1. [Essentials of Interpretation](https://dmitrysoshnikov.teachable.com/p/essentials-of-interpretation)
    1. [Building an Interpreter from scratch](https://www.bilibili.com/video/BV1XZ4y1k7T7)
@@ -189,3 +196,30 @@ https://github.com/ossu/computer-science
 
 1. https://github.com/QNYX3/pdr
 1. https://aaronbloomfield.github.io/pdr/book/x86-64bit-ccc-chapter.pdf
+
+# Program Analysis
+
+1. [Compiler Design](http://www.cs.cmu.edu/~fp/courses/15411-f14/schedule.html)
+1. http://www.cs.cmu.edu/afs/cs.cmu.edu/academic/class/15745-s14/www/handouts.html
+1. Data Flow Analysis: Theory and Practice
+1. [LLVM Analysis Pass](https://llvm.org/docs/Passes.html)
+1. [LLVM Tutor](https://github.com/banach-space/llvm-tutor)
+
+1. [LuaVM](https://www.zhihu.com/question/20617406)
+
+1. [Faith, Evolution, and Programming Languages](https://www.infoq.com/presentations/Faith-Evolution-Programming-Languages/)
+
+1. [chibicc——可能是可读性最强的 C 编译器](https://zhuanlan.zhihu.com/p/490307409)
+1. [shecc : self-hosting and educational C compiler](https://github.com/jserv/shecc)
+1. The 90 Minute Scheme to C compiler by Mark Feeley [Video](https://www.bilibili.com/video/BV1eW411v7EV/) [Slide](http://churchturing.org/y/90-min-scc.pdf)
+
+1. Pattern Matching The implementation of functional languages
+1. Modern Compiler Implementation in ML
+1. Compiling with continuations
+1. [Types are moving to the right](https://elizarov.medium.com/types-are-moving-to-the-right-22c0ef31dd4a)
+1. [Sea of Nodes](https://www.zhihu.com/question/290982869/answer/474629999)
+
+# iOS
+
+1. [iOS 开发舆图](https://zhuanlan.zhihu.com/p/456267859)
+1. [Parser Combinators are Easy](https://dev.to/deciduously/parser-combinators-are-easy-4bjm)
