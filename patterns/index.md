@@ -12,6 +12,8 @@ The goal of both is to separate components that change for different reasons, an
 
 ## Experts
 
+1. [Talks that changed the way I think about programming](http://www.opowell.com/post/talks-that-changed-the-way-i-think-about-programming/) [Videos](https://www.youtube.com/playlist?list=PLpsDi8h3SBE1DO88eNHnI_JEbUyyB6egT)
+
 1. Kent Beck
 1. Martin Folwer
 1. [Uncle Bob Martin](http://cleancoder.com/products)

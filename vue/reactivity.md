@@ -611,3 +611,5 @@ OBJECT_ITERATE_KEY
 1. Vue Docs
 1. [Reactivity Fundamentals](https://vuejs.org/guide/essentials/reactivity-fundamentals.html)
 1. [Reactivity In Depth](https://vuejs.org/guide/extras/reactivity-in-depth.html)
+
+1. [细说 Vue.js 3.2 关于响应式部分的优化](https://zhuanlan.zhihu.com/p/401416696)

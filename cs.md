@@ -28,10 +28,10 @@ https://github.com/sindresorhus/awesome
 1. [OS xv6 6.828](https://pdos.csail.mit.edu/6.828/2018/schedule.html) [videos](https://www.bilibili.com/video/BV1px411E7ST)
 1. [MIT6.828-神级 OS 课程-要是早遇到，我还会是这种 five 系列](https://zhuanlan.zhihu.com/p/74028717)
 1. Operating Systems: Three Easy Pieces
-1. 操作系统真象还原
-1. [从零开始自制操作系统](https://www.bilibili.com/video/BV1m14y1E7Xm/)
-1. https://www.zhihu.com/question/265653828/answer/480126552
+   1. [2020 南京大学 “操作系统：设计与实现” (蒋炎岩)](https://www.bilibili.com/video/BV1N741177F5/?p=1)
+1. [6.828 Operating System Engineering](https://pdos.csail.mit.edu/6.828/2014/index.html)
 1. [【更新完毕】操作系统与系统编程 CS162 伯克利大学 英文字幕](https://www.bilibili.com/video/BV1SW411q7yp)
+1. [从零开始自制操作系统](https://www.bilibili.com/video/BV1m14y1E7Xm/)
 1. [【CS 公开课】计算机程序的构造和解释（SICP）【中英字幕】【FoOTOo&HITPT&Learning-SICP】](https://www.bilibili.com/video/BV1Xx41117tr)
 1. CSAPP
    1. [CSAPP 深入理解计算机系统 课程视频含英文字幕（精校字幕视频见 av31289365！！！）](https://www.bilibili.com/video/BV1XW411A7fB)
@@ -115,7 +115,11 @@ https://github.com/ossu/computer-science
 1. [Building an Interpreter from scratch](https://www.bilibili.com/video/BV1XZ4y1k7T7)
 1. [Essentials of Parsing](https://www.bilibili.com/video/BV1Uq4y1x7Sb)
 1. [Building a Parser from scratch](https://www.bilibili.com/video/BV1Z34y1C77r)
-1. [Writing a PEG Parser For Fun and Profit](https://www.youtube.com/watch?v=7MuQQQWVzU4)
+1. peg
+   1. [Writing a PEG Parser For Fun and Profit](https://www.youtube.com/watch?v=7MuQQQWVzU4)
+   1. [parser combinator](https://zhuanlan.zhihu.com/p/355364928)
+   1. [peg](https://zhuanlan.zhihu.com/p/252343056)
+   1. https://github.com/xye7ei/gllc
 1. [Precedence Climbing](https://www.bilibili.com/video/BV1jf4y1n7Mb/)
 1. [V8 引擎中 RegExp 处理过程的介绍](https://www.bilibili.com/video/BV12L411t7qH/)
 1. https://github.com/PacktPublishing/Build-Your-Own-Programming-Language
@@ -129,6 +133,7 @@ https://github.com/ossu/computer-science
    1. [Write You A Scheme, Version 2.0](https://wespiser.com/writings/wyas/00_overview.html)
    1. [Build Your Own Lisp](http://buildyourownlisp.com/)
    1. [SICP 视频讲解](https://www.bilibili.com/video/BV1um4y1P7pX/)
+   1. [LISP 方言路线图](https://www.zhihu.com/question/26760072/answer/35156245)
 1. Javascript
    1. [How to implement a programming language in JavaScript](http://lisperator.net/pltut/)
    1. [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
@@ -136,6 +141,7 @@ https://github.com/ossu/computer-science
    1. http://www.pur3.co.uk/TinyJS
    1. https://hllvm-group.iteye.com/group/topic/37596
    1. https://zhuanlan.zhihu.com/p/25042028
+   1. [quickjs](https://zhuanlan.zhihu.com/p/382891318)
 1. WebAssembly
    1. [Build your own WebAssembly Compiler](https://blog.scottlogic.com/2019/05/17/webassembly-compiler.html)
    1. [WebAssembly 入门指南](https://www.bilibili.com/video/BV1S3411v7dh/)
@@ -184,6 +190,8 @@ https://github.com/ossu/computer-science
 1. [Python Internal A Ten-hour codewalk through the Python interpreter source code](https://www.youtube.com/playlist?list=PLzV58Zm8FuBL6OAv1Yu6AwXZrnsFbbR0S)
 
 # Books
+
+1. [10 Papers Every Programmer Should Read (At Least Twice)](https://web.archive.org/web/20121106102625/http://blog.objectmentor.com/articles/2009/02/26/10-papers-every-programmer-should-read-at-least-twice)
 
 # x86
 
