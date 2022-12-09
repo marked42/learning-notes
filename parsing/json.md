@@ -3,6 +3,7 @@
 1. [Faster apps with JSON.parse (Chrome Dev Summit 2019)](https://www.youtube.com/watch?v=ff4fgQxPaO0)
 1. https://github.com/cheery/json-algorithm
 1. [如何编写一个 JSON 解析器](https://www.liaoxuefeng.com/article/994977272296736)
+1. [json-parser](https://github.com/Barenboim/json-parser)
 1. [写一个 JSON、XML 或 YAML 的 Parser 的思路是什么？](https://www.zhihu.com/question/24640264)
 1. [从一个 JSON.parse 错误深入研究 JavaScript 的转义字符](https://zhuanlan.zhihu.com/p/31030352)
 1. [JSON Parser with JavaScript](https://lihautan.com/json-parser-with-javascript/)

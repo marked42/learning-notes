@@ -7,6 +7,8 @@
    https://web.dev/i18n/en/promises/
 1. https://www.bilibili.com/video/BV1ri4y1y7PE
 1. [We have a problem with promises](https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html)
+1. [Implementing Promise](https://www.promisejs.org/implementing/)
+1. [可视化的 JavaScript Promises & Async/Await](https://zhuanlan.zhihu.com/p/467601693)
 
 ## 概念与应用
 

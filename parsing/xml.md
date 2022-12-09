@@ -1,6 +1,7 @@
 # XML
 
 1. XML http://aosabook.org/en/posa/parsing-xml-at-the-speed-of-light.html
+1. 代码之美 Ch 5 Correct, Beautiful, Fast (in That Order): Lessons from Designing XML Verifiers
 
 [MDN](https://developer.mozilla.org/en-US/docs/Web/XML/XML_introduction)
 [XML](https://web.archive.org/web/20151016053704/http://wam.inrialpes.fr/courses/PG-MoSIG12/xml.pdf)

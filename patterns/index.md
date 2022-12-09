@@ -28,7 +28,7 @@ The goal of both is to separate components that change for different reasons, an
 1. A philosophy of software design
 1. The pragmatic programmer
 1. Data Intensive Applications
-1. DDD
+1. DDD / Domain-Driven Design Explained
 1. Joe on Software
 1. xUnit Patterns
 1. Software Architecture in practice
@@ -38,6 +38,7 @@ The goal of both is to separate components that change for different reasons, an
 1. Design Patterns
 1. Implementation Patterns
 1. Object-oriented Software Engineering: a use case driven approach
+1. A Philosophy of Software Design
 1. Man-month Myth
 1. System Design Interview
 1. Fundamentals of Software Architecture: An Engineering Approach
@@ -73,3 +74,9 @@ Engineering: A Use-Case Driven Approach
 1. [Frontend Architecture For Scalable Design Systems](https://www.youtube.com/watch?v=EcyylrGSxDo)
 1. [Front-End System Design Interview - Design YouTube](https://www.youtube.com/watch?v=x9NgcwwFp7s)
 1. [What is Front end system design? Learn how to ace a frontend interview](https://www.youtube.com/watch?v=XPNMiWyHBAU)
+
+## System Design Interview
+
+1. System Design Interview An Insider’s Guide
+1. Grokking The System Interview
+1. [大文件上传](https://zhuanlan.zhihu.com/p/530254303)
