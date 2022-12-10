@@ -31,7 +31,6 @@ https://github.com/sindresorhus/awesome
 1. [OS xv6 6.828](https://pdos.csail.mit.edu/6.828/2018/schedule.html) [videos](https://www.bilibili.com/video/BV1px411E7ST)
 1. [MIT6.828-神级 OS 课程-要是早遇到，我还会是这种 five 系列](https://zhuanlan.zhihu.com/p/74028717)
 1. Operating Systems: Three Easy Pieces
-1. 操作系统真象还原
 1. [从零开始自制操作系统](https://www.bilibili.com/video/BV1m14y1E7Xm/)
 1. https://www.zhihu.com/question/265653828/answer/480126552
 1. [【更新完毕】操作系统与系统编程 CS162 伯克利大学 英文字幕](https://www.bilibili.com/video/BV1SW411q7yp)
