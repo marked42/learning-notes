@@ -157,6 +157,7 @@ https://github.com/ossu/computer-science
 1. LLVM
    1. [Kaleidoscope: Implementing a Language with LLVM](https://llvm.org/docs/tutorial/#kaleidoscope-implementing-a-language-with-llvm)
    1. [如何使用 LLVM 和 MLIR 来构建一个编译器？](https://www.bilibili.com/video/BV1h14y1J7Gm)
+   1. http://aosabook.org/en/llvm.html
 1. C
    1. [C in 4 functions](https://github.com/rswier/c4)
    1. C4 https://www.zhihu.com/question/28249756/answer/84307453
@@ -166,6 +167,8 @@ https://github.com/ossu/computer-science
    1. [OTCC](https://bellard.org/otcc/otccn.c)
    1. [Tiny C Compiler](https://bellard.org/tcc/)
    1. https://compilers.iecc.com/crenshaw/
+1. [A Python Interpreter Written in Python](http://aosabook.org/en/500L/a-python-interpreter-written-in-python.html)
+1. [A Simple Object Model](http://aosabook.org/en/500L/a-simple-object-model.html)
 1. language implementation patterns
 1. [Let's Build a Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
 1. Linker 《链接器和加载器》 《自己动手构造编译系统：编译、汇编与链接》 《自己动手写编译器、链接器》
@@ -174,6 +177,7 @@ https://github.com/ossu/computer-science
 
 #### Courses
 
+1. [Programming Languages](https://www.bilibili.com/video/BV14B4y1P7TJ)
 1. [Stanford Compilers](https://www.bilibili.com/video/BV1Ms411A7EP/)
 1. [CS151 Compiler Construction](https://www.bilibili.com/video/BV1Ms411A7EP/)
 1. [Harvard CS153 Compilers](https://www.bilibili.com/video/BV1cT4y197hW/)
@@ -207,6 +211,7 @@ https://github.com/ossu/computer-science
 
 # Program Analysis
 
+1. [Static Analysis](http://aosabook.org/en/500L/static-analysis.html)
 1. [Compiler Design](http://www.cs.cmu.edu/~fp/courses/15411-f14/schedule.html)
 1. http://www.cs.cmu.edu/afs/cs.cmu.edu/academic/class/15745-s14/www/handouts.html
 1. Data Flow Analysis: Theory and Practice

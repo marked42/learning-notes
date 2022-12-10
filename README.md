@@ -9,14 +9,12 @@
 
 ## Books & Blogs
 
-- [ ] [前端开发工程师必读书籍有哪些值得推荐？](https://www.zhihu.com/question/22591993/answer/89226190)
 - [ ] CSS 揭秘
 - [ ] CSS 世界
 - [ ] CSS-Tricks https://zhuanlan.zhihu.com/p/60917882
 - [ ] javascript 设计模式与开发实践
 - [ ] 《javascript 框架设计(第二版)》
 - [ ] 高性能网站建设指南
-- [ ] https://github.com/phodal/booktree
 - [ ] [张云龙](https://github.com/fouber/blog)
 - [ ] [Chrome Dev Summit](https://space.bilibili.com/64169458/channel/detail?cid=157747)
 - [ ] [Dan Blogs](https://overreacted.io/)
@@ -54,24 +52,3 @@ JS 模式
 - [ ] [Javascript Twenty Years](https://cn.history.js.org/)
 - [ ] https://zh.javascript.info/
 - [ ] Javascript 核心原理解析 周爱民
-
-通用模式
-
-- [ ] Javascript Design Patterns
-- [ ] https://github.com/phodal/booktree
-- [ ] Refactoring 2
-- [x] Refactoring to Patterns
-- [ ] Working Effectively with Legacy Code
-- [ ] Design Pattern
-- [ ] TDD Kent Beck
-- [ ] Implementations Patterns
-- [ ] Clean Code
-- [ ] The Art of Readable Code
-- [ ] The Clean Coder
-- [ ] Code Complete
-- [ ] Domain Driven Design
-- [ ] Code Reading
-- [ ] Clean Architecture
-- [ ] Patterns of enterprise application architecture
-- [ ] Pattern-Oriented_Software_Architecture
-- [ ] A Little Java, A Few Patterns
