@@ -24,5 +24,3 @@ Prettier
 1. [a prettier printer](https://homepages.inf.ed.ac.uk/wadler/papers/prettier/prettier.pdf)
 
 ## language design
-
-[Three Things I Wish I Knew When I Started Designing Languages](https://www.youtube.com/watch?v=oa0qq75i9oc)

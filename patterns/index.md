@@ -10,6 +10,10 @@ Topics
 
 The goal of both is to separate components that change for different reasons, and at different rates. The different reasons correspond to the actors; the different rates correspond to the different levels of policy.
 
+Levels
+
+Code -> Implementation Patterns -> Design Patterns -> Component Principles -> Architecture
+
 ## Experts
 
 1. [Talks that changed the way I think about programming](http://www.opowell.com/post/talks-that-changed-the-way-i-think-about-programming/) [Videos](https://www.youtube.com/playlist?list=PLpsDi8h3SBE1DO88eNHnI_JEbUyyB6egT)

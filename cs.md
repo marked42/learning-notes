@@ -4,26 +4,19 @@
 
 https://github.com/sindresorhus/awesome
 
-## Rescript
+## General
 
-1. https://dusty.phillips.codes/rescript/
-1. [程序语言理论与实现 using Rescript](https://zhuanlan.zhihu.com/p/571911419)
-1. [用 ReScript 实现词法分析器](https://zhuanlan.zhihu.com/p/576627167)
+1. [10 Papers Every Programmer Should Read (At Least Twice)](https://web.archive.org/web/20121106102625/http://blog.objectmentor.com/articles/2009/02/26/10-papers-every-programmer-should-read-at-least-twice)
 
-## Rust
+## Awesome
 
-1. [《Too Many Lists》:一本学习 Rust 的好书](https://zhuanlan.zhihu.com/p/83776098)
-1. [学一点 Rust 内存模型会发生什么呢(1)](https://zhuanlan.zhihu.com/p/189694498)
-1. [Rust 真难啊](https://zhuanlan.zhihu.com/p/27438530)
-1. [GitHub 上有哪些值得关注的 Rust 项目？](https://www.zhihu.com/question/30511494/answer/649921526)
-1. [用 Rust 写一个飞行员游戏-01](https://zhuanlan.zhihu.com/p/61333785)
-1. [你见过哪些让你瞠目结舌的 Rust 代码技巧？](https://www.zhihu.com/question/282113351/answer/468513853)
-1. [学习 Rust 适合写什么练手项目？](https://www.zhihu.com/question/34665842/answer/59623380)
-1. [Variance and NonNull in Rust](https://zhuanlan.zhihu.com/p/42756635)
-1. [Rust 源码分析：std::sync::Mutex](https://zhuanlan.zhihu.com/p/50006335)
-
+1. [Awesome](https://github.com/sindresorhus/awesome)
 1. [使用 Rust + WebAssembly 编写 crc32](https://zhuanlan.zhihu.com/p/39003377)
 1. [geektime Rust](https://www.zhihu.com/question/522418148/answer/2784468240)
+1. [Open Source Society University](https://github.com/ossu/computer-science)
+1. [Build Your Own X](https://github.com/codecrafters-io/build-your-own-x#build-your-own-programming-language)
+1. [Project Base Learning](https://github.com/tuvtran/project-based-learning)
+1. [Build you own git](https://kushagra.dev/blog/build-git-learn-git/)
 
 ## OS
 
@@ -53,12 +46,13 @@ https://github.com/sindresorhus/awesome
 1. Unix/Linux 编程实践教程
 1. [coreutils](https://github.com/coreutils/coreutils/tree/master/src)
 
-## Rendering
+### Shell
 
-1. [两端对齐，空格，和 TeX 背后的断行算法](https://www.bilibili.com/video/BV1Zd4y1M75r)
-1. [字体引擎的核心原理](https://www.bilibili.com/video/BV12Y4y1q7zY/)
-
-## Functional
+[Build Your Own Shell](https://brennan.io/2015/01/16/write-a-shell-in-c/)
+[实现一个 shell 解释器需要哪些编译原理方面的知识？](https://www.zhihu.com/question/28606292/answer/41478783)
+[The Bourne-Again Shell](http://aosabook.org/en/bash.html)
+[用 C 语言从零实现一个 shell 终端](https://www.bilibili.com/video/BV17W4y1H7GC)
+[(【深入理解计算机系统 实验 4 CSAPP】Shell Lab 实现 CMU 详细讲解 shelllab)](https://www.bilibili.com/video/BV1EF411h791)
 
 ## Computer Graphics
 
@@ -77,12 +71,7 @@ https://github.com/sindresorhus/awesome
 1. [【计算机图形学】麻省理工学院公开课](https://www.bilibili.com/video/BV13K4y1d7Ev)
 1. [GAMES201：高级物理引擎实战指南 2020](https://www.bilibili.com/video/BV1ZK411H7Hc?from=search&seid=5195290021208890151)
 
-## TCP
-
-1. [CS144: 什么，你学不会 TCP？那就来自己写一个吧！](https://zhuanlan.zhihu.com/p/175998415)
-1. [速通 cs144 手撕 tcp 协议](https://www.bilibili.com/video/BV1vB4y1S7v7/)
-
-## 项目实战
+### Rendering
 
 [Project Base Learning](https://github.com/tuvtran/project-based-learning)
 [Build Your Own](https://github.com/danistefanovic/build-your-own-x)
@@ -98,27 +87,32 @@ https://github.com/sindresorhus/awesome
 1. [Anatomy of a terminal emulator](https://poor.dev/blog/terminal-anatomy/)
 1. [The TTY demystified](https://www.linusakesson.net/programming/tty/)
 1. [Terminal under the hood](https://yakout.io/blog/terminal-under-the-hood/)
+1. [两端对齐，空格，和 TeX 背后的断行算法](https://www.bilibili.com/video/BV1Zd4y1M75r)
+1. [字体引擎的核心原理](https://www.bilibili.com/video/BV12Y4y1q7zY/)
 
-## Courses
+## Net
 
-https://github.com/ossu/computer-science
+1. [CS144: 什么，你学不会 TCP？那就来自己写一个吧！](https://zhuanlan.zhihu.com/p/175998415)
+1. [速通 cs144 手撕 tcp 协议](https://www.bilibili.com/video/BV1vB4y1S7v7/)
 
 ## Language
 
 1. [The Resources about PL and Compiler](https://github.com/shining1984/PL-Compiler-Resource)
 1. [So You Want to Build a Language VM](https://blog.subnetzero.io/post/building-language-vm-part-00/)
+1. [资料集合](https://github.com/shining1984/PL-Compiler-Resource)
 1. [Essentials of Interpretation](https://dmitrysoshnikov.teachable.com/p/essentials-of-interpretation)
    1. [Building an Interpreter from scratch](https://www.bilibili.com/video/BV1XZ4y1k7T7)
    1. [从头开始构建类型检查器](https://www.bilibili.com/video/BV1u14y1e78u)
    1. [Essentials of Parsing](https://www.bilibili.com/video/BV1Uq4y1x7Sb)
 1. Language
-   1. Closure
    1. [Crafting interpreters Robert](https://craftinginterpreters.com/contents.html)
       1. [CppCast Episode 317: Dart and Crafting Interpreters with Bob Nystrom](https://www.youtube.com/watch?v=rwwsfQ2tl3g)
       1. [Robert Nystrom, Crafting Code | Rubber Duck Engineering | Episode #73](https://www.youtube.com/watch?v=MQufOH8bL98)
-   1. Writing Compilers and Interpreters
+   1. Writing Compilers and Interpreters book
    1. Javascript Parser
    1. LuaVM
+   1. [So You Want to Build a Language VM](https://blog.subnetzero.io/post/building-language-vm-part-00/)
+   1. [Three Things I Wish I Knew When I Started Designing Languages](https://www.youtube.com/watch?v=oa0qq75i9oc)
 1. [Building an Interpreter from scratch](https://www.bilibili.com/video/BV1XZ4y1k7T7)
 1. [Essentials of Parsing](https://www.bilibili.com/video/BV1Uq4y1x7Sb)
 1. [Building a Parser from scratch](https://www.bilibili.com/video/BV1Z34y1C77r)
@@ -127,10 +121,9 @@ https://github.com/ossu/computer-science
    1. [parser combinator](https://zhuanlan.zhihu.com/p/355364928)
    1. [peg](https://zhuanlan.zhihu.com/p/252343056)
    1. https://github.com/xye7ei/gllc
-1. [Precedence Climbing](https://www.bilibili.com/video/BV1jf4y1n7Mb/)
-1. [V8 引擎中 RegExp 处理过程的介绍](https://www.bilibili.com/video/BV12L411t7qH/)
-1. https://github.com/PacktPublishing/Build-Your-Own-Programming-Language
+   1. [Precedence Climbing](https://www.bilibili.com/video/BV1jf4y1n7Mb/)
 1. [[资料合集] RednaxelaFX 写的文章/回答的导航帖（work in progress） ](https://zhuanlan.zhihu.com/p/25042028)
+1. [Build Your Own Programming Language](https://github.com/PacktPublishing/Build-Your-Own-Programming-Language)
 1. [Build Your Own Language](https://github.com/danistefanovic/build-your-own-x#build-your-own-programming-language)
 1. [Building Your Own Programming Language](https://www.bilibili.com/video/BV1N44y1L7EN/)
 1. Lisp
@@ -149,6 +142,7 @@ https://github.com/ossu/computer-science
    1. https://hllvm-group.iteye.com/group/topic/37596
    1. https://zhuanlan.zhihu.com/p/25042028
    1. [quickjs](https://zhuanlan.zhihu.com/p/382891318)
+   1. [V8 引擎中 RegExp 处理过程的介绍](https://www.bilibili.com/video/BV12L411t7qH/)
 1. WebAssembly
    1. [Build your own WebAssembly Compiler](https://blog.scottlogic.com/2019/05/17/webassembly-compiler.html)
    1. [WebAssembly 入门指南](https://www.bilibili.com/video/BV1S3411v7dh/)
@@ -159,20 +153,15 @@ https://github.com/ossu/computer-science
    1. [如何使用 LLVM 和 MLIR 来构建一个编译器？](https://www.bilibili.com/video/BV1h14y1J7Gm)
    1. http://aosabook.org/en/llvm.html
 1. C
-   1. [C in 4 functions](https://github.com/rswier/c4)
-   1. C4 https://www.zhihu.com/question/28249756/answer/84307453
-   1. [Write a C Interpreter](https://github.com/lotabout/write-a-C-interpreter)
    1. [Write A C compiler](https://norasandler.com/2017/11/29/Write-a-Compiler.html)
-   1. [The Lemon Parser Generator](http://www.hwaci.com/sw/lemon/)
    1. [OTCC](https://bellard.org/otcc/otccn.c)
    1. [Tiny C Compiler](https://bellard.org/tcc/)
    1. https://compilers.iecc.com/crenshaw/
 1. [A Python Interpreter Written in Python](http://aosabook.org/en/500L/a-python-interpreter-written-in-python.html)
 1. [A Simple Object Model](http://aosabook.org/en/500L/a-simple-object-model.html)
-1. language implementation patterns
+1. Language implementation patterns
 1. [Let's Build a Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
 1. Linker 《链接器和加载器》 《自己动手构造编译系统：编译、汇编与链接》 《自己动手写编译器、链接器》
-1. 异常机制
 1. [C++ exceptions under the hood](https://zhuanlan.zhihu.com/p/406894769)
 
 #### Courses
@@ -190,6 +179,11 @@ https://github.com/ossu/computer-science
 
 1. [Software foundations](https://softwarefoundations.cis.upenn.edu/)
 
+#### x86
+
+1. https://github.com/QNYX3/pdr
+1. https://aaronbloomfield.github.io/pdr/book/x86-64bit-ccc-chapter.pdf
+
 ### Python
 
 1. Foundations of Programming Languages
@@ -200,11 +194,13 @@ https://github.com/ossu/computer-science
 1. [Inside The virtual Machine]()
 1. [Python Internal A Ten-hour codewalk through the Python interpreter source code](https://www.youtube.com/playlist?list=PLzV58Zm8FuBL6OAv1Yu6AwXZrnsFbbR0S)
 
-# Books
+### Rescript
 
-1. [10 Papers Every Programmer Should Read (At Least Twice)](https://web.archive.org/web/20121106102625/http://blog.objectmentor.com/articles/2009/02/26/10-papers-every-programmer-should-read-at-least-twice)
+1. https://dusty.phillips.codes/rescript/
+1. [程序语言理论与实现 using Rescript](https://zhuanlan.zhihu.com/p/571911419)
+1. [用 ReScript 实现词法分析器](https://zhuanlan.zhihu.com/p/576627167)
 
-# x86
+### Rust
 
 1. https://github.com/QNYX3/pdr
 1. https://aaronbloomfield.github.io/pdr/book/x86-64bit-ccc-chapter.pdf
@@ -236,3 +232,15 @@ https://github.com/ossu/computer-science
 
 1. [iOS 开发舆图](https://zhuanlan.zhihu.com/p/456267859)
 1. [Parser Combinators are Easy](https://dev.to/deciduously/parser-combinators-are-easy-4bjm)
+1. [《Too Many Lists》:一本学习 Rust 的好书](https://zhuanlan.zhihu.com/p/83776098)
+1. [学一点 Rust 内存模型会发生什么呢(1)](https://zhuanlan.zhihu.com/p/189694498)
+1. [Rust 真难啊](https://zhuanlan.zhihu.com/p/27438530)
+1. [GitHub 上有哪些值得关注的 Rust 项目？](https://www.zhihu.com/question/30511494/answer/649921526)
+1. [用 Rust 写一个飞行员游戏-01](https://zhuanlan.zhihu.com/p/61333785)
+1. [你见过哪些让你瞠目结舌的 Rust 代码技巧？](https://www.zhihu.com/question/282113351/answer/468513853)
+1. [学习 Rust 适合写什么练手项目？](https://www.zhihu.com/question/34665842/answer/59623380)
+1. [Variance and NonNull in Rust](https://zhuanlan.zhihu.com/p/42756635)
+1. [Rust 源码分析：std::sync::Mutex](https://zhuanlan.zhihu.com/p/50006335)
+1. [使用 Rust + WebAssembly 编写 crc32](https://zhuanlan.zhihu.com/p/39003377)
+
+# Books
