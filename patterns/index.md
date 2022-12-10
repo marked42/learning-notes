@@ -2,8 +2,11 @@
 
 Topics
 
-1. Design Patterns
-1. SOLID Principles
+1. Values
+1. Principles / SOLID Principles
+1. violates principle -> Code Smells
+1. Refactoring
+1. Design Pattern / Implementation Patterns
 1. Component Principles
 1. Test Driver Development
 1. Refactoring
@@ -13,13 +16,10 @@ The goal of both is to separate components that change for different reasons, an
 ## Experts
 
 1. Kent Beck
-1. Martin Folwer
+1. [Martin Fowler](https://martinfowler.com/)
 1. [Uncle Bob Martin](http://cleancoder.com/products)
 
 ## Books
-
-1. [books collection](https://github.com/ahmedfarhat/software-development-ebooks-1)
-1. [模式路线图](https://github.com/phodal/booktree#%E5%A6%82%E4%BD%95%E5%86%99%E5%A5%BD%E4%BB%A3%E7%A0%81%E9%87%8D%E6%9E%84%E4%B8%8E%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F)
 
 1. Clean Code
 1. Clean Architecture
@@ -28,6 +28,7 @@ The goal of both is to separate components that change for different reasons, an
 1. The Art of Readable Code
 1. Code Reading
 1. Refactoring
+1. Test Driven Development
 1. Refactoring to Patterns
 1. Patterns
    1. Design Patterns
@@ -35,12 +36,16 @@ The goal of both is to separate components that change for different reasons, an
    1. Implementation Patterns
    1. A Little Java, A Few Patterns
    1. Patterns of Enterprise Application Architecture
+   1. Analysis Patterns
    1. xUnit Patterns
 1. A Philosophy of software design
 1. The Pragmatic programmer
 1. Joe on Software
-1. Test Driven Development Kent Beck
+
 1. Domain Driven Design / Domain-Driven Design Explained
+   1. [Eric Evans — Tackling Complexity in the Heart of Software](https://www.youtube.com/watch?v=dnUFEg68ESM)
+   1. [Domain Driven Design](https://www.youtube.com/watch?v=BPAZwFNxgrg)
+   1. [Domain Driven Design](https://www.youtube.com/watch?v=RNUn2R7TptM)
 1. Data Intensive Applications
 1. Architecture
    1. Software Architecture in practice
@@ -70,6 +75,13 @@ Engineering: A Use-Case Driven Approach
 
 1. [Object Oriented Design](https://www.youtube.com/watch?v=1BVXQ64wI00&list=PLGLfVvz_LVvS5P7khyR4xDp7T9lCk9PgE&index=2)
 1. [How to build resilient frontend architecture • Monica Lent • GOTO](https://www.youtube.com/watch?v=TqfbAXCCVwE)
+1. Robert C Martin(Uncle Bob) -Clean Architecture and Design-2012
+1. Robert C Martin - Clean Architecture and Design
+1. Robert C Martin - The Single Responsibility Principle
+1. Robert C Martin - Clean Architecture
+1. The S.O.L.I.D. Principles of OO and Agile Design - by Uncle Bob Martin
+1. Solid Principles by Uncle Bob Martin
+1. The Principles of Clean Architecture by Uncle Bob Martin
 
 ## Articles
 
