@@ -83,6 +83,7 @@ Engineering: A Use-Case Driven Approach
 1. [Domain-Driven Design Distilled](https://www.bilibili.com/video/BV1oS4y1F73g/)
 1. [Software Architecture Fundamentals](https://www.bilibili.com/video/BV1pr4y1z7WM/)
 1. Design Patterns in Javascript [1](https://www.bilibili.com/video/BV1gm4y1S7rp) [2](https://www.bilibili.com/video/BV17S4y177XZ/)
+   1. [Lecture 16: A Case Study of "Gang-of-Four" Patterns](https://www.youtube.com/watch?v=D3y82bppcs0)
 1. [领域驱动设计](https://www.bilibili.com/video/BV1Ci4y1978C/)
 
 ## Videos
@@ -112,10 +113,30 @@ Engineering: A Use-Case Driven Approach
 
 1. System Design Interview An Insider’s Guide
 1. Grokking The System Interview
+1. [Systems Design Fundamentals](https://www.bilibili.com/video/BV1wZ4y1U7uC/)
+1. [Software Engineering 101](https://www.bilibili.com/video/BV1F34y1j7Sn/)
 1. [Virtual Tree Component](https://www.bilibili.com/video/BV18S4y1J7B7)
-1. [Web Spreadsheet](http://aosabook.org/en/500L/web-spreadsheet.html)
 1. [The Architecture of Open Source Applications](http://aosabook.org/en/index.html)
-1. Drawing App / Apple Image Viewer App
+
+## Projects
+
+1. Canvas
+   1. [Tutorial](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial)
+   1. [HTML Canvas Deep Dive](https://joshondesign.com/p/books/canvasdeepdive/toc.html)
+   1. [The HTML5 Canvas Handbook](https://bucephalus.org/text/CanvasHandbook/CanvasHandbook.html)
+   1. chart.js drawing app
+   1. [Web Spreadsheet](http://aosabook.org/en/500L/web-spreadsheet.html)
+   1. Drawing App / Apple Image Viewer App
+1. [Build Your Own Text Editor](https://github.com/codecrafters-io/build-your-own-x#build-your-own-text-editor)
+1. [Web Browser Engineering](https://browser.engineering/index.html)
+1. Terminal Emulator
+   1. [Basics of Terminal Emulator](https://www.uninformativ.de/blog/postings/2018-02-24/0/POSTING-en.html)
+   1. [Build A Simple Terminal Emulator In 100 Lines of Golang](https://ishuah.com/2021/03/10/build-a-terminal-emulator-in-100-lines-of-go/)
+1. CLI tool framework Case
+   1. Clean Code Ch 14 Study of a Command-Line Argument Parser
+1. bundler webpack/rollup
+1. diff Editor / jest diff
+1. framework vue3
 1. [大文件上传](https://zhuanlan.zhihu.com/p/530254303) [2](https://www.bilibili.com/video/BV1zS4y1B7Eg/)
 1. [使用 Node.js 实现文件流转存服务](https://zhuanlan.zhihu.com/p/25367269)
 1. Template Engine
@@ -124,9 +145,6 @@ Engineering: A Use-Case Driven Approach
    1. [A Template Engine](http://aosabook.org/en/500L/a-template-engine.html)
    1. [手写 JS 模板引擎](https://www.bilibili.com/video/BV13t4y1H7ke)
    1. [Build You Own Template Engine](https://github.com/danistefanovic/build-your-own-x#build-your-own-template-engine)
-1. [Image Filter](http://aosabook.org/en/500L/making-your-own-image-filters.html)
-1. [持续集成系统](http://aosabook.org/en/500L/a-continuous-integration-system.html)
-1. [Static Site Generator](https://www.webdevdrops.com/en/build-static-site-generator-nodejs-8969ebe34b22/)
 1. Webserver
    1. [Build Your Own Web Server](https://github.com/danistefanovic/build-your-own-x#build-your-own-web-server)
    1. [A simple web server](http://aosabook.org/en/500L/a-simple-web-server.html)
@@ -136,8 +154,7 @@ Engineering: A Use-Case Driven Approach
    1. [构建拥有高级动画的响应式个人作品网站](https://www.bilibili.com/video/BV1xW4y1874Q/)
    1. https://www.bilibili.com/video/BV1qR4y1K7E3/
    1. https://www.bilibili.com/video/BV13N4y1T7i8/
-1. [Build Your Own Text Editor](https://github.com/codecrafters-io/build-your-own-x#build-your-own-text-editor)
-1. Terminal Emulator
-   1. [Basics of Terminal Emulator](https://www.uninformativ.de/blog/postings/2018-02-24/0/POSTING-en.html)
-   1. [Build A Simple Terminal Emulator In 100 Lines of Golang](https://ishuah.com/2021/03/10/build-a-terminal-emulator-in-100-lines-of-go/)
 1. [Spell Checker](https://bernhardwenzel.com/articles/clojure-spellchecker/)
+1. [Image Filter](http://aosabook.org/en/500L/making-your-own-image-filters.html)
+1. [持续集成系统](http://aosabook.org/en/500L/a-continuous-integration-system.html)
+1. [Static Site Generator](https://www.webdevdrops.com/en/build-static-site-generator-nodejs-8969ebe34b22/)

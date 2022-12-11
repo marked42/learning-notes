@@ -3,11 +3,13 @@
 ## General
 
 1. [10 Papers Every Programmer Should Read (At Least Twice)](https://web.archive.org/web/20121106102625/http://blog.objectmentor.com/articles/2009/02/26/10-papers-every-programmer-should-read-at-least-twice)
+1. [Teach Yourself Programming in Ten Years](https://norvig.com/21-days.html)
 1. [Awesome](https://github.com/sindresorhus/awesome)
 1. [Open Source Society University](https://github.com/ossu/computer-science)
 1. [Build Your Own X](https://github.com/codecrafters-io/build-your-own-x#build-your-own-programming-language)
 1. [Project Base Learning](https://github.com/tuvtran/project-based-learning)
 1. [Build you own git](https://kushagra.dev/blog/build-git-learn-git/)
+1. [gitlet](http://gitlet.maryrosecook.com/)
 
 ## OS
 
@@ -92,60 +94,43 @@
 
 ## Language
 
-1. [The Resources about PL and Compiler](https://github.com/shining1984/PL-Compiler-Resource)
-1. [So You Want to Build a Language VM](https://blog.subnetzero.io/post/building-language-vm-part-00/)
-1. [资料集合](https://github.com/shining1984/PL-Compiler-Resource)
+1. [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
+1. [How to implement a programming language in JavaScript](http://lisperator.net/pltut/)
+1. [Building Your Own Programming Language](https://www.bilibili.com/video/BV1N44y1L7EN/)
+1. [Let's Build a Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
 1. [Essentials of Interpretation](https://dmitrysoshnikov.teachable.com/p/essentials-of-interpretation)
    1. [Building an Interpreter from scratch](https://www.bilibili.com/video/BV1XZ4y1k7T7)
    1. [从头开始构建类型检查器](https://www.bilibili.com/video/BV1u14y1e78u)
    1. [Essentials of Parsing](https://www.bilibili.com/video/BV1Uq4y1x7Sb)
+   1. [Build a Parser from scratch](https://www.bilibili.com/video/BV1Z34y1C77r)
+1. How to build a compiler with LLVM and MLIR [Youtube](https://www.youtube.com/watch?v=Ij4LswX1tZU&list=PLlONLmJCfHTo9WYfsoQvwjsa5ZB6hjOG5) [Bilibili]()
+1. Lisp
+   1. [Little Lisp Interpreter](https://maryrosecook.com/blog/post/little-lisp-interpreter)
+   1. [(How to Write a (Lisp) Interpreter (in Python))](https://norvig.com/lispy.html)
+   1. [Write Yourself a Scheme in 48 Hours](https://upload.wikimedia.org/wikipedia/commons/a/aa/Write_Yourself_a_Scheme_in_48_Hours.pdf)
+   1. [Scheme 解释器的 C++ 实现回忆录](https://www.bilibili.com/video/BV1qv4y1A79A/)
+   1. [LISP 方言路线图](https://www.zhihu.com/question/26760072/answer/35156245)
+   1. [SICP 视频讲解](https://www.bilibili.com/video/BV1um4y1P7pX/)
+   1. [Build Your Own Lisp](http://buildyourownlisp.com/)
 1. Language
    1. [Crafting interpreters Robert](https://craftinginterpreters.com/contents.html)
       1. [CppCast Episode 317: Dart and Crafting Interpreters with Bob Nystrom](https://www.youtube.com/watch?v=rwwsfQ2tl3g)
       1. [Robert Nystrom, Crafting Code | Rubber Duck Engineering | Episode #73](https://www.youtube.com/watch?v=MQufOH8bL98)
    1. Writing Compilers and Interpreters book
-   1. Javascript Parser
-   1. LuaVM
-   1. [So You Want to Build a Language VM](https://blog.subnetzero.io/post/building-language-vm-part-00/)
+   1. Build Your Own Programming Language [Repo](https://github.com/PacktPublishing/Build-Your-Own-Programming-Language)
+   1. Language implementation patterns
    1. [Three Things I Wish I Knew When I Started Designing Languages](https://www.youtube.com/watch?v=oa0qq75i9oc)
-1. [Building an Interpreter from scratch](https://www.bilibili.com/video/BV1XZ4y1k7T7)
-1. [Essentials of Parsing](https://www.bilibili.com/video/BV1Uq4y1x7Sb)
-1. [Building a Parser from scratch](https://www.bilibili.com/video/BV1Z34y1C77r)
-1. [Parser Combinators are Easy](https://dev.to/deciduously/parser-combinators-are-easy-4bjm)
 1. peg
    1. [Writing a PEG Parser For Fun and Profit](https://www.youtube.com/watch?v=7MuQQQWVzU4)
+   1. [Parser Combinators are Easy](https://dev.to/deciduously/parser-combinators-are-easy-4bjm)
    1. [parser combinator](https://zhuanlan.zhihu.com/p/355364928)
    1. [peg](https://zhuanlan.zhihu.com/p/252343056)
    1. https://github.com/xye7ei/gllc
    1. [Precedence Climbing](https://www.bilibili.com/video/BV1jf4y1n7Mb/)
-1. [[资料合集] RednaxelaFX 写的文章/回答的导航帖（work in progress） ](https://zhuanlan.zhihu.com/p/25042028)
-1. [Build Your Own Programming Language](https://github.com/PacktPublishing/Build-Your-Own-Programming-Language)
-1. [Build Your Own Language](https://github.com/danistefanovic/build-your-own-x#build-your-own-programming-language)
-1. [Building Your Own Programming Language](https://www.bilibili.com/video/BV1N44y1L7EN/)
-1. Lisp
-   1. [Little Lisp Interpreter](https://maryrosecook.com/blog/post/little-lisp-interpreter)
-   1. [Write Yourself a Scheme in 48 Hours](https://upload.wikimedia.org/wikipedia/commons/a/aa/Write_Yourself_a_Scheme_in_48_Hours.pdf)
-   1. [Scheme 解释器的 C++ 实现回忆录](https://www.bilibili.com/video/BV1qv4y1A79A/)
-   1. [Write You A Scheme, Version 2.0](https://wespiser.com/writings/wyas/00_overview.html)
-   1. [Build Your Own Lisp](http://buildyourownlisp.com/)
-   1. [SICP 视频讲解](https://www.bilibili.com/video/BV1um4y1P7pX/)
-   1. [LISP 方言路线图](https://www.zhihu.com/question/26760072/answer/35156245)
-1. Javascript
-   1. [How to implement a programming language in JavaScript](http://lisperator.net/pltut/)
-   1. [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
-   1. [新手上路学习 JavaScript 引擎实现——路线图](https://zhuanlan.zhihu.com/p/20505562)
-   1. [Tiny-JS](http://www.pur3.co.uk/TinyJS)
-   1. [quickjs](https://zhuanlan.zhihu.com/p/382891318)
-   1. [V8 引擎中 RegExp 处理过程的介绍](https://www.bilibili.com/video/BV12L411t7qH/)
-1. WebAssembly
-   1. [Build your own WebAssembly Compiler](https://blog.scottlogic.com/2019/05/17/webassembly-compiler.html)
-   1. [WebAssembly 入门指南](https://www.bilibili.com/video/BV1S3411v7dh/)
-1. OCaml
-   1. [世界顶级券商 Jane Street 是如何使用 OCaml 完成工作的？](https://www.bilibili.com/video/BV1244y1D7JQ/)
 1. LLVM
    1. [Kaleidoscope: Implementing a Language with LLVM](https://llvm.org/docs/tutorial/#kaleidoscope-implementing-a-language-with-llvm)
    1. [如何使用 LLVM 和 MLIR 来构建一个编译器？](https://www.bilibili.com/video/BV1h14y1J7Gm)
-   1. http://aosabook.org/en/llvm.html
+   1. [LLVM Architecture](http://aosabook.org/en/llvm.html)
 1. C
    1. [chibicc——可能是可读性最强的 C 编译器](https://zhuanlan.zhihu.com/p/490307409)
    1. [shecc : self-hosting and educational C compiler](https://github.com/jserv/shecc)
@@ -154,10 +139,22 @@
    1. [OTCC](https://bellard.org/otcc/otccn.c)
    1. [Tiny C Compiler](https://bellard.org/tcc/)
    1. https://compilers.iecc.com/crenshaw/
-1. [A Python Interpreter Written in Python](http://aosabook.org/en/500L/a-python-interpreter-written-in-python.html)
+1. Rust like [So You Want to Build a Language VM](https://blog.subnetzero.io/post/building-language-vm-part-00/)
+1. Javascript
+   1. [Constellation iv](https://github.com/Constellation/iv) [Annotated ES5 Spec](https://es5.github.io/)
+   1. [Tiny-JS](http://www.pur3.co.uk/TinyJS)
+   1. [quickjs](https://zhuanlan.zhihu.com/p/382891318)
+   1. [V8 引擎中 RegExp 处理过程的介绍](https://www.bilibili.com/video/BV12L411t7qH/)
+1. Misc
+   1. [The Resources about PL and Compiler](https://github.com/shining1984/PL-Compiler-Resource)
+   1. [Build Your Own Language](https://github.com/danistefanovic/build-your-own-x#build-your-own-programming-language)
+   1. [[资料合集] RednaxelaFX 写的文章/回答的导航帖（work in progress） ](https://zhuanlan.zhihu.com/p/25042028)
+1. WebAssembly
+   1. [Build your own WebAssembly Compiler](https://blog.scottlogic.com/2019/05/17/webassembly-compiler.html)
+   1. [WebAssembly 入门指南](https://www.bilibili.com/video/BV1S3411v7dh/)
+1. OCaml
+   1. [世界顶级券商 Jane Street 是如何使用 OCaml 完成工作的？](https://www.bilibili.com/video/BV1244y1D7JQ/)
 1. [A Simple Object Model](http://aosabook.org/en/500L/a-simple-object-model.html)
-1. Language implementation patterns
-1. [Let's Build a Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
 1. Linker 《链接器和加载器》 《自己动手构造编译系统：编译、汇编与链接》 《自己动手写编译器、链接器》
 1. [C++ exceptions under the hood](https://zhuanlan.zhihu.com/p/406894769)
 
@@ -206,7 +203,7 @@
 1. [A python Interpreter Written in Python](http://aosabook.org/en/500L/a-python-interpreter-written-in-python.html)
 1. [Generational GC in Python and Ruby](http://patshaughnessy.net/2013/10/30/generational-gc-in-python-and-ruby)
 1. [Faster CPython](https://faster-cpython.readthedocs.io/)
-1. [Inside The virtual Machine]()
+1. Inside The virtual Machine
 1. [Python Internal A Ten-hour codewalk through the Python interpreter source code](https://www.youtube.com/playlist?list=PLzV58Zm8FuBL6OAv1Yu6AwXZrnsFbbR0S)
 
 ### Rescript
