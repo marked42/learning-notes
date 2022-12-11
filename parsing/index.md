@@ -22,5 +22,3 @@ Prettier
 
 1. [A Prettier Formatter](https://archive.jlongster.com/A-Prettier-Formatter)
 1. [a prettier printer](https://homepages.inf.ed.ac.uk/wadler/papers/prettier/prettier.pdf)
-
-## language design

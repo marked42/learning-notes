@@ -1,18 +1,9 @@
 # CS
 
-## Awesome
-
-https://github.com/sindresorhus/awesome
-
 ## General
 
 1. [10 Papers Every Programmer Should Read (At Least Twice)](https://web.archive.org/web/20121106102625/http://blog.objectmentor.com/articles/2009/02/26/10-papers-every-programmer-should-read-at-least-twice)
-
-## Awesome
-
 1. [Awesome](https://github.com/sindresorhus/awesome)
-1. [使用 Rust + WebAssembly 编写 crc32](https://zhuanlan.zhihu.com/p/39003377)
-1. [geektime Rust](https://www.zhihu.com/question/522418148/answer/2784468240)
 1. [Open Source Society University](https://github.com/ossu/computer-science)
 1. [Build Your Own X](https://github.com/codecrafters-io/build-your-own-x#build-your-own-programming-language)
 1. [Project Base Learning](https://github.com/tuvtran/project-based-learning)
@@ -76,22 +67,23 @@ https://github.com/sindresorhus/awesome
 
 ### Rendering
 
-[Project Base Learning](https://github.com/tuvtran/project-based-learning)
-[Build Your Own](https://github.com/danistefanovic/build-your-own-x)
-[Build you own git](https://kushagra.dev/blog/build-git-learn-git/)
+1. [Build you own git](https://kushagra.dev/blog/build-git-learn-git/)
+1. [两端对齐，空格，和 TeX 背后的断行算法](https://www.bilibili.com/video/BV1Zd4y1M75r)
+1. [字体引擎的核心原理](https://www.bilibili.com/video/BV12Y4y1q7zY/)
 
-### Shell
+### Shell & Terminal
 
 1. [Build Your Own Shell](https://brennan.io/2015/01/16/write-a-shell-in-c/)
 1. [实现一个 shell 解释器需要哪些编译原理方面的知识？](https://www.zhihu.com/question/28606292/answer/41478783)
 1. [The Bourne-Again Shell](http://aosabook.org/en/bash.html)
 1. [用 C 语言从零实现一个 shell 终端](https://www.bilibili.com/video/BV17W4y1H7GC)
 1. [(【深入理解计算机系统 实验 4 CSAPP】Shell Lab 实现 CMU 详细讲解 shelllab)](https://www.bilibili.com/video/BV1EF411h791)
-1. [Anatomy of a terminal emulator](https://poor.dev/blog/terminal-anatomy/)
 1. [The TTY demystified](https://www.linusakesson.net/programming/tty/)
+1. [Anatomy of a terminal emulator](https://poor.dev/blog/terminal-anatomy/)
+1. [The very basics of a terminal emulator](https://www.uninformativ.de/blog/postings/2018-02-24/0/POSTING-en.html)
+1. [Building a terminal emulator in 100 lines of go](https://ishuah.com/2021/03/10/build-a-terminal-emulator-in-100-lines-of-go/)
+1. [Build Your Own Command Line with ANSI escape codes](https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html)
 1. [Terminal under the hood](https://yakout.io/blog/terminal-under-the-hood/)
-1. [两端对齐，空格，和 TeX 背后的断行算法](https://www.bilibili.com/video/BV1Zd4y1M75r)
-1. [字体引擎的核心原理](https://www.bilibili.com/video/BV12Y4y1q7zY/)
 
 ## Net
 
@@ -119,6 +111,7 @@ https://github.com/sindresorhus/awesome
 1. [Building an Interpreter from scratch](https://www.bilibili.com/video/BV1XZ4y1k7T7)
 1. [Essentials of Parsing](https://www.bilibili.com/video/BV1Uq4y1x7Sb)
 1. [Building a Parser from scratch](https://www.bilibili.com/video/BV1Z34y1C77r)
+1. [Parser Combinators are Easy](https://dev.to/deciduously/parser-combinators-are-easy-4bjm)
 1. peg
    1. [Writing a PEG Parser For Fun and Profit](https://www.youtube.com/watch?v=7MuQQQWVzU4)
    1. [parser combinator](https://zhuanlan.zhihu.com/p/355364928)
@@ -141,9 +134,7 @@ https://github.com/sindresorhus/awesome
    1. [How to implement a programming language in JavaScript](http://lisperator.net/pltut/)
    1. [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
    1. [新手上路学习 JavaScript 引擎实现——路线图](https://zhuanlan.zhihu.com/p/20505562)
-   1. http://www.pur3.co.uk/TinyJS
-   1. https://hllvm-group.iteye.com/group/topic/37596
-   1. https://zhuanlan.zhihu.com/p/25042028
+   1. [Tiny-JS](http://www.pur3.co.uk/TinyJS)
    1. [quickjs](https://zhuanlan.zhihu.com/p/382891318)
    1. [V8 引擎中 RegExp 处理过程的介绍](https://www.bilibili.com/video/BV12L411t7qH/)
 1. WebAssembly
@@ -156,6 +147,9 @@ https://github.com/sindresorhus/awesome
    1. [如何使用 LLVM 和 MLIR 来构建一个编译器？](https://www.bilibili.com/video/BV1h14y1J7Gm)
    1. http://aosabook.org/en/llvm.html
 1. C
+   1. [chibicc——可能是可读性最强的 C 编译器](https://zhuanlan.zhihu.com/p/490307409)
+   1. [shecc : self-hosting and educational C compiler](https://github.com/jserv/shecc)
+   1. The 90 Minute Scheme to C compiler by Mark Feeley [Video](https://www.bilibili.com/video/BV1eW411v7EV/) [Slide](http://churchturing.org/y/90-min-scc.pdf)
    1. [Write A C compiler](https://norasandler.com/2017/11/29/Write-a-Compiler.html)
    1. [OTCC](https://bellard.org/otcc/otccn.c)
    1. [Tiny C Compiler](https://bellard.org/tcc/)
@@ -179,8 +173,26 @@ https://github.com/sindresorhus/awesome
 1. [301 Organization of Programming Languages 2020](https://www.bilibili.com/video/BV1GZ4y1T71V)
 1. [深入 V8 引擎](https://www.bilibili.com/video/BV1FJ411E7Sf/)
 1. [QuickJS 架构及源代码分析](https://www.bilibili.com/video/BV1bt4y1y79L/)
-
 1. [Software foundations](https://softwarefoundations.cis.upenn.edu/)
+
+#### Program Analysis
+
+1. [Static Analysis](http://aosabook.org/en/500L/static-analysis.html)
+1. [Compiler Design](http://www.cs.cmu.edu/~fp/courses/15411-f14/schedule.html)
+1. http://www.cs.cmu.edu/afs/cs.cmu.edu/academic/class/15745-s14/www/handouts.html
+1. Data Flow Analysis: Theory and Practice
+1. [LLVM Analysis Pass](https://llvm.org/docs/Passes.html)
+1. [LLVM Tutor](https://github.com/banach-space/llvm-tutor)
+
+1. [LuaVM](https://www.zhihu.com/question/20617406)
+
+1. [Faith, Evolution, and Programming Languages](https://www.infoq.com/presentations/Faith-Evolution-Programming-Languages/)
+
+1. Pattern Matching The implementation of functional languages
+1. Modern Compiler Implementation in ML
+1. Compiling with continuations
+1. [Types are moving to the right](https://elizarov.medium.com/types-are-moving-to-the-right-22c0ef31dd4a)
+1. [Sea of Nodes](https://www.zhihu.com/question/290982869/answer/474629999)
 
 #### x86
 
@@ -208,33 +220,6 @@ https://github.com/sindresorhus/awesome
 1. https://github.com/QNYX3/pdr
 1. https://aaronbloomfield.github.io/pdr/book/x86-64bit-ccc-chapter.pdf
 
-# Program Analysis
-
-1. [Static Analysis](http://aosabook.org/en/500L/static-analysis.html)
-1. [Compiler Design](http://www.cs.cmu.edu/~fp/courses/15411-f14/schedule.html)
-1. http://www.cs.cmu.edu/afs/cs.cmu.edu/academic/class/15745-s14/www/handouts.html
-1. Data Flow Analysis: Theory and Practice
-1. [LLVM Analysis Pass](https://llvm.org/docs/Passes.html)
-1. [LLVM Tutor](https://github.com/banach-space/llvm-tutor)
-
-1. [LuaVM](https://www.zhihu.com/question/20617406)
-
-1. [Faith, Evolution, and Programming Languages](https://www.infoq.com/presentations/Faith-Evolution-Programming-Languages/)
-
-1. [chibicc——可能是可读性最强的 C 编译器](https://zhuanlan.zhihu.com/p/490307409)
-1. [shecc : self-hosting and educational C compiler](https://github.com/jserv/shecc)
-1. The 90 Minute Scheme to C compiler by Mark Feeley [Video](https://www.bilibili.com/video/BV1eW411v7EV/) [Slide](http://churchturing.org/y/90-min-scc.pdf)
-
-1. Pattern Matching The implementation of functional languages
-1. Modern Compiler Implementation in ML
-1. Compiling with continuations
-1. [Types are moving to the right](https://elizarov.medium.com/types-are-moving-to-the-right-22c0ef31dd4a)
-1. [Sea of Nodes](https://www.zhihu.com/question/290982869/answer/474629999)
-
-# iOS
-
-1. [iOS 开发舆图](https://zhuanlan.zhihu.com/p/456267859)
-1. [Parser Combinators are Easy](https://dev.to/deciduously/parser-combinators-are-easy-4bjm)
 1. [《Too Many Lists》:一本学习 Rust 的好书](https://zhuanlan.zhihu.com/p/83776098)
 1. [学一点 Rust 内存模型会发生什么呢(1)](https://zhuanlan.zhihu.com/p/189694498)
 1. [Rust 真难啊](https://zhuanlan.zhihu.com/p/27438530)
@@ -245,5 +230,4 @@ https://github.com/sindresorhus/awesome
 1. [Variance and NonNull in Rust](https://zhuanlan.zhihu.com/p/42756635)
 1. [Rust 源码分析：std::sync::Mutex](https://zhuanlan.zhihu.com/p/50006335)
 1. [使用 Rust + WebAssembly 编写 crc32](https://zhuanlan.zhihu.com/p/39003377)
-
-# Books
+1. [geektime Rust](https://www.zhihu.com/question/522418148/answer/2784468240)

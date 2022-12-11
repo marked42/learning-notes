@@ -118,6 +118,12 @@ Engineering: A Use-Case Driven Approach
 1. Drawing App / Apple Image Viewer App
 1. [大文件上传](https://zhuanlan.zhihu.com/p/530254303) [2](https://www.bilibili.com/video/BV1zS4y1B7Eg/)
 1. [使用 Node.js 实现文件流转存服务](https://zhuanlan.zhihu.com/p/25367269)
+1. Template Engine
+   1. https://github.com/janl/mustache.js
+   1. 深入浅出 node.js 有 template engine 描述
+   1. [A Template Engine](http://aosabook.org/en/500L/a-template-engine.html)
+   1. [手写 JS 模板引擎](https://www.bilibili.com/video/BV13t4y1H7ke)
+   1. [Build You Own Template Engine](https://github.com/danistefanovic/build-your-own-x#build-your-own-template-engine)
 1. [Image Filter](http://aosabook.org/en/500L/making-your-own-image-filters.html)
 1. [持续集成系统](http://aosabook.org/en/500L/a-continuous-integration-system.html)
 1. [Static Site Generator](https://www.webdevdrops.com/en/build-static-site-generator-nodejs-8969ebe34b22/)
