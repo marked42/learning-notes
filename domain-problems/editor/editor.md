@@ -17,7 +17,7 @@
 1.  [Data Structures for Text Sequence](https://www.cs.unm.edu/~crowley/papers/sds.pdf)
 1.  [Data Structures in the Andrew Text Editor](https://www.cs.cmu.edu/~wjh/papers/byte.html)
 
-## Web based browser
+## Web based Editor
 
 1. [Faking an editable control in browser JavaScript](https://marijnhaverbeke.nl/blog/browser-input-reading.html)
 1. [Cursor motion & bi-directional text](https://marijnhaverbeke.nl/blog/cursor-in-bidi-text.html)

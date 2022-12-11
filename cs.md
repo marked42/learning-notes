@@ -21,11 +21,14 @@ https://github.com/sindresorhus/awesome
 ## OS
 
 1. ucore 清华大学课程
-1. [OS xv6 6.828](https://pdos.csail.mit.edu/6.828/2018/schedule.html) [videos](https://www.bilibili.com/video/BV1px411E7ST)
-1. [MIT6.828-神级 OS 课程-要是早遇到，我还会是这种 five 系列](https://zhuanlan.zhihu.com/p/74028717)
+1. 6.828 Operating System Engineering
+   1. [OS xv6 6.828](https://pdos.csail.mit.edu/6.828/2018/schedule.html)
+   1. [videos](https://www.bilibili.com/video/BV1px411E7ST)
+   1. [MIT6.828-神级 OS 课程-要是早遇到，我还会是这种 five 系列](https://zhuanlan.zhihu.com/p/74028717)
+   1. [6.828 Operating System Engineering](https://pdos.csail.mit.edu/6.828/2014/index.html)
 1. Operating Systems: Three Easy Pieces
-   1. [2020 南京大学 “操作系统：设计与实现” (蒋炎岩)](https://www.bilibili.com/video/BV1N741177F5/?p=1)
-1. [6.828 Operating System Engineering](https://pdos.csail.mit.edu/6.828/2014/index.html)
+1. [2020 南京大学 “操作系统：设计与实现” (蒋炎岩)](https://www.bilibili.com/video/BV1N741177F5/?p=1)
+1. [从零开始自制操作系统](https://www.bilibili.com/video/BV1m14y1E7Xm/)
 1. [【更新完毕】操作系统与系统编程 CS162 伯克利大学 英文字幕](https://www.bilibili.com/video/BV1SW411q7yp)
 1. [从零开始自制操作系统](https://www.bilibili.com/video/BV1m14y1E7Xm/)
 1. [【CS 公开课】计算机程序的构造和解释（SICP）【中英字幕】【FoOTOo&HITPT&Learning-SICP】](https://www.bilibili.com/video/BV1Xx41117tr)

@@ -363,6 +363,7 @@ rollup
 
 # 参考
 
+1. [Everything is a plugin! Mastering webpack from the inside out - Sean Larkin](https://www.bilibili.com/video/BV195411Q7zS/)
 1. [Minipack](https://github.com/ronami/minipack)
 1. [简释前端打包工具 - Webpack, Rollup, Vite 1](https://www.bilibili.com/video/BV1bq4y117Hz)
 1. [简释前端打包工具 - Webpack, Rollup, Vite 2](https://www.bilibili.com/video/BV1VZ4y1Q7QF)
