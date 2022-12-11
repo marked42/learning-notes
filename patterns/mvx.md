@@ -1,1 +1,0 @@
-# MVX Patterns

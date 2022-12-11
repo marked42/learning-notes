@@ -7,11 +7,6 @@
 
 ## 原则（Principles）
 
-1. DRY
-1. 开闭原则 Open/Closed Principle. You can introduce new strategies without having to change the context.
-1. SOLID 原则
-1. 高内聚，低耦合
-1. 设计的正交性
 1. YAGNI You aren’t gonna need it 原则 overdesign
 1. 最小权限原则，所有需要权限的地方，只给需要的最小权限。
 1. 只读 immutable data，side-effect free
@@ -131,20 +126,3 @@ Martin Fowler 关于重构流程的视频 [Workflows of Refactoring](https://www
 
 什么时候该使用这个模式，成本与收益？
 每个模式的应用要考虑成本和收益，在成本大于收益时不要使用模式，
-
-## 参考材料
-
-1. Refactoring 2nd Edition
-1. https://refactoring.guru/store
-1. [Refactoring to Patterns](https://martinfowler.com/books/r2p.html)
-1. Refactoring Workbook [Wake]
-1. Working Effectively with Legacy Code
-1. Head First Design Patterns
-1. Dive into Refactoring/Patterns
-1. Design Patterns
-1. Design Patterns for Object-Oriented Software Development
-1. Test Driven Development By Example Kent Beck
-1. Domain Driven Design
-1. https://www.ooed.org/best-online-courses-to-learn-refactoring/
-
-1. [Refactoring Guru](https://refactoringguru.cn/design-patterns/builder)

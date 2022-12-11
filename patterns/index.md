@@ -3,11 +3,15 @@
 Topics
 
 1. Values
-1. Principles / SOLID Principles
+1. Principles
+   1. SOLID Principles
+   1. DRY
+   1. 高内聚低耦合 Component
+   1. Component Principles
+   1. 设计的正交性
 1. violates principle -> Code Smells
 1. Refactoring
 1. Design Pattern / Implementation Patterns
-1. Component Principles
 1. Test Driver Development
 1. Refactoring
 1. Specific
@@ -16,6 +20,9 @@ Topics
    1. error handling
    1. loops
    1. switch case / if
+   1. boolean conditions
+   1. function / method
+   1. class
 
 错误处理与日志，如何组织
 
@@ -41,11 +48,18 @@ Code -> Implementation Patterns -> Design Patterns -> Component Principles -> Ar
 1. The Clean Coder
 1. Code Complete
 1. Code Reading
-1. Refactoring
 1. Test Driven Development
-1. Refactoring to Patterns
+1. Refactoring
+   1. Refactoring 2nd Edition
+   1. https://refactoring.guru/store
+   1. [Refactoring to Patterns](https://martinfowler.com/books/r2p.html)
+   1. Refactoring Workbook [Wake]
+   1. [10 Best Online Refactoring Courses](https://www.ooed.org/best-online-courses-to-learn-refactoring/)
 1. Patterns
    1. Design Patterns
+   1. Head First Design Patterns
+   1. Design Patterns for Object-Oriented Software Development
+   1. Dive into Refactoring/Patterns
    1. Javascript Design Patterns
    1. Implementation Patterns
    1. A Little Java, A Few Patterns
@@ -128,6 +142,7 @@ Engineering: A Use-Case Driven Approach
    1. [Web Spreadsheet](http://aosabook.org/en/500L/web-spreadsheet.html)
    1. Drawing App / Apple Image Viewer App
 1. [Build Your Own Text Editor](https://github.com/codecrafters-io/build-your-own-x#build-your-own-text-editor)
+1. [Spell Checker](https://bernhardwenzel.com/articles/clojure-spellchecker/)
 1. [Web Browser Engineering](https://browser.engineering/index.html)
 1. Terminal Emulator
    1. [Basics of Terminal Emulator](https://www.uninformativ.de/blog/postings/2018-02-24/0/POSTING-en.html)
@@ -154,7 +169,6 @@ Engineering: A Use-Case Driven Approach
    1. [构建拥有高级动画的响应式个人作品网站](https://www.bilibili.com/video/BV1xW4y1874Q/)
    1. https://www.bilibili.com/video/BV1qR4y1K7E3/
    1. https://www.bilibili.com/video/BV13N4y1T7i8/
-1. [Spell Checker](https://bernhardwenzel.com/articles/clojure-spellchecker/)
 1. [Image Filter](http://aosabook.org/en/500L/making-your-own-image-filters.html)
 1. [持续集成系统](http://aosabook.org/en/500L/a-continuous-integration-system.html)
 1. [Static Site Generator](https://www.webdevdrops.com/en/build-static-site-generator-nodejs-8969ebe34b22/)
