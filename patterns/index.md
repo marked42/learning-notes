@@ -135,6 +135,7 @@ Engineering: A Use-Case Driven Approach
 
 ## Projects
 
+1. [Regex]https://github.com/codecrafters-io/build-your-own-x#build-your-own-regex-engine
 1. Canvas
    1. [Tutorial](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial)
    1. [HTML Canvas Deep Dive](https://joshondesign.com/p/books/canvasdeepdive/toc.html)
@@ -142,6 +143,7 @@ Engineering: A Use-Case Driven Approach
    1. chart.js drawing app
    1. [Web Spreadsheet](http://aosabook.org/en/500L/web-spreadsheet.html)
    1. Drawing App / Apple Image Viewer App
+   1. Eloquent Javascript Chapter 16/19
 1. [Build Your Own Text Editor](https://github.com/codecrafters-io/build-your-own-x#build-your-own-text-editor)
 1. [Spell Checker](https://bernhardwenzel.com/articles/clojure-spellchecker/)
 1. [Web Browser Engineering](https://browser.engineering/index.html)
