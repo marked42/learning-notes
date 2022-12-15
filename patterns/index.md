@@ -116,6 +116,7 @@ Engineering: A Use-Case Driven Approach
 
 ## Frontend
 
+1. [Frontend Patterns](https://www.patterns.dev/posts/introduction/)
 1. [Clean Architecture on Frontend](https://dev.to/bespoyasov/clean-architecture-on-frontend-4311)
 1. [Bulletproof React](https://github.com/alan2207/bulletproof-react)
 1. [Front-End Architecture 101 - Nir Kaufman @ ReactNYC](https://www.youtube.com/watch?v=o8THlN8hgcw)

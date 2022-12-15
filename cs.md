@@ -214,6 +214,11 @@
 
 ### Rust
 
+1. 《Rust 权威指南》—>《陈天 Rust 编程第一课》—> 《Rust 语言圣经》
+1. https://github.com/sunface/rust-by-practice
+1. [Command Line Rust](https://github.com/kyclark/command-line-rust)
+1. [Write an OS in Rust](https://os.phil-opp.com/)
+1. [Spotify Client](https://github.com/hrkfdn/ncspot)
 1. https://github.com/QNYX3/pdr
 1. https://aaronbloomfield.github.io/pdr/book/x86-64bit-ccc-chapter.pdf
 

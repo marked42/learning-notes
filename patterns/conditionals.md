@@ -13,6 +13,25 @@
 1.  introduce assertion
 1.  avoid negative 尽量使用正向的条件
 
+```ts
+if (length >= 10) {}
+if (10 <= length>) {}
+
+while (bytes_received < bytes_expected) {}
+while (bytes_expected > bytes_received ) {}
+
+// yoda
+if (obj = NULL) {}
+if (obj == NULL) {}
+if (NULL == obj) {}
+```
+
+## Order of if/else blocks
+
+1. 提前返回，先处理简单情况
+1. 尽量避免负向条件
+1. 先处理核心逻辑
+
 ## Replace Conditional with Polymorphism
 
 适合有多个方法需要同样一个条件选择逻辑的情况，多个方法提取为一个基类，每个条件分支对应一个子类。
@@ -66,6 +85,69 @@ JS 中可以使用嵌套函数和闭包实现等价效果。
 
 例子 Editor copy/paste/cut/undo/redo
 
+```java
+public void display() {
+    switch (getType()) {
+        case RECTANGLE:
+            break;
+        case OVAL:
+            break;
+        case TEXT:
+            break;
+        case DEFAULT:
+            break;
+    }
+}
+```
+
+```java
+public Money calculatePay(Employee e) {
+    switch (e.type) {
+        case COMMISSIONED:
+            return calculateCommissionPay(e);
+        case HOURLY:
+            return calculateHourlyPay(e);
+        case SALARIED:
+            return calculateSalariedPay(e);
+        default:
+            return new InvalidEmployeeType(e)
+    }
+}
+
+
+public abstract class Employee {
+    public abstract boolean isPayday();
+    public abstract Money calculatePay();
+    public abstract void deliveryPay(Money pay);
+}
+
+public interface EmployeeFactory {
+    public Employee makeEmployee(EmployeeRecord r) throws InvalidEmployeeType;
+}
+
+public class EmployeeFactorImpl implements EmployeeFactory {
+    public Employee makeEmployee(EmployeeRecord r) throws InvalidEmployeeType {
+        switch (r.type) {
+            case COMMISSIONED:
+                return new CommissionedEmployee(w);
+            case HOURLY:
+                return new HourlyEmployee(k);
+            case SALARIED:
+                return new SalariedEmployee(r);
+            default:
+                throw new InvalidEmployeeType(e.type)
+        }
+    }
+}
+```
+
 ## 参考
 
-1. Clean Code Switch Statements P68
+1. Clean Code Switch Statements P37
+1. Implementation Patterns Chapter 5 Page 36
+   1. Instance-Specific Behavior
+   1. Conditional
+   1. Delegation
+   1. Pluggable Selector
+1. The Art of Readable Code Chapter 7 Making Control Flow Easy to Read
+1. Design Patterns Visitor
