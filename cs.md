@@ -24,7 +24,6 @@
 1. [从零开始自制操作系统](https://www.bilibili.com/video/BV1m14y1E7Xm/)
 1. [【更新完毕】操作系统与系统编程 CS162 伯克利大学 英文字幕](https://www.bilibili.com/video/BV1SW411q7yp)
 1. [从零开始自制操作系统](https://www.bilibili.com/video/BV1m14y1E7Xm/)
-1. [【CS 公开课】计算机程序的构造和解释（SICP）【中英字幕】【FoOTOo&HITPT&Learning-SICP】](https://www.bilibili.com/video/BV1Xx41117tr)
 1. CSAPP
    1. [CSAPP 深入理解计算机系统 课程视频含英文字幕（精校字幕视频见 av31289365！！！）](https://www.bilibili.com/video/BV1XW411A7fB)
    1. [深入理解计算机系统](https://www.bilibili.com/video/BV17K4y1N7Q2)
@@ -96,22 +95,24 @@
 
 1. [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
 1. [How to implement a programming language in JavaScript](http://lisperator.net/pltut/)
-1. [Building Your Own Programming Language](https://www.bilibili.com/video/BV1N44y1L7EN/)
-1. [Let's Build a Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
 1. [Essentials of Interpretation](https://dmitrysoshnikov.teachable.com/p/essentials-of-interpretation)
    1. [Building an Interpreter from scratch](https://www.bilibili.com/video/BV1XZ4y1k7T7)
    1. [从头开始构建类型检查器](https://www.bilibili.com/video/BV1u14y1e78u)
    1. [Essentials of Parsing](https://www.bilibili.com/video/BV1Uq4y1x7Sb)
    1. [Build a Parser from scratch](https://www.bilibili.com/video/BV1Z34y1C77r)
-1. How to build a compiler with LLVM and MLIR [Youtube](https://www.youtube.com/watch?v=Ij4LswX1tZU&list=PLlONLmJCfHTo9WYfsoQvwjsa5ZB6hjOG5) [Bilibili]()
 1. Lisp
    1. [Little Lisp Interpreter](https://maryrosecook.com/blog/post/little-lisp-interpreter)
    1. [(How to Write a (Lisp) Interpreter (in Python))](https://norvig.com/lispy.html)
-   1. [Write Yourself a Scheme in 48 Hours](https://upload.wikimedia.org/wikipedia/commons/a/aa/Write_Yourself_a_Scheme_in_48_Hours.pdf)
-   1. [Scheme 解释器的 C++ 实现回忆录](https://www.bilibili.com/video/BV1qv4y1A79A/)
-   1. [LISP 方言路线图](https://www.zhihu.com/question/26760072/answer/35156245)
-   1. [SICP 视频讲解](https://www.bilibili.com/video/BV1um4y1P7pX/)
-   1. [Build Your Own Lisp](http://buildyourownlisp.com/)
+   1. [Building Your Own Programming Language](https://www.bilibili.com/video/BV1N44y1L7EN/)
+   1. [An Incremental Approach to Compiler Construction](http://scheme2006.cs.uchicago.edu/11-ghuloum.pdf)
+   1. In C [Build Your Own Lisp](http://buildyourownlisp.com/)
+   1. [LISP 方言路线](https://www.zhihu.com/question/26760072/answer/35156245)
+   1. SICP
+      1. [SICP 视频讲解](https://www.bilibili.com/video/BV1um4y1P7pX/)
+      1. [【CS 公开课】计算机程序的构造和解释（SICP）【中英字幕】【FoOTOo&HITPT&Learning-SICP】](https://www.bilibili.com/video/BV1Xx41117tr)
+      1. [CPSC 46000 Programming Language (SICP) Syllabus](https://www.youtube.com/watch?v=LP9GSf7mp3g&list=PLDJblO3amCTyLNaNhTWg1Txz35JlxnXtf)
+   1. CPP How to build a compiler with LLVM and MLIR [Youtube](https://www.youtube.com/watch?v=Ij4LswX1tZU&list=PLlONLmJCfHTo9WYfsoQvwjsa5ZB6hjOG5) [Bilibili](https://www.bilibili.com/video/BV1h14y1J7Gm)
+   1. [Beautiful Racket](https://beautifulracket.com/)
 1. Language
    1. [Crafting interpreters Robert](https://craftinginterpreters.com/contents.html)
       1. [CppCast Episode 317: Dart and Crafting Interpreters with Bob Nystrom](https://www.youtube.com/watch?v=rwwsfQ2tl3g)
@@ -129,16 +130,17 @@
    1. [Precedence Climbing](https://www.bilibili.com/video/BV1jf4y1n7Mb/)
 1. LLVM
    1. [Kaleidoscope: Implementing a Language with LLVM](https://llvm.org/docs/tutorial/#kaleidoscope-implementing-a-language-with-llvm)
-   1. [如何使用 LLVM 和 MLIR 来构建一个编译器？](https://www.bilibili.com/video/BV1h14y1J7Gm)
    1. [LLVM Architecture](http://aosabook.org/en/llvm.html)
 1. C
-   1. [chibicc——可能是可读性最强的 C 编译器](https://zhuanlan.zhihu.com/p/490307409)
+   1. [A Compiler Writing Journey](https://github.com/DoctorWkt/acwj)
+   1. [lcc, A Retargetable Compiler for ANSI C](https://drh.github.io/lcc/)
+   1. [Write A C compiler](https://norasandler.com/2017/11/29/Write-a-Compiler.html)
+   1. [chibcc](https://github.com/rui314/chibicc)
    1. [shecc : self-hosting and educational C compiler](https://github.com/jserv/shecc)
    1. The 90 Minute Scheme to C compiler by Mark Feeley [Video](https://www.bilibili.com/video/BV1eW411v7EV/) [Slide](http://churchturing.org/y/90-min-scc.pdf)
-   1. [Write A C compiler](https://norasandler.com/2017/11/29/Write-a-Compiler.html)
-   1. [OTCC](https://bellard.org/otcc/otccn.c)
    1. [Tiny C Compiler](https://bellard.org/tcc/)
-   1. https://compilers.iecc.com/crenshaw/
+   1. [OTCC](https://bellard.org/otcc/otccn.c)
+   1. [iecc](https://compilers.iecc.com/crenshaw/)
 1. Rust like [So You Want to Build a Language VM](https://blog.subnetzero.io/post/building-language-vm-part-00/)
 1. Javascript
    1. [Constellation iv](https://github.com/Constellation/iv) [Annotated ES5 Spec](https://es5.github.io/)
