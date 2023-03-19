@@ -96,6 +96,7 @@
 1. [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
 1. [How to implement a programming language in JavaScript](http://lisperator.net/pltut/)
 1. [Essentials of Interpretation](https://dmitrysoshnikov.teachable.com/p/essentials-of-interpretation)
+1. https://dmitrysoshnikov.teachable.com/
    1. [Building an Interpreter from scratch](https://www.bilibili.com/video/BV1XZ4y1k7T7)
    1. [从头开始构建类型检查器](https://www.bilibili.com/video/BV1u14y1e78u)
    1. [Essentials of Parsing](https://www.bilibili.com/video/BV1Uq4y1x7Sb)
@@ -105,8 +106,22 @@
    1. [(How to Write a (Lisp) Interpreter (in Python))](https://norvig.com/lispy.html)
    1. [Building Your Own Programming Language](https://www.bilibili.com/video/BV1N44y1L7EN/)
    1. [An Incremental Approach to Compiler Construction](http://scheme2006.cs.uchicago.edu/11-ghuloum.pdf)
+   1. https://generalproblem.net/lets_build_a_compiler/01-starting-out/
+   1. Compilers: Backend to Frontend and Back to Front Again
    1. In C [Build Your Own Lisp](http://buildyourownlisp.com/)
    1. [LISP 方言路线](https://www.zhihu.com/question/26760072/answer/35156245)
+   1. [Joel Martin: Make Your Own Lisp Interpreter in 10 Incremental Steps ](https://www.youtube.com/watch?v=jVhupfthTEk&list=PL7Y9z9ogGndCkFWWv7hzBuBa7OimkAASo)
+   1. [William Byrd on "The Most Beautiful Program Ever Written](https://www.youtube.com/watch?v=OyfBQmvr2Hc)
+   1. [Tricks of an Efficient Embedded Lisp Interpreter, by Jonas Karlsson (long-form talk)](https://www.youtube.com/watch?v=Lf03mxLDYa4)
+   1. [Make a Lisp](https://www.youtube.com/watch?v=k1FXVe9kQKg)
+   1. [2018 LLVM Developers’ Meeting: C. Schafmeister “Lessons Learned Implementing Common Lisp with LLVM”](https://www.youtube.com/watch?v=mbdXeRBbgDM)
+   1. OCaml
+      1. [OCaml Programming: Correct + Efficient + Beautiful](https://cs3110.github.io/textbook/cover.html)
+      1. Chapter 22 Type Inference [Real World OCaml](https://dev.realworldocaml.org/)
+      1. [世界顶级券商 Jane Street 是如何使用 OCaml 完成工作的？](https://www.bilibili.com/video/BV1244y1D7JQ/)
+      1. [The ZINC experiment : an economical implementation of the ML language](https://inria.hal.science/inria-00070049/document)
+      1. [Caml Virtual Machine — Instruction set Document version: 1.4](http://cadmium.x9c.fr/distrib/caml-instructions.pdf)
+   1. [PLAI](https://www.plai.org/)
    1. SICP
       1. [SICP 视频讲解](https://www.bilibili.com/video/BV1um4y1P7pX/)
       1. [【CS 公开课】计算机程序的构造和解释（SICP）【中英字幕】【FoOTOo&HITPT&Learning-SICP】](https://www.bilibili.com/video/BV1Xx41117tr)
@@ -154,8 +169,6 @@
 1. WebAssembly
    1. [Build your own WebAssembly Compiler](https://blog.scottlogic.com/2019/05/17/webassembly-compiler.html)
    1. [WebAssembly 入门指南](https://www.bilibili.com/video/BV1S3411v7dh/)
-1. OCaml
-   1. [世界顶级券商 Jane Street 是如何使用 OCaml 完成工作的？](https://www.bilibili.com/video/BV1244y1D7JQ/)
 1. [A Simple Object Model](http://aosabook.org/en/500L/a-simple-object-model.html)
 1. Linker 《链接器和加载器》 《自己动手构造编译系统：编译、汇编与链接》 《自己动手写编译器、链接器》
 1. [C++ exceptions under the hood](https://zhuanlan.zhihu.com/p/406894769)
