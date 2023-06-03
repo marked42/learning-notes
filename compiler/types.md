@@ -1,5 +1,16 @@
 # 类型检查
 
+key concepts
+
+1. strong type / weak type
+1. sound type system / unsound type system, checked types are guaranteed to behave correctly at runtime
+1. type safety and memory safety
+1. type judgement
+1. type checking / type inference
+1. static type checker / dynamic type checker
+1. type checked ast/ annotated ast
+
+
 [Subtype Inference by Example Part 1: Introducing CubiML](https://blog.polybdenum.com/2020/07/04/subtype-inference-by-example-part-1-introducing-cubiml.html)
 
 1. [类型系统简介](https://zhuanlan.zhihu.com/p/65626985) 对[Type Systems](http://lucacardelli.name/papers/typesystems.pdf)的笔记
