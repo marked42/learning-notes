@@ -19,8 +19,18 @@ Questions
    1. [谈递归（一）：递归的五种定式](https://zhuanlan.zhihu.com/p/84452538)
    1. [函数式编程](https://www.bilibili.com/video/BV1Mh411Z7LC)
 
+## Y combinator
+
+1. global definition, waste of global variable space, dependency on global definition
+1. letrec implemented by **side effects**
+
+1. multi-argument version of self-application
+1. convert to nested single-argument self-application with currying
+1. extract self-application logic to get y combinator
+
 References
 
+1. [Why of Y](https://www.dreamsongs.com/Files/WhyOfY.pdf)
 1. https://blog.moertel.com/tags/recursion-to-iteration%20series.html
 1. https://en.wikipedia.org/wiki/Tail_call
 1. https://www.cs.odu.edu/~zeil/cs361/latest/Public/recursionConversion/index.html
