@@ -25,3 +25,44 @@ References
 1. https://en.wikipedia.org/wiki/Tail_call
 1. https://www.cs.odu.edu/~zeil/cs361/latest/Public/recursionConversion/index.html
 1. https://www.refactoring.com/catalog/replaceRecursionWithIteration.html
+
+fixed point
+
+https://www.dreamsongs.com/Files/WhyOfY.pdf
+
+```
+function fact(h, n) {
+    if (n < 2) {
+        return 1
+    } else {
+        return n * h(h, n - 1)
+    }
+}
+
+function fact1(h) {
+    return function (n) {
+        return n < 2 ? 1 : n * h(h)(n - 1)
+    }
+}
+
+// console.log(fact(fact, 10))
+
+function fact2(h) {
+    return function (n) {
+        return n < 2 ? 1 : n * h(n - 1)
+    }
+}
+
+function y(fact2) {
+    let k = fact2(fact2)
+
+    return function (n) {
+        return fact2(k)(n)
+    }
+}
+
+let f = y(fact2)
+
+console.log(f(2))
+
+```
