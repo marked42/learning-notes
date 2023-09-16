@@ -1,7 +1,17 @@
 # 浏览器原理
 
-1. [自制浏览器](https://github.com/marked42/jsjs/tree/main/browser)
+## 汇总介绍
+
+1. [What Are Rendering Engines: An In-Depth Guide](https://www.lambdatest.com/learning-hub/rendering-engines)
+1. [Make a Web Browser: Beginner's Guide](https://daily.dev/blog/make-a-web-browser-beginners-guide)
 1. [Web Browser Engineering](https://browser.engineering/index.html)
+
+## HTML Parsing
+
+1. [HTML 6](https://www.youtube.com/watch?v=sWZ9HooKwjI)
+1. [HTML 6.2](https://www.youtube.com/watch?v=7RWbAZcXSIg)
+1. [HTML 2π](https://www.youtube.com/watch?v=EgSi2e-NhXc)
+1. [HTML Tree Building](https://www.youtube.com/watch?v=YH0yDdQY6-A)
 
 ## 页面渲染流程
 
@@ -54,30 +64,8 @@ Firefox 会在有样式表在下载或者解析时阻塞所有脚本的执行，
 1. [specified, computed, actual values](https://www.w3.org/TR/CSS2/cascade.html#value-stages)
 1. 内联样式
 
-## 盒子模型 Box Model
-
-margin
-
-1. margin 部分背景色永远是透明的，视觉效果上显示 containing block 的 content area 颜色
-1. 盒子的宽度取决于包围盒宽度，盒子高度取决于内部盒子高度
-1. margin 的百分比值相对于包围盒的宽度计算 content width
-1. 竖直方向的 margin 存在[边距收缩](https://www.w3.org/TR/CSS2/box.html#collapsing-margins)
-1. margin-top/margin-bottom 对于对于非替换的行内元素（文字）but vertical margins will not have any effect on non-replaced inline elements
-1. margin 对于 table display 的元素不起作用（除了 table-caption 和 inline-table）
-1. margin 值可以是负值
-
-padding
-
-1. 适用范围 all elements except table-row-group, table-header-group, table-footer-group, table-row, table-column-group and table-column
-1. 不能为负值
-
 ## 参考资料
 
-1. [Let's Build A Browser Engine](https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html)
-   1. [TS](https://dev.to/sanemat/let-s-build-browser-engine-in-typescript-vol0-toy-browser-engine-egm)
-   1. [Haskell](http://hrothen.github.io/posts/lets-build-a-browser-engine-in-haskell.html)
-   1. [Swift](http://www.screaming.org/blog/2014/08/15/lets-build-a-browser-engine-in-swift/)
-1. [W3C Build Your Own Browser](https://www.w3.org/blog/2008/09/build-your-own-browser/)
 1. [Webkit for Developers](https://www.paulirish.com/2013/webkit-for-developers/)
 1. [Life of a Pixel](https://docs.google.com/presentation/d/1boPxbgNrTU0ddsc144rcXayGA_WF53k96imRH8Mp34Y/edit#slide=id.ga884fe665f_64_6)
 1. [Life of a Pixel](https://zhuanlan.zhihu.com/p/44737615)
@@ -91,12 +79,27 @@ padding
 1. [Inside look at modern web browser](https://developers.google.com/web/updates/2018/09/inside-browser-part1)
    1. [中文简体](https://zhuanlan.zhihu.com/p/47407398)
 1. [How Browsers Work: Behind the scenes of modern web browsers](https://www.html5rocks.com/en/tutorials/internals/howbrowserswork/)
-1. [浏览器布局](https://zhuanlan.zhihu.com/p/25445527)
 
 1. [浏览器工作原理与实践](https://time.geekbang.org/column/intro/216)
-1. [Let's Build A Browser Engine](https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html)
 1. [浏览器渲染详细过程：重绘、重排和 composite 只是冰山一角](https://juejin.im/entry/590801780ce46300617c89b8)
+
+## Websocket
 
 1. [从 Chrome 源码看 WebSocket](https://zhuanlan.zhihu.com/p/37350346)
 1. [websocket](https://zhuanlan.zhihu.com/p/25592934)
 1. [WebSocket 与 TCP/IP](https://zhuanlan.zhihu.com/p/27021102)
+
+if width != auto {
+if total > containing_block.content.width {
+if margin_left == auto { margin_left = Length(0.0, Px); }
+if margin_right == auto { margin_right = Length(0.0, Px); }
+}
+} else {
+if margin_left == auto { margin_left = Length(0.0, Px); }
+if margin_right == auto { margin_right = Length(0.0, Px); }
+
+if {
+width = Length(0.0, Px);
+margin_right = Length(margin_right.to_px() + underflow, Px);
+}
+}

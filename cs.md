@@ -229,7 +229,14 @@
 
 ### Rust
 
+1. [The Rust Programming Language](https://doc.rust-lang.org/stable/book/ch15-04-rc.html)
+1. [Rust Standard Library Doc](https://doc.rust-lang.org/std/ops/trait.Drop.html#drop-check)
+1. [Rust by Example](https://doc.rust-lang.org/rust-by-example/)
+1. [The Rustonomicon](https://doc.rust-lang.org/nomicon/repr-rust.html)
+1. [Rust Reference](https://doc.rust-lang.org/stable/reference/index.html)
+
 1. 《Rust 权威指南》—>《陈天 Rust 编程第一课》—> 《Rust 语言圣经》
+1. [Command Line Applications in Rust](https://rust-cli.github.io/book/index.html)
 1. https://github.com/sunface/rust-by-practice
 1. [Command Line Rust](https://github.com/kyclark/command-line-rust)
 1. [Write an OS in Rust](https://os.phil-opp.com/)
@@ -238,13 +245,10 @@
 1. https://aaronbloomfield.github.io/pdr/book/x86-64bit-ccc-chapter.pdf
 
 1. [《Too Many Lists》:一本学习 Rust 的好书](https://zhuanlan.zhihu.com/p/83776098)
-1. [学一点 Rust 内存模型会发生什么呢(1)](https://zhuanlan.zhihu.com/p/189694498)
+1. [Learn Rust With Entirely Too Many Linked Lists](https://rust-unofficial.github.io/too-many-lists/index.html)
 1. [Rust 真难啊](https://zhuanlan.zhihu.com/p/27438530)
 1. [GitHub 上有哪些值得关注的 Rust 项目？](https://www.zhihu.com/question/30511494/answer/649921526)
-1. [用 Rust 写一个飞行员游戏-01](https://zhuanlan.zhihu.com/p/61333785)
 1. [你见过哪些让你瞠目结舌的 Rust 代码技巧？](https://www.zhihu.com/question/282113351/answer/468513853)
 1. [学习 Rust 适合写什么练手项目？](https://www.zhihu.com/question/34665842/answer/59623380)
-1. [Variance and NonNull in Rust](https://zhuanlan.zhihu.com/p/42756635)
-1. [Rust 源码分析：std::sync::Mutex](https://zhuanlan.zhihu.com/p/50006335)
 1. [使用 Rust + WebAssembly 编写 crc32](https://zhuanlan.zhihu.com/p/39003377)
 1. [geektime Rust](https://www.zhihu.com/question/522418148/answer/2784468240)
